@@ -3,7 +3,7 @@
 % Last Change: Thu May 25 01:00 PM 2017 B
 %
 
-\documentclass[a4paper,10pt]{scrreprt}
+\documentclass[a4paper,12pt]{scrreprt}
 
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath}
@@ -29,6 +29,8 @@
 \usepackage[compat=1.1.0]{tikz-feynman}
 \usepackage{xcolor}
 \usepackage{appendix}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
 
 % chktex-file 18
 % chktex-file 6
@@ -55,7 +57,7 @@
 \DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
 
 % Makes '\sr' a script r
-\newcommand{\sr}{\ensuremath{\mathcalligra{r}}}
+\newcommand{\sr}{r}
 
 % Makes indentation more note-ish
 \setlength{\parindent}{0em}
@@ -136,7 +138,7 @@
 \tableofcontents
 %\tikzexternalize[prefix=figures/]
 
-\chapter{Category theory}\label{ch:categories}
+\chapter{Basic category theory}\label{ch:categories}
 I will do my best to stick to the conventions used at the nLab (\cite{nlab}).
 
 \section{Categories}\label{sec:categoriesbasicdefinitions}
@@ -1414,12 +1416,13 @@ Again, with the diagram helpfully rotated, we have the following.
   commutes. If we re-arrange our diagram a bit, it is not too hard to see that it is equivalent to the one given above. Thus, we can say: a product of two sets $X_{1}$ and $X_{2}$ is a final object in the category $(\Delta \downarrow (X_{1}, X_{2}))$
 \end{example}
 
+\chapter{Cartesian closed categories}
 \section{Cartesian closed categories}\label{sec:cartesianclosedcategories}
 This section loosely follows~\cite{awodey-category-theory-foundations-videos}.
 
 Cartesian closed categories are the prototype for many of the structures possessed by monoidal categories. They are interesting in their own right, but will not be essential in what follows.
 
-\subsection{Products}
+\section{Products}
 We saw in \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}} the definition for a categorical product. In some categories, we can naturally take the product of any two objects; one generally says that such a category \emph{has products}. We formalize that in the following.
 
 \begin{definition}[category with products]\label{def:categorywithproducts}
@@ -1560,7 +1563,7 @@ The product is, in an appropriate way, commutative.
   It is an important fact that the product is associative. We shall see this in \hyperref[thm:categoricalproductisassociative]{Theorem~\ref*{thm:categoricalproductisassociative}}, after we have developed the machinery to do it cleanly.
 \end{note}
 
-\subsection{Coproducts}
+\section{Coproducts}
 \begin{definition}
   Let $\mathsf{C}$ be a category, $X_{1}$ and $X_{2} \in \Obj(\mathsf{C})$. The \defn{coproduct} of $X_{1}$ and $X_{2}$, denoted $X_{1} \amalg X_{2}$, is the initial object in the category $((X_{1},X_{2})\downarrow \Delta)$. In everyday language, we have the following.
   \begin{quote}
@@ -1636,7 +1639,7 @@ We have the following analog of \hyperref[thm:productisafunctor]{Theorem~\ref*{t
   \end{equation*}
 \end{example}
 
-\subsection{Biproducts}\label{sec:biproducts}
+\section{Biproducts}\label{sec:biproducts}
 A lot of the stuff in this section was adapted and expanded from~\cite{annoying-precision-meditation}.
 
 One often says that a biproduct is an object which is both a product and a coproduct, but this is both misleading and unnecessarily vague. Objects satisfying universal properties are only defined up to isomorphism, so it doesn't make much sense to demand that products \emph{coincide} with coproducts. However, demanding only that they be isomorphic (or even naturally isomorphic) is too weak, and does not determine a biproduct uniquely. In this section we will give the correct definition which encapsulates all of the properties of the product and the coproduct we know and love.
@@ -1765,7 +1768,7 @@ In order to talk about biproducts, we need to be aware of the following result, 
   In the category $\mathsf{Ab}$ of abelian groups, the direct sum $\oplus$ is both a product and a coproduct. Hence $\mathsf{Ab}$ has biproducts.
 \end{example}
 
-\subsection{Exponentials}
+\section{Exponentials}
 Astonishingly, we can talk about functional evaluation purely in terms of products and universal properties.
 
 \begin{definition}[exponential]\label{def:exponential}
@@ -1812,7 +1815,7 @@ Astonishingly, we can talk about functional evaluation purely in terms of produc
   One might suspect that the above generalizes to all sorts of categories. For example, one might hope that in $\mathsf{Grp}$, the exponential $H^{G}$ of two groups $G$ and $H$ would somehow capture all homomorphisms $G \to H$. This turns out to be impossible; we will see why in REF\@.
 \end{example}
 
-\subsection{Cartesian closed categories}
+\section{Cartesian closed categories}
 \begin{definition}[cartesian closed category]\label{def:cartesianclosedcategory}
   A category $\mathsf{C}$ is \defn{cartesian closed} if it has
   \begin{enumerate}
@@ -1833,8 +1836,8 @@ Cartesian closed categories have many inveresting properties. For example, they 
 
 We could prove these immediately, by writing down diagrams and appealing to the universal properties. However, we will soon have a powerful tool, the Yoneda lemma, that makes their proof completely routine.
 
-\section{Hom functors and the Yoneda lemma}\label{sec:homfunctorsandyoneda}
-\subsection{The Hom functor}\label{section:homfunctor}
+\chapter{Hom functors and the Yoneda lemma}\label{sec:homfunctorsandyoneda}
+\section{The Hom functor}\label{section:homfunctor}
 Given any locally small category (\hyperref[def:smalllocallysmallcategoryhomset]{Definition~\ref*{def:smalllocallysmallcategoryhomset}}) $\mathsf{C}$ and two objects $A$, $B \in \Obj(\mathsf{C})$, we have thus far notated the set of all morphisms $A \to B$ by $\Hom_{\mathsf{C}}(A, B)$. This may have seemed a slightly odd notation, but there was a good reason for it: $\Hom_{\mathsf{C}}$ is really a functor.
 
 To be more explicit, we can view $\Hom_{\mathsf{C}}$ in the following way: it takes two objects, say $A$ and $B$, and returns the set of morphisms $A \to B$. It's a functor $\mathsf{C} \times \mathsf{C}$ to set!
@@ -2088,7 +2091,7 @@ In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}
   \end{itemize}
 \end{definition}
 
-\subsection{Representable functors}
+\section{Representable functors}
 Roughly speaking, a functor $\mathsf{C} \rightsquigarrow \mathsf{Set}$ is representable if it is
 
 \begin{definition}[representable functor]\label{def:representablefunctor}
@@ -2136,7 +2139,7 @@ Roughly speaking, a functor $\mathsf{C} \rightsquigarrow \mathsf{Set}$ is repres
   The upper path from top left to bottom right assigns to each $g \in G$ the function $\Z \to G$ which maps $1 \mapsto f(g)$. Walking down $\eta_{G}$ from $\mathcal{U}(G)$ to $\Hom_{\mathsf{Grp}}(\Z, G)$, $g$ is mapped to the function $\Z \to G$ which maps $1 \mapsto g$. Walking right, we compose this function with $f$ to get a new function $\Z \to H$ which sends $1 \mapsto f(g)$. This function is really the image of a homomorphism and is therefore unique, so the diagram commutes.
 \end{example}
 
-\subsection{The Yoneda embedding}
+\section{The Yoneda embedding}
 The Yoneda embedding is a very powerful tool which allows us to prove things about any locally small category by embedding that category into $\mathsf{Set}$, and using the enormous amount of structure that $\mathsf{Set}$ has.
 
 %In the thread \cite{baez-categories-usenet} on the sci.math google group, John Baez explains the importance of the Yoneda lemma in the following way.
@@ -2297,7 +2300,7 @@ Here is a situation in which the Yoneda lemma is commonly used.
   We have a natural isomorphism $h_{B} \Rightarrow h_{B'}$. Since the Yoneda embedding is fully faithful, it is injective on objects up to isomorphism (\hyperref[lemma:fullyfaithfulfunctorinjectiveuptoisomorphism]{Lemma~\ref*{lemma:fullyfaithfulfunctorinjectiveuptoisomorphism}}). Thus, since $h_{B}$ and $h_{B'}$ are isomorphic, so must be $B \simeq B'$.
 \end{proof}
 
-\subsection{Applications}
+\section{Applications}
 We have now built up enough machinery to make the proofs of a great variety of things trivial, as long as we accept a few assertions.
 
 It is possible, for example, to prove that the product is associative in \emph{any} locally small category, just from the fact that it is associative in $\mathsf{Set}$.
@@ -2389,8 +2392,8 @@ It is possible, for example, to prove that the product is associative in \emph{a
   Etc.
 \end{proof}
 
-\section{Limits}\label{sec:limits}
-\subsection{Limits and colimits}
+\chapter{Limits}\label{sec:limits}
+\section{Limits and colimits}
 As we have seen, one often gets categorical concepts by `categorifying' concepts from set theory. One example of this is the notion of a \emph{diagram}, which is the categorical generalization of an indexed family.
 
 \begin{definition}[indexed family]\label{def:indexedfamily}
@@ -2653,7 +2656,7 @@ The categorical definitions of cones and cocones allow us to define limits and c
 %  What does it mean for the above diagram to commute in, say, $\mathsf{Set}$? We need $(f \circ e)(x) = (g \circ e)(x)$ for all $x \in \mathrm{eq}$. That is, once we have been mapped by $e$ into $A$, we need to be taken to the same place by $f$ and $g$. The range of $e$ must lie entirely within the set
 %\end{example}
 
-\subsection{Pullbacks and kernels}
+\section{Pullbacks and kernels}
 In what follows, $\mathsf{C}$ will be a category and $A$, $B$, etc.\ objects in $\Obj(\mathsf{C})$.
 \begin{definition}[pullback]\label{def:pullback}
   Let $f$, $g$ be morphisms as follows.
@@ -2882,7 +2885,7 @@ In what follows, $\mathsf{C}$ will be a category and $A$, $B$, etc.\ objects in 
   The universal property for kernels tells us that there is a unique map $Z \to \ker(f)$ making the above diagram commute. But since $g_{1}$ and $g_{2}$ both make the diagram commute, $g_{1}$ and $g_{2}$ must be the same map, i.e. $g_{1} = g_{2}$.
 \end{proof}
 
-\subsection{Pushouts and cokernels}
+\section{Pushouts and cokernels}
 Pushouts are the dual notion to pullbacks.
 \begin{definition}[pushouts]\label{def:pushout}
   Let $f$, $g$ be morphisms as follows.
@@ -3022,7 +3025,7 @@ Pushouts are the dual notion to pullbacks.
   As we have seen, $\mathsf{Vect}_{k}$ is binormal.
 \end{example}
 
-\subsection{A necessary and sufficient condition for the existence of finite limits}
+\section{A necessary and sufficient condition for the existence of finite limits}
 In this section we prove a simple criterion to check that a category has all finite limits (i.e.\ limits over diagrams with a finite number of objects and a finite number of morphisms). The idea is as follows.
 
 In general, adding more objects to a diagram makes the limit over it larger, and adding more morphisms makes the limit smaller. In the extreme case in which the only morphisms are the identity morphisms, the limit is simply the categorical product. As we add morphisms, roughly speaking, we have to get rid of the parts of the product which are preventing the necessary triangles from commuting. Thus, to make the universal cone over a diagram, we can start with the product, and cut out the bare minimum we need to make everything commute: the way to do that is with an equalizer.
@@ -3119,7 +3122,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
   \end{enumerate}
 \end{proof}
 
-\subsection{The hom functor preserves limits}
+\section{The hom functor preserves limits}
 \begin{theorem}\label{thm:homfunctorpreserveslimits}
   Let $\mathsf{C}$ be a locally small category. The hom functor $\Hom_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{Set}$ preserves limits in the second argument, i.e.~for $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ a diagram in $\mathsf{C}$ we have a natural isomorphism
   \begin{equation*}
@@ -3206,7 +3209,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 \end{proof}
 
 
-\subsection{Filtered colimits and ind-objects}
+\section{Filtered colimits and ind-objects}
 \begin{definition}[preorder]\label{def:preorder}
   Let $S$ be a set. A \defn{preoreder} on $S$ is a binary relation $\leq$ which is
   \begin{enumerate}
@@ -3285,7 +3288,7 @@ The importance of the category of ind-objects can be seen in the following examp
   This is stated without proof as Example 3.39 of~\cite{nlab-deligne-theorem}. I haven't been able to find a real source for it.
 \end{note}
 
-\section{Adjunctions}\label{sec:adjunctions}
+\chapter{Adjunctions}\label{sec:adjunctions}
 Consider the following functors:
 \begin{itemize}
   \item $\mathcal{U}\colon \mathsf{Grp} \rightsquigarrow \mathsf{Set}$, which sends a group to its underlying set, and
@@ -3672,7 +3675,8 @@ Here are two equivalent definitions which are often used.
   Dual to the proof of \hyperref[thm:rightadjointspreservelimits]{Theorem~\ref*{thm:rightadjointspreservelimits}}.
 \end{proof}
 
-\section{Monoidal categories}\label{sec:monoidalcategories}
+\chapter{Monoidal categories}\label{sec:monoidalcategories}
+\section{Structure}
 \subsection{Basic definitions}\label{ssc:basic_definitions}
 
 Monoidal categories are the first ingredient in the categorification and generalization of the tensor product. Roughly speaking, the tensor product allows us to multiply two vector spaces to produce a new vector space. There are natural isomorphisms making this multiplication associative, and an `identity vector space' given by the ground field regarded as a one-dimensional vector space over itself. This means that the tensor product gives the set of all vector spaces the structure of a monoid.
@@ -4209,6 +4213,7 @@ which is clearly homotopic to the identity transformation on $A \otimes B$.
 \begin{note}
   There are no extra conditions imposed on a monoidal natural transformation to turn it into a symmetric natural transformation.
 \end{note}
+
 \section{Internal hom functors}\label{sec:internalhomfunctors}
 We can now generalize the notion of an exponential object (\hyperref[def:exponential]{Definiton~\ref*{def:exponential}}) to any monoidal category.
 \subsection{The internal hom functor}
@@ -4267,7 +4272,7 @@ We do that by sending $m \in [A'' \times A', A]$ to
 
 Checking that $[-,[-,-]]$ and $[-\times-, -]$ really \emph{are} functorial would be a bit much; each is just the composition of hom functor and the Cartesian product. We will however check that there is a natural isomorphism between them, which amounts to checking that the following diagram commutes.
 \begin{equation*}
-  \begin{tikzcd}
+  \begin{tikzcd}[column sep=0.9]
     {[A'' \times A', A]}
     \arrow[rrr, "{[f'' \times f', f]}"]
     \arrow[ddd, swap, "{\Phi_{[A'' \times A', A]}}"]
@@ -4722,9 +4727,9 @@ The above is one, but not the only, way to define dual objects. We can be more g
   To show that the other composition yields $g$, you have to use the other.
 \end{proof}
 
-\section{Abelian categories}\label{sec:abeliancategories}
+\chapter{Abelian categories}\label{sec:abeliancategories}
 This section draws heavily from~\cite{EGNO-tensor-categories}.
-\subsection{Additive categories}
+\section{Additive categories}
 Recall that $\mathsf{Ab}$ is the category of abelian groups.
 \begin{definition}[$\mathsf{Ab}$-enriched category]\label{def:abenrichedcategory}
   A category $\mathsf{C}$ is \defn{$\mathsf{Ab}$-enriched} if
@@ -4822,7 +4827,7 @@ Recall that $\mathsf{Ab}$ is the category of abelian groups.
   The $(X, Y)$-component $\Phi_{X, Y}$ is an isomorphism because
 \end{proof}
 
-\subsection{Pre-abelian categories}~\label{sec:preabeliancategories}
+\section{Pre-abelian categories}~\label{sec:preabeliancategories}
 \begin{definition}[pre-abelian category]\label{def:preabeliancategory}
   A category  $\mathsf{C}$ is \defn{pre-abelian} if it is additive and every morphism has a kernel (\hyperref[def:kernelofmorphism]{Definition~\ref*{def:kernelofmorphism}}) and a cokernel (\hyperref[def:cokernalofmorphism]{Definition~\ref*{def:cokernalofmorphism}}).
 \end{definition}
@@ -5071,7 +5076,7 @@ It is easy to see that the left- or right-composition of the zero morphism with 
   The abuse of notation above is ubiquitous in the literature.
 \end{note}
 
-\subsection{Abelian categories}
+\section{Abelian categories}
 This section is under very heavy construction. Don't trust anything you read here.
 \begin{definition}[abelian category]\label{def:abeliancategory}
   A pre-abelian category $\mathsf{C}$ is \defn{abelian} if for each morphism $f$, the canonical morphism guaranteed by \hyperref[lemma:everymorphisminapreabeliancategoryfactors]{Lemma~\ref*{lemma:everymorphisminapreabeliancategoryfactors}}
@@ -5379,7 +5384,7 @@ For the remainder of the section, let $\mathsf{C}$ be an abelian category.
   Then we say that $\mathcal{F}$ is \defn{$k$-linear}.
 \end{definition}
 
-\subsection{Exact sequences}
+\section{Exact sequences}
 \begin{definition}[exact sequence]
   \label{def:exactsequence}
   A sequence of morphisms
@@ -5542,7 +5547,7 @@ For the remainder of the section, let $\mathsf{C}$ be an abelian category.
 %
 %\end{proof}
 
-\subsection{Length of objects}
+\section{Length of objects}
 \begin{definition}[simple object]\label{def:simpleobject}A nonzero object $X \in \Obj(\mathsf{C})$ is called \defn{simple} if $0$ and $X$ are its only subobjects.
 \end{definition}
 
@@ -5588,7 +5593,7 @@ The importance of Jordan-H{\"o}lder series is the following.
 \end{definition}
 
 
-\section{Tensor Categories}
+\chapter{Tensor Categories}
 The following definition is taken almost verbatim from~\cite{nlab-deligne-theorem}.
 \begin{definition}[tensor category]\label{def:tensorcategory}
   Let $k$ be a field. A \defn{$k$-tensor category} $\mathsf{A}$ (as considered by Deligne in~\cite{deligne-categories-tensorielle}) is an
@@ -5732,10 +5737,10 @@ The following definition is taken almost verbatim from~\cite{nlab-deligne-theore
 %  Although the functor $\tilde{\otimes}$ defined above is obviously not the same as the bifunctor $\otimes$ from the monoidal structure on $\mathscr{A}$, we will drop the tilde from now on. The idea is to view vector spaces as \emph{almost} $\mathscr{A}$-objects.
 %\end{notation}
 
-\section{Internalization}
+\chapter{Internalization}
 One of the reasons that category theory is so useful is that it makes generalizing concepts very easy. One of the most powerful ways of doing this is known as \emph{internalization}.
 
-\subsection{Internal groups}
+\section{Internal groups}
 \begin{definition}[group object]
   \label{def:groupobject}
   Let $\mathsf{C}$ be a category with binary products $\times$ and a terminal object $*$. A \defn{group object} in $\mathsf{C}$ (or a \emph{group internal to $\mathsf{C}$}) is an object $G \in \Obj(\mathsf{C})$ together with
