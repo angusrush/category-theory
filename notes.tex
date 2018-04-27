@@ -113,22 +113,24 @@
 
 % Declare theorem styles
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}{Example}[section]
-\newtheorem{counterexample}{Counterexample}[section]
-\newtheorem{joke}{Joke}[section]
+\newtheorem{definition}{Definition}
+\newtheorem{example}[definition]{Example}
+\newtheorem{recurring_example}[definition]{Recurring Example}
+\newtheorem{counterexample}[definition]{Counterexample}
+\newtheorem{fact}[definition]{Fact}
 
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{corollary}{Corollary}[section]
-\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{proposition}[definition]{Proposition}
 
 \theoremstyle{remark}
-\newtheorem{claim}{Claim}[section]
-\newtheorem{recipe}{Recipe}[section]
-\newtheorem{note}{Note}[section]
-\newtheorem{notation}{Notation}[section]
+\newtheorem{claim}[definition]{Claim}
+\newtheorem{recipe}[definition]{Recipe}
+\newtheorem{note}[definition]{Note}
+\newtheorem{notation}[definition]{Notation}
+\newtheorem{joke}[definition]{Joke}
 
 \title{Category theory notes}
 \author{Angus Rush}
