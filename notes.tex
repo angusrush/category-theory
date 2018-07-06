@@ -141,7 +141,7 @@
 %\tikzexternalize[prefix=figures/]
 
 \chapter{Basic category theory}\label{ch:categories}
-I will do my best to stick to the conventions used at the nLab (\cite{nlab}).
+I do my best to stick to the conventions used at the nLab (\cite{nlab}).
 
 \section{Categories}\label{sec:categoriesbasicdefinitions}
 \subsection{Basic definitions}
@@ -186,7 +186,7 @@ I will do my best to stick to the conventions used at the nLab (\cite{nlab}).
   The category $\mathsf{1}$, where $\Obj(\mathsf{1})$ is the singleton $\{*\}$, and the only morphism is the identity morphism $\mathrm{id}_{*}\colon * \to *$.
 \end{example}
 \begin{example}\label{eg:examplesofcategories}
-  Pretty much all standard algebraic constructions naturally live in categories. For example, we have
+  It is natural to imagine standard algebraic constructions as living in their own categories. For example, we have
   \begin{itemize}
     \item the category $\mathsf{Grp}$, whose objects are groups and whose morphisms are group homomorphisms;
 
@@ -358,7 +358,13 @@ Category theory has many essences, one of which is as a major generalization of 
 \end{example}
 
 \begin{note}
-  In $\mathsf{Set}$, isomorphisms are bijections, bijections are injective surjections, and injective surjections are monic epimorphisms, so a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. This is \emph{not} true in general: a morphism can be monic and epic without being an isomorphism.
+  In $\mathsf{Set}$, we have the following correspondences.
+  \begin{itemize}
+    \item A morphism $f$ is an isomorphism if and only if it is a bijection.
+    \item A morphism $f$ is a bijection if and only if it is injective surjections.
+    \item Morphisms which are both injective surjections are monic and epimorphisms.
+  \end{itemize}
+  Thus, a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. This is \emph{not} true in general: a morphism can be monic and epic without being an isomorphism.
 
   Take, for example, the category $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps. In order for a morphism $f$ to be monic and epic, it is necessary only that it be injective and surjective, i.e.\ it must have a set-theoretic inverse. However its inverse does not have to be continuous, and therefore may not be a morphism in $\mathsf{Top}$.
 \end{note}
@@ -559,7 +565,7 @@ That is to say, if you're trying to go from $A \times B$ to $D \times C$ and all
 
 As we will see, the cartesian product of sets is a functor from the product category (\hyperref[def:productcategory]{Definition~\ref*{def:productcategory}}) $\mathsf{Set} \times \mathsf{Set}$ to $\mathsf{Set}$ which maps $(A, B)$ to $A \times B$. There is another functor $\mathsf{Set} \times \mathsf{Set} \rightsquigarrow \mathsf{Set}$ which sends $(A, B)$ to $B \times A$. The above means that there is a natural isomorphism, called $\mathrm{swap}$, between them.
 
-This example makes clear another common theme of natural transformations: they formalize the idea of `the same function between different objects.' They allow us to make precise statements like `$\mathrm{swap}_{A, B}$ and $\mathrm{swap}_{C, D}$ are somehow the same, despite the fact that they are in no way equal as functions.'
+This example makes clear another common theme of natural transformations: they formalize the idea of `the same function' between different objects. They allow us to make precise statements like `$\mathrm{swap}_{A, B}$ and $\mathrm{swap}_{C, D}$ are somehow the same, despite the fact that they are in no way equal as functions.'
 
 \begin{definition}[natural transformation]\label{def:naturaltransformation}
   let $\mathsf{C}$ and $\mathsf{D}$ be categories, and let $\mathcal{F}$ and $\mathcal{G}$ be covariant functors from $\mathsf{C}$ to $\mathsf{D}$. A \defn{natural transformation} $\eta$ between $\mathcal{F}$ and $\mathcal{G}$ consists of
@@ -746,7 +752,7 @@ We can also compose natural transformations in a not so obvious way.
       & (\mathcal{G} \circ \mathcal{F}')(B)
     \end{tikzcd}
   \end{equation*}
-  Also, since $\mathcal{F}'(f)\colon \mathcal{F}'(A) \to \mathcal{F}'(B)$ is a morphism in $\mathsf{D}$ and $\Psi$ is a natural transformation, the following diagram commutes.
+  Since $\mathcal{F}'(f)\colon \mathcal{F}'(A) \to \mathcal{F}'(B)$ is a morphism in $\mathsf{D}$ and $\Psi$ is a natural transformation, the following diagram commutes.
   \begin{equation*}
     \begin{tikzcd}[row sep=huge, column sep=huge]
       (\mathcal{G} \circ \mathcal{F}')(A)
@@ -1422,7 +1428,7 @@ Again, with the diagram helpfully rotated, we have the following.
 \section{Cartesian closed categories}\label{sec:cartesianclosedcategories}
 This section loosely follows~\cite{awodey-category-theory-foundations-videos}.
 
-Cartesian closed categories are the prototype for many of the structures possessed by monoidal categories. They are interesting in their own right, but will not be essential in what follows.
+Cartesian closed categories are the prototype for many of the structures possessed by monoidal categories.
 
 \section{Products}
 We saw in \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}} the definition for a categorical product. In some categories, we can naturally take the product of any two objects; one generally says that such a category \emph{has products}. We formalize that in the following.
