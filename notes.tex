@@ -3695,7 +3695,7 @@ When put like this, monoidal categories don't sound like complicated entities, a
 \begin{equation*}
   (V \otimes 1) \otimes (W \otimes T) \qquad\text{and}\qquad (V \otimes W) \otimes T
 \end{equation*}
-should be literally equal, is too draconian. The natural weakening of this is to demand that these be merely isomorphic, but this is far too weak: for vector spaces, for example, this requires only that the dimension be the same. Even natural isomorphism is not quite strong enough.
+should be literally equal, is too draconian, not to mention difficult to interpret. The natural weakening of this is to demand that these be merely isomorphic, but this is far too weak: for vector spaces, for example, this requires only that the dimension be the same. Even natural isomorphism is not quite strong enough.
 
 The correct way of solving this problem is by demanding that certain diagrams, called \emph{coherenece diagrams}, commute. These diagrams then force other diagrams to commute in a way that solves our problem, as Mac Lane showed in the so-called \emph{Mac Lane's Coherence Theorem}.
 
@@ -3767,7 +3767,10 @@ The correct way of solving this problem is by demanding that certain diagrams, c
 
     \item For all sets $A$, $B$, $C$
       \begin{itemize}
-        \item The universal property of products guarantees us an isomorphism $\alpha_{A,B,C}\colon (A \times B) \times C \to A \times (B \times C)$ which sends $((a,b),c) \mapsto (a,(b,c))$.
+        \item The universal property of products gives us a natural isomorphism with components
+          \begin{equation*}
+            \alpha_{A,B,C}\colon (A \times B) \times C \to A \times (B \times C);\qquad ((a,b),c) \mapsto (a,(b,c)).
+          \end{equation*}
 
         \item Since $\{*\}$ is terminal, we get an isomorphism $\lambda_{A}\colon \left\{ * \right\}\times A \to A$ which sends $(*,a) \mapsto a$.
 
