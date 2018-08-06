@@ -31,6 +31,8 @@
 \usepackage{appendix}
 \usepackage{libertine}
 \usepackage[libertine]{newtxmath}
+\usepackage{microtype}
+\usepackage{anyfontsize}
 
 % chktex-file 18
 % chktex-file 6
@@ -141,122 +143,166 @@
 %\tikzexternalize[prefix=figures/]
 
 \chapter{Basic category theory}\label{ch:categories}
-I do my best to stick to the conventions used at the nLab (\cite{nlab}).
 
 \section{Categories}\label{sec:categoriesbasicdefinitions}
+There are lots of different sorts of mathematical structures, each of which is good for different things. Groups are good for talking about symmetries, for instance, and rings are good for talking about function fields.
+
+Categories are just another type of mathematical structure, but they have a different, more abstract feel to them than groups or rings. One reason for this is that they are inherently meta-mathematical: they are good for talking about other mathematical objects, and the relationships between them.
+
+For this reason, category theory has developed a reputation for being fairly abstract and difficult to learn, which I feel is undeserved. Categories are nothing special; they are mathematical objects, just like groups or vector spaces. They are simply good for different things.
+
 \subsection{Basic definitions}
+Unfortunately, there are many different conventions regarding how to typeset category theory. I will do my best to stick to the conventions used at the nLab (\cite{nlab}).
+
 \begin{definition}[category]\label{def:category}
-  A \defn{category} $\mathsf{C}$ consists of
+  A \defn{category} $\mathsf{C}$ consists of the following pieces of data.
   \begin{itemize}
-    \item a class $\Obj(\mathsf{C})$ of \emph{objects}, and \item for every two objects $A$, $B \in \Obj(\mathsf{C})$, a class $\Hom(A,B)$ of \emph{morphisms\/} with the following properties.
+    \item A collection\footnote{There is a reason we say that the objects and morphisms of a category are a \emph{collection\/} rather than a set. It may be that there may be `too many' objects to be contained in a set. For example, there is no set of all sets, but we will see that there is a category of sets. We will for the most part sidestep foundational questions of size, but in some cases it will be unavoidable. In particular, categories whose objects and/or morphisms \emph{are\/} small enough to be contained in a set will play an especially important role.} $\Obj(\mathsf{C})$ of \emph{objects}.
+    \item For every two objects $A$, $B \in \Obj(\mathsf{C})$, a collection $\Hom(A,B)$ of \emph{morphisms\/} with the following properties.
       \begin{enumerate}
         \item\label{item:compositionofmorphisms} For $f \in \Hom(A,B)$ and $g \in \Hom(B,C)$, there is an associated morphism
           \begin{equation*}
             g \circ f \in \Hom(A,C),
           \end{equation*} called the \emph{composition\/} of $f$ and $g$.
 
-        \item This composition is associative.
+        \item This composition is associative: $(f \circ g) \circ h = f \circ (g \circ h)$.
 
-        \item\label{item:existenceofidentitymorphism} For every $A \in \Obj(\mathsf{C})$, there is at least one morphism $1_{A}$, called the \emph{identity morphism\/} which functions as both a left and right identity with respect to the composition of morphisms.
-
+        \item\label{item:existenceofidentitymorphism} For every $A \in \Obj(\mathsf{C})$, there is at least one morphism $1_{A}$, called the \emph{identity morphism\/} which functions as both a left and right identity with respect to the composition of morphisms, i.e.\
+          \begin{equation*}
+            f \circ 1_{A} = f\qquad\text{amd}\qquad 1_{A} \circ g = g.
+          \end{equation*}
       \end{enumerate}
   \end{itemize}
 
   If ever it is potentially unclear which category we are talking about, we will add a subscript to $\Hom$, writing for example $\Hom_{\mathsf{C}}(A,B)$ instead of $\Hom(A,B)$.
 \end{definition}
 
-\begin{note}
-  There is a reason we say that the objects and morphisms of a category are a \emph{class\/} rather than a set. It may be that there may be `too many' objects to be contained in a set. For example, we will see that there is a category of sets, but there is no set of all sets. We will for the most part sidestep foundational questions of size, but in some cases it will be unavoidable. In particular, categories whose objects and/or morphisms \emph{are\/} small enough to be contained in a set will play an especially important role.
-\end{note}
+Categories can be visualized as graphs, with the objects as vertices and the morphisms as edges. In fact, every category gives rise to a so-called \emph{multidigraph,} i.e.\ a directed graph which can have more than one edge between any given pair of vertices in this way.
 
 \begin{notation}
-  Following Aluffi (\cite{aluffi-algebra-chapter-0}), we will use the sans serif font \texttt{mathsf} to denote categories. For example $\mathsf{C}$, $\mathsf{Set}$.
+  Following Aluffi (\cite{aluffi-algebra-chapter-0}), we will use a sans serif font to denote categories. For example $\mathsf{C}$, $\mathsf{Set}$.
 \end{notation}
 
 \begin{notation}
-  The identity morphism $1_{A}$ is often simply denoted by $A$. We will avoid this in the earlier chapters since it is potentially confusing, but use it freely in later chapters.
+  The identity morphism $1_{A}\colon A \to A$ is often simply denoted by $A$. This is actually a good notation, and we will use it freely in later chapters. However, we will avoid it in earlier chapters since it is potentially confusing whether we are talking about $A$ the object or $A$ the morphism.
 \end{notation}
 
 \begin{example}
   The prototypical category is $\mathsf{Set}$, the category whose objects are sets and whose morphisms are set functions.
-\end{example}
 
+  In order to check that $\mathsf{Set}$ is indeed a category, we need to check that the axioms are satisfied. In fact, everything is more or less clear by definition. Sets do indeed form a collection of objects, and between every two sets there is a collection of functions. Functions can indeed be composed, and this composititon is associative. Furthermore, every set has an identity which maps every element to itself.
+\end{example}
 
 \begin{example}[category with one object]\label{eg:categorywithoneobject}
   The category $\mathsf{1}$, where $\Obj(\mathsf{1})$ is the singleton $\{*\}$, and the only morphism is the identity morphism $\mathrm{id}_{*}\colon * \to *$.
 \end{example}
+
+Categories capture the essence of `things and composable maps between them.' There are many mathematical structures which naturally come with a notion of map between them, usually called homomorphisms. These are almost always composable, which means it is often natural to imagine them as living in their own categories.
 \begin{example}\label{eg:examplesofcategories}
-  It is natural to imagine standard algebraic constructions as living in their own categories. For example, we have
+  If you know what the following mathematical objects are, it is nearly effortless to check that they are categories.\footnote{Look at the definition. It \emph{really is} trivial.}
   \begin{itemize}
-    \item the category $\mathsf{Grp}$, whose objects are groups and whose morphisms are group homomorphisms;
+    \item $\mathsf{Grp}$, whose objects are groups and whose morphisms are group homomorphisms.
 
-    \item\label{item:categoryab} the category $\mathsf{Ab}$, whose objects are abelian groups and whose morphisms are group homomorphisms;
+    \item\label{item:categoryab} $\mathsf{Ab}$, whose objects are abelian groups and whose morphisms are group homomorphisms.
 
-    \item the category $\mathsf{Ring}$, whose objects are rings and whose morphisms are ring homomorphisms;
+    \item $\mathsf{Ring}$, whose objects are rings and whose morphisms are ring homomorphisms.
 
-    \item the category $R\mhyp\mathsf{Mod}$, whose objects are modules over a ring $R$ and whose morphisms are module homomorphisms;
+    \item $R\mhyp\mathsf{Mod}$, whose objects are modules over a ring $R$ and whose morphisms are module homomorphisms.
 
-    \item the category $\mathsf{Vect}_{k}$, whose objects are vector spaces over a field $k$ and whose morphisms are linear maps;
-    \item the category $\mathsf{FinVect}_{k}$, whose objects are finite-dimensional vector spaces over a field $k$ and whose morphisms are linear maps;
-    \item the category $k\mhyp\mathsf{Alg}$, whose objects are algebras over a field $k$ and whose morphisms are algebra homomorphisms.
+    \item $\mathsf{Vect}_{k}$, whose objects are vector spaces over a field $k$ and whose morphisms are linear maps.
+    \item $\mathsf{FinVect}_{k}$, whose objects are finite-dimensional vector spaces over a field $k$ and whose morphisms are linear maps.
+    \item $k\mhyp\mathsf{Alg}$, whose objects are algebras over a field $k$ and whose morphisms are algebra homomorphisms.
   \end{itemize}
 \end{example}
 
 \begin{example}\label{eg:moreexamplesofcategories}
-  In addition to algebraic structures, categories help to formulate geometric structures, such as
+  In addition to algebraic structures, categories help to talk about geometrical structures. The following are also categories.
   \begin{itemize}
-    \item the category $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps;
-    \item the category $\mathsf{Met}$, whose objects are metric spaces and whose morphisms are metric maps;
-    \item the category $\mathsf{Man}^{p}$, whose objects are manifolds of class $C^{p}$ and whose morphisms are $p$-times differentiable functions;
+    \item $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps.
+    \item $\mathsf{Met}$, whose objects are metric spaces and whose morphisms are metric maps.
+    \item $\mathsf{Man}^{p}$, whose objects are manifolds of class $C^{p}$ and whose morphisms are $p$-times differentiable functions.
 
-    \item the category $\mathsf{SmoothMfd}$, whose objects are $C^{\infty}$ manifolds and whose morphisms are smooth functions
+    \item $\mathsf{SmoothMfd}$, whose objects are $C^{\infty}$ manifolds and whose morphisms are smooth functions.
   \end{itemize}
-  and many more.
 \end{example}
 
-\subsection{Building new categories}
-Here are a few ways we can use existing categories to create new ones.
+\begin{example}\label{eg:groupsaregroupoidswithoneobject}
+  Here is a slightly whimsical example of a category, which is different in nature to the other categories we've looked at before. This category is important when studying group representations.
+
+  Let $G$ be a group. We are going to create a category $\mathsf{G}$ which behaves like this group.
+  \begin{itemize}
+    \item Our category $\mathsf{G}$ has only one object, called $*$.
+
+    \item The set $\Hom_{\mathsf{G}}(*, *)$ is equal to the underlying set of the group $G$, and for $f$, $g \in \Hom_{\mathsf{G}}(*, *)$, the compositions $f \circ g = f\cdot g$, where $\cdot$ is the group operation in $G$. The identity $e \in G$ is the identity morphism $1_{*}$ on $*$.
+  \end{itemize}
+  \begin{equation*}
+    \begin{tikzcd}
+      *
+      \arrow[loop right, "e = 1_{*}"]
+      \arrow[loop above, "g"]
+      \arrow[loop left, "f"]
+      \arrow[loop below, "g \circ f"]
+    \end{tikzcd}
+  \end{equation*}
+\end{example}
+
+\subsection{Building new categories from existing ones}
+One of the first things one learns about when talking about a mathematical structure is how to use existing ones to create new ones. For example, one can take the product of two groups to create a third, or take the quotient a vector space by a subspace. Categories are no exception. In this section, we will learn how to create new categories out of old categories.
+
+The first way we'll see of doing this may seem a bit trivial.
+
 \begin{definition}[opposite category]\label{def:oppositecategory}
-  Let $\mathsf{C}$ be a category. The \defn{opposite category} $\mathsf{C}^{\mathrm{op}}$ is the category whose objects are the same as the objects $\Obj(\mathsf{C})$ and whose morphisms $f \in \Hom_{\mathsf{C}^{\mathrm{op}}}(A, B)$ are defined to be the morphisms $\Hom_{\mathsf{C}}(B, A)$.
+  Let $\mathsf{C}$ be a category. Its \defn{opposite category} $\mathsf{C}^{\mathrm{op}}$ is the category whose objects are the same as the objects $\Obj(\mathsf{C})$ and whose morphisms $f \in \Hom_{\mathsf{C}^{\mathrm{op}}}(A, B)$ are defined to be the morphisms $\Hom_{\mathsf{C}}(B, A)$.
 
   That is to say, the opposite category is the category one gets by formally reversing all the arrows in a category. If $f \in \Hom_{\mathsf{C}}(A, B)$, i.e. $f \colon A \to B$, then in $\mathsf{C}^{\mathrm{op}}$, $f\colon B \to A$.
 \end{definition}
 
+This may seem like an uninterersting, definition, but having it around will make life a lot easier when it comes to defining functors (\hyperref[sec:functors]{Section~\ref*{sec:functors}}).
+
+One can take the Cartesian product of two sets by creating ordered pairs. One can also take the product of two categories, which works in the way one would likely expect.
+
 \begin{definition}[product category]\label{def:productcategory}
-  Let $\mathsf{C}$ and $\mathsf{D}$ be categories. The \defn{product category} $\mathsf{C} \times \mathsf{D}$ is the category whose
+  Let $\mathsf{C}$ and $\mathsf{D}$ be categories. The \defn{product category} $\mathsf{C} \times \mathsf{D}$ is the following category.
   \begin{itemize}
-    \item objects are ordered pairs $(C, D)$, where $C \in \Obj(\mathsf{C})$ and $D \in \Obj(\mathsf{D})$, whose
-    \item morphisms are ordered pairs $(f,g)$, where $f \in \Hom_{\mathsf{C}}(C_{1}, C_{2})$ and $g \in \Hom_{\mathsf{D}}(D_{1}, D_{2})$, in which
-    \item composition is taken componentwise, so that
+    \item The objects $\Obj(\mathsf{C} \times \mathsf{D})$ consist of all ordered pairs $(C, D)$, where $C \in \Obj(\mathsf{C})$ and $D \in \Obj(\mathsf{D})$.
+
+    \item For any two objects $(C, D)$, and $(C', D') \in \Obj(\mathsf{C} \times \mathsf{D})$,
+      the morphisms $\Hom_{C \times D}((C, D), (C', D'))$ are ordered pairs $(f,g)$, where $f \in \Hom_{\mathsf{C}}(C, C')$ and $g \in \Hom_{\mathsf{D}}(D, D')$.
+
+    \item Composition is taken componentwise, so that
       \begin{equation*}
-        (f_{1}, g_{1}) \circ (f_{2},g_{2}) = (f_{1} \circ g_{1}, f_{2} \circ g_{2}),
+        (f_{1}, g_{1}) \circ (f_{2},g_{2}) = (f_{1} \circ g_{1}, f_{2} \circ g_{2}).
       \end{equation*}
-      and
-    \item the identity morphisms are given in the obvious way:
+
+    \item The identity morphisms are given in the obvious way:
       \begin{equation*}
         1_{(C,D)} = (1_{C}, 1_{D}).
       \end{equation*}
   \end{itemize}
 \end{definition}
 
+Many mathematical objects have a notion of `sub-object.' For example, groups can have subgroups, and vector spaces can have vector subspaces. Categories also have this notion. As with groups and vector spaces, the definition of a `subcategory' is more or less obvious, but it is helpful to know exactly what one has to check to show that a subcollection of objects and morphisms from a category forms a subcategory.
+
 \begin{definition}[subcategory]\label{def:subcategory}
-  Let $\mathsf{C}$ be a category. A category $\mathsf{S}$ is a \defn{subcategory} of $\mathsf{C}$ if
+  Let $\mathsf{C}$ be a category. A category $\mathsf{S}$ is a \defn{subcategory} of $\mathsf{C}$ if the following conditions hold.
   \begin{itemize}
-    \item The objects $\Obj(\mathsf{S})$ of $\mathsf{S}$ are a subcollection of the objects of $\mathsf{C}$
+    \item The objects $\Obj(\mathsf{S})$ of $\mathsf{S}$ are a subcollection of the objects of $\mathsf{C}$.
 
-    \item For $S$, $T \in \Obj(\mathsf{S})$, the morphisms $\Hom_{\mathsf{S}}(S, T)$ are a subcollection of the morphisms $\Hom_{\mathsf{C}}(S, T)$ such that
+    \item For $S$, $T \in \Obj(\mathsf{S})$, the morphisms $\Hom_{\mathsf{S}}(S, T)$ are a subcollection of the morphisms $\Hom_{\mathsf{C}}(S, T)$ which satisfy the following.
       \begin{itemize}
-        \item for every $S \in \Obj(S)$, the identity $1_{C} \in \Hom_{\mathsf{S}}(S, S)$.
+        \item For every $S \in \Obj(S)$, the identity $1_{S} \in \Hom_{\mathsf{S}}(S, S)$.
 
-        \item for all $f \in \Hom_{\mathsf{S}}(S, T)$ and $g \in \Hom_{\mathsf{S}}(T, U)$, the composite $g \circ f \in \Hom_{\mathsf{S}}(S, U)$.
+        \item For all $f \in \Hom_{\mathsf{S}}(S, T)$ and $g \in \Hom_{\mathsf{S}}(T, U)$, the composite $g \circ f \in \Hom_{\mathsf{S}}(S, U)$.
       \end{itemize}
   \end{itemize}
 
   If $\mathsf{S}$ is a subcategory of $\mathsf{C}$, we will write $\mathsf{S} \subseteq \mathsf{C}$.
 \end{definition}
 
+One particularly important kind of subcategory occurs when one takes a subset of all objects in a subcategory, but keeps all morphisms between them. This is known as a \emph{full subcategory.}
+
 \begin{definition}[full subcategory]\label{def:fullsubcategory}
-  Let $\mathsf{C}$ be a category, $\mathcal{I}\colon \mathsf{S} \hookrightarrow \mathsf{C}$ a subcategory. Write $\mathsf{S} \subset \mathsf{C}$ We say that $\mathsf{S}$ is \defn{full} in $\mathsf{C}$ if for every $S$, $T \in \Obj(\mathsf{S})$, $\Hom_{\mathsf{S}}(S, T) \simeq \Hom_{\mathsf{C}}(S, T)$. That is, if there are no morphisms in $\Hom_{\mathsf{C}}(S, T)$ which cannot be written $\mathcal{I}(f)$ for some $f \in \Hom_{\mathsf{S}}(S, T)$.
+  Let $\mathsf{C}$ be a category, $\mathsf{S} \subseteq \mathsf{C}$ a subcategory. We say that $\mathsf{S}$ is \defn{full} in $\mathsf{C}$ if for every $S$, $T \in \Obj(\mathsf{S})$, $\Hom_{\mathsf{S}}(S, T) = \Hom_{\mathsf{C}}(S, T)$. That is, if there are no morphisms in $\Hom_{\mathsf{C}}(S, T)$ that are not in $\Hom_{\mathsf{S}}(S, T)$.
 \end{definition}
 
 \begin{example}\label{eg:finvectfullsubcategoryofvect}
@@ -266,18 +312,38 @@ Here are a few ways we can use existing categories to create new ones.
 \end{example}
 
 \subsection{Properties of morphisms}
-Category theory has many essences, one of which is as a major generalization of set theory. With this in mind, it would be nice to be able to upgrade definitions and theorems about functions between sets to definitions and theorems about morphisms between objects. It is here that we run into our first major challenge: in general, the objects of a category are \emph{not\/} sets, so we cannot talk about their elements. We therefore have to find definitions which we can give purely in terms objects and morphisms between them.
+Category theory has many essences, one of which is as a major generalization of set theory. It is often possible to upgrade statements about functions between sets to statements about morphisms between objects in an arbitrary category. However, this is not as simple as it may sound: nowhere in the axioms in the definition of a category does it say that the objects of a category have to \emph{be\/} sets, so we cannot talk about their elements.
+
+This puts us in a rather odd position. We have to generalize definitions from set theory, which are almost always given in terms of elements because elements are the only structure sets have, without talk without ever mentioning the elements of the objects we're talking about. We therefore have to find definitions which we can give purely in terms objects and morphisms between them.
+
+The first thing we would like to define is when two objects are isomorphic.
 \begin{definition}[isomorphism]\label{def:isomorphism}
   Let $\mathsf{C}$ be a category, $A$, $B \in \Obj(\mathsf{C})$. A morphism $f \in \Hom(A,B)$ is said to be an \defn{isomorphism} if there exists a morphism $g \in \Hom(B,A)$ such that
   \begin{equation*}
-    g \circ f = 1_{A},\qquad\text{and}\quad f \circ g = 1_{B}.
+    g \circ f = 1_{A},\qquad\text{and}\qquad f \circ g = 1_{B}.
+  \end{equation*}
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[loop left, "1_{A}"]
+      \arrow[r, shift left, "f"]
+      & B
+      \arrow[l, shift left, "g"]
+      \arrow[loop right, "1_{B}"]
+    \end{tikzcd}
   \end{equation*}
 
-  If we have an isomorphism $f\colon A \to B$, we say that $A$ and $B$ are \defn{isomorphic}, and write $A \simeq B$.
+  If we have an isomorphism $f\colon A \to B$, we say that $A$ and $B$ are \defn{isomorphic}, and write $A \simeq B$. This is not an abuse of notation, as the next proposition shows.
 \end{definition}
 
+\begin{proposition}\label{prop:isomorphism_is_equivalence_relation}
+  Isomorphism is an equivalence relation.
+\end{proposition}
+
+Next we have two rather odd-looking properties that a morphism can have.
+
 \begin{definition}[monomorphism]\label{def:monomorphism}
-  Let $\mathsf{C}$ be a category, $A$, $B\in \Obj(\mathsf{C})$. A morphism $f\colon A \to B$ is said to be a \defn{monomorphism} if for all $Z \in \Obj(\mathsf{C})$ and all $g_{1}$, $g_{2}\colon Z \to A$, $f \circ g_{1} = f\circ g_{2}$ implies $g_{1} = g_{2}$.
+  Let $\mathsf{C}$ be a category, $A$, $B\in \Obj(\mathsf{C})$. A morphism $f\colon A \to B$ is said to be a \defn{monomorphism} (or simply \emph{mono}) if for all $Z \in \Obj(\mathsf{C})$ and all $g_{1}$, $g_{2}\colon Z \to A$, $f \circ g_{1} = f\circ g_{2}$ implies $g_{1} = g_{2}$.
   \begin{equation*}
     \begin{tikzcd}
       Z \arrow[r, shift left, "g_{1}"] \arrow[r, shift right, swap, "g_{2}"] & A \arrow[r, "f"] & B
@@ -297,10 +363,10 @@ Category theory has many essences, one of which is as a major generalization of 
 \end{note}
 
 \begin{theorem}
-  In $\mathsf{Set}$, a morphism is a monomorphism precisely when it is injective.
+  In $\mathsf{Set}$, a morphism is a monomorphism if and only if it is injective.
 \end{theorem}
 \begin{proof}
-  Suppose $f\colon A \to B$ is a monomorphism. Then for any set $Z$ and any maps $g_{1}$, $g_{2}\colon Z \to A$, $f \circ g_{1} = f \circ g_{2}$ implies $g_{1} = g_{2}$. In particular, take $Z = \{*\}$ and suppose $g_{1}(*) = a_{1}$ and $g_{2}(*) = a_{2}$. Then $(f \circ g_{1})(*) = f(a_{1})$ and $(f \circ g_{2})(*) = f(a_{2})$, so
+  Suppose $f\colon A \to B$ is a monomorphism. Then for any set $Z$ and any maps $g_{1}$, $g_{2}\colon Z \to A$, $f \circ g_{1} = f \circ g_{2}$ implies $g_{1} = g_{2}$. In particular, take $Z$ to be the singleton $Z = \{*\}$ and call $g_{1}(*) = a_{1}$ and $g_{2}(*) = a_{2}$. Then $(f \circ g_{1})(*) = f(a_{1})$ and $(f \circ g_{2})(*) = f(a_{2})$, so
   \begin{equation*}
     f(a_{1}) = f(a_{2}) \implies a_{1} = a_{2}.
   \end{equation*}
@@ -314,7 +380,7 @@ Category theory has many essences, one of which is as a major generalization of 
 \end{proof}
 
 \begin{example}\label{eg:monomorphismsinkvect}
-  In $\mathsf{Vect}_{k}$, monomorphisms are injective linear maps.
+  In $\mathsf{Vect}_{k}$, a morphism is mono if and only if it is injective.
 \end{example}
 
 \begin{definition}[epimorphism]\label{def:epimorphism}
@@ -327,7 +393,7 @@ Category theory has many essences, one of which is as a major generalization of 
 \end{definition}
 
 \begin{notation}
-  We will denote epimorphisms by two-headed right arrows. That is, if $f\colon A \to B$ is epi, we will write
+  We will denote epimorphisms by two-headed arrows. That is, if $f\colon A \to B$ is epi, we will write
   \begin{equation*}
     \begin{tikzcd}
       A
@@ -338,7 +404,7 @@ Category theory has many essences, one of which is as a major generalization of 
 \end{notation}
 
 \begin{theorem}\label{thm:epimorphismsinset}
-  In $\mathsf{Set}$, epimorphisms are precisely surjections.
+  In $\mathsf{Set}$, a morphism $f$ is an epimorphism if and only if it is a surjection.
 \end{theorem}
 \begin{proof}
   Suppose $f\colon A \to B$ is an epimorphism. Then for any set $Z$ and maps $g_{1}$, $g_{2}\colon B \to Z$, there $g_{1} \circ f = g_{2} \circ f$ implies $g_{1} = g_{2}$. In particular, this is true if $Z = \{ 0, 1 \}$, and $g_{1}$ and $g_{2}$ are as follows.
@@ -360,56 +426,34 @@ Category theory has many essences, one of which is as a major generalization of 
 \begin{note}
   In $\mathsf{Set}$, we have the following correspondences.
   \begin{itemize}
-    \item A morphism $f$ is an isomorphism if and only if it is a bijection.
-    \item A morphism $f$ is a bijection if and only if it is injective surjections.
-    \item Morphisms which are both injective surjections are monic and epimorphisms.
+    \item Isomorphism $\iff$ Bijective
+    \item Bijective $\iff$ Injective \& Surjective
+    \item Injective \& Surjective $\iff$ Mono \& Epi.
   \end{itemize}
-  Thus, a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. This is \emph{not} true in general: a morphism can be monic and epic without being an isomorphism.
+  Thus in $\mathsf{Set}$ a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. This is \emph{not} true in general: a morphism can be monic and epic without being an isomorphism.
 
   Take, for example, the category $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps. In order for a morphism $f$ to be monic and epic, it is necessary only that it be injective and surjective, i.e.\ it must have a set-theoretic inverse. However its inverse does not have to be continuous, and therefore may not be a morphism in $\mathsf{Top}$.
 \end{note}
 
 Set theory has some foundational annoyances: not every collection of sets is small enough to be a set, for example. Category theory has its own foundational issues, which for the most part we will avoid. However, there are a few important situations in which foundational questions of size play an unavoidably important role.
 \begin{definition}[small, locally small, hom-set]\label{def:smalllocallysmallcategoryhomset}
-  A category $\mathsf{C}$ is
+  A category $\mathsf{C}$ can have the following properties.
   \begin{itemize}
-    \item \defn{small} if $\Obj(\mathsf{C})$ is a set and for all objects $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set.
+    \item We say that $\mathsf{C}$ is \defn{small} if $\Obj(\mathsf{C})$ is a set and for all objects $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set.
 
-    \item \defn{locally small} if for all $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set. In this case, we call $\Hom_{\mathsf{C}}(A, B)$ the \defn{hom-set}. (Actually, terminology is often abused, and $\Hom_{\mathsf{C}}(A, B)$ is called a hom-set even if it is not a set.)
+    \item We say that $\mathsf{C} is $\defn{locally small} if for all $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set. In this case, we call $\Hom_{\mathsf{C}}(A, B)$ the \defn{hom-set}. (Actually, terminology is often abused, and $\Hom_{\mathsf{C}}(A, B)$ is called a hom-set even if it is not a set.)
   \end{itemize}
 \end{definition}
 
-\begin{example}\label{eg:groupsaregroupoidswithoneobject}
-  Here is a slightly whimsical example of a category, which will turn out to have great relevance for Deligne's theorem.
-
-  Let $G$ be a group. Let us create a category $\mathsf{G}$ which behaves like this group.
-  \begin{itemize}
-    \item Our category $\mathsf{G}$ has only one object, called $*$.
-
-    \item The set $\Hom_{\mathsf{G}}(*, *)$ is equal to the underlying set of the group $G$, and for $f$, $g \in \Hom_{\mathsf{G}}(*, *)$, the compositions $f \circ g = f\cdot g$, where $\cdot$ is the group operation in $G$. The identity $e \in G$ is the identity morphism $1_{*}$ on $*$.
-  \end{itemize}
-  \begin{equation*}
-    \begin{tikzcd}
-      *
-      \arrow[loop right, "e = 1_{*}"]
-      \arrow[loop above, "g"]
-      \arrow[loop left, "f"]
-      \arrow[loop below, "g \circ f"]
-    \end{tikzcd}
-  \end{equation*}
-
-  Note: since each $g \in G$ has an inverse, every morphism in $\mathsf{G}$ is an isomorphism.
-\end{example}
-
 \section{Functors}\label{sec:functors}
-Just as morphisms connect objects in the same category, functors allow us to connect different categories. In fact, functors can be viewed as morphisms in a `category of categories.'
+Just as morphisms connect objects in the same category, functors allow us to connect different categories. In fact, functors can be viewed as morphisms in a `category of categories,' whose objects are categories!
 
 \begin{definition}[functor]\label{def:functor}
-  Let $\mathsf{C}$ and $\mathsf{D}$ be categories. A \defn{functor} $\mathcal{F}$ from $\mathsf{C}$ to $\mathsf{D}$ is a mapping which associates
+  Let $\mathsf{C}$ and $\mathsf{D}$ be categories. A \defn{functor} $\mathcal{F}$ from $\mathsf{C}$ to $\mathsf{D}$ is the following.
   \begin{itemize}
-    \item to each object $X \in \Obj(\mathsf{C})$ an object $\mathcal{F}(X) \in \Obj(\mathsf{D})$.
+    \item It maps each object $X \in \Obj(\mathsf{C})$ an object $\mathcal{F}(X) \in \Obj(\mathsf{D})$.
 
-    \item to each morphism $f \in \Hom(X, Y)$ a morphism $\mathcal{F}(f)$ such that $\mathcal{F}(1_{X}) = 1_{\mathcal{F}(X)}$ for all $X$, and one of the two following properties are satisfied.
+    \item It assigns each morphism $f \in \Hom(X, Y)$ to a morphism $\mathcal{F}(f)$ such that $\mathcal{F}(1_{X}) = 1_{\mathcal{F}(X)}$ for all $X$, and one of the two following properties are satisfied.
       \begin{itemize}
         \item The morphism $f \in \Hom(\mathcal{F}(X), \mathcal{F}(Y))$ and if $f:X \to Y$ and $g\colon Y \to Z$, then
           \begin{equation*}
@@ -434,12 +478,9 @@ Just as morphisms connect objects in the same category, functors allow us to con
 \end{notation}
 
 \begin{note}\label{note:contravariantfunctorisfunctorfromoppositecategory}
-  One can also define a contravariant functor $\mathsf{C} \rightsquigarrow \mathsf{D}$ as a covariant functor $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{D}$.
+  One can also define a contravariant functor $\mathsf{C} \rightsquigarrow \mathsf{D}$ as a covariant functor $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{D}$. This is actually much more convenient than having two different types of functors lying around, so this is what we will do. Thus, a \emph{functor} will always be a \emph{covariant functor}.
 \end{note}
 
-\begin{note}
-  When the adjective is unspecified, a \emph{functor} will mean a \emph{covariant functor}.
-\end{note}
 
 \begin{example}\label{eg:functorfrom1category}
   Let $\mathsf{1}$ be the category with one object $*$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). Let $\mathsf{C}$ be any category. Then for each $X \in \Obj(\mathsf{C})$, we have the functor
@@ -453,7 +494,7 @@ Just as morphisms connect objects in the same category, functors allow us to con
 
   The following are functors $\mathsf{CRing} \rightsquigarrow \mathsf{Grp}$.
   \begin{itemize}
-    \item $\GL_{n}$, which assigns to each commutative ring the group of all $n \times n$ matrices with nonzero determinant, and to each morphism $f\colon K \to K'$ the homomorphism $\GL_{n}(K) \to \GL_{n}(K')$ which maps a matrix with entries in $K$ to a matrix with entries in $K'$ by mapping each entry individually.
+    \item $\GL_{n}$, which assigns to each commutative ring $K$ the group of all $n \times n$ invertible matrices with entries in $K$.
 
     \item ${(\,\cdot\,)}^{*}$, which maps each commutative ring $K$ to its group of units $K^{*}$, and each morphism $K \to K'$ to its restriction to $K^{*}$.
   \end{itemize}
@@ -493,7 +534,7 @@ One of the nice things about functors is that they map commutative diagrams to c
 \end{note}
 
 \begin{lemma}\label{lemma:fullyfaithfulfunctorinjectiveuptoisomorphism}
-  A fully faithful functor is injective on objects up to isomorphism. That is, if $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ is a fully faithful functor and $\mathcal{F}(A) \simeq \mathcal{F}(B)$, then $A \simeq B$.
+  A fully faithful functor is injective on objects up to isomorphism. That is, if  $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ is a fully faithful functor and $\mathcal{F}(A) \simeq \mathcal{F}(B)$, then $A \simeq B$.
 \end{lemma}
 \begin{proof}
   Let $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ be a fully faithful functor, and suppose that $\mathcal{F}(A) \simeq \mathcal{F}(B)$. Then there exist $f'\colon \mathcal{F}(A) \to \mathcal{F}(B)$ and $g'\colon \mathcal{F}(B) \to \mathcal{F}(A)$ such that $f' \circ g' = 1_{\mathcal{F}(B)}$ and $g' \circ f' = 1_{\mathcal{F}(A)}$. Because the function $\mathcal{F}_{A, B}$ is bijective it is invertible, so there is a unique morphism $f \in \Hom_{\mathsf{C}}(A, B)$ such that $\mathcal{F}(f) = f'$, and similarly there is a unique $g \in \Hom_{\mathsf{C}}(B, A)$ such that $\mathcal{F}(g) = g'$.
@@ -1545,7 +1586,7 @@ The product is, in an appropriate way, commutative.
   \end{equation*}
 \end{lemma}
 \begin{proof}
-  We define a natural transformation $\Phi\colon \times \Rightarrow \tilde{times}$ whose components are
+  We define a natural transformation $\Phi\colon \times \Rightarrow \tilde{\times}$ with components
   \begin{equation*}
     \Phi_{A, B}\colon A \times B \to B \times A
   \end{equation*}
@@ -1856,9 +1897,9 @@ That takes care of how it sends objects to objects, but any functor has to send 
 
 A morphism in $\mathsf{C} \times \mathsf{C}$ between two objects $(A', A)$ and $(B', B)$ is an ordered pair $(f', f)$ of two morphisms:
 \begin{equation*}
-  f\colon A \to B'\qquad\text{and}\qquad f\colon A' \to B',
+  f\colon A \to B\qquad\text{and}\qquad f'\colon A' \to B'.
 \end{equation*}
-where $A$, $B$, $A'$, and $B' \in \Obj(\mathsf{C})$. We can draw this as follows.
+We can draw this as follows.
 \begin{equation*}
   \begin{tikzcd}[row sep=tiny]
     A'
@@ -1915,7 +1956,7 @@ But we can make $f'$ go the other way simply by making the first argument of $\H
 
 As the function $m \mapsto f \circ m \circ f'$ is the action of the functor $\Hom_{\mathsf{C}}$ on the morphism $(f', f)$, it is natural to call it $\mathrm{Hom}_{\mathsf{C}}(f', f)$.
 
-Of course, we should check that this \emph{really is} a functor, i.e.\ that it treats identities and compositions correctly. This is completely routine, and you should skip it if you read the last sentence with annoyance.
+Of course, we should check that this \emph{really is} a functor, i.e.\ that it treats identities and compositions correctly. This is completely routine, and you should skip down to \hyperref[def:homfunctor]{Definition~\ref*{def:homfunctor}} if you read the last sentence with annoyance.
 
 First, we need to show that $\Hom_{\mathsf{C}}(1_{A'}, 1_{A})$ is the identity function $1_{\Hom_{\mathsf{C}}(A', A)}$. It is, since if $m \in \Hom_{\mathsf{C}}(A', A)$,
 \begin{equation*}
