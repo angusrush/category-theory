@@ -28,6 +28,7 @@
 \usepackage[libertine]{newtxmath}
 \usepackage{microtype}
 \usepackage{anyfontsize}
+\usepackage{interval}
 
 % chktex-file 18
 % chktex-file 6
@@ -43,6 +44,9 @@
 
 % Good practice to set the version so updates don't break old documents
 \pgfplotsset{compat=1.14}
+
+% Open intervals should use parentheses
+\intervalconfig{soft open fences}
 
 % Load tikz-cd
 \usetikzlibrary{cd}
@@ -144,7 +148,7 @@ There are lots of different sorts of mathematical structures, each of which is g
 
 Categories are just another type of mathematical structure, but they have a different, more abstract feel to them than groups or rings. One reason for this is that they are inherently meta-mathematical: they are good for talking about other mathematical objects, and the relationships between them.
 
-For this reason, category theory has developed a reputation for being fairly abstract and difficult to learn, which I feel is undeserved. Categories are nothing special; they are mathematical objects, just like groups or vector spaces. They are simply good for different things.
+For this reason, category theory has developed a reputation for being abstract and difficult to learn, which is mostly undeserved. Categories are nothing special; they are mathematical objects, just like groups or vector spaces. They are simply good for different things.
 
 \subsection{Basic definitions}
 Unfortunately, there are many different conventions regarding how to typeset category theory. I will do my best to stick to the conventions used at the nLab (\cite{nlab}).
@@ -152,7 +156,7 @@ Unfortunately, there are many different conventions regarding how to typeset cat
 \begin{definition}[category]\label{def:category}
   A \defn{category} $\mathsf{C}$ consists of the following pieces of data.
   \begin{itemize}
-    \item A collection\footnote{There is a reason we say that the objects and morphisms of a category are a \emph{collection\/} rather than a set. It may be that there may be `too many' objects to be contained in a set. For example, there is no set of all sets, but we will see that there is a category of sets. We will for the most part sidestep foundational questions of size, but in some cases it will be unavoidable. In particular, categories whose objects and/or morphisms \emph{are\/} small enough to be contained in a set will play an especially important role.} $\Obj(\mathsf{C})$ of \emph{objects}.
+    \item A collection\footnote{There is a reason we say that there is a \emph{collection}, rather than a \emph{set}, of objects (and morphisms): it may be that there may be `too many' objects (or morphisms) to be contained in a set. For example, there is no set of all sets, but we will see that there is a category of sets. We will for the most part sidestep foundational questions of size, but in some cases it will be unavoidable. In particular, categories whose objects and/or morphisms \emph{are\/} small enough to be contained in a set will play an especially important role.} $\Obj(\mathsf{C})$ of \emph{objects}.
     \item For every two objects $A$, $B \in \Obj(\mathsf{C})$, a collection $\Hom(A,B)$ of \emph{morphisms\/} with the following properties.
       \begin{enumerate}
         \item\label{item:compositionofmorphisms} For any $f \in \Hom(A,B)$ and $g \in \Hom(B,C)$, there is an associated morphism
@@ -172,20 +176,36 @@ Unfortunately, there are many different conventions regarding how to typeset cat
   If ever it is potentially unclear which category we are talking about, we will add a subscript to $\Hom$, writing for example $\Hom_{\mathsf{C}}(A,B)$ instead of $\Hom(A,B)$.
 \end{definition}
 
-It is often helpful to visualize objects and morphisms in categories using as so-called \emph{multidigraphs,}\footnote{A multidigraph is a directed graph which is allowed to have more than one edge between any given pair of vertices.} with the objects as vertices and the morphisms as edges. This makes it possible to visualize categories by drawing graph-like diagrams. Category theorists frequently employ these diagrams, called \emph{commutative diagrams,}\footnote{This sentence is unfortunately true. We will define later when a diagram does or does not commute. Annoyingly, even diagrams which don't commute are called commutative diagrams.} to make the ideas beind a proof more clear. Many results in category theory are most easily proved by drawing such a diagram, and then pointing at edges and vertices while repeating the phrase `and then this goes here,' while furrowing one's brow. This form of proof is called a `diagram chase,' and category theorists are very fond of them.
-
 \begin{notation}
   Following Aluffi (\cite{aluffi-algebra-chapter-0}), we will use a sans serif font to denote categories. For example $\mathsf{C}$, $\mathsf{Set}$.
 \end{notation}
 
-\begin{notation}
-  The identity morphism $1_{A}\colon A \to A$ is often simply denoted by $A$. This is actually a good notation, and we will use it freely in later chapters. However, we will avoid it in earlier chapters since it is potentially confusing whether we are talking about $A$ the object or $A$ the morphism.
-\end{notation}
+One thinks of morphisms as `generalized functions.' It is therefore often useful to use functional notation $f\colon A \to B$ to describe morphisms. For example, the following two notations are equivalent:
+\begin{equation*}
+  f \in \Hom(A, B) \iff f\colon A \to B.
+\end{equation*}
 
-\begin{example}
+Here is something to be aware of: the identity morphism $1_{A}\colon A \to A$ is often simply denoted by $A$. This is actually a good notation, and we will use it freely in later chapters. However, we will avoid it in earlier chapters since it is potentially confusing whether we are talking about $A$ the object or $A$ the morphism.
+\subsubsection*{Some examples of categories}\label{sss:examples_of_categories}
+
+The idea of a category is very abstract. Examples of categories abound; we give only a few here.
+
+\begin{example}[The category of sets]
   The prototypical category is $\mathsf{Set}$, the category whose objects are sets and whose morphisms are set functions.
 
-  In order to check that $\mathsf{Set}$ is indeed a category, we need to check that the axioms are satisfied. In fact, everything is more or less clear by definition. Sets do indeed form a collection of objects, and between every two sets there is a collection of functions. Functions can indeed be composed, and this composititon is associative. Furthermore, every set has an identity which maps every element to itself.
+  In order to check that $\mathsf{Set}$ is indeed a category, we need to check that the axioms are satisfied. In fact, everything is more or less clear by definition.
+
+  A category first needs a collection of objects. Although there is no set of sets, there certainly is a collection of all sets. Therefore,
+  \begin{equation*}
+    \Obj(\mathsf{Set}) = [\text{all sets}].
+  \end{equation*}
+
+  The next thing a category needs is, for each pair of objects $A$, $B$, a collection of morphisms $\Hom_{\mathsf{Set}}(A, B)$. The morphisms between the objects in $\mathsf{Set}$, i.e.\ sets, will consist of all set-functions between. That is,
+  \begin{equation*}
+    \Hom_{\mathsf{Set}}(A, B) = \{f\colon A \to B\ |\ f\ \text{is a set function.}\}
+  \end{equation*}
+
+  Functions can indeed be composed, and this composititon is associative. Furthermore, every set has an identity which maps every element to itself.
 \end{example}
 
 \begin{example}[category with one object]\label{eg:categorywithoneobject}
@@ -240,6 +260,18 @@ Categories capture the essence of `things and composable maps between them.' The
     \end{tikzcd}
   \end{equation*}
 \end{example}
+\subsubsection{Commutative diagrams}\label{sss:commutative_diagrams}
+
+It is often helpful to visualize objects and morphisms in categories using as so-called \emph{multidigraphs,}\footnote{A multidigraph is a directed graph which is allowed to have more than one edge between any given pair of vertices.} with the objects as vertices and the morphisms as edges. This makes it possible to visualize categories by drawing graph-like diagrams. Scroll to almost any page in this document, and you will likely see a diagram or two which resemble this one (copied directly from \hyperref[def:pullback]{Definition~\ref*{def:pullback}}).
+\begin{equation*}
+  \begin{tikzcd}
+    V \arrow[rrd, bend left, "t"] \arrow[rd, dashed, "\exists!h"] \arrow[rdd, bend right, swap, "s"] &   &  \\
+    & U \arrow[r, "q"] \arrow[d, swap, "p"] & B \arrow[d, "g"] \\
+    & A \arrow[r, swap, "f"] & C
+  \end{tikzcd}
+\end{equation*}
+Category theorists frequently employ these diagrams, called \emph{commutative diagrams,}\footnote{We will define later when a diagram does or does not commute. Annoyingly, even diagrams which don't commute are called commutative diagrams.} to make the ideas beind a proof more clear. Many results in category theory are most easily proved by drawing such a diagram, and then pointing at edges and vertices while repeating the phrase `and then this goes here,' while furrowing one's brow. This form of proof is called a `diagram chase,' and category theorists are very fond of them.
+
 
 \subsection{Building new categories from existing ones}
 One of the first things one learns about when talking about a mathematical structure is how to use existing ones to create new ones. For example, one can take the product of two groups to create a third, or take the quotient a vector space by a subspace. Categories are no exception. In this section, we will learn how to create new categories out of old categories.
@@ -311,7 +343,7 @@ Category theory has many essences, one of which is as a major generalization of 
 
 This puts us in a rather odd position. We have to generalize definitions from set theory, which are almost always given in terms of elements because elements are the only structure sets have, without talk without ever mentioning the elements of the objects we're talking about. We therefore have to find definitions which we can give purely in terms objects and morphisms between them.
 
-The first thing we would like to define is when two objects are isomorphic.
+The concept of an isomorphism exists for many mathematical entities. Two groups can be isomorphic, as can two sets or graphs. It turns out that the concept of isomorphism is best understood as a categorical one.
 \begin{definition}[isomorphism]\label{def:isomorphism}
   Let $\mathsf{C}$ be a category, $A$, $B \in \Obj(\mathsf{C})$. A morphism $f \in \Hom(A,B)$ is said to be an \defn{isomorphism} if there exists a morphism $g \in \Hom(B,A)$ such that
   \begin{equation*}
@@ -328,12 +360,10 @@ The first thing we would like to define is when two objects are isomorphic.
     \end{tikzcd}
   \end{equation*}
 
-  If we have an isomorphism $f\colon A \to B$, we say that $A$ and $B$ are \defn{isomorphic}, and write $A \simeq B$. This is not an abuse of notation, as the next proposition shows.
-\end{definition}
+  We usually denote such a $g$ by $f^{-1}$.
 
-\begin{proposition}\label{prop:isomorphism_is_equivalence_relation}
-  Isomorphism is an equivalence relation.
-\end{proposition}
+  If we have an isomorphism $f\colon A \to B$, we say that $A$ and $B$ are \defn{isomorphic}, and write $A \simeq B$. This is not an abuse of notation; it is easy to check that isomorphism is an equivalence relation.
+\end{definition}
 
 Next we have two rather odd-looking properties that a morphism can have.
 
@@ -425,32 +455,64 @@ Next we have two rather odd-looking properties that a morphism can have.
     \item Bijective $\iff$ Injective \& Surjective
     \item Injective \& Surjective $\iff$ Mono \& Epi.
   \end{itemize}
-  Thus in $\mathsf{Set}$ a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. This is \emph{not} true in general: a morphism can be monic and epic without being an isomorphism.
+  Thus in $\mathsf{Set}$ a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. A very common mistake is to assume that this holds true in any category. This is wrong! A morphism can be monic and epic without being an isomorphism.
 
-  Take, for example, the category $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps. In order for a morphism $f$ to be monic and epic, it is necessary only that it be injective and surjective, i.e.\ it must have a set-theoretic inverse. However its inverse does not have to be continuous, and therefore may not be a morphism in $\mathsf{Top}$.
+  This occurrs, for example, in the category $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps. This is because of the following chain of reasoning.
+
+  \begin{itemize}
+    \item In order for a continuous map $f$ to be monic, it is certainly sufficient that it be injective, since the injectivity of a set-function implies that for any other functions $\alpha$ and $\beta$,
+      \begin{equation*}
+        f \circ \alpha = f \circ \beta \implies \alpha = \beta.
+      \end{equation*}
+      Thus this is certainly true for the subset of continuous functions. Thus in $\mathsf{Top}$,
+      \begin{equation*}
+        \text{injective} \implies \text{monic}.
+      \end{equation*}
+
+    \item Exactly the same line of reasoning shows that in $\mathsf{Top}$,
+      \begin{equation*}
+        \text{surjective} \implies \text{epic}.
+      \end{equation*}
+
+    \item Thus, any continuous map which is bijective is both mono and epic. However, there are continuous, bijective maps which are not isomorphisms! Take, for example, the map
+      \begin{equation*}
+        \interval[open right]{0}{2 \pi} \to S^{1} \subset \R^{2};\qquad x \mapsto (\cos x, \sin x).
+      \end{equation*}
+      This is clearly continuous and bijective, hence both a monomorphism and an epimorphism in $\mathsf{Top}$. However, it has no inverse in $\mathsf{Top}$: its inverse function is discontinuous at $(1, 0) \in S^{1}$, so it is not a morphism $S^{1} \to \interval[open right]{0}{2 \pi}$.
+  \end{itemize}
 \end{note}
 
-Set theory has some foundational annoyances: not every collection of sets is small enough to be a set, for example. Category theory has its own foundational issues, which for the most part we will avoid. However, there are a few important situations in which foundational questions of size play an unavoidably important role.
+\subsubsection{Smallness and local smallness}
+
+Set theory has some foundational annoyances. Among the most famous of these is Russel's paradox, which demonstrates that that not every collection of sets is small enough to be a set itself. Category theory has its own foundational issues, which for the most part we will avoid. However, there are a few important situations in which foundational questions of size play an unavoidably important role. We said that objects and morphisms of a category need not fit inside a set; we only need them to form a `collection.' We were cagy about what exactly was meant by this. The more precise statement is that they must form a \emph{class,} although we will not have to worry about what a class is.
+
+However, sets are much more well behaved than classes, and it is useful to have a special name for categories whose objects and/or morphisms \emph{really do} fit into a class.
+
 \begin{definition}[small, locally small, hom-set]\label{def:smalllocallysmallcategoryhomset}
   A category $\mathsf{C}$ can have the following properties.
   \begin{itemize}
     \item We say that $\mathsf{C}$ is \defn{small} if $\Obj(\mathsf{C})$ is a set and for all objects $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set.
 
-    \item We say that $\mathsf{C} is $\defn{locally small} if for all $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set. In this case, we call $\Hom_{\mathsf{C}}(A, B)$ the \defn{hom-set}. (Actually, terminology is often abused, and $\Hom_{\mathsf{C}}(A, B)$ is called a hom-set even if it is not a set.)
+    \item We say that $\mathsf{C}$ is \defn{locally small} if for all $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set.
   \end{itemize}
 \end{definition}
 
+If we are working with a category which is locally small, so that $\Hom_{\mathsf{C}}(A,B)$ is always a set, we call $\Hom_{\mathsf{C}}(A, B)$ the \defn{hom-set}. (Actually, terminology is often abused, and $\Hom_{\mathsf{C}}(A, B)$ is called a hom-set even if it is not a set.)
+
 \section{Functors}\label{sec:functors}
-Just as morphisms connect objects in the same category, functors allow us to connect different categories. In fact, functors can be viewed as morphisms in a `category of categories,' whose objects are categories!
+
+Category theory is as fantastically useful as it is because of the effectiveness of the notion of a structure preserving map. Many interesting examples of categories are given to us by considering as objects some class of mathematical entities, and as morphisms the structure-preserving maps between them.
+
+Categories are themselves mathematical objects, so it would be hypocrytical not to look for the correct notion of a structure preserving map between them. This is called a functor.
 
 \begin{definition}[functor]\label{def:functor}
   Let $\mathsf{C}$ and $\mathsf{D}$ be categories. A \defn{functor} $\mathcal{F}$ from $\mathsf{C}$ to $\mathsf{D}$ is the following.
   \begin{itemize}
-    \item It maps each object $X \in \Obj(\mathsf{C})$ an object $\mathcal{F}(X) \in \Obj(\mathsf{D})$.
+    \item It assigns to each object $X \in \Obj(\mathsf{C})$ an object $\mathcal{F}(X) \in \Obj(\mathsf{D})$.
 
-    \item It assigns each morphism $f \in \Hom(X, Y)$ to a morphism $\mathcal{F}(f)$ such that $\mathcal{F}(1_{X}) = 1_{\mathcal{F}(X)}$ for all $X$, and one of the two following properties are satisfied.
+    \item It assigns each morphism $f \in \Hom_{\mathsf{C}}(X, Y)$ to a morphism $\mathcal{F}(f)$ such that $\mathcal{F}(1_{X}) = 1_{\mathcal{F}(X)}$ for all $X$, and one of the two following properties are satisfied.
       \begin{itemize}
-        \item The morphism $f \in \Hom(\mathcal{F}(X), \mathcal{F}(Y))$ and if $f:X \to Y$ and $g\colon Y \to Z$, then
+        \item The morphism $f \in \Hom(\mathcal{F}(X), \mathcal{F}(Y))$ and if $f\colon X \to Y$ and $g\colon Y \to Z$, then
           \begin{equation*}
             \mathcal{F}(g \circ f) = \mathcal{F}(g) \circ \mathcal{F}(f).
           \end{equation*}
@@ -470,7 +532,10 @@ Just as morphisms connect objects in the same category, functors allow us to con
   \begin{equation*}
     \mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}.
   \end{equation*}
+  Later, we will stop using the squiggly-arrow notation, but it is helpful for the time being to keep morphisms straight from functors.
 \end{notation}
+
+Recall the so-called opposite category (\hyperref[def:oppositecategory]{Definition~\ref*{def:oppositecategory}}).
 
 \begin{note}\label{note:contravariantfunctorisfunctorfromoppositecategory}
   One can also define a contravariant functor $\mathsf{C} \rightsquigarrow \mathsf{D}$ as a covariant functor $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{D}$. This is actually much more convenient than having two different types of functors lying around, so this is what we will do. Thus, a \emph{functor} will always be a \emph{covariant functor}.
@@ -604,7 +669,7 @@ As we will see, the cartesian product of sets is a functor from the product cate
 This example makes clear another common theme of natural transformations: they formalize the idea of `the same function' between different objects. They allow us to make precise statements like `$\mathrm{swap}_{A, B}$ and $\mathrm{swap}_{C, D}$ are somehow the same, despite the fact that they are in no way equal as functions.'
 
 \begin{definition}[natural transformation]\label{def:naturaltransformation}
-  let $\mathsf{C}$ and $\mathsf{D}$ be categories, and let $\mathcal{F}$ and $\mathcal{G}$ be covariant functors from $\mathsf{C}$ to $\mathsf{D}$. A \defn{natural transformation} $\eta$ between $\mathcal{F}$ and $\mathcal{G}$ consists of
+  let $\mathsf{C}$ and $\mathsf{D}$ be categories, and let $\mathcal{F}$ and $\mathcal{G}$ be functors from $\mathsf{C}$ to $\mathsf{D}$. A \defn{natural transformation} $\eta$ between $\mathcal{F}$ and $\mathcal{G}$ consists of
   \begin{itemize}
     \item for each object $A \in \Obj(\mathsf{C})$ a morphism $\eta_{A}\colon \mathcal{F}(A) \to \mathcal{G}(A)$, such that
     \item for all $A$, $B \in \Obj(C)$, for each morphism $f \in \Hom(A,B)$, the diagram
@@ -616,9 +681,6 @@ This example makes clear another common theme of natural transformations: they f
       \end{equation*}
       commutes.
   \end{itemize}
-
-  If the functors $\mathcal{F}$ and $\mathcal{G}$ are contravariant, the changes needed to make the definition make sense are obvious: basically, some arrows need to be reversed. However, this is one of those times where it's easier, in line with \hyperref[note:contravariantfunctorisfunctorfromoppositecategory]{Note~\ref*{note:contravariantfunctorisfunctorfromoppositecategory}}, to just pretend that we have a covariant functor from the opposite category.
-
 \end{definition}
 
 \begin{definition}[natural isomorphism]\label{def:naturalisomorphism}
