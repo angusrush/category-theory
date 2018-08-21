@@ -1,0 +1,749 @@
+
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+
+\chapter{Internalization}
+
+One of the reasons that category theory is so useful is that it makes generalizing concepts very easy. One of the most powerful ways of doing this is known as \emph{internalization}.
+
+
+\section{Internal groups}
+
+\begin{definition}[group object]
+  \label{def:groupobject}
+  Let $\mathsf{C}$ be a category with binary products $\times$ and a terminal object $*$. A \defn{group object} in $\mathsf{C}$ (or a \emph{group internal to $\mathsf{C}$}) is an object $G \in \Obj(\mathsf{C})$ together with
+  \begin{itemize}
+    \item a map $e\colon * \to G$, called the \emph{unit map};
+
+    \item a map $(-)^{-1}\colon G \to G$, called the \emph{inverse map}; and
+
+    \item a map $m\colon G \times G \to G$, called the \emph{multiplication map}
+  \end{itemize}
+  such that
+  \begin{itemize}
+    \item Multiplication is associative, i.e. the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}
+          G \times G \times G
+          \arrow[r, "\mathrm{id}_{G} \times m"]
+          \arrow[d, swap, "m \times \mathrm{id}_{G}"]
+          & G \times G
+          \arrow[d, "m"]
+          \\
+          G \times G
+          \arrow[r, swap, "m"]
+          & G
+        \end{tikzcd}
+      \end{equation*}
+
+    \item The unit picks out the `identity element,' i.e. the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}
+          G
+          \arrow[r, "e \times \mathrm{id}_{G}"]
+          \arrow[d, swap, "\mathrm{id}_{G} \times e"]
+          & G \times G
+          \arrow[d, "m"]
+          \\
+          G \times G
+          \arrow[r, swap, "m"]
+          & G
+        \end{tikzcd}
+      \end{equation*}
+
+    \item The inverse map behaves as an inverse, i.e. the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}[row sep=3.6em,column sep=1em]
+          & G\times G
+          \arrow[rr,"(-)^{-1}\times\id"]
+          & & G\times G
+          \arrow[dr,"m"]
+          \\
+          G
+          \arrow[ur,"\delta"]
+          \arrow[rr,"\exists!"]
+          \arrow[dr,"\delta"']
+          & & *
+          \arrow[rr,"e"]
+          & & G
+          \\
+          & G\times G
+          \arrow[rr,"\id\times (-)^{-1}"']
+          & & G\times G
+          \arrow[ur,"m"']
+        \end{tikzcd}
+      \end{equation*}
+      Here, $\delta\colon G \to G \times G$ is the diagonal map defined uniquely by the universal property of the product
+      \begin{equation*}
+        \begin{tikzcd}
+          & G
+          \arrow[dr, "\mathrm{id}_{G}"]
+          \arrow[dl, swap, "\mathrm{id}_{G}"]
+          \arrow[d, "\delta"]
+          \\
+          G
+          & G \times G
+          \arrow[l, "\pi_{1}"]
+          \arrow[r, swap, "\pi_{2}"]
+          & G
+        \end{tikzcd}.
+      \end{equation*}
+  \end{itemize}
+
+  It will be convenient to represent the above data in the following way.
+  \begin{equation*}
+    \begin{tikzcd}
+      G \times G
+      \arrow[d, "m"]
+      \\
+      G
+      \arrow[loop right, "i"]
+      \\
+      *
+      \arrow[u, swap, "e"]
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+%%fakesubsection Internal categories
+%\subsection{Internal categories}
+%\begin{definition}[internal category]
+%  \label{def:internalcategory}
+%  Let $\mathsf{A}$ be a category with pullbacks.\footnote{This condition can be relaxed; see \hyperref[note:internalcategoriesdontneedallpullbacks]{Note \ref*{note:internalcategoriesdontneedallpullbacks}}.} A \defn{category internal to $\mathsf{A}$} is a sextuple $(C_{0}, C_{1}, s, t, e, c)$, where
+%  \begin{itemize}
+%    \item $C_{0} \in \Obj(\mathsf{A})$ is the \emph{object of objects},
+%    \item $C_{1} \in \Obj(\mathsf{A})$ is the \emph{object of morphisms},
+%    \item $s$, $t\colon C_{1} \to C_{0}$ are morphisms called the \emph{source} and \emph{target morphisms}.
+%    \item $e\colon C_{0} \to C_{1}$ is the \emph{identity-assigning morphism}
+%    \item $c\colon C_{1} \times_{C_{0}} C_{1} \to C_{1}$ is the \emph{composition morphism},
+%  \end{itemize}
+%  where $C_{1} \times_{C_{0}} C_{1}$ is given by the following pullback square.
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      C_{1} \times_{C_{0}} C_{1}
+%      \arrow[r, "\pi_{2}"]
+%      \arrow[d, swap, "\pi_{1}"]
+%      & C_{1}
+%      \arrow[d, "s"]
+%      \\
+%      C_{1}
+%      \arrow[r, swap, "t"]
+%      & C_{0}
+%    \end{tikzcd}
+%  \end{equation*}
+%
+%  Further, we require that the following diagrams commute.
+%  \begin{itemize}
+%    \item The identity morphism on each object goes to and from that object.
+%      \begin{equation*}
+%        \begin{tikzcd}
+%          C_{0}
+%          \arrow[r, "e"]
+%          \arrow[dr, swap, "\id_{C_{0}}"]
+%          & C_{1}
+%          \arrow[d, "s"]
+%          \\
+%          & C_{0}
+%        \end{tikzcd}
+%        \qquad
+%        \begin{tikzcd}
+%          C_{0}
+%          \arrow[r, "e"]
+%          \arrow[dr, swap, "\id_{C_{0}}"]
+%          & C_{1}
+%          \arrow[d, "t"]
+%          \\
+%          & C_{0}
+%        \end{tikzcd}
+%      \end{equation*}
+%
+%    \item The source and target morphisms $s$ and $t$ should behave naturally under composition, i.e. we should have a law of the form: The source of $f \circ g$ should be the source of $g$, and the target should be the target of $f$.
+%      \begin{equation*}
+%        \begin{tikzcd}
+%          C_{1} \times_{C_{0}} C_{1}
+%          \arrow[r, "c"]
+%          \arrow[d, swap, "\pi_{1}"]
+%          & C_{1}
+%          \arrow[d, "s"]
+%          \\
+%          C_{1}
+%          \arrow[r, swap, "s"]
+%          & C_{0}
+%        \end{tikzcd}
+%        \qquad
+%        \begin{tikzcd}
+%          C_{1} \times_{C_{0}} C_{1}
+%          \arrow[r, "c"]
+%          \arrow[d, swap, "\pi_{1}"]
+%          & C_{1}
+%          \arrow[d, "s"]
+%          \\
+%          C_{1}
+%          \arrow[r, swap, "s"]
+%          & C_{0}
+%        \end{tikzcd}
+%      \end{equation*}
+%
+%    \item Composition should be associative.
+%      \begin{equation*}
+%        \begin{tikzcd}[column sep=large, row sep=large]
+%          C_{1} \times_{C_{0}} C_{1} \times_{C_{0}} C_{1}
+%          \arrow[r, "c \times_{C_{0}} \id_{C_{1}}"]
+%          \arrow[d, swap, "\id_{C_{1}} \times_{C_{0}} c"]
+%          & C_{1} \times_{C_{0}} C_{1}
+%          \arrow[d, "c"]
+%          \\
+%          C_{1} \times_{C_{0}} C_{1}
+%          \arrow[r, swap, "c"]
+%          & C_{1}
+%        \end{tikzcd}
+%      \end{equation*}
+%
+%    \item The units should act like units.
+%      \begin{equation*}
+%        \begin{tikzcd}[column sep=large, row sep=large]
+%          C_{0} \times_{C_{0}} C_{1}
+%          \arrow[r, "e \times_{C_{0}} \id_{C_{1}}"]
+%          \arrow[dr, swap, "\pi_{2}"]
+%          & C_{1} \times_{C_{0}} C_{1}
+%          \arrow[d, "c"]
+%          & C_{1} \times_{C_{0}} C_{0}
+%          \arrow[l, swap, "\id_{C_{1}} \times_{C_{0}} e"]
+%          \arrow[dl, "\pi_{1}"]
+%          \\
+%          & C_{1}
+%        \end{tikzcd}
+%      \end{equation*}
+%  \end{itemize}
+%
+%  We can represent diagrammatically the information in the sextuple $(C_{0}, C_{1}, s, t, e, c)$ as follows.
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      C_{1} \times_{C_{0}} C_{1}
+%      \arrow[d, "c"]
+%      \\
+%      C_{1}
+%      \arrow[d, shift left, bend left, "t"]
+%      \arrow[d, shift right, bend right, swap, "s"]
+%      \\
+%      C_{0}
+%      \arrow[u, swap, "i"]
+%    \end{tikzcd}
+%  \end{equation*}
+%\end{definition}
+%
+%\begin{note}
+%  We need the fibered product in the definition of the pullback to ensure that (in the language of elements) given morphisms $f$ and $g$, we can only form the composition if the codomain of $f$ is equal to the domain of $g$.
+%\end{note}
+%
+%\begin{note}
+%  \label{note:internalcategoriesdontneedallpullbacks}
+%  It is not strictly necessary that $\mathsf{A}$ have pullbacks; all that is necessary is that $\mathsf{A}$ have pullbacks along $s$ and $t$. This is a considerably less restrictive assumption.
+%\end{note}
+%
+%\begin{example}
+%  A category internal to $\mathsf{Set}$ is a small category.
+%\end{example}
+%
+%\begin{definition}[groupoid]
+%  \label{def:groupoid}
+%  A \defn{groupoid} is a category in which every morphism is an isomorphism.
+%\end{definition}
+%
+%\begin{note}
+%  A groupoid with a single object coincides with idea given in \hyperref[eg:groupsaregroupoidswithoneobject]{Example \ref*{eg:groupsaregroupoidswithoneobject}}. This led Aluffi to make the following joke in \cite{aluffi-algebra-chapter-0}.
+%\end{note}
+%
+%\begin{joke}[Aluffi, \cite{aluffi-algebra-chapter-0}, pg. 41]
+%  A group is a groupoid with a single object.
+%\end{joke}
+%
+%\begin{definition}[internal groupoid]
+%  \label{def:internalgroupoid}
+%  Let $\mathsf{A}$ be a category with `enough pullbacks' (see \hyperref[note:internalcategoriesdontneedallpullbacks]{Note \ref*{note:internalcategoriesdontneedallpullbacks}}), and let $C = (C_{0}, C_{1}, s, t, e, c)$ be a category internal to $\mathsf{A}$. We can turn $C$ into a \defn{groupoid internal to $\mathsf{A}$} with an additional morphism
+%  \begin{equation*}
+%    i\colon C_{1} \to C_{1},
+%  \end{equation*}
+%  the \emph{inverse morphism}, such that the following diagrams commute.
+%  \begin{itemize}
+%    \item The source of the morphism is equal to the target of the inverse, and vice versa.
+%      \begin{equation*}
+%        \begin{tikzcd}
+%          C_{1}
+%          \arrow[r, "i"]
+%          \arrow[rd, swap, "t"]
+%          & C_{1}
+%          \arrow[d, "s"]
+%          \\
+%          & C_{0}
+%        \end{tikzcd}
+%        \qquad
+%        \begin{tikzcd}
+%          C_{1}
+%          \arrow[r, "i"]
+%          \arrow[rd, swap, "s"]
+%          & C_{1}
+%          \arrow[d, "t"]
+%          \\
+%          & C_{0}
+%        \end{tikzcd}
+%      \end{equation*}
+%
+%    \item The inverse behaves like a real inverse on the right,
+%      \begin{equation*}
+%        \begin{tikzcd}[column sep=large, row sep=large]
+%          C_{1}
+%          \arrow[r, "\Delta"]
+%          \arrow[d, swap, "s"]
+%          & C_{1} \times_{C_{0}} C_{1}
+%          \arrow[r, "\id_{C_{1}} \times_{C_{0}} i"]
+%          & C_{1} \times_{C_{0}} C_{1}
+%          \arrow[d, "c"]
+%          \\
+%          C_{0}
+%          \arrow[rr, swap, "e"]
+%          & & C_{1}
+%        \end{tikzcd}
+%      \end{equation*}
+%      and on the left.
+%      \begin{equation*}
+%        \begin{tikzcd}[column sep=large, row sep=large]
+%          C_{1}
+%          \arrow[r, "\Delta"]
+%          \arrow[d, swap, "s"]
+%          & C_{1} \times_{C_{0}} C_{1}
+%          \arrow[r, "\id_{C_{1}} \times_{C_{0}} i"]
+%          & C_{1} \times_{C_{0}} C_{1}
+%          \arrow[d, "c"]
+%          \\
+%          C_{0}
+%          \arrow[rr, swap, "e"]
+%          & & C_{1}
+%        \end{tikzcd}
+%      \end{equation*}
+%  \end{itemize}
+%\end{definition}
+%
+%\begin{note}
+%  An internal groupoid should be thought of as a family of internal groups indexed by the `elements' of the object of objects.
+%\end{note}
+%
+%\begin{lemma}
+%  \label{lemma:interalgroupoidsaregroupobjectsinslicecategory}
+%  Let $C = (C_{0}, C_{1}, s, t, e, c, i)$ be a groupoid internal to $\mathsf{C}$ such that $s = t$. Then $C$ is equivalently a group internal to the slice category $(\mathsf{C} \downarrow C_{0})$.
+%\end{lemma}
+%
+%%\section{Higher categories} \label{sec:highercategories}
+%%This section follows \cite{baez-higher-categories} closely.
+%%
+%%One of the main benefits of categories is that they let us distinguish between different notions of sameness. In a set, two elements are either the same or different, and that is that. In a category, however, objects can be the same in certain ways without being identical: there are many $n$-dimensional real vector spaces, but they are all isomorphic. However this notion of `sameness without identity' is not omnipresent in category theory; we still have to resort to the limited, set-theoretic sense of equivalence when talking about morphisms.
+%%
+%%In higher category theory, this is remedied by introducing 2-morphisms, which are `morphisms between morphisms.' We can then say that two 1-morphisms are isomorphic if there is a pair of mutually inverse 2-morphisms between them. If you take a category and add 2-morphisms, what you get is called a 2-category.
+%%\begin{equation*}
+%%  \begin{tikzcd}[row sep=huge, column sep=huge]
+%%    A
+%%    \arrow[r, bend left, "f", ""{name=UL, anchor=south east}, ""{name=UR, anchor=south west}]
+%%    \arrow[r, swap, bend right, "g", ""{name=DL, anchor=north east}, ""{name=DR, anchor=north west}]
+%%    \arrow[Rightarrow, from=UL , to=DL,]
+%%    \arrow[Leftarrow, from=UR , to=DR,]
+%%    & B
+%%  \end{tikzcd}
+%%\end{equation*}
+%%Of course, we now have no notion of isomorphism for 2-categories, so we must add 3-morphisms, etc. The result of the $n$th iteration of this procedure is called an $n$-category. If you keep going forever (or more rigorously, formally consider the object you'd get if you did), you get an $\infty$-category.
+%%
+%%You may have noticed that we have been using the same notation ($\Rightarrow$) for 2-morphisms and natural transformations. The reason for this, as you may have guessed, is that natural transformations are the morphisms in the 2-category $\mathsf{Cat}$ of (small) categories.
+%
+%\chapter{A few concepts from algebraic geometry}
+%\section{Elementary notions}
+%The elementary notions of algebraic geometry are assumed, but a few definitions are given here for concreteness. For the remainder of this section, let $k$ be an algebraically closed field of characteristic $0$.
+%\begin{definition}[Zariski topology]
+%  \label{def:zariskitopology}
+%  We define a topology on $k^{n}$, called the \defn{Zariski topology}, as follows. Let $A = k[x_{1},\dots,x_{n}]$ be the ring of polynomials on $k^{n}$. For any subset $S \subseteq A$, define
+%  \begin{equation*}
+%    Z(S) = \left\{ (x_{1},\dots,x_{n}) \in k^{n}\,\Big|\, f(x_{1},\dots,x_{n}) = 0\text{ for all }f \in S \right\}.
+%  \end{equation*}
+%  Clearly, if $(S) = \mathfrak{a}$ is the ideal generated by $S$, then $Z(S) = Z(\mathfrak{a})$.
+%
+%  The Zariski topology on $k^{n}$ is then the topology whose closed sets are given by $Z(\mathfrak{a})$ for ideals $\mathfrak{a}$ of $A$.
+%\end{definition}
+%
+%\begin{definition}[affine space]
+%  \label{def:affinespace}
+%  Denote by $\mathbb{A}^{n}$ the space $k^{n}$, together with the Zariski topology.
+%
+%  Note that if this were a real textbook on algebraic geometry, we would be careful about the definition of $\mathbb{A}^{n}$, defining it as a torsor over the the vector space $k^{n}$.
+%\end{definition}
+%
+%\begin{definition}[affine algebraic variety]
+%  \label{def:algebraicvariety}
+%  A subset $S \subseteq \mathbb{A}^{n}$ is called an \defn{affine algebraic variety} if it is closed in the Zariski topology.
+%\end{definition}
+%
+%\begin{note}
+%  Many authors (e.g. Hartshorne \cite{hartshorne-algebraic-geometry}) demand that a variety be irreducible.
+%\end{note}
+%
+%\section{Sheaves}
+%\subsection{Presheaves}
+%
+%\begin{definition}[category of opens]
+%  \label{def:opencategory}
+%  Let $(X, \tau)$ be a topological space. The \defn{category of opens} of $X$, $\mathsf{Open}(X)$ is the category whose objects are
+%  \begin{equation*}
+%    \Obj(\mathsf{Open(X)}) = \tau
+%  \end{equation*} and whose morphisms are, for $U$, $V \in \tau$,
+%  \begin{equation*}
+%    \Hom(U,V) =
+%    \begin{cases}
+%      r(V,U), & U \subseteq V \\
+%      \emptyset, & \text{otherwise}.
+%    \end{cases}
+%  \end{equation*}
+%
+%  To put it another way, if $U$ and $V$ are open sets in $X$, then there is exactly one morphism from $U$ to $V$ if $U \subseteq V$, and none otherwise.
+%\end{definition}
+%
+%Of course, we must check that $\mathsf{Open}(X)$ really is a category.
+%\begin{enumerate}
+%  \item If $U \subseteq V$ and $V \subseteq W$, then $U \subseteq W$, so we are forced to define the composition
+%    \begin{equation*}
+%      r(W,V) \circ r(V,U) = r(W,U).
+%    \end{equation*}
+%  \item The composition $\circ$ is associative since set inclusion is.
+%
+%  \item The identity morphism $r(U,U)$ is the identity with respect to composition: restricting a set to itself is the same thing as not restricting.
+%\end{enumerate}
+%
+%\begin{definition}[presheaf]
+%  \label{def:presheaf}
+%  A \defn{presheaf} on a topological space $(X,\tau)$ is a contravariant functor from $\mathsf{Open}(X)$ to some category $\mathsf{C}$. Usually, $\mathsf{C}$ will be the category $\mathsf{Ring}$ of rings.
+%\end{definition}
+%
+%\begin{example}[important example]
+%  \label{eg:functionpresheaf}
+%  The prototypical example of a presheaf on a topological space $X$ is the presheaf $\mathcal{C}_{X}$ of real continuous functions on $X$. Since by \hyperref[def:presheaf]{Definition \ref*{def:presheaf}} $\mathcal{C}_X$ must be a contravariant functor, we need to specify what $\mathcal{C}_{X}$ does to the objects $\Obj(\mathsf{Open}(X))$ and the morphisms $\mathrm{res}_{V,U}$.
+%
+%  For every open set $U \in \Obj(\mathsf{Open}(X))$, define
+%  \begin{equation*}
+%    \mathcal{C}_{X}(U) = \left\{ f\colon U \to \R\,\big| \, f\; \mathrm{ continuous} \right\},
+%  \end{equation*}
+%  the ring of all real continuous functions $U \to \R$.
+%
+%  Recall that for two open sets $U$ and $V \in \Obj(\mathsf{Open}(X))$, there is a unique morphism $r(V,U)$ from $U$ to $V$ if and only if $V \subseteq U$. Thus, we need to assign to each $r(V,U)$ a ring homomorphism from $\mathcal{C}_{X}(V)$ to $\mathcal{C}_{X}(U)$. We use the restriction homomorphism, which maps $f \in \mathcal{C}_{X}(V)$ to $f|_{U}$, its restriction to $U$. We denote this by
+%  \begin{equation*}
+%    \mathrm{res}_{V,U}(f) = f|_{U}.
+%  \end{equation*}
+%
+%  In other words,
+%  \begin{equation*}
+%    \mathcal{C}_{X}(r(V,U)) = \mathrm{res}_{V,U}.
+%  \end{equation*}
+%\end{example}
+%
+%\begin{example}
+%  \label{eg:smoothpresheaf}
+%  Let $M$ be a $C^{\infty}$ manifold, and let $\mathsf{Open}(M)$ be its category of opens. Then for each $U \in \Obj(\mathsf{Open}(M))$, define a functor $C^{\infty}\colon \mathsf{Open}(M)^{\text{op}} \rightsquigarrow \mathsf{Ring}$ on objects by
+%  \begin{equation*}
+%    C^{\infty}(U) = \left\{ f\colon U \to \R\,\big|\, f\text{ smooth} \right\},
+%  \end{equation*}
+%  and on morphisms by restriction. Then $C^{\infty}$ is a presheaf.
+%\end{example}
+%
+%\subsection{Sheaves}
+%\begin{definition}[sheaf]
+%  \label{def:sheaf}
+%  Let $X$ be a topological space. A presheaf $\mathcal{F}$ on $X$ is called a \defn{sheaf} if it satisfies the following:
+%  \begin{enumerate}
+%    \item \textbf{Identity:} Let $U \subseteq X$ be an open set, and let $\left\{ U_{i} \right\}$ be an open cover of $U$. If $f_{1}$, $f_{2} \in \mathcal{F}(U)$ such that
+%      \begin{equation*}
+%        f_{1}|_{U_{i}} = f_{2}|_{U_{i}}
+%      \end{equation*}
+%      for all $i$, then $f_{1} = f_{2}$. That is to say, if two sections of $\mathcal{F}$ over $U$ agree on every element of an open cover of $U$, then they must agree on $U$.
+%
+%    \item \textbf{Glueability:} Suppose $\left\{ U_{i} \right\}$ is an open cover of $U$, and $f_{i} \in \mathcal{F}(U_{i})$ is a collection of sections of $\mathcal{F}$ such that if $U_{i} \cap U_{j} \neq \emptyset$ then
+%      \begin{equation*}
+%        f_{i}|_{U_{i} \cap U_{j}} = f_{j}|_{U_{i} \cap U_{j}}.
+%      \end{equation*}
+%      Then there exists some $f \in \mathcal{F}(U)$ such that
+%      \begin{equation*}
+%        f|_{U_{i}} = f_{i}
+%      \end{equation*}
+%      for all $i$. In other words, If we have sections of an open cover of $U$ which agree on overlaps, then we can glue them together to get a section on all of $U$.
+%  \end{enumerate}
+%\end{definition}
+%
+%\begin{note}
+%  Here is another definition of a sheaf: A presheaf $\mathcal{F}$ on a topological space $X$ is a \emph{sheaf} if for any open cover $\left\{ U_{i} \right\}_{i \in I}$ of an open set $U$, the diagram
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      \mathcal{F}(U)
+%      \arrow[r, "\gamma"]
+%      & \prod\limits_{i \in I} \mathcal{F}(U_{i})
+%      \arrow[r, shift left, "\alpha"]
+%      \arrow[r, shift right, swap, "\beta"]
+%      & \prod\limits_{i,j \in I} \mathcal{F}(U_{i} \cap U_{j})
+%    \end{tikzcd}
+%  \end{equation*}
+%  is an equalizer.
+%
+%  The map $\gamma$ is constructed as follows. For each $U_{i} \subseteq U$, there is a restriction map $\mathrm{res}_{U_{i}, U}\colon \mathcal{F}(U) \to \mathcal{F}(U_{i})$. The universal property of the product turns these into one map $\mathcal{F}(U) \to \prod_{i \in I} \mathcal{F}(U_{i})$.
+%
+%  The map $\alpha$ is constructed similary from the maps $\mathrm{res}_{U_{i} \cap U_{j}, U_{i}}$.
+%
+%  For each $\mathcal{F}(U_{i} \cap U_{j})$, there is a canonical projection down to $\mathcal{F}(U_{j})$, and from there a restriction $\mathrm{res}_{U_{j} \cap U_{j}, U_{i}}$. The map $\beta$ is the composition of these.
+%
+%  To see that this is an equality,
+%\end{note}
+%
+%\begin{example}[important example continued]
+%  \label{eg:functionsheaf}
+%  The presheaf $\mathcal{C}_{X}$ from \hyperref[eg:functionpresheaf]{Example \ref*{eg:functionpresheaf}} is a sheaf, as is the presheaf from \hyperref[eg:smoothpresheaf]{Example \ref*{eg:smoothpresheaf}}.
+%\end{example}
+%
+%\begin{example}[a presheaf which is not a sheaf]
+%  \label{eg:presheafwhichisnotasheaf}
+%  Let $X = \R$, and define a presheaf $\mathcal{F}$ on $X$ via
+%  \begin{equation*}
+%    \mathcal{F}(U) = \left\{ f\colon U \to \R\, \big|\, f\;\mathrm{ bounded} \right\}.
+%  \end{equation*}
+%  This is a presheaf since the restriction of a bounded map is bounded.
+%
+%  However, we do not have condition 2 of \hyperref[def:sheaf]{Definition \ref*{def:sheaf}}: glueability. To see this, consider the following open cover
+%  \begin{equation*}
+%    \R = \bigcup_{n=-\infty}^{\infty} U_{n}, \qquad U_{n} = (n-1, n+1).
+%  \end{equation*}
+%  Clearly, the identity function $\id_{U_{n}}$ on $U_{n}$ is bounded for all $n$. However, the function $f:\R \to \R$ which agrees with $\id_{U_{n}}$ on all the $U_{n}$ is the identity function $\id_{\R}$, which is unbounded.
+%
+%\end{example}
+%
+%
+%\begin{definition}[stalk]
+%  \label{def:stalk}
+%  Let $X$ be a topological space, $x \in X$, and let $\mathcal{F}$ be a presheaf on $X$. The \defn{stalk} of $\mathcal{F}$ at $x$ is
+%  \begin{equation*}
+%    \mathcal{F}_{x} = \left\{ \left( f, U \right)\,\big|\, x \in U,\, f \in \mathcal{F}(U) \right\}/\sim,
+%  \end{equation*}
+%  where
+%  \begin{equation*}
+%    \left( f, U \right) \sim \left( g, V \right)
+%  \end{equation*}
+%  if there exists an open set $W \subseteq U \cap V$ with $x\in W$ such that $f|_{W} = g|_{W}$.
+%\end{definition}
+%
+%\begin{lemma}
+%  If $\mathcal{F}$ is a sheaf of objects with some algebraic structure, like rings, then the stalk $\mathcal{F}_{x}$ inherits this algebraic structure.
+%\end{lemma}
+%\begin{proof}
+%  For the sake of concreteness, consider the case in which $\mathcal{F}$ is a presheaf of rings. Let $[(f, U)]$, $[(g, V)] \in \mathcal{F}_{x}$. We need to define
+%  \begin{equation*}
+%    [(f, U)] + [(g, V)]\qquad\text{and}\qquad [(f, U)] \cdot [(g, V)].
+%  \end{equation*}
+%  In each case, we can simply use representatives of the equivalence classes, letting
+%  \begin{equation*}
+%    [(f, U)] + [(g, V)] = [(f+g, U \cap V)],\qquad\text{and}\qquad[(f, U)]\cdot [(g, V)] = [(f\cdot g, U \cap V)].
+%  \end{equation*}
+%  We need of course to prove well-definition: that if $(f, U) \sim (f', U')$ and $(g, V) \sim (g', V')$, then
+%  \begin{equation*}
+%    [f+g] = [f'+g'],
+%  \end{equation*}
+%  and similarly for multiplication.
+%
+%  But if $(f, U) \sim (f', U')$, then there exists an open set $U'' \in U \cap U'$ with $x \in U''$ such that $f|_{U''} = f'|_{U''}$, and similarly $V''$. But since $x \in U''$ and $x \in V''$, we must also have that $x \in U'' \cap V''$. Since $f$ and $f'$ (and $g$ and $g'$) agree on $U'' \cap V''$, so must $f+g$ and $f' + g'$. Thus $[(f + g, U \cap V)]$ is well-defined.
+%
+%  The proof of the well-definition of multiplication is exactly analogous.
+%\end{proof}
+%
+%We now drop the open set in the notation of an element of a stalk, writing $[f]$ instead of $[(f, U)]$.
+%
+%\begin{example}[important example continued]
+%  \label{eg:stalksofcx}
+%  What do the stalks of $\mathcal{C}_{X}$ (\hyperref[eg:functionpresheaf]{Example \ref*{eg:functionpresheaf}}) look like? Let $x \in X$, and define $\varphi\colon (\mathcal{C}_{X})_{x} \to \R$ via
+%  \begin{equation*}
+%    \varphi\colon [f] \mapsto f(x).
+%  \end{equation*}
+%
+%  This is a ring homomorphism since
+%  \begin{equation*}
+%    \varphi([f][g]) = \varphi([fg]) = (fg)(x) = f(x)g(x) = \varphi([f])\varphi([g]),
+%  \end{equation*}
+%  and similarly for addition. It is also surjective; to see this, we need only find a single function which maps to any $r \in \R$. (The constant function will do.)
+%
+%  Denote $\ker(\varphi) = \mathfrak{m}_{x}$. By the first isomorphism theorem,
+%  \begin{equation*}
+%    (\mathcal{C}_{X})_{x} / \mathfrak{m}_{x} \simeq \R.
+%  \end{equation*}
+%  But since $\R$ is a field, $\mathfrak{m}_{x}$ must be maximal.
+%
+%  If $\mathfrak{M} \neq \mathfrak{m}_{x}$ is another maximal ideal, then there must exist $[g] \in \mathfrak{M} \setminus \mathfrak{m}_{x}$ (since if $\mathfrak{M} \subseteq \mathfrak{m}_{x}$, $\mathfrak{M}$ isn't maximal). Since $[g] \notin \ker(\varphi)$, $g(x) \neq 0$. But since $g$ is continuous, there exists a neighborhood $V$ of $x$ such that $g \neq 0$ on $V$.
+%
+%  But then g is invertible on $V$, and hence is invertible in the stalk $(\mathcal{C}_{X})_{x}$; thus, $\mathfrak{M}$ contains an invertible element, hence contains the identity $\id_{R}$, hence is the whole ring; and we have a contradiction.
+%
+%  Thus each stalk of $\mathcal{C}_{X}$ has a unique maximal ideal.
+%\end{example}
+%
+%\subsection{Ringed spaces}
+%\begin{definition}[ringed space]
+%  \label{def:ringedspace} A \defn{ringed space} is a double $(X, \mathcal{O}_{X})$, where $X$ is a topological space and $\mathcal{O}_{X}$ is a sheaf of rings on $X$.
+%\end{definition}
+%
+%\begin{definition}[local ring]
+%  \label{def:local ring}
+%  A ring $R$ is \defn{local} if it has a unique maximal ideal.
+%\end{definition}
+%
+%\begin{definition}[locally ringed space]
+%  A \defn{locally ringed space} is a ringed space whose stalks are local rings.
+%\end{definition}
+%
+%\begin{example}[important example continued]
+%  By the toil of \hyperref[eg:stalksofcx]{Example \ref*{eg:stalksofcx}}, each stalk of $\mathcal{C}_{X}$ is a local ring, hence $\mathcal{C}_{X}$ is a locally ringed space.
+%\end{example}
+%
+%\begin{note}
+%  It is \emph{not} necessary that each local section of a locally ringed space be a local ring; only the stalks must be local.
+%\end{note}
+%
+%There are many ways to build sheaves. Here are two.
+%
+%\begin{definition}[restriction sheaf]
+%  \label{def:restrictionsheaf}
+%  Let $X$ be a topological space, and $\mathcal{F}$ a sheaf on $X$. Let $U$ be an open subset of $X$. The \defn{restriction sheaf} $\mathcal{F}|_{U}$ is the sheaf which maps open subsets $V\subseteq U$ to their images under $\mathcal{F}$:
+%  \begin{equation*}
+%    \mathcal{F}_{U}(V) = \mathcal{F}(V),\qquad\text{for }V \subseteq U.
+%  \end{equation*}
+%
+%  For open sets $V$, $W \subseteq U$, the restriction $r(W,V)$ is mapped to
+%  \begin{equation*}
+%    \mathcal{F}|_{U}(r(W,V)) \equiv \mathcal{F}(r(W,V)) = \mathrm{res}_{W,V},
+%  \end{equation*}
+%  the same restriction as in $\mathcal{F}$.
+%\end{definition}
+%
+%\begin{definition}[pushforward sheaf]
+%  \label{def:pushforwardsheaf}
+%  Let $X$ and $Y$ be topological spaces, $\pi\colon X \to Y$ a continuous function. Let $\mathcal{F}$ be a sheaf on $X$. Define the \defn{pushforward of $\mathcal{F}$ by $\pi$}, denoted $\pi_{*}\mathcal{F}$, by
+%  \begin{equation*}
+%    (\pi_{*}\mathcal{F})(V) = \mathcal{F}(\pi^{-1}(V)),\qquad V\subseteq Y\text{ open},
+%  \end{equation*}
+%  and
+%  \begin{equation*}
+%    (\pi_{*}\mathcal{F})(r(V,U)) = \mathrm{res}_{\pi^{-1}(V), \pi^{-1}(U)}.
+%  \end{equation*}
+%\end{definition}
+%
+%We can view sheaves as objects in a category. We can then talk about their morphisms, and find the correct definition of a sheaf isomorphism.
+%
+%First, we need to define a homomorphism of presheaves. Since we defined a presheaf on a topological space $X$ as a functor $\mathsf{Open}(X) \rightsquigarrow \mathsf{C}$ for some category $\mathsf{C}$ (\hyperref[def:presheaf]{Definition \ref*{def:presheaf}}), we can define a sheaf homomorphism as a morphism in the functor category $\mathsf{C}^{\mathsf{Open}(X)}$, which is to say
+%\begin{definition}[presheaf homomorphism]
+%  \label{def:presheafhomomorphism}
+%  Let $\mathcal{C}$, $\mathcal{D}$ be $\mathsf{C}$-presheaves on a topological space $X$. A \defn{presheaf homomorphism} $\mathcal{C} \to \mathcal{D}$ is a morphism in the category $\mathsf{C}^{\mathsf{Open}(X)}$, i.e. a natural transformation between $\mathcal{C}$ and $\mathcal{D}$.
+%\end{definition}
+%
+%\begin{definition}[sheaf homomorphism]
+%  \label{def:sheafhomomorphism}
+%  Since sheaves are in particular presheaves, a \defn{sheaf homomorphism} is simply a presheaf homomorphism between sheaves.
+%\end{definition}
+%\begin{definition}[sheaf isomorphism]
+%  \label{def:sheafisomorphism}
+%  A sheaf isomorphism is defined in the obvious way.
+%\end{definition}
+%\begin{definition}[locally isomorphic]
+%  \label{def:locallyisomorphic}
+%  Let $X$ be a topological space, $\mathcal{F}$, and let $\mathcal{G}$ be $\mathsf{C}$-sheaves on $X$. We say that $\mathcal{F}$ is \defn{locally isomorphic} to $\mathcal{G}$ if for every $x \in X$, there exists a neighborhood $U$ of $x$ such that the restriction sheaf (\hyperref[def:restrictionsheaf]{Definition \ref*{def:restrictionsheaf}}) $\mathcal{F}|_{U}$ is sheaf-isomorphic to $\mathcal{G}$.
+%\end{definition}
+%
+%
+%\section{Schemes}
+%We follow closely the treatment in \cite{milne-affine-group-schemes}, together with some help from \cite{vakil-rising-sea}.
+%
+%\begin{note}
+%  This section really needs a lot of filling out, as well as a fair amount of fixing. The goal of the section is an explanation of the fact that $k\mhyp\mathsf{Alg}^{\mathrm{op}}$ is categorically equivalent to the category of affine schemes over $k$. This will justify talking about objects in $k\mhyp\mathsf{Alg}^{\mathrm{op}}$ as if they had geometric structure.
+%\end{note}
+%
+%Let $A$ be a commutative ring. Denote by $V$ the set of all prime ideals in $A$. For any ideal $\mathfrak{a} \in V$, we write
+%\begin{equation*}
+%  V(\mathfrak{a}) = \left\{ \mathfrak{q} \in V\,\big|\, \mathfrak{a} \subset \mathfrak{q} \right\}.
+%\end{equation*}
+%
+%\begin{theorem}
+%  \label{thm:zartopisatopology}
+%  The sets $V(\mathfrak{a})$ form the closed sets for a topology for $V$.
+%\end{theorem}
+%\begin{proof}
+%  We need to show three things:
+%  \begin{enumerate}
+%    \item There exists prime ideals $\mathfrak{p}$, $\mathfrak{q} \in V$ such that $V(\mathfrak{p}) = V$ and $V(\mathfrak{q}) = \emptyset$.
+%
+%    \item For any prime ideals $\mathfrak{a}$ and $\mathfrak{b}$, there exists a prime ideal $\mathfrak{c}$ such that
+%      \begin{equation*}
+%        V(\mathfrak{a}) \cup V(\mathfrak{b}) = V(\mathfrak{c}).
+%      \end{equation*}
+%
+%    \item For any family $\mathfrak{g}_{i}$ of prime ideals, there exists a prime ideal $\mathfrak{h}$ such that
+%      \begin{equation*}
+%        \bigcap_{i} V(\mathfrak{g}_{i}) = V(\mathfrak{h}).
+%      \end{equation*}
+%  \end{enumerate}
+%
+%  For 1., take $\mathfrak{p} = 0$ and $\mathfrak{q} = V$. For 2., take $\mathfrak{c} = \mathfrak{a} \cap \mathfrak{b}$. For 3., take
+%  \begin{equation*}
+%    \mathfrak{h} = \sum_{i} \mathfrak{g}_{i}.
+%  \end{equation*}
+%\end{proof}
+%
+%\begin{definition}[prime spectrum]
+%  \label{def:primespectrumofaring}
+%  The topology defined in \hyperref[thm:zartopisatopology]{Theorem \ref*{thm:zartopisatopology}} is called the \defn{Zariski topology}, and the set $V$ together with the Zariski topology is called the \defn{(prime) spectrum} of $A$, and denoted $\spec(A)$.
+%\end{definition}
+%
+%\begin{definition}[principal open subsets]
+%  \label{def:principalopensubsets}
+%  For any $f \in A$ define
+%  \begin{equation*}
+%    D(f) \equiv A\big((f)\big)^{\mathrm{c}} = \left\{ \mathfrak{p} \in V\,\big|\, f \notin \mathfrak{p} \right\},
+%  \end{equation*}
+%  where $(f)$ is the ideal generated by $f$. Subsets of this form are called the \emph{principal open subsets} of $V$.
+%
+%  We will denote by $\mathcal{B}$ the set of all principal open subsets.
+%\end{definition}
+%
+%\begin{theorem}
+%  The principle open subsets form a basis for the Zariski topology on $V$.
+%\end{theorem}
+%\begin{proof}
+%
+%\end{proof}
+%
+%Since $\spec(A)$ is a topological space, it makes sense to talk about a sheaf of rings on it. This would entail defining for each open subset of $U \subset A$ a ring $\mathscr{O}_{\spec(A)}(U)$ on it, and checking some axioms. However, it will be efficient to define first a sheaf on the principal open subsets $\mathcal{B}$ of $\spec(A)$, and then show that such a sheaf extends uniquely to all of $\spec(A)$.
+%
+%Since $\mathcal{B}$ is closed under finite intersections, we can use it as the collection of objects in a category of opens $\mathsf{Open}(\mathcal{B})$ (see \hyperref[def:opencategory]{Definition \ref*{def:opencategory}}).\footnote{This is a slightly different notation to the one in \hyperref[def:opencategory]{Definition \ref*{def:opencategory}}. Here we're specifying the open subsets rather than the underlying topological space.} A sheaf of on $\mathcal{B}$ is a contravariant functor $\mathsf{Open}(\mathcal{B}) \to \mathsf{Ring}$ which satisfies the sheaf conditions (\hyperref[def:sheaf]{Definition \ref*{def:sheaf}}).
+%
+%We now define a sheaf $\mathscr{O}_{V}$ on $\mathcal{B}$ as follows: For any principal open subset $D$, define
+%\begin{equation*}
+%  S_{D} = A \setminus \bigcup_{\mathfrak{p} \in D} \mathfrak{p}.
+%\end{equation*}
+%Clearly, $S_{D}$ is multiplicatively closed. It is also \emph{saturated}, i.e. if $fg \in S_{D}$ then $f \in S_{D}$ and $g \in S_{D}$.
+%
+%In particular, if $D = D(f)$, then $S_{D}$ is the smallest multiplicatively closed saturated subset containing $f$, i.e.
+%\begin{equation*}
+%  S_{D(f)} = \left\{ f^{n}\,\big|\, n = 0, 1, 2, \ldots \right\}.
+%\end{equation*}
+%
+%We then define $\mathscr{O}_{V}(D) = S_{D}^{-1}A$, the localization of $A$ by $S_{D}$ (\hyperref[def:localizationofaring]{Definition \ref*{def:localizationofaring}}). If $D \subset D'$ then $S_{D'} \subset S_{D}$ so there is an embedding $S_{D'}^{-1} A \hookrightarrow S_{D}^{-1} A$. These embeddings are functorial, so $\mathscr{O}_{V}$ is indeed a presheaf. In fact, they satisfy the sheaf conditions.
+%
+%Write $\Spec(A)$ for the ringed space $(\spec(A), \mathscr{O}_{\spec(A)})$. In fact it is a locally ringed space.
+%
+%\begin{definition}[affine scheme]
+%  \label{def:affinescheme}
+%  An \defn{affine scheme} is a ringed space which is isomorphic to $(\spec(A), \mathscr{O}_{\spec(A)}))$ for some $A$.
+%\end{definition}
+%
+%\begin{lemma}
+%  Let $\varphi\colon A \to B$ be a homomorphism of commutative rings. Then if $\mathfrak{b}$ is a prime ideal in $B$, $\varphi^{-1}(\mathfrak{b})$ is a prime ideal in $A$.
+%\end{lemma}
+%
+%\begin{corollary}
+%  The map $\spec$ extends to a contravariant functor $\mathsf{CRing} \to \mathsf{Top}$.
+%\end{corollary}
+%
+\end{document}

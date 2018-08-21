@@ -1,0 +1,932 @@
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+
+\chapter{Limits}\label{sec:limits}
+
+\section{Limits and colimits}
+
+The reader may have noticed that there is a lot of difference between
+
+\begin{definition}[diagram]
+  \label{def:diagram}
+  Let $\mathsf{J}$ and $\mathsf{C}$ be categories. A \defn{diagram} of type $\mathsf{J}$ in $\mathsf{C}$ is a (covariant) functor
+  \begin{equation*}
+    \mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}.
+  \end{equation*}
+\end{definition}
+
+One thinks of the functor $\mathcal{D}$ embedding the index category $\textsf{J}$ into $\mathsf{C}$.
+
+\begin{definition}[cone]
+  \label{def:cone}
+  Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ be a diagram. Let $\mathsf{1}$ be the category with one object and one morphism (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}) and $\mathcal{F}_{X}$ the functor $\mathsf{1} \rightsquigarrow \mathsf{C}$ which picks out $X \in \Obj(\mathsf{C})$ (see \hyperref[eg:functorfrom1category]{Example~\ref*{eg:functorfrom1category}}). Let $\mathcal{K}$ be the unique functor $\mathsf{J} \rightsquigarrow \mathsf{1}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{1}
+      \arrow[rd, rightsquigarrow, "\mathcal{F}_{X}"]
+      \\
+      \mathsf{J}
+      \arrow[u, rightsquigarrow, "\mathcal{K}"]
+      \arrow[r, rightsquigarrow, "\mathcal{D}"]
+      & \mathsf{C}
+    \end{tikzcd}
+  \end{equation*}
+  A \defn{cone} of shape $\mathsf{J}$ from $X$ is an object $X \in \Obj(\mathsf{C})$ together with a natural transformation
+  \begin{equation*}
+    \varepsilon\colon \mathcal{F}_{X} \circ \mathcal{K} \Rightarrow \mathcal{D}.
+  \end{equation*}
+
+  That is to say, a cone to $\mathsf{J}$ is an object $X \in \Obj(\mathsf{C})$ together with a family of morphisms $\Phi_{A}\colon X \to \mathcal{D}(A)$ (one for each $A \in \Obj(\mathsf{J})$) such that for all $A$, $B \in \Obj(\mathsf{J})$ and all $f\colon A \to B$ the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & X
+      \arrow[dl, swap, "\Phi_{A}"]
+      \arrow[dr, "\Phi_{B}"]
+      \\
+      \mathcal{D}(A)
+      \arrow[rr, "\mathcal{D}(f)"]
+      & & \mathcal{D}(B)
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{note}
+  \label{note:alternatedefinitionofcone}
+  Here is an alternate definition. Let $\Delta$ be the functor $\mathsf{C} \rightsquigarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightsquigarrow \mathsf{C}$, see TODO) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightsquigarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is then an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, "\Delta"]
+      & {[\mathsf{J}, \mathsf{C}]}
+      & \mathsf{1}
+      \arrow[l, swap, rightsquigarrow, "\mathcal{D}"]
+    \end{tikzcd}.
+  \end{equation*}
+
+  The objects of this category are pairs $(X, f)$, where $X \in \Obj(\mathsf{C})$ and $f\colon \Delta(X) \to \mathcal{D}$; that is to say, $f$ is a natural transformation $\Delta_{X} \Rightarrow \mathcal{D}$.
+
+\end{note}
+This allows us to make the following definition.
+
+\begin{definition}[category of cones over a diagram]
+  \label{def:categoryofconesoveradiagram}
+  Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ a diagram. The \defn{category of cones over $\mathcal{D}$} is the category $(\Delta \downarrow \mathcal{D})$.
+\end{definition}
+
+\begin{note}
+  The alternate definition given in \hyperref[note:alternatedefinitionofcone]{Note~\ref*{note:alternatedefinitionofcone}} not only reiterates what cones look like, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$, i.e.
+  \begin{itemize}
+    \item an object in the category $(\Delta \downarrow \mathcal{D})$, i.e.
+    \item a pair $(X, \Phi)$, where $X \in \Obj(\mathsf{C})$ and $\Phi\colon \Delta_{X} \Rightarrow \mathcal{D}$ is a natural transformation, i.e.
+    \item for each $J \in \Obj(\mathsf{J})$ a morphism $\Phi_{J}\colon X \to \mathcal{D}(J)$ such that for any other object $J' \in \Obj(\mathsf{J})$ and any morphism $f\colon J \to J'$ the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}
+          & X
+          \arrow[ld, swap, "\Phi_{J}"]
+          \arrow[rd, "\Phi_{J'}"]
+          \\
+          \mathcal{D}(J)
+          \arrow[rr, "\mathcal{D}(f)"]
+          & & \mathcal{D}(J')
+        \end{tikzcd}
+      \end{equation*}
+  \end{itemize}
+  This agrees with our previous definition of a cone.
+
+  Let $(Y, \Gamma)$ be another cone over $\mathcal{D}$. Then a morphism $\Xi\colon (X, \Phi) \to (Y, \Gamma)$ is
+  \begin{itemize}
+    \item a morphism $\Xi \in \Hom_{(\Delta \downarrow \mathcal{D})}((X, \Phi), (Y, \Gamma))$, i.e.
+    \item a natural transformation $\Xi\colon \Delta_{X} \Rightarrow \Delta_{Y}$ (i.e.\ a morphism $\Delta_{X} \to \Delta_{Y}$ in the category $[\mathsf{J}, \mathsf{C}]$) such that the diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          \Delta_{X}
+          \arrow[rr, Rightarrow, "\Xi"]
+          \arrow[rd, Rightarrow, "\Phi"]
+          & &  \Delta_{Y}
+          \arrow[ld, swap, Rightarrow, "\Gamma"]
+          \\
+          & \mathcal{D}
+        \end{tikzcd}
+      \end{equation*}
+      commutes, i.e.
+    \item a morphism $\xi\colon X \to Y$ such that for each $J \in \Obj(\mathsf{J})$, the diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          X
+          \arrow[rr, "\xi"]
+          \arrow[rd, "\Phi_{J}"]
+          & & Y
+          \arrow[ld, swap, "\Gamma_{J}"]
+          \\
+          & \mathcal{D}(J)
+        \end{tikzcd}
+      \end{equation*}
+      commutes.
+  \end{itemize}
+\end{note}
+
+Cocones are the dual notion to cones. We make the following definition.
+\begin{definition}[cocone]
+  \label{def:cocone}
+  A \defn{cocone over a diagram $\mathcal{D}$} is an object in the comma category $(\mathcal{D} \downarrow \Delta)$.
+\end{definition}
+
+\begin{definition}[category of cocones]
+  \label{def:categoryofcocones}
+  The \defn{category of cocones over a diagram $\mathcal{D}$} is the category $(\mathcal{D} \downarrow \Delta)$.
+\end{definition}
+
+The categorical definitions of cones and cocones allow us to define limits and colimits succinctly.
+\begin{definition}[limits, colimits]
+  \label{def:limitscolimits}
+  A \defn{limit} of a diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ is a final object in the category $(\Delta \downarrow \mathcal{D})$. A \defn{colimit} is an initial object in the category $(\mathcal{D} \downarrow \Delta)$.
+\end{definition}
+
+\begin{note}
+  The above definition of a limit unwraps as follows. The limit of a diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ is a cone $(X, \Phi)$ over $\mathcal{D}$ such that for any other cone $(Y, \Gamma)$ over $\mathcal{D}$, there is a unique map $\xi\colon Y \to X$ such that for each $J \in \Obj(\mathsf{J})$, the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      Y
+      \arrow[rr, "\xi"]
+      \arrow[dr, swap, "\Gamma_{J}"]
+      & & X
+      \arrow[dl, "\Phi_{J}"]
+      \\
+      & \mathcal{D}(J)
+    \end{tikzcd}
+  \end{equation*}
+\end{note}
+
+\begin{notation}
+  We often denote the limit over the diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ by
+  \begin{equation*}
+    \lim_{\leftarrow} \mathcal{D}.
+  \end{equation*}
+
+  Similarly, we will denote the colimit over $\mathcal{D}$ by
+  \begin{equation*}
+    \lim_{\rightarrow} \mathcal{D}.
+  \end{equation*}
+  If there is notational confusion over which functor we are taking a (co)limit, we will add a dummy index:
+  \begin{equation*}
+    \lim_{\leftarrow i} \mathcal{D}_{i}\qquad\text{or}\qquad\lim_{\rightarrow i} \mathcal{D}_{i}.
+  \end{equation*}
+\end{notation}
+
+\begin{example}
+  Here is a definition of the product $A \times B$ equivalent to that given in \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}}: it is the limit of the following somewhat trivial diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[loop left, "\id_{A}"]
+      & B
+      \arrow[loop right, "\id_{B}"]
+    \end{tikzcd}
+  \end{equation*}
+
+  Let us unwrap this definition. We are saying that the product $A \times B$ is a cone over $A$ and $B$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A \times B
+      \arrow[dl, swap, "\pi_{A}"]
+      \arrow[dr, "\pi_{B}"]
+      \\
+      A & & B
+    \end{tikzcd}
+  \end{equation*}
+  But not just any cone: a cone which is universal in the sense that any \emph{other} cone factors through it uniquely.
+  \begin{equation*}
+    \begin{tikzcd}
+      & X
+      \arrow[dl, swap, "f_{1}"]
+      \arrow[dr, "f_{2}"]
+      \arrow[d, "\exists!f"]
+      \\
+      A
+      & A \times B
+      \arrow[l, "\pi_{A}"]
+      \arrow[r, swap, "\pi_{B}"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  You will recognize this as precisely the diagram defining the product.
+
+  In fact, this allows us to generalize the product: the product of $n$ objects $\prod_{i=1}^{n} A_{i}$ is the limit over diagram consisting of all the $A_{i}$ with no morphisms between them.
+\end{example}
+
+\begin{definition}[equalizer]
+  \label{def:equalizer}
+  Let $\mathsf{J}$ be the category with objects and morphisms as follows. (The necessary identity arrows are omitted.)
+  \begin{equation*}
+    \begin{tikzcd}
+      J
+      \arrow[r, shift left, "1"]
+      \arrow[r, shift right, swap, "2"]
+      & J'
+    \end{tikzcd}
+  \end{equation*}
+
+  A diagram $\mathcal{D}$ of shape $\mathsf{J}$ in some category $\mathsf{C}$ looks like the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, shift left, "f"]
+      \arrow[r, shift right, swap, "g"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+
+  The \defn{equalizer} of $f$ and $g$ is the limit of the diagram $\mathcal{D}$; that is to say, it is an object $\mathrm{eq} \in \Obj(\mathsf{C})$ and a morphism $e\colon \mathrm{eq} \to A$
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathrm{eq}
+      \arrow[r, "e"]
+      & A
+      \arrow[r, shift left, "f"]
+      \arrow[r, shift right, swap, "g"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  such that for any \emph{other} object $Z$ and morphism $i\colon Z \to A$ such that $f \circ i = g \circ i$, there is a unique morphism $e\colon Z \to \mathrm{eq}$ making the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[d, swap, dashed, "\exists! u"]
+      \arrow[dr, "i"]
+      \\
+      \mathrm{eq}
+      \arrow[r, swap, "e"]
+      & A
+      \arrow[r, shift left, "f"]
+      \arrow[r, shift right, swap, "g"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+%\begin{example}
+%  What does it mean for the above diagram to commute in, say, $\mathsf{Set}$? We need $(f \circ e)(x) = (g \circ e)(x)$ for all $x \in \mathrm{eq}$. That is, once we have been mapped by $e$ into $A$, we need to be taken to the same place by $f$ and $g$. The range of $e$ must lie entirely within the set
+%\end{example}
+
+
+\section{Pullbacks and kernels}
+
+In what follows, $\mathsf{C}$ will be a category and $A$, $B$, etc.\ objects in $\Obj(\mathsf{C})$.
+\begin{definition}[pullback]
+  \label{def:pullback}
+  Let $f$, $g$ be morphisms as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & B \arrow[d, "g"] \\
+      A \arrow[r, swap, "f"] & C
+    \end{tikzcd}
+  \end{equation*}
+  A \defn{pullback of $f$ along $g$} (also called a pullback of $g$ over $f$, sometimes notated $A \times_{C} B$) is a commuting square
+  \begin{equation*}
+    \begin{tikzcd}
+      U \arrow[r, "q"] \arrow[d, "p", swap] & B \arrow[d, "g"] \\
+      A \arrow[r, swap, "f"] & C
+    \end{tikzcd}
+  \end{equation*}
+  such that for any other commuting square
+  \begin{equation*}
+    \begin{tikzcd}
+      V \arrow[r, "t"] \arrow[d, "s", swap] & B \arrow[d, "g"] \\
+      A \arrow[r, swap, "f"] & C
+    \end{tikzcd}
+  \end{equation*}
+  there is a unique morphism $h\colon V \to U$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      V \arrow[rrd, bend left, "t"] \arrow[rd, dashed, "\exists!h"] \arrow[rdd, bend right, swap, "s"] &   &  \\
+      & U \arrow[r, "q"] \arrow[d, swap, "p"] & B \arrow[d, "g"] \\
+      & A \arrow[r, swap, "f"] & C
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+\end{definition}
+\begin{note}
+  Here is another definition: the pullback $A \times_{C} B$ is the limit of the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      & B
+      \arrow[d, "g"]
+      \\
+      A
+      \arrow[r, swap, "f"]
+      & C
+    \end{tikzcd}
+  \end{equation*}
+
+  This might at first seem odd; after all, don't we also need an arrow $A \times_{C} B \to C$? But this arrow is completely determined by the commutativity conditions, so it is superfluous.
+\end{note}
+
+
+\begin{example}
+  In $\mathsf{Set}$, $U$ is given (up to unique isomorphism) by
+  \begin{equation*}
+    U = \left\{ (a,b) \in A \times B \,\big|\, f(a) = g(b) \right\}.
+  \end{equation*}
+
+  The morphisms $p$ and $q$ are given by the projections $p(a,b) = a$, $q(a,b) = b$.
+
+  To see that this really does satisfy the universal property, consider any other set $V$ and functions $s\colon V \to A$ and $t\colon V \to B$ making the above diagram commute. Then for all $v \in V$, $f(s(v)) = t(g(v))$.
+
+  Now consider the map $V \to U$ sending $v$ to $(s(v), t(v))$. This certainly makes the above diagram commute; furthermore, any other map from $V$ to $U$ would not make the diagram commute. Thus $U$ and $h$ together satisfy the universal property.
+\end{example}
+
+\begin{lemma}
+  Let $f\colon X \to Y$ be a monomorphism. Then any pullback of $f$ is a monomorphism.
+\end{lemma}
+\begin{proof}
+  Suppose we have the following pullback square.
+  \begin{equation*}
+    \begin{tikzcd}
+      X'
+      \arrow[r, "p_{1}"]
+      \arrow[d, swap, "p_{2}"]
+      & X
+      \arrow[d, hookrightarrow, "f"]
+      \\
+      Y'
+      \arrow[r, "g"]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+  Our aim is to show that $p_{2}$ is a monomorphism.
+
+  Suppose we are given an object $Z$ and two morphisms $\alpha$, $\beta\colon Z \to X'$.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[dr, shift left, "\alpha"]
+      \arrow[dr, shift right, swap, "\beta"]
+      \\
+      & X'
+      \arrow[r, "p_{1}"]
+      \arrow[d, swap, "p_{2}"]
+      & X
+      \arrow[d, hookrightarrow, "f"]
+      \\
+      & Y'
+      \arrow[r, "g"]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+  We can compose $\alpha$ and $\beta$ with $p_{2}$. Suppose that these agree, i.e.
+  \begin{equation*}
+    p_{2} \circ \alpha = p_{2} \circ \beta.
+  \end{equation*}
+  We will be done if we can show that this implies that $p_{1} = p_{2}$.
+
+  We can compose with $g$ to find that
+  \begin{equation*}
+    g \circ p_{2} \circ \alpha = g \circ p_{2} \circ \beta.
+  \end{equation*}
+  but since the pullback square commutes, we can replace $g \circ p_{2}$ by $f \circ p_{1}$.
+  \begin{equation*}
+    f \circ p_{1} \circ \alpha = f \circ p_{1} \circ \beta.
+  \end{equation*}
+  since $f$ is a monomorphism, this implies that
+  \begin{equation*}
+    p_{1} \circ \alpha = p_{1} \circ \beta.
+  \end{equation*}
+  Now forget $\alpha$ and $\beta$ for a minute. We have constructed a commuting square as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[drr, bend left, "p_{1} \circ \alpha = p_{1} \circ \beta"]
+      \arrow[ddr, swap, bend right, "p_{2} \circ \alpha = p_{2} \circ \beta"]
+      \\
+      & X'
+      \arrow[r, "p_{1}"]
+      \arrow[d, swap, "p_{2}"]
+      & X
+      \arrow[d, hookrightarrow, "f"]
+      \\
+      & Y'
+      \arrow[r, "g"]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+  the universal property for pullbacks tells us that there is a unique morphism $Z \to X'$ making the diagram commute. But either $\alpha$ or $\beta$ will do! So $\alpha = \beta$.
+\end{proof}
+
+\begin{definition}[kernel of a morphism]
+  \label{def:kernelofmorphism}
+  Let $\mathsf{C}$ be a category with an initial object (\hyperref[def:initialfinalzeroobject]{Definition~\ref*{def:initialfinalzeroobject}}) $\emptyset$ and pullbacks. The \defn{kernel} $\ker(f)$ of a morphism $f\colon A \to B$ is the pullback along $f$ of the unique morphism $\emptyset \to B$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker(f) \arrow[d, swap, "\iota"] \arrow[r] & \emptyset \arrow[d] \\
+      A \arrow[r, "f"] & B
+    \end{tikzcd}
+  \end{equation*}
+
+  That is to say, the kernel of $f$ is a pair $(\ker(f), \iota)$, where $\ker(f) \in \Obj(\mathsf{C})$ and $\iota\colon \ker(f) \to A$ which satisfies the above universal property.
+\end{definition}
+
+\begin{note}
+  Although the kernel of a morphism $f$ is a pair $(\ker(f), \iota)$ as described above, we will sometimes sloppily say that the object $\ker(f)$ is the kernel of $f$, especially when the the morphism $\iota$ is obvious or understood. Such abuses of terminology are common; one occasionally even sees the morphism $\iota$ being called the kernel of $f$.
+\end{note}
+
+\begin{example}
+  In $\mathsf{Vect}_{k}$, the initial object is the zero vector space $\{0\}$. For any vector spaces $V$ and $W$ and any linear map $f\colon V \to W$, the kernel of $f$ is the pair $(\ker(f), \iota)$ where $\ker(f)$ is the vector space
+  \begin{equation*}
+    \ker(f) = \left\{ v \in V \,\big|\, f(v) = 0 \right\}
+  \end{equation*}
+  and $\iota$ is the obvious injection $\ker(f) \to V$.
+\end{example}
+
+\begin{lemma}
+  \label{lemma:canonicalinjectionismono}
+  Let $f\colon A \to B$, and let $(\iota, \ker(f))$ be the kernel of $f$. Then $\iota$ is a monomorphism (\hyperref[def:monomorphism]{Definition~\ref*{def:monomorphism}}).
+\end{lemma}
+\begin{proof}
+  Suppose we have an object $Z \in \Obj(\mathsf{C})$ and two morphisms $g_{1}$, $g_{2}\colon Z \to \ker(f)$. We have the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[rd, shift left, "g_{1}"]
+      \arrow[rd, shift right, swap, "g_{2}"]
+      \\
+      & \ker(f)
+      \arrow[r]
+      \arrow[d, "\iota"]
+      & 0
+      \arrow[d]
+      \\
+      & A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  Further suppose that $\iota \circ g_{1} = \iota \circ g_{2}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[rd, shift left, "g_{1}"]
+      \arrow[rd, shift right, swap, "g_{2}"]
+      \arrow[rrd, bend left]
+      \arrow[rdd, bend right, swap, "\iota \circ g_{1} = \iota \circ g_{2}"]
+      \\
+      & \ker(f)
+      \arrow[r]
+      \arrow[d, swap, "\iota"]
+      & 0
+      \arrow[d]
+      \\
+      & A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+
+  Now pretend that we don't know about $g_{1}$ and $g_{2}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[rrd, bend left]
+      \arrow[rdd, bend right, swap, "\iota \circ g_{1} = \iota \circ g_{2}"]
+      \\
+      & \ker(f)
+      \arrow[r]
+      \arrow[d, swap, "\iota"]
+      & 0
+      \arrow[d]
+      \\
+      & A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+
+  The universal property for kernels tells us that there is a unique map $Z \to \ker(f)$ making the above diagram commute. But since $g_{1}$ and $g_{2}$ both make the diagram commute, $g_{1}$ and $g_{2}$ must be the same map, i.e. $g_{1} = g_{2}$.
+\end{proof}
+
+
+\section{Pushouts and cokernels}
+
+Pushouts are the dual notion to pullbacks.
+\begin{definition}[pushouts]
+  \label{def:pushout}
+  Let $f$, $g$ be morphisms as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      C \arrow[r, "g"] \arrow[d, swap, "f"] & B \\
+      A
+    \end{tikzcd}
+  \end{equation*}
+  The \defn{pushout of $f$ along $g$} (or $g$ along $f$) is a commuting square
+  \begin{equation*}
+    \begin{tikzcd}
+      C \arrow[r, "g"] \arrow[d, swap, "f"] & B \arrow[d, "q"] \\
+      A \arrow[r, swap, "p"] & U
+    \end{tikzcd}
+  \end{equation*}
+  such that for any other commuting square
+  \begin{equation*}
+    \begin{tikzcd}
+      C \arrow[r, "g"] \arrow[d, swap, "f"] & B \arrow[d, "t"] \\
+      A \arrow[r, swap, "s"] & V
+    \end{tikzcd}
+  \end{equation*}
+  there exists a unique morphism $h\colon U \to V$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      C \arrow[r, "g"] \arrow[d, swap, "f"] & B \arrow[d, "q"] \arrow[ddr, bend left, "t"] & \\
+      A \arrow[drr, bend right, swap, "s"] \arrow[r, swap, "p"] & U \arrow[dr, dashed, "\exists!h"] & \\
+      & & V
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+\end{definition}
+
+\begin{note}
+  As with pullbacks, we can also define a pushout as the colimit of the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      C \arrow[r, "g"] \arrow[d, swap, "f"] & B \\
+      A
+    \end{tikzcd}
+  \end{equation*}
+\end{note}
+
+\begin{example}
+  Let us construct the pushout in $\mathsf{Set}$. If we ignore the object $C$ and the morphisms $f$ and $g$, we discover that $U$ must satisfy the universal property of the coproduct of $A$ and $B$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & B \arrow[d, "q"] \arrow[ddr, bend left, "t"] & \\
+      A \arrow[drr, bend right, swap, "s"] \arrow[r, swap, "p"] & U \arrow[dr, dashed, "\exists!h"] & \\
+      & & V
+    \end{tikzcd}
+  \end{equation*}
+  Let us therefore make the ansatz that $U = A \amalg B = A \sqcup B$ and see what happens when we add $C$, $f$, and $g$ back in.
+  \begin{equation*}
+    \begin{tikzcd}
+      C \arrow[r, "g"] \arrow[d, swap, "f"] & B \arrow[d, "q"] \arrow[ddr, bend left, "t"] & \\
+      A \arrow[drr, bend right, swap, "s"] \arrow[r, swap, "p"] & U \arrow[dr, dashed, "\exists!h"] & \\
+      & & V
+    \end{tikzcd}
+  \end{equation*}
+
+  In doing so, we find that the square $A$-$C$-$B$-$U$ must also commute, i.e.\ we must have that $(q \circ g) (c) = (p \circ f)(c)$ for all $c \in C$. Since $p$ and $q$ are just inclusions, we see that
+  \begin{equation*}
+    U = A \amalg B / \sim,
+  \end{equation*}
+  where $\sim$ is the equivalence relation generated by the relations $f(c) \sim g(c)$ for all $c\in C$.
+\end{example}
+
+\begin{definition}[cokernel of a morphism]
+  \label{def:cokernalofmorphism}
+  Let $\mathsf{C}$ be a category with terminal object $1$. The \defn{cokernel} of a morphism $f\colon A \to B$ is the pushout of $f$ along the unique morphism $A \to 1$.
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "f"] \arrow[d] & B \arrow[d, "\pi"] \\
+      1 \arrow[r] & \coker(f)
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  \label{eg:invectcokernelsarequotientsbyimage}
+  In $\mathsf{Vect}_{k}$, the terminal object is the vector space $\{0\}$. If $V$ and $W$ are $k$-vector spaces and $f$ is a linear map $V \to W$, then $\coker(f)$ is
+  \begin{equation*}
+    W / \sim,
+  \end{equation*}
+  where $\sim$ is the relation generated by $f(v) \sim 0$ for all $v \in V$. But this relation is exactly the one which mods out by $\mathrm{im}(f)$, so $\coker(f) = W / \mathrm{im}(f)$.
+\end{example}
+
+\begin{lemma}
+  \label{lemma:canonicalsurjectionisepi}
+  For any morphism $f\colon A \to B$, the canonical projection $\pi\colon B \to \coker(f)$ is an epimorphism.
+\end{lemma}
+\begin{proof}
+  The proof is dual to the proof that the canonical injection $\iota$ is mono (\hyperref[lemma:canonicalinjectionismono]{Lemma~\ref*{lemma:canonicalinjectionismono}}).
+\end{proof}
+
+\begin{definition}[normal monomorphism]
+  \label{def:normalmonomorphism}
+  A monomorphism (\hyperref[def:monomorphism]{Definition~\ref*{def:monomorphism}}) $f\colon A \to B$ is \defn{normal} if it the kernel of some morphism. To put it more plainly, $f$ is normal if there exists an object $C$ and a morphism $g\colon B \to C$ such that $(A, f)$ is the kernel of $g$.
+  \begin{equation*}
+    \begin{tikzcd}
+      A \arrow[r, "f"] & B \arrow[r, "g"] & C
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  In $\mathsf{Vect}_{k}$, monomorphisms are injective linear maps (\hyperref[eg:monomorphismsinkvect]{Example~\ref*{eg:monomorphismsinkvect}}). If $f$ is injective then sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \{0\} \arrow[r] & V \arrow[r, "f"] & W \arrow[r, "\pi"] & W/\mathrm{im}(f) \arrow[r], & \{0\}
+    \end{tikzcd}
+  \end{equation*}
+  is exact, and we always have that $\mathrm{im}(f) = \ker(\pi)$. Thus in $\mathsf{Vect}_{k}$, every monomorphism is normal.
+\end{example}
+
+\begin{definition}[conormal epimorphism]
+  \label{def:conormalepimorphism}
+  An epimorphism $f\colon A \to B$ is \defn{conormal} if it is the cokernel of some morphism. That is to say, if there exists an object $C$ and a morphism $g\colon C \to A$ such that $(B, f)$ is the cokernel of $g$.
+\end{definition}
+
+\begin{example}
+  In $\mathsf{Vect}_{k}$, epimorphisms are surjective linear maps. If $f\colon V \to W$ is a surjective linear map, then the sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \{0\} \arrow[r] & \ker(f) \arrow[r, "\iota"] & V \arrow[r, "f"] & W \arrow[r] & \{0\}
+    \end{tikzcd}
+  \end{equation*}
+  is exact. But then $\mathrm{im}(\iota) = \ker(f)$, so $f$ is conormal. Thus in $\mathsf{Vect}_{k}$, every epimorphism is conormal.
+\end{example}
+
+\begin{note}
+  To show that in our proofs that in $\mathsf{Vect}_{k}$ monomorphisms were normal and epimorphisms were conormal, we showed that monomorphisms were the kernels of their cokernels, and epimorphisms were the cokernels of their kernels. This will be a general feature of Abelian categories.
+\end{note}
+
+\begin{definition}[binormal category]
+  \label{def:binormalcategory}
+  A category is \defn{binormal} if all monomorphisms are normal and all epimorphisms are conormal.
+\end{definition}
+
+\begin{example}
+  As we have seen, $\mathsf{Vect}_{k}$ is binormal.
+\end{example}
+
+
+\section{A necessary and sufficient condition for the existence of finite limits}
+
+In this section we prove a simple criterion to check that a category has all finite limits (i.e.\ limits over diagrams with a finite number of objects and a finite number of morphisms). The idea is as follows.
+
+In general, adding more objects to a diagram makes the limit over it larger, and adding more morphisms makes the limit smaller. In the extreme case in which are no morphisms (apart from the identity morphisms), the limit is simply the categorical product. As we add morphisms, roughly speaking, we have to get rid of the parts of the product which prevent the triangles they form from commuting. Thus, to make the universal cone over a diagram, we can start with the product, and cut out the bare minimum we need to make everything commute: the way to do that is with an equalizer.
+
+The following proof was adapted from~\cite{awodey-category-theory}.
+\begin{theorem}
+  \label{thm:criterionforfinitelimits}
+  Let $\mathsf{C}$ be a category. Then if $\mathsf{C}$ has all finite products and equalizers, $\mathsf{C}$ has all finite limits.
+
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ be a finite diagram. We want to prove that $\mathcal{D}$ has a limit; we will do this by constructing a universal cone over it, i.e.
+  \begin{itemize}
+    \item an object $L \in \Obj(\mathsf{C})$, and
+    \item for each $j \in \Obj(\mathsf{J})$, a morphism $P_{j}\colon L \to \mathcal{D}(j)$
+  \end{itemize}
+  such that
+  \begin{enumerate}
+    \item for any $i$, $j \in \Obj(\mathsf{J})$ and any $\alpha\colon i \to j$ the following diagram commutes,
+      \begin{equation*}
+        \begin{tikzcd}[column sep=tiny]
+          & L
+          \arrow[dl, swap, "P_{i}"]
+          \arrow[dr, "P_{j}"]
+          \\
+          \mathcal{D}(i)
+          \arrow[rr, "\mathcal{D}(\alpha)"]
+          & & \mathcal{D}(j)
+        \end{tikzcd}
+      \end{equation*}
+      and
+    \item for any other object $L' \in \Obj(\mathsf{C})$ and family of morphisms $Q_{j}\colon L' \to \mathcal{D}(j)$ which make the diagrams
+      \begin{equation*}
+        \begin{tikzcd}[column sep=tiny]
+          & L'
+          \arrow[dl, swap, "Q_{i}"]
+          \arrow[dr, "Q_{j}"]
+          \\
+          \mathcal{D}(i)
+          \arrow[rr, "\mathcal{D}(\alpha)"]
+          & & \mathcal{D}(j)
+        \end{tikzcd}
+      \end{equation*}
+      commute for all $i$, $j$, and $\alpha$, there is a unique morphism $f\colon L' \to L$ such that $Q_{j} = P_{j} \circ f$ for all $j \in \Obj(\mathsf{J})$.
+  \end{enumerate}
+
+  Denote by $\Mor(\mathsf{J})$ the set of all morphisms in $\mathsf{J}$. For any $\alpha \in \Mor(\mathsf{J})$, denote by $\dom(\alpha)$ the domain of $\alpha$, and by $\cod(\alpha)$ the codomain.
+
+  Consider the following finite products:
+  \begin{equation*}
+    A = \prod_{j \in \Obj(\mathsf{J})} \mathcal{D}(j)\qquad\text{and}\qquad B = \prod_{\alpha \in \Mor(\mathsf{J})} \mathcal{D}(\cod(\alpha)).
+  \end{equation*}
+
+  From the universal property for products, we know that we can construct a morphism $f\colon A \to B$ by specifying a family of morphisms $f_{\alpha}\colon A \to \mathcal{D}(\cod(\alpha))$, one for each $\alpha \in \Mor(\mathsf{J})$. We will define two morphisms $R$, $S\colon A \to B$ in this way:
+  \begin{equation*}
+    R_{\alpha} = \pi_{\mathcal{D}(\cod(\alpha))};\qquad S_{\alpha} = \mathcal{D}(\alpha) \circ \pi_{\mathcal{D}(\dom(\alpha))}.
+  \end{equation*}
+
+  Now let $e\colon L \to A$ be the equalizer of $R$ and $S$ (we are guaranteed the existence of this equalizer by assumption). Further, define $P_{j}\colon L \to \mathcal{D}(j)$ by
+  \begin{equation*}
+    P_{j} = \pi_{\mathcal{D}(j)} \circ e
+  \end{equation*}
+  for all $j \in \Obj(\mathsf{J})$.
+
+  The claim is that $L$ together with the $P_{j}$ is the limit of $\mathcal{D}$. We need to verify conditions 1 and 2 on $L$ and $P_{j}$ listed above.
+  \begin{enumerate}
+    \item We need to show that for all $i$, $j \in \Obj(\mathsf{J})$ and all $\alpha\colon i \to j$, we have the equality $\mathcal{D}(\alpha) \circ P_{i} = P_{j}$. Now, for every $\alpha\colon i \to j$ we have
+      \begin{align*}
+        \mathcal{D}(\alpha) \circ P_{i} &= \mathcal{D}(\alpha) \circ \pi_{\mathcal{D}(i)} \circ e \\
+        &= S_{\alpha} \circ e \\
+        &= R_{\alpha} \circ e \\
+        &= \pi_{\mathcal{D}(j)} \circ e \\
+        &= P_{j}.
+      \end{align*}
+
+    \item We need to show that for any other $L' \in \Obj(\mathsf{C})$ and any other family of morphisms $Q_{j}\colon L' \to \mathcal{D}(j)$ such that for all $\alpha\colon i \to j$, $Q_{j} = \mathcal{D}(\alpha) \circ Q_{i}$, there is a unique morphism $h\colon L' \to L$ such that $Q_{j} = P_{j} \circ h$ for all $j \in \Obj(\mathsf{J})$. Suppose we are given such an $L'$ and $Q_{j}$.
+
+      The universal property for products allows us to construct from the family of morphisms $Q_{j}$ a morphism $Q\colon L' \to A$ such that $Q_{j} = \pi_{\mathcal{D}(j)} \circ Q$. Now, for any $\alpha\colon i \to j$,
+      \begin{align*}
+        R_{\alpha} \circ Q &= \pi_{\mathcal{D}(j)} \circ Q \\
+        &= Q_{j} \\
+        &= \mathcal{D}(\alpha) \circ Q_{i} \\
+        &= \mathcal{D}(\alpha) \circ \pi_{i} \circ Q \\
+        &= S_{\alpha} \circ Q.
+      \end{align*}
+      Thus, $Q\colon L' \to A$ equalizes $R$ and $S$. But the universal property for equalizers guarantees us a unique morphism $h\colon L' \to L$ such that $Q = P \circ h$. We can compose both sides of this equation on the left with $\pi_{\mathcal{D}(j)}$ to find
+      \begin{equation*}
+        \pi_{\mathcal{D}(j)} \circ Q = \pi_{\mathcal{D}(j)} \circ P \circ h,
+      \end{equation*}
+      i.e.
+      \begin{equation*}
+        Q_{j} = P_{j} \circ h
+      \end{equation*}
+      as required.
+  \end{enumerate}
+\end{proof}
+
+
+\section{The hom functor preserves limits}
+
+\begin{theorem}
+  \label{thm:homfunctorpreserveslimits}
+  Let $\mathsf{C}$ be a locally small category. The hom functor $\Hom_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{Set}$ preserves limits in the second argument, i.e.~for $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ a diagram in $\mathsf{C}$ we have a natural isomorphism
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow}\mathcal{D}) \simeq \lim_{\leftarrow}\Hom_{\mathsf{C}}(Y, \mathcal{D}),
+  \end{equation*}
+  where the limit on the RHS is over the hom-set diagram
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(Y, -) \circ \mathcal{D} \colon \mathsf{J} \rightsquigarrow \mathsf{Set}.
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  Let $L$ be the limit over the diagram $\mathcal{D}$. Then for any map $f\colon Y \to L$, there is a cone from $Y$ to $\mathcal{D}$ by composition, and for any cone with tip $Y$ over $\mathcal{D}$ we get a map $f\colon Y \to L$ from the universal property of limits. Thus, there is a bijection
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow}\mathcal{D}) \simeq \mathrm{Cones}(Y, \mathcal{D}),
+  \end{equation*}
+  which is natural in $Y$ since the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow}\mathcal{D})
+      \arrow[r, "(-) \circ f"]
+      \arrow[d]
+      & \Hom_{\mathsf{C}}(Z, \lim_{\leftarrow}\mathcal{D})
+      \arrow[d]
+      \\
+      \mathrm{Cones}(Y, \mathcal{D})
+      \arrow[r, "(-) \circ f"]
+      & \mathrm{Cones}(Z, \mathcal{D})
+    \end{tikzcd}
+  \end{equation*}
+  trivially commutes. We will be done if we can show that there is also a natural isomorphism
+  \begin{equation*}
+    \mathrm{Cones}(Y, \mathcal{D}) \simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(Y, \mathcal{D}).
+  \end{equation*}
+
+  Let us understand the elements of the set $\lim_{\leftarrow}\Hom_{\mathsf{C}}(Y, \mathcal{D})$. The diagram
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(Y, -) \circ \mathcal{D} \colon \mathsf{J} \rightsquigarrow \mathsf{Set}
+  \end{equation*}
+  maps $J \in \Obj(\mathsf{J})$ to $\Hom_{\mathsf{C}}(Y, \mathcal{D}(J)) \in \Obj(\mathsf{Set})$. A universal cone over this diagram is a set $S$ together with, for each $J_{i} \in \Obj(\mathsf{J})$, a function
+  \begin{equation*}
+    f_{i}\colon S \to \Hom_{\mathsf{C}}(Y, \mathcal{D}(J_{i}))
+  \end{equation*}
+  such that for each $\alpha \in \Hom_{\mathsf{J}}(J_{i}, J_{j})$, the diagram
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge]
+      & S
+      \arrow[dl, swap, "f_{i}"]
+      \arrow[dr, "f_{j}"]
+      \\
+      \Hom_{\mathsf{C}}(Y, \mathcal{D}(J_{i}))
+      \arrow[rr, swap, "\mathcal{D}(\alpha) \circ (-)"]
+      & & \Hom_{\mathsf{C}}(Y, \mathcal{D}(J_{j}))
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+
+  Now pick any element $s \in S$. Each $f_{i}$ maps this to a function $Y \to \mathcal{D}(J_{i})$ which makes the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & Y
+      \arrow[dl, swap, "f_{i}(s)"]
+      \arrow[dr, "f_{j}(s)"]
+      \\
+      \mathcal{D}(J_{i})
+      \arrow[rr, swap, "\mathcal{D}(\alpha)"]
+      & & \mathcal{D}(J_{j})
+    \end{tikzcd}
+  \end{equation*}
+  commute. But this is exactly an element of $\mathrm{Cones}(Y, \mathcal{D})$. Conversely, every element of $\mathrm{Cones}(Y, \mathcal{D})$ gives us an element of $S$, so we have a bijection
+  \begin{equation*}
+    \mathrm{Cones}(Y, \mathcal{D}) \simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(Y, \mathcal{D}),
+  \end{equation*}
+  which is natural as required.
+\end{proof}
+
+\begin{corollary}
+  The first slot of the hom functor turns colimits into limits. That is,
+  \begin{equation*}
+    \Hom_{_\mathsf{C}}(\lim_{\rightarrow}\mathcal{D}, Y) \simeq \lim_{\leftarrow}\Hom_{C}(\mathcal{D}, Y).
+  \end{equation*}
+\end{corollary}
+\begin{proof}
+  Dual to that of \hyperref[thm:homfunctorpreserveslimits]{Theorem~\ref*{thm:homfunctorpreserveslimits}}.
+\end{proof}
+
+
+
+\section{Filtered colimits and ind-objects}
+
+\begin{definition}[preorder]
+  \label{def:preorder}
+  Let $S$ be a set. A \defn{preoreder} on $S$ is a binary relation $\leq$ which is
+  \begin{enumerate}
+    \item reflexive ($a \leq a$)
+
+    \item transitive (if $a \leq b$ and $b \leq c$, then $a \leq c$)
+  \end{enumerate}
+
+  A preorder is said to be \defn{directed} if for any two objects $a$ and $b$, there exists an `upper bound,' i.e.\ an object $r$ such that $a \leq r$ and $b \leq r$.
+\end{definition}
+
+Filtered categories are a generalization of filtered preorders.
+
+\begin{definition}[filtered category]
+  \label{def:filteredcategory}
+  A category $\mathsf{J}$ is \defn{filtered} if
+  \begin{itemize}
+    \item for each pair of objects $J$, $J' \in \Obj(\mathsf{J})$, there exists an object $K$ and morphisms $J \to K$ and $J' \to K$.
+      \begin{equation*}
+        \begin{tikzcd}[row sep=tiny]
+          J
+          \arrow[dr]
+          \\
+          & K
+          \\
+          J'
+          \arrow[ur]
+        \end{tikzcd}
+      \end{equation*}
+
+      That is, every diagram with two objects and no morphisms is the base of a cocone.
+
+    \item For every pair of morphisms $i$, $j\colon J \to J'$, there exists an object $K$ and a morphism $f\colon J' \to K$ such that $f \circ i = f \circ j$, i.e.\ the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}[row sep=tiny]
+          J
+          \arrow[r, shift left, "i"]
+          \arrow[r, shift right, swap, "j"]
+          & J'
+          \arrow[r, "f"]
+          & K
+        \end{tikzcd}
+      \end{equation*}
+
+      That is, every diagram of the form $\begin{tikzcd}[column sep=small]\bullet \arrow[r, shift left] \arrow[r, shift right] & \bullet \end{tikzcd}$ is the base of a cocone.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[filtered colimit]
+  \label{def:filteredcolimit}
+  A \defn{filtered colimit} is a colimit over a diagram $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$, where $\mathsf{J}$ is a filtered category.
+\end{definition}
+
+We now define the so-called \emph{category of inductive objects} (or simply \emph{ind-objects}).
+\begin{definition}[category of ind-objects]
+  \label{def:categoryofindobjects}
+  Let $\mathsf{C}$ be a category. We define the \defn{category of ind-objects} of $\mathsf{C}$, denote $\mathsf{Ind}(\mathsf{C})$ as follows.
+  \begin{itemize}
+    \item The objects $F \in \Obj(\mathsf{Ind}(\mathsf{C}))$ are defined to be filtered colimits of objects of diagrams $\mathcal{F}\colon \mathsf{D} \rightsquigarrow \mathsf{C}$.
+
+    \item For two objects $F = \lim_{\rightarrow d}\mathcal{F}_{d}$ and $G = \lim_{\rightarrow e}\mathcal{G}_{e}$, the morphisms $\Hom_{\mathsf{Ind}(\mathsf{C})}(F, G)$ are defined to be the set
+      \begin{equation*}
+        \Hom_{\mathsf{Ind}(\mathsf{C})}(F, G) = \lim_{\leftarrow d} \lim_{\rightarrow e} \Hom_{\mathsf{C}}(\mathcal{F}_{d}, \mathcal{G}_{e}).
+      \end{equation*}
+  \end{itemize}
+\end{definition}
+
+\begin{note}
+  \label{note:fullinclusionintoindcategory}
+  There is a fully faithful embedding $\mathsf{C} \hookrightarrow\mathsf{Ind}(\mathsf{C})$ which exhibits any object $A$ as the colimit over the trivial diagram $\begin{tikzcd} \bullet \arrow[loop right] \end{tikzcd}$.
+\end{note}
+
+The importance of the category of ind-objects can be seen in the following example.
+\begin{example}
+  \label{eg:inductiveobjectsaddinfinitedimensionalvectorspaces}
+  Let $V$ be an infinite-dimensional vector space over some field $k$. Then $V$ can be realized as an object in the category $\mathsf{Ind}(\mathsf{FinVect})$.
+
+  In fact, there is an equivalence of categories $\mathsf{Vect}_{k} \simeq \mathsf{Ind}(\mathsf{FinVect}_{k})$. Similarly, there is an equivalence of categories $\mathsf{SVect}_{k} \simeq \mathsf{Ind}(\mathsf{FinSVect}_{k})$
+\end{example}
+\begin{note}
+  This is stated without proof as Example 3.39 of~\cite{nlab-deligne-theorem}. I haven't been able to find a real source for it.
+\end{note}
+
+
+\end{document}

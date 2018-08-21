@@ -1,0 +1,459 @@
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+
+\chapter{Cartesian closed categories}
+
+
+\section{Cartesian closed categories}\label{sec:cartesianclosedcategories}
+
+This section loosely follows~\cite{awodey-category-theory-foundations-videos}.
+
+Cartesian closed categories are the prototype for many of the structures possessed by monoidal categories.
+
+
+\section{Products}
+
+We saw in \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}} the definition for a categorical product. In some categories, we can naturally take the product of any two objects; one generally says that such a category \emph{has products}. We formalize that in the following.
+
+\begin{definition}[category with products]
+  \label{def:categorywithproducts}
+  Let $\mathsf{C}$ be a category such that for every two objects $A$, $B \in \Obj(\mathsf{C})$, there exists an object $A \times B$ which satisfies the universal property (\hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}}). Then we say that $\mathsf{C}$ \defn{has products}.
+\end{definition}
+\begin{note}
+  Sometimes people call a category with products a \emph{Cartesian category}, but others use this terminology to mean a category with all finite limits.\footnote{We will see later that any category with both products and equalizers has all finite limits.} We will avoid it altogether.
+\end{note}
+
+Recall that in \hyperref[eg:cartesian_product_of_sets_is_bifunctor]{Example~\ref*{eg:cartesian_product_of_sets_is_bifunctor}} we showed that the Cartesian product of two sets is functorial. The same turns out to be true for the categorical product.
+\begin{theorem}
+  \label{thm:productisafunctor}
+  Let $\mathsf{C}$ be a category with products. Then the product can be extended to a bifunctor (\hyperref[def:bifunctor]{Definition~\ref*{def:bifunctor}}) $\mathsf{C} \times \mathsf{C} \to \mathsf{C}$.
+\end{theorem}
+\begin{proof}
+  Let $X$, $Y \in \Obj(C)$. We need to check that the assignment $(X,Y) \mapsto \times(X,Y) \equiv X \times Y$ is functorial, i.e.\ that $\times$ assigns
+  \begin{itemize}
+    \item to each pair $(X,Y) \in \Obj(\mathsf{C}\times\mathsf{C})$ an object $X\times Y \in \Obj(\mathsf{C})$ and
+    \item to each pair of morphisms $(f,g)\colon (X,Y) \to (X',Y')$ a morphism
+      \begin{equation*}
+        \times(f,g) = f \times g\colon X\times Y \to X' \times Y'
+      \end{equation*}
+      such that
+      \begin{itemize}
+        \item $\id_{X} \times \id_{Y} = \id_{X \times Y}$, and
+        \item $\times$ respects composition as follows.
+          \begin{equation*}
+            \begin{tikzcd}[column sep=large, row sep=small]
+              {(X,Y)} \arrow[r, "{(f,g)}"] \arrow[rr, bend left, "{(f',g') \circ (f,g) = (f'\circ f, g'\circ g)}"] & {(X',Y')} \arrow[r, "{(f',g')}"] &  {(X'',Y'')} \\
+              & \,\arrow[dd, rightsquigarrow, "\times"] & \\
+              & \, & \\
+              & \, & \\
+              X\times Y \arrow[r, "f\times g"] \arrow[rr, bend right, swap, "f'\times g' \circ f \times g = (f'\circ f)\times(g'\circ g)"] & X' \times Y' \arrow[r, "f'\times g'"]& X''\times Y''
+            \end{tikzcd}
+          \end{equation*}
+      \end{itemize}
+  \end{itemize}
+  We know how $\times$ assigns objects in $\mathsf{C} \times \mathsf{C}$ to objects in $\mathsf{C}$. We need to figure out how $\times$ should assign to a morphism $(f,g)$ in $\mathsf{C} \times \mathsf{C}$ a morphism $f\times g$ in $\mathsf{C}$. We do this by diagram chasing.
+
+  Suppose we are given two maps $f\colon X_{1} \to X_{2}$ and $g\colon Y_{1} \to Y_{2}$. We can view this as a morphism $(f,g)$ in $\mathsf{C} \times \mathsf{C}$.
+
+  Recall the universal property for products: a product $X_{1}\times Y_{1}$ is a final object in the category $(\Delta \downarrow (X_{1}, Y_{1}))$. Objects in this category can be thought of as diagrams in $\mathsf{C} \times \mathsf{C}$.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      {(X_{1}\times Y_{1}, X_{1}\times Y_{1})} \arrow[r, "{\pi_{1}, \pi_{2}}"] & {(X_{1}, Y_{1})}
+    \end{tikzcd}.
+  \end{equation*}
+  By assumption, we can take the product of both $X_{1}$ and $Y_{1}$, and $X_{2}$ and $Y_{2}$. This gives us two diagrams living in $\mathsf{C} \times \mathsf{C}$, which we can put next to each other.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      {(X_{1} \times Y_{1}, X_{1} \times Y_{1})} \arrow[r, "{(\pi_{1}, \pi_{2})}"] & (X_{1}, Y_{1}) \\
+      {(X_{2} \times Y_{2}, X_{2} \times Y_{2})} \arrow[r, "{(\rho_{1}, \rho_{2})}"] & (X_{2}, Y_{2}) \\
+    \end{tikzcd}
+  \end{equation*}
+  We can draw in our morphism $(f,g)$, and take its composition with $(\pi_{1}, \pi_{2})$.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      {(X_{1} \times Y_{1}, X_{1} \times Y_{1})} \arrow[r, "{(\pi_{1}, \pi_{2})}"] \arrow[dr, swap, "{(f\circ \pi_{1}, g \circ \pi_{2})}"] & (X_{1}, Y_{1}) \arrow[d, "{(f,g)}"] \\
+      {(X_{2} \times Y_{2}, X_{2} \times Y_{2})} \arrow[r, swap, "{(\rho_{1}, \rho_{2})}"] & (X_{2}, Y_{2})
+    \end{tikzcd}
+  \end{equation*}
+  Now forget about the top right of the diagram. I'll erase it to make this easier.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      {(X_{1} \times Y_{1}, X_{1} \times Y_{1})}  \arrow[dr, "{(f\circ \pi_{1}, g \circ \pi_{2})}"] & \\
+      {(X_{2} \times Y_{2}, X_{2} \times Y_{2})} \arrow[r, swap, "{(\rho_{1}, \rho_{2})}"] & (X_{2}, Y_{2})
+    \end{tikzcd}
+  \end{equation*}
+  The universal property for products says that there exists a unique map $h\colon X_{1}\times Y_{1} \to X_{2}\times Y_{2}$ such that the diagram below commutes.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      (X_{1} \times Y_{1}, X_{1} \times Y_{1}) \arrow[d, swap, "{(h, h)}"] \arrow[rd, "{(f \circ \pi_{1}, g \circ \pi_{2})}"] & & X_{1}\times Y_{1} \arrow[d, "\exists!h"]\\
+      (X_{2}\times Y_{2}, X_{2}\times Y_{2}) \arrow[r, swap, "{(\rho_{1}, \rho_{2})}"] &  (X_{1}, X_{2})& X_{2}\times Y_{2}
+    \end{tikzcd}
+  \end{equation*}
+  And $h$ is what we will use for the product $f \times g$.
+
+  Of course, we must also check that $h$ behaves appropriately. Draw two copies of the diagram for the terminal object in $(\Delta\downarrow (X,Y))$ and identity arrows between them.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      {(X\times Y, X \times Y)} \arrow[r, "{(\pi_{1}, \pi_{2})}"] \arrow[d, swap, "{(\id_{X \times Y}, \id_{X \times Y})}"] & (X, Y) \arrow[d, "{(\id_{X}, \id_{Y})}"] \\
+      {(X\times Y, X \times Y)} \arrow[r, swap, "{(\pi_{1}, \pi_{2})}"] & (X, Y)
+    \end{tikzcd}
+  \end{equation*}
+  Just as before, we compose the morphisms to and from the top right to draw a diagonal arrow, and then erase the top right object and the arrows to and from it.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      {(X\times Y, X \times Y)}  \arrow[d, swap, "{(\id_{X \times Y},\, \id_{X \times Y}) = (\id_{X}\times \id_{Y},\, \id_{X}\times \id_{Y})}"] \arrow[dr, "{(\id_{X} \circ \pi_{1},\, \id_{Y} \circ \pi_{2})}"] & & X\times Y \arrow[d, "\id_{X}\times\id_{Y} = \id_{X}\times\id_{Y}"] \\
+      {(X\times Y, X \times Y)} \arrow[r, swap, "{(\pi_{1}, \pi_{2})}"] & (X, Y) & X\times Y
+    \end{tikzcd}
+  \end{equation*}
+  By definition, the arrow on the right is $\id_{X}\times\id_{Y}$. It is also $\id_{X\times Y}$, and by the universal property it is unique. Therefore $\id_{X\times Y} = \id_{X}\times \id_{Y}$.
+
+  Next, put three of these objects together. The proof of the last part is immediate.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge, row sep=huge]
+      {(X_{1} \times Y_{1}, X_{1} \times Y_{1})}  \arrow[d, "{(f\times g, f\times g)}"] \arrow[dd, bend right=70, swap, "{(f'\times g') \circ (f\times g)} = (g' \circ g) \times (f' \circ f)"]  & (X_{1}, Y_{1}) \arrow[d, swap, "{(f,g)}"] \arrow[dd, bend left=70, "{(g'\circ g, f' \circ f)}"] \\
+      {(X_{2} \times Y_{2}, X_{2} \times Y_{2})}\arrow[d, "{(f'\times g', f'\times g')}"]  & (X_{2}, Y_{2}) \arrow[d, swap, "{(f',g')}"] \\
+      {(X_{3} \times Y_{3}, X_{3} \times Y_{3})}  & (X_{3}, Y_{3})
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+The meaning of this theorem is that in any category where you can take products of the objects, you can also take products of the morphisms.
+
+\begin{example}[diagonal functor]
+  \label{eg:diagonalfunctor}
+  Let $\mathsf{C}$ be a category, $\mathsf{C} \times \mathsf{C}$ the product category of $\mathsf{C}$ with itself. The \defn{diagonal functor} $\Delta\colon \mathsf{C} \rightsquigarrow \mathsf{C} \times \mathsf{C}$ is the functor which sends
+  \begin{itemize}
+    \item each object $A \in \Obj(\mathsf{C})$ to the pair $(A,A) \in \Obj(\mathsf{C} \times \mathsf{C})$, and
+    \item each morphism $f\colon A \to B$ to the ordered pair
+      \begin{equation*}
+        (f,f) \in \Hom_{\mathsf{C}\times\mathsf{C}}(A\times B,A \times B).
+      \end{equation*}
+  \end{itemize}
+\end{example}
+
+\begin{example}
+  The category $\mathsf{Vect}_{k}$ of vector spaces over a field $k$ has the direct sum $\oplus$ as a product.
+\end{example}
+
+The product is, in an appropriate way, commutative.
+\begin{lemma}
+  There is a natural isomorphism between the following functors $\mathsf{C} \times \mathsf{C} \to \mathsf{C}$
+  \begin{equation*}
+    \times\colon (A, B) \to A \times B\qquad\text{and}\qquad \tilde{\times}\colon (A, B) \to B \times A.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  We define a natural transformation $\Phi\colon \times \Rightarrow \tilde{\times}$ with components
+  \begin{equation*}
+    \Phi_{A, B}\colon A \times B \to B \times A
+  \end{equation*}
+  as follows. Denote the canonical projections for the product $A \times B$ by $\pi_{A}$ and $\pi_{B}$. Then $(\pi_{B}, \pi_{A})$ is a map $A \times B \to (B, A)$, and the universal property for products gives us a map $A \times B \to B \times A$. We can pull the same trick to go from $B \times A$ to $A \times B$, using the pair $(\pi_{A}, \pi_{B})$ and the universal property. Furthermore, these maps are inverse to each other, so $\Phi_{A, B}$ is an isomorphism.
+
+  We need only check naturality, i.e.\ that for $f\colon A \to A'$, $g\colon B \to B'$, the following square commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      A \times B
+      \arrow[r]
+      \arrow[d, swap]
+      & A' \times B'
+      \arrow[d]
+      \\
+      B \times A
+      \arrow[r]
+      & B' \times A'
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+
+\begin{note}
+  It is an important fact that the product is associative. We shall see this in \hyperref[thm:categoricalproductisassociative]{Theorem~\ref*{thm:categoricalproductisassociative}}, after we have developed the machinery to do it cleanly.
+\end{note}
+
+
+\section{Coproducts}
+
+\begin{definition}
+  Let $\mathsf{C}$ be a category, $X_{1}$ and $X_{2} \in \Obj(\mathsf{C})$. The \defn{coproduct} of $X_{1}$ and $X_{2}$, denoted $X_{1} \amalg X_{2}$, is the initial object in the category $((X_{1},X_{2})\downarrow \Delta)$. In everyday language, we have the following.
+  \begin{quote}
+    An object $X_{1} \amalg X_{2}$ is called the coproduct of $X_{1}$ and $X_{2}$ if
+    \begin{enumerate}
+      \item there exist morphisms $i_{1}\colon X_{1} \to X_{1} \amalg X_{2}$ and $i_{2}\colon X_{2} \to X_{1} \amalg X_{2}$ called \emph{canonical injections} such that
+
+      \item for any object $Y$ and morphisms $f_{1}\colon X_{1} \to Y$ and $f_{2}\colon X_{2} \to Y$ there exists a unique morphism $f\colon X_{1} \amalg X_{2} \to Y$ such that $f_{1} = f \circ i_{1}$ and $f = f_{2} = f \circ i_{2}$, i.e.\ the following diagram commutes.
+        \begin{equation*}
+          \begin{tikzcd}
+            & Y & \\
+            X_{1} \arrow[ur, "f_{1}"] \arrow[r, swap, "i_{1}"] & X_{1} \arrow[u, "f"] \amalg X_{2} & X_{2} \arrow[l, "i_{2}"] \arrow[ul, swap, "f_{2}"]
+          \end{tikzcd}
+        \end{equation*}
+    \end{enumerate}
+  \end{quote}
+\end{definition}
+
+\begin{definition}[category with coproducts]
+  \label{def:categorywithcoproducts}
+  We say that a category $\mathsf{C}$ \defn{has coproducts} if for all $A$, $B \in \Obj(C)$, the coproduct $A \amalg B$ is in $\Obj(C)$.
+\end{definition}
+
+We have the following analog of \hyperref[thm:productisafunctor]{Theorem~\ref*{thm:productisafunctor}}.
+\begin{theorem}
+  \label{thm:coproductisafunctor}
+  Let $C$ be a category with coproducts. Then we have a functor $\amalg\colon C \times C \rightsquigarrow C$.
+\end{theorem}
+\begin{proof}
+  We verify that $\amalg$ allows us to define canonically a coproduct of morphisms. Let $X_{1}$, $X_{2}$, $Y_{1}$, $Y_{2} \in \Obj(C)$, and let $f\colon X_{1} \to Y_{1}$ and $g\colon X_{2} \to Y_{2}$. We have the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      X_{1} \arrow[d, swap, "f"] \arrow[dr, "{i_{i,Y} \circ f}"] \arrow[r, "{i_{1, X}}"]& X_{1} \amalg X_{2} & X_{2} \arrow[dl, swap, "{i_{2, Y} \circ g}"] \arrow[ d, "g"] \arrow[l, swap, "{i_{2, X}}"] \\
+      Y_{1} \arrow[r, "{i_{1, Y}}"]& Y_{1} \amalg Y_{2} & Y_{2} \arrow[l, swap, "{i_{2, Y}}"]
+    \end{tikzcd}
+  \end{equation*}
+  But by the universal property of coproducts, the diagonal morphisms induce a map $X_{1} \amalg X_{2} \to Y_{1} \amalg Y_{2}$, which we define to be $f \amalg g$.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      X_{1} \arrow[dr, swap, "{i_{i,Y} \circ f}"] \arrow[r, "{i_{1, X}}"]& X_{1} \arrow[d, "f \amalg g"] \amalg X_{2} & X_{2} \arrow[dl, "{i_{2, Y} \circ g}"] \arrow[l, swap, "{i_{2, X}}"] \\
+      & Y_{1} \amalg Y_{2} &
+    \end{tikzcd}
+  \end{equation*}
+  The rest of the verification that $\amalg$ really is a functor is identical to that in \hyperref[thm:productisafunctor]{Theorem~\ref*{thm:productisafunctor}}.
+\end{proof}
+
+\begin{example}
+  In $\mathsf{Set}$, the coproduct is the disjoint union.
+\end{example}
+
+\begin{example}
+  In $\mathsf{Vect}_{k}$, the coproduct $\oplus$ is the direct sum.
+\end{example}
+
+\begin{example}
+  In $k\mhyp\mathsf{Alg}$ the tensor product is the coproduct. To see this, let $A$, $B$, and $R$ be $k$-algebras. The tensor product $A \otimes_{k} B$ has canonical injections $\iota_{1}\colon A \to A \otimes B$ and $\iota_{2}\colon B \to A \otimes B$ given by
+  \begin{equation*}
+    \iota_{A}\colon v \to v \otimes \id_{B}\qquad\text{and}\qquad \iota_{B}\colon v \mapsto \id_{A} \otimes v.
+  \end{equation*}
+
+  Let $f_{1}\colon A \to R$ and $f_{2}\colon B \to R$ be $k$-algebra homomorphisms. Then there is a unique homomorphism $f\colon A \otimes B \to R$ which makes the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "\iota_{A}"]
+      \arrow[dr, swap, "f_{1}"]
+      & A \otimes B
+      \arrow[d, "f"]
+      & B
+      \arrow[l, swap, "\iota_{B}"]
+      \arrow[dl, "f_{2}"]
+      \\
+      & R
+    \end{tikzcd}
+  \end{equation*}
+\end{example}
+
+
+\section{Biproducts}\label{sec:biproducts}
+
+A lot of the stuff in this section was adapted and expanded from~\cite{annoying-precision-meditation}.
+
+One often hears that a biproduct is an object which is both a product and a coproduct, but this is both misleading and unnecessarily vague. Objects satisfying universal properties are only defined up to isomorphism, so it doesn't make much sense to demand that products \emph{coincide} with coproducts. However, demanding only that they be isomorphic (or even naturally isomorphic) is too weak, and does not determine a biproduct uniquely. In this section we will give the correct definition which encapsulates all of the properties of the product and the coproduct we know and love.
+
+In order to talk about biproducts, we need to be aware of the following result, which we will consider in much more detail in \hyperref[sec:preabeliancategories]{Definition~\ref*{sec:preabeliancategories}}.
+
+\begin{definition}[zero morphism]
+  Let $\mathsf{C}$ be a category with zero object $0$. For any two objects $A$, $B \in \Obj(\mathsf{C})$, the \defn{zero morphism} $0_{A,B}$ is the unique morphism $A \to B$ which factors through $0$.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[rr, bend left, "0_{A, B}"]
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{notation}
+  It will often be clear what the source and destination of the zero morphism are; in this case we will drop the subscripts, writing $0$ instead of $0_{AB}$. With this notation, for all morphisms $f$ and $g$ we have $f \circ 0 = 0$ and $0 \circ g = 0$.
+\end{notation}
+
+\begin{definition}[category with biproducts]
+  \label{def:categorywithbiproducts}
+  Let $\mathsf{C}$ be a category with zero object $0$, products $\times$ (with canonical projections $\pi$), and coproducts $\amalg$ (with natural injections $\iota$). We say that $\mathsf{C}$ \defn{has biproducts} if for each two objects $A_{1}$, $A_{2} \in \Obj(\mathsf{C})$, there exists an isomorphism
+  \begin{equation*}
+    \Phi_{A_{1}, A_{2}}\colon A_{1} \amalg A_{2} \to A_{1} \times A_{2}
+  \end{equation*}
+  such that
+  \begin{equation*}
+    \begin{tikzcd}[column sep=large]
+      A_{i}
+      \arrow[r, "\iota_{i}"]
+      & A_{1} \amalg A_{2}
+      \arrow[r, "{\Phi_{A_{1}, A_{2}}}"]
+      & A_{1} \times A_{2}
+      \arrow[r, "\pi_{j}"]
+      & A_{j}
+    \end{tikzcd}
+    =
+    \begin{cases}
+      \id_{A_{1}}, & i = j \\
+      0, & i \neq j.
+    \end{cases}
+  \end{equation*}
+  Here is a picture.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A_{1} \amalg A_{2}
+      \arrow[dd, "\Phi_{A_{1},A_{2}}"]
+      \\
+      A_{1}
+      \arrow[ur, "\iota_{1}"]
+      & & A_{2}
+      \arrow[ul, swap, "\iota_{2}"]
+      \\
+      & A_{1} \times A_{2}
+      \arrow[ul, "\pi_{1}"]
+      \arrow[ur, swap, "\pi_{2}"]
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{lemma}
+  The isomorphisms $\Phi_{A, B}$ are unique if they exist.
+\end{lemma}
+\begin{proof}
+  We can compose $\Phi_{A_{1}, A_{2}}$ with $\pi_{1}$ and $\pi_{2}$ to get maps $A_{1} \amalg A_{2} \to A_{1}$ and $A_{1} \amalg A_{2} \to A_{2}$. The universal property for products tells us that there is a unique map $\varphi\colon A_{1} \amalg A_{2} \to A_{1} \times A_{2}$ such that $\pi_{1} \circ \varphi = \pi_{1} \circ \Phi_{A_{1}, A_{2}}$ and $\pi_{2} \circ \varphi = \pi_{2} \circ \Phi_{A_{1}, A_{2}}$; but $\varphi$ is just $\Phi_{A_{1}, A_{2}}$. Hence $\Phi_{A_{1}, A_{2}}$ is unique.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:mapcoprodtoproddeterminedbycomponents}
+  In any category $\mathsf{C}$ with biproducts $\Phi_{A, B}\colon A \amalg B \to A \times B$, any map $A \amalg B \to A' \times B'$ is completely determined by its components $A \to A'$, $A \to B'$, $B \to A'$, and $B \to B'$. That is, given any map $f\colon A \amalg B \to A' \times B'$, we can create four maps
+  \begin{equation*}
+    \pi_{A'} \circ f \circ \iota_{A}\colon A \to A', \qquad \pi_{B'} \circ f \circ \iota_{A}\colon A \to B',\qquad\text{etc},
+  \end{equation*}
+  and given four maps
+  \begin{equation*}
+    \psi_{A, A'}\colon A \to A';\qquad \psi_{A, B'}\colon A \to B';\qquad \psi_{B,A'}\colon B \to A',\qquad\text{and } \psi_{B,B'}\colon B \to B',
+  \end{equation*}
+  we can construct a unique map $\psi\colon A \amalg B \to A' \times B'$ such that
+  \begin{equation*}
+    \psi_{A, A'} = \pi_{A'} \circ \psi \circ \iota_{A},\qquad \psi_{A,B'} = \pi_{B'} \circ \psi \circ \iota_{A},\qquad\text{etc}.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  The universal property for coproducts give allows us to turn the morphisms $\psi_{A,A'}$ and $\psi_{A, B'}$ into a map $\psi_{A}\colon A \to B \times B'$, the unique map such that
+  \begin{equation*}
+    \pi_{A'} \circ \psi_{A} = \psi_{A,A'} \qquad\text{and}\qquad\pi_{B'} \circ \psi_{A} = \psi_{A,B'}.
+  \end{equation*}
+
+  The morphisms $\psi_{B,A'}$ and $\psi_{B,B'}$ give us a map $\psi_{B}$ which is unique in the same way.
+
+  Now the universal property for coproducts gives us a map $\psi\colon A \amalg B \to A' \times B'$, the unique map such that $\psi \circ \iota_{A} = \psi_{A}$ and $\psi \circ \iota_{B} = \psi_{B}$.
+\end{proof}
+
+\begin{theorem}
+  The $\Phi_{A, B}$ defined above form the components of a natural isomorphism.
+\end{theorem}
+\begin{proof}
+  Let $A$, $B$, $A'$, and $B' \in \Obj(\mathsf{C})$, and let $f\colon A \to A'$ and $g\colon B \to B'$. To check that $\Phi_{A, B}$ are the components of a natural isomorphism, we have to check that the following naturality square commutes.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=large, row sep=large]
+      A \amalg B
+      \arrow[r, "f \amalg g"]
+      \arrow[d, swap, "{\Phi_{A, B}}"]
+      & A' \amalg B'
+      \arrow[d, "{\Phi_{A', B'}}"]
+      \\
+      A \times B
+      \arrow[r, swap, "f \times g"]
+      & A' \times B'
+    \end{tikzcd}
+  \end{equation*}
+  That is, we need to check that $(f \times g) \circ \Phi_{A, B} = \Phi_{A', B'} \circ (f \amalg g)$.
+
+  Both of these are morphisms $A \amalg B \to A' \times B'$, and by \hyperref[lemma:mapcoprodtoproddeterminedbycomponents]{Lemma~\ref*{lemma:mapcoprodtoproddeterminedbycomponents}}, it suffices to check that their components agree, i.e.\ that
+\end{proof}
+
+
+\begin{example}
+  In the category $\mathsf{Vect}_{k}$ of vector spaces over a field $k$, the direct sum $\oplus$ is a biproduct.
+\end{example}
+
+\begin{example}
+  In the category $\mathsf{Ab}$ of abelian groups, the direct sum $\oplus$ is both a product and a coproduct. Hence $\mathsf{Ab}$ has biproducts.
+\end{example}
+
+
+\section{Exponentials}
+
+Astonishingly, we can talk about functional evaluation purely in terms of products and universal properties.
+
+\begin{definition}[exponential]
+  \label{def:exponential}
+  Let $\mathsf{C}$ be a category with products, $A$, $B \in \Obj(\mathsf{C})$. The \defn{exponential} of $A$ and $B$ is an object $B^{A} \in \Obj(\mathsf{C})$ together with a morphism $\varepsilon\colon B^{A} \times A \to B$, called the \emph{evaluation morphism}, which satisfies the following universal property.
+
+  \begin{quote}
+    For any object $X \in \Obj(\mathsf{C})$ and morphism $f\colon X \times A \to B$, there exists a unique morphism $\bar{f}\colon X \to B^{A}$ which makes the following diagram commute.
+    \begin{equation*}
+      \begin{tikzcd}
+        B^{A}
+        & & B^{A} \times A
+        \arrow[r, "\varepsilon"]
+        & B
+        \\
+        X
+        \arrow[u, "\exists!\bar{f}"]
+        & & X \times A
+        \arrow[ur, swap, "f"]
+        \arrow[u, "\bar{f} \times \id_{A}"]
+      \end{tikzcd}
+    \end{equation*}
+  \end{quote}
+\end{definition}
+
+\begin{example}
+  In $\mathsf{Set}$, the exponential object $B^{A}$ is the set of functions $A \to B$, and the evaluation morphism $\varepsilon$ is the map which assigns $(f, a) \mapsto f(a)$. Let us check that these objects indeed satisfy the universal property given.
+
+  Suppose we are given a function $f\colon X \times A \to B$. We want to construct from this a function $\bar{f}\colon X \to B^{A}$, i.e.\ a function which takes an element $x \in X$ and returns a function $\bar{f}(x)\colon A \to B$. There is a natural way to do this: fill the first slot of $f$ with $x$! That is to say, define $\bar{f}(x) = f(x, -)$. It is easy to see that this makes the diagram commute:
+  \begin{equation*}
+    \begin{tikzcd}
+      {(f(x,-), a)}
+      \arrow[r, mapsto, "\varepsilon"]
+      &{f(x, a)}
+      \\
+      {(x, a)}
+      \arrow[u, mapsto, "\bar{f} \times \id_{A}"]
+      \arrow[ur, mapsto, swap, "f"]
+    \end{tikzcd}
+  \end{equation*}
+  Furthermore, $\bar{f}$ is unique since if it sent $x$ to any function other than $f$ the diagram would not commute.
+\end{example}
+
+\begin{example}
+  One might suspect that the above generalizes to all sorts of categories. For example, one might hope that in $\mathsf{Grp}$, the exponential $H^{G}$ of two groups $G$ and $H$ would somehow capture all homomorphisms $G \to H$. This turns out to be impossible; we will see why in REF\@.
+\end{example}
+
+
+\section{Cartesian closed categories}
+
+\begin{definition}[cartesian closed category]
+  \label{def:cartesianclosedcategory}
+  A category $\mathsf{C}$ is \defn{cartesian closed} if it has
+  \begin{enumerate}
+    \item products: for all $A$, $B \in \Obj(\mathsf{C})$, $A \times B \in \Obj(\mathsf{C})$;
+    \item exponentials: for all $A$, $B \in \Obj(\mathsf{C})$, $B^{A} \in \Obj(\mathsf{C})$;
+    \item a terminal element (\hyperref[def:initialfinalzeroobject]{Definition~\ref*{def:initialfinalzeroobject}}) $1 \in \mathsf{C}$.
+  \end{enumerate}
+\end{definition}
+
+Cartesian closed categories have many inveresting properties. For example, they replicate many properties of the integers: we have the following familiar formulae for any objects $A$, $B$, and $C$ in a Cartesian closed category with coproducts $+$.
+\begin{enumerate}
+  \item $A \times (B + C) \simeq (A \times B) + (A \times C)$
+  \item $C^{A + B} \simeq C^{A} \times C^{B}$.
+  \item ${(C^{A})}^{B} \simeq C^{A \times B}$
+  \item ${(A \times B)}^{C} \simeq A^{C} \times B^{C}$
+  \item $C^{1} \simeq C$
+\end{enumerate}
+
+We could prove these immediately, by writing down diagrams and appealing to the universal properties. However, we will soon have a powerful tool, the Yoneda lemma, that makes their proof completely routine.
+
+
+\end{document}

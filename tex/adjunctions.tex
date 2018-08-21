@@ -1,0 +1,398 @@
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+
+\chapter{Adjunctions}\label{sec:adjunctions}
+
+Consider the following functors:
+\begin{itemize}
+  \item $\mathcal{U}\colon \mathsf{Grp} \rightsquigarrow \mathsf{Set}$, which sends a group to its underlying set, and
+
+  \item $\mathcal{F}\colon \mathsf{Set} \rightsquigarrow \mathsf{Grp}$, which sends a set to the free group on it.
+\end{itemize}
+
+The functors $\mathcal{U}$ and $\mathcal{F}$ are dual in the following sense: $\mathcal{U}$ is the most efficient way of moving from $\mathsf{Grp}$ to $\mathsf{Set}$ since all groups are in particular sets; $\mathcal{F}$ might be thought of as providing the most efficient way of moving from $\mathsf{Set}$ to $\mathsf{Grp}$. But how would one go about formalizing this?
+
+Well, these functors have the following property. Let $S$ be a set, $G$ be a group, and let $f\colon S \to \mathcal{U}(G)$, $s \mapsto f(s)$ be a set-function. Then there is an associated group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$, which sends $s_{1}s_{2}\dots s_{n} \mapsto f(s_{1}s_{2}\dots s_{n}) = f(s_{1})\cdots f(s_{n})$. In fact, $\tilde{f}$ is the unique homomorphism $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
+
+Similarly, for every group homomorphism $g\colon \mathcal{F}(S) \to G$, there is an associated function $S \to \mathcal{U}(G)$ given by restricting $g$ to $S$. In fact, this is the unique function $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
+
+Thus for each $f \in \Hom_{\mathsf{Grp}}(S, \mathcal{U}(G))$ we can construct an $\tilde{f} \in \Hom_{\mathsf{Set}}(\mathcal{F}(S), G)$, and vice versa.
+
+Let us add some mathematical scaffolding to the ideas explored above. We build two functors $\mathsf{Set}^{\mathrm{op}} \times \mathsf{Grp} \rightsquigarrow \mathsf{Set}$ as follows.
+\begin{enumerate}
+  \item Our first functor maps the object $(S, G) \in \Obj(\mathsf{Set}^{\mathrm{op}} \times \mathsf{Grp})$ to the hom-set $\Hom_{\mathsf{Grp}}(\mathcal{F}(S), G)$, and a morphism $(\alpha, \beta)\colon (S,G) \to (S', G')$ to a function
+    \begin{equation*}
+      \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Grp}}(\mathcal{F}(S'), G');\qquad m \mapsto \mathcal{F}(\alpha) \circ m \circ \beta
+    \end{equation*}
+
+  \item Our second functor maps $(S, G)$ to $\Hom_{\mathsf{Set}}(S, \mathcal{U}(G))$, and $(\alpha, \beta)$ to
+    \begin{equation*}
+      m \mapsto \alpha \circ m \circ \mathcal{U}(\beta).
+    \end{equation*}
+\end{enumerate}
+We can define a natural isomorphism $\Phi$ between these functors with components
+\begin{equation*}
+  \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G));\qquad f \to \tilde{f}.
+\end{equation*}
+
+This mathematical structure turns out to be a recurring theme in the study of categories, called an \emph{adjuction}. We have encountered it before: we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
+\begin{equation*}
+  \Hom_{\mathsf{C}}(X \times (-), B)\qquad\text{and}\qquad \Hom_{\mathsf{C}}(X, B^{(-)}).
+\end{equation*}
+
+\begin{definition}[hom-set adjunction]
+  \label{def:homsetadjunction}
+  Let $\mathsf{C}$, $\mathsf{D}$ be categories and $\mathcal{F}$, $\mathcal{G}$ functors as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, bend left, "\mathcal{F}"]
+      & \mathsf{D}
+      \arrow[l, rightsquigarrow, bend left, "\mathcal{G}"]
+    \end{tikzcd}
+  \end{equation*}
+  We say that \defn{$\mathcal{F}$ is left-adjoint to $\mathcal{G}$} (or equivalently $\mathcal{G}$ is right-adjoint to $\mathcal{F}$) and write $\mathcal{F} \dashv \mathcal{G}$ if there is a natural isomorphism
+  \begin{equation*}
+    \Phi\colon \Hom_{\mathsf{D}}(\mathcal{F}(-), -) \Rightarrow \Hom_{\mathsf{C}}(-, \mathcal{G}(-)),
+  \end{equation*}
+  which fits between $\mathcal{F}$ and $\mathcal{G}$ like this.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      \mathsf{C}^{\mathrm{op}} \times \mathsf{D}
+      \arrow[r, bend left, rightsquigarrow, anchor=s, "{\Hom_{\mathsf{D}}(\mathcal{F}(-), -)}", ""{name=U, below}]
+      \arrow[r, bend right, rightsquigarrow, swap, "{\Hom_{\mathsf{D}}(-, \mathcal{G}(-))}", ""{name=D, above}]
+      \arrow[from=U, to=D, Rightarrow, "\Phi"]
+      & \mathsf{Set}\qquad
+    \end{tikzcd}
+  \end{equation*}
+  The natural isomorphsim amounts to a family of bijections
+  \begin{equation*}
+    \Phi_{A, B}\colon \Hom_{\mathsf{D}}(\mathcal{F}(A), B) \to \Hom_{\mathsf{C}}(A, \mathcal{G}(B))
+  \end{equation*}
+  which satisfies the coherence conditions for a natural transformation.
+
+\end{definition}
+
+Here are two equivalent definitions which are often used.
+
+\begin{definition}[unit-counit adjunction]
+  \label{def:unitcounitadjunction}
+  We say that two functors $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ and $\mathcal{G}\colon \mathsf{D} \rightsquigarrow \mathsf{C}$ form a \defn{unit-counit adjunction} if there are two natural transformations
+  \begin{equation*}
+    \eta\colon \id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F},\qquad\text{and}\qquad \varepsilon\colon \mathcal{F} \circ \mathcal{G} \Rightarrow \id_{\mathsf{D}},
+  \end{equation*}
+  called the \emph{unit} and \emph{counit} respectively, which make the following so-called \emph{triangle diagrams}
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{F}
+      \arrow[r, Rightarrow, "\mathcal{F}\eta"]
+      \arrow[rd, Rightarrow, swap, "\id_{\mathcal{F}}"]
+      & \mathcal{FGF}
+      \arrow[d, Rightarrow, "\varepsilon\mathcal{F}"]
+      \\
+      & \mathcal{F}
+    \end{tikzcd},
+    \qquad
+    \begin{tikzcd}
+      \mathcal{G}
+      \arrow[r, Rightarrow, "\eta\mathcal{G}"]
+      \arrow[rd, Rightarrow, swap, "\id_{\mathcal{G}}"]
+      & \mathcal{GFG}
+      \arrow[d, Rightarrow, "\mathcal{G}\varepsilon"]
+      \\
+      & \mathcal{G}
+    \end{tikzcd}
+  \end{equation*}
+  commute.
+
+  The triangle diagrams take quite some explanation. The unit $\eta$ is a natural transformation $\id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$. We can draw it like this.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, bend left, "\id_{\mathsf{C}}"{name=U}]
+      \arrow[r, rightsquigarrow, swap, bend right, "\mathcal{G} \circ \mathcal{F}"{name=D}]
+      \arrow[from=U, to=D, Rightarrow, "\eta"]
+      & \mathsf{C}
+    \end{tikzcd}.
+  \end{equation*}
+  Analogously, we can draw $\varepsilon$ like this.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      \mathsf{D}
+      \arrow[r, rightsquigarrow, bend left, "\mathcal{F} \circ \mathcal{G}"{name=U}]
+      \arrow[r, rightsquigarrow, swap, bend right, "\id_{\mathsf{D}}"{name=D}]
+      \arrow[from=U, to=D, Rightarrow, "\varepsilon"]
+      & \mathsf{D}
+    \end{tikzcd}.
+  \end{equation*}
+
+  We can arrange these artfully like so.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, "\mathcal{F}" description]
+      \arrow[rr, rightsquigarrow, bend left=75, "\id_{\mathsf{C}}"{name=UU}]
+      \arrow[rr, swap, rightsquigarrow, bend left=30, "\mathcal{G} \circ \mathcal{F}"{name=U}]
+      & \mathsf{D}
+      \arrow[r, rightsquigarrow, "\mathcal{G}" description]
+      \arrow[rr, rightsquigarrow, bend right=75, swap, "\id_{\mathsf{D}}"{name=DD}]
+      \arrow[rr, rightsquigarrow, bend right=30, "\mathcal{F} \circ \mathcal{G}"{name=D}]
+      \arrow[from=D, to=DD, Rightarrow, "\varepsilon"]
+      & \mathsf{C}
+      \arrow[from=UU, to=U, Rightarrow, swap, "\eta"]
+      \arrow[r, rightsquigarrow, "\mathcal{F}" description]
+      & \mathsf{D}
+    \end{tikzcd}
+  \end{equation*}
+  Notice that we haven't actually \emph{done} anything; this diagram is just the diagrams for the unit and counit, plus some extraneous information.
+
+  We can whisker the $\eta$ on top from the right, and the $\varepsilon$ below from the left, to get the following diagram,
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, "\mathcal{F}" description]
+      \arrow[rrr, rightsquigarrow, bend right=60, swap, "\mathcal{F}"{name=D}]
+      \arrow[rrr, rightsquigarrow, bend left=60, "\mathcal{F}"{name=U}]
+      \arrow[rrr, rightsquigarrow, bend left=30, swap, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=MU}]
+      \arrow[rrr, rightsquigarrow, bend right=30, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=MD}]
+      & \mathsf{D}
+      \arrow[from=U, to=MU, Rightarrow, swap, "\mathcal{F}\eta"]
+      \arrow[r, rightsquigarrow, "\mathcal{G}" description]
+      \arrow[from=MD, to=D, Rightarrow, "\varepsilon\mathcal{F}"]
+      & \mathsf{C}
+      \arrow[r, rightsquigarrow, "\mathcal{F}" description]
+      & \mathsf{D}
+    \end{tikzcd}
+  \end{equation*}
+  then consolidate to get this:
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, bend left=60, "\mathcal{F}"{name=U}]
+      \arrow[r, rightsquigarrow, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=M} description]
+      \arrow[r, rightsquigarrow, bend right=60, swap, "\mathcal{F}"{name=D}]
+      & \mathsf{D}
+      \arrow[from=U, to=M, Rightarrow, "\mathcal{F}\eta"]
+      \arrow[from=M, to=D, Rightarrow, "\varepsilon\mathcal{F}"]
+    \end{tikzcd}
+  \end{equation*}
+  We can then take the composition $\varepsilon \mathcal{F} \circ \mathcal{F}\eta$ to get a natural transformation $\mathcal{F} \Rightarrow \mathcal{F}$
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      \mathsf{C}
+      \arrow[r, bend left, rightsquigarrow, "\mathcal{F}"{name=U}]
+      \arrow[r, bend right, swap, rightsquigarrow, "\mathcal{F}"{name=D}]
+      \arrow[from=U, to=D, Rightarrow, "\varepsilon\mathcal{F} \circ \mathcal{F}\eta"]
+      &\mathsf{D};
+    \end{tikzcd}
+  \end{equation*}
+  the first triangle diagram says that this must be the same as the identity natural transformation $\id_{\mathcal{F}}$.
+
+  The second triangle diagram is analogous.
+\end{definition}
+
+\begin{lemma}
+  The functors $\mathcal{F}$ and $\mathcal{G}$ form a unit-counit adjunction if and only if they form a hom-set adjunction.
+\end{lemma}
+\begin{proof}
+  Suppose $\mathcal{F}$ and $\mathcal{G}$ form a hom-set adjunction with natural isomorphism $\Phi$. Then for any $A \in \Obj(\mathsf{C})$, we have $\mathcal{F}(A) \in \Obj(\mathsf{D})$, so $\Phi$ give us a bijection
+  \begin{equation*}
+    \Phi_{A, \mathcal{F}(A)}\colon \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A)) \to \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A)).
+  \end{equation*}
+  We don't know much in general about $\Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))$, but the category axioms tell us that it always contains $\id_{\mathcal{F}(A)}$. We can use $\Phi_{A, \mathcal{F}(A)}$ to map this to
+  \begin{equation*}
+    \Phi_{A, \mathcal{F}(A)}(\id_{\mathcal{F}(A)}) \in \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A)).
+  \end{equation*}
+  Let's call $\Phi_{A, \mathcal{F}(A)}(\id_{\mathcal{F}(A)}) = \eta_{A}$.
+
+  Similarly, if $B \in \Obj(\mathsf{D})$, then $\mathcal{G}(B) \in \Obj(\mathsf{C})$, so $\Phi$ gives us a bijection
+  \begin{equation*}
+    \Phi_{\mathcal{G}(B), B}\colon \Hom_{\mathsf{D}}((\mathcal{F} \circ \mathcal{G})(B), B) \to \Hom_{\mathsf{C}}(\mathcal{G}(B), \mathcal{G}(B)).
+  \end{equation*}
+
+  Since $\Phi_{\mathcal{G}(B), B}$ is a bijection, it is invertible, and we can evaluate the inverse on $\id_{\mathcal{G}(B)}$. Let's call
+  \begin{equation*}
+    \Phi^{-1}_{\mathcal{G}(B), B}(\id_{\mathcal{G}(B)}) = \varepsilon_{B}.
+  \end{equation*}
+
+  Clearly, $\eta_{A}$ and $\varepsilon_{B}$ are completely determined by $\Phi$ and $\Phi^{-1}$ respectively. It turns out that the converse is also true; in a manner reminiscent of the proof of the Yoneda lemma, we can express $\Phi_{A, B}$ in terms of $\eta$, and $\Phi^{-1}_{A, B}$ in terms of $\varepsilon$, for \emph{any} $A$ and $B$. Here's how this is done.
+
+  We use the naturality of $\Phi$. We know that for any $A \in \Obj(\mathsf{C})$, $B \in \Obj(\mathsf{D})$, and $g\colon \mathcal{F}(A) \to B$, the following diagram has to commute.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))
+      \arrow[r, "g \circ (-)"]
+      \arrow[d, swap, "\Phi_{A, \mathcal{F}(A)}"]
+      & \Hom_{\mathsf{D}}(\mathcal{F}(A), B)
+      \arrow[d, "\Phi_{A, B}"]
+      \\
+      \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A))
+      \arrow[r, "\mathcal{G}(g) \circ (-)"]
+      & \Hom_{\mathsf{C}}(A, \mathcal{G}(B)).
+    \end{tikzcd}
+  \end{equation*}
+  Let's start at the top left with $\id_{\mathcal{F}(A)}$ and see what happens. Taking the top road to the bottom right, we have $\Phi_{A, B}(g)$, and from the bottom road we have $\mathcal{G}(g) \circ \eta_{A}$. The diagram commutes, so we have
+  \begin{equation*}
+    \Phi_{A, B}(g) = \mathcal{G}(g) \circ \eta_{A}.
+  \end{equation*}
+  Similarly, the commutativity of the diagram
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      \Hom_{\mathsf{D}}((\mathcal{F} \circ \mathcal{G})(B), B)
+      \arrow[r, "(-) \circ \mathcal{F}(f)"]
+      & \Hom_{\mathsf{D}}(\mathcal{F}(A), B)
+      \\
+      \Hom_{\mathsf{C}}(\mathcal{G}(B), \mathcal{G}(B))
+      \arrow[r, "(-) \circ f"]
+      \arrow[u, "{\Phi^{-1}_{\mathcal{G}(B), B}}"]
+      & \Hom_{\mathsf{C}}(A, \mathcal{G}(B))
+      \arrow[u, swap, "\Phi^{-1}_{A, B}"]
+    \end{tikzcd}
+  \end{equation*}
+  means that, for any $f\colon A \to \mathcal{G}(B)$,
+  \begin{equation*}
+    \Phi^{-1}_{A, B}(f) = \varepsilon_{B} \circ \mathcal{F}(f)
+  \end{equation*}
+
+  To show that $\eta$ and $\varepsilon$ as defined here satisfy the triangle identities, we need to show that for all $A \in \Obj(\mathsf{C})$ and all $B \in \Obj(\mathsf{D})$,
+  \begin{equation*}
+    {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = {(\id_{\mathcal{F}})}_{A}\qquad\text{and}\quad {(\mathcal{G}\varepsilon)}_{B} \circ {(\eta\mathcal{G})}_{B} = {(\id_{\mathcal{G}})}_{B}.
+  \end{equation*}
+  We have
+  \begin{equation*}
+    {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = \varepsilon_{\mathcal{F}(A)} \circ \mathcal{F}(\eta_{A}) = \Phi^{-1}_{A, \mathcal{F}(A)}(\eta_{A}) = \id_{A} = {(\id_{\mathcal{F}})}_{A}
+  \end{equation*}
+  and
+  \begin{equation*}
+    {(\mathcal{G}_{\varepsilon})}_{B} \circ {(\eta\mathcal{G})}_{B} = \mathcal{G}(\varepsilon_{B}) \circ \eta_{\mathcal{G}(B)} = \Phi_{\mathcal{G}(B), B}(\varepsilon_{B}) = \id_{B} = {(\id_{\mathcal{G}})}_{B}.
+  \end{equation*}
+\end{proof}
+
+
+\begin{definition}[adjunct]
+  \label{def:adjunct}
+  Let $\mathcal{F} \dashv \mathcal{G}$ be an adjunction as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, bend left, rightsquigarrow, "\mathcal{F}"]
+      & \mathsf{D}
+      \arrow[l, bend left, rightsquigarrow, "\mathcal{G}"]
+    \end{tikzcd}
+  \end{equation*}
+  Then for each $A \in \Obj(\mathsf{C})$ $B \in \Obj(\mathsf{D})$, we have a natural isomorphism (i.e.\ a bijection)
+  \begin{equation*}
+    \Phi_{A, B}: \Hom_{\mathsf{D}}(\mathcal{F}(A), B) \to \Hom_{\mathsf{C}}(A, \mathcal{G}(B)).
+  \end{equation*}
+  Thus, for each $f \in \Hom_{\mathsf{D}}(\mathcal{F}(A), B)$ there is a corresponding element $\tilde{f} \in \Hom_{\mathsf{C}}(A, \mathcal{G}(B))$, and vice versa. The morphism $\tilde{f}$ is called the \defn{adjunct} of $f$, and $f$ is called the adjunct of $\tilde{f}$.
+\end{definition}
+
+\begin{lemma}
+  Let $\mathsf{C}$ and $\mathsf{D}$ be categories, $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ and $\mathcal{G}$, $\mathcal{G}'\colon \mathsf{D} \rightsquigarrow \mathsf{C}$ functors,
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, "\mathcal{F}"]
+      & \mathsf{D}
+      \arrow[l, rightsquigarrow, bend right=45, swap, "\mathcal{G}"]
+      \arrow[l, rightsquigarrow, bend left=45, "\mathcal{G}'"]
+    \end{tikzcd}
+  \end{equation*}
+  and suppose that $\mathcal{G}$ and $\mathcal{G}'$ are both right-adjoint to $\mathcal{F}$. Then there is a natural isomorphism $\mathcal{G} \Rightarrow \mathcal{G}'$.
+\end{lemma}
+\begin{proof}
+  Since any adjunction is a hom-set adjunction, we have two isomorphisms
+  \begin{equation*}
+    \Phi_{C, D}\colon \Hom_{\mathsf{D}}(\mathcal{F}(C), D) \Rightarrow \Hom_{\mathsf{C}}(C, \mathcal{G}(D))\qquad\text{and}\qquad \Psi_{C, D}\colon \Hom_{\mathsf{D}}(\mathcal{F}(C), D) \Rightarrow \Hom_{\mathsf{C}}(C, \mathcal{G}'(D))
+  \end{equation*}
+  which are natural in both $C$ and $D$. By \hyperref[lemma:naturalisomorphismshaveinverses]{Lemma~\ref*{lemma:naturalisomorphismshaveinverses}}, we can construct the inverse natural isomorphism
+  \begin{equation*}
+    \Phi^{-1}_{C, D}\colon \Hom_{\mathsf{C}}(C, \mathcal{G}(D)) \Rightarrow \Hom_{\mathsf{D}}(\mathcal{F}(C), D),
+  \end{equation*}
+  and compose it with $\Psi$ to get a natural isomorphsim
+  \begin{equation*}
+    {(\Psi \circ \Phi^{-1})}_{C, D}\colon \Hom_{\mathsf{C}}(C, \mathcal{G}(D)) \Rightarrow \Hom_{\mathsf{C}}(C, \mathcal{G}'(D)).
+  \end{equation*}
+
+  Thus for any morphism $f\colon D \to E$, the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      \Hom_{\mathsf{C}}(C, \mathcal{G}(D))
+      \arrow[r, "{\Hom_{\mathsf{C}}(C, \mathcal{G}(f))}"]
+      \arrow[d, swap, "{{(\Psi \circ \Phi^{-1})}_{C, D}}"]
+      & \Hom_{\mathsf{C}}(C, \mathcal{G}(E))
+      \arrow[d, "{{(\Psi \circ \Phi^{-1})}_{C, E}}"]
+      \\
+      \Hom_{\mathsf{C}}(C, \mathcal{G}'(D))
+      \arrow[r, "{\Hom_{\mathsf{C}}(C, \mathcal{G}'(f))}"]
+      & \Hom_{\mathsf{C}}(C, \mathcal{G}'(E))
+    \end{tikzcd}
+  \end{equation*}
+  But the fully faithfulness of the Yoneda embedding tells us that there exist isomorphisms $\mu_{D}$ and $\mu_{E}$ making the following diagram commute,
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{G}(D)
+      \arrow[r, "\mathcal{G}(f)"]
+      \arrow[d, swap, "\mu_{D}"]
+      & \mathcal{G}(E)
+      \arrow[d, "\mu_{E}"]
+      \\
+      \mathcal{G}'(D)
+      \arrow[r, "\mathcal{G}'(f)"]
+      & \mathcal{G}'(E)
+    \end{tikzcd}
+  \end{equation*}
+  and taking the collection of all such $\mu_{(-)}$ gives us a natural isomorphism $\mu\colon \mathcal{G} \Rightarrow \mathcal{G}'$.
+\end{proof}
+
+\begin{note}
+  We do not give very many examples of adjunctions now because of the frequency with which category theory graces us with them. Howver, it is worth mentioning a specific class of adjunctions: the so-called \emph{free-forgetful adjunctions}. There are many \emph{free} objects in mathematics: free groups, free modules, free vector spaces, free categories, etc. These are all unified by the following property: the functors defining them are all left adjoints.
+
+  Let us take a specific example: the free vector space over a set. This takes a set $S$ and constructs a vector space which has as a basis the elements of $S$.
+
+  There is a forgetful functor $\mathcal{U}\colon \mathsf{Vect}_{k} \rightsquigarrow \mathsf{Set}$ which takes any set and returns the set underlying it. There is a functor $\mathcal{F}\colon \mathsf{Set} \rightsquigarrow \mathsf{Vect}_{k}$, which takes a set and returns the free vector space on it. It turns out that there is an adjunction $\mathcal{F} \dashv \mathcal{U}$.
+
+  And this is true of any free object! (In fact by definition.) In each case, the functor giving the free object is left adjoint to a forgetful functor.
+\end{note}
+
+\begin{theorem}
+  \label{thm:rightadjointspreservelimits}
+  Let $\mathsf{C}$ and $\mathsf{D}$ be categories and $\mathcal{F}$ and $\mathcal{G}$ functors as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, bend left, "\mathcal{F}"]
+      & \mathsf{D}
+      \arrow[l, rightsquigarrow, bend left, "\mathcal{G}"]
+    \end{tikzcd}
+  \end{equation*}
+  Let $\mathcal{F} \dashv \mathcal{G}$ be an adjunction. Then $\mathcal{G}$ preserves limits, i.e.\ if $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$ is a diagram and $\lim_{\leftarrow i}\mathcal{D}_{i}$ exists in $\mathsf{C}$, then
+  \begin{equation*}
+    \mathcal{G}(\lim_{\leftarrow i}\mathcal{D}_{i}) \simeq \lim_{\leftarrow i} (\mathcal{G} \circ \mathcal{D}_{i}).
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We have the following chain of isomorphisms, natural in $Y \in \Obj(\mathsf{D})$.
+  \begin{align*}
+    \Hom_{\mathsf{D}}(Y, \mathcal{G}(\lim_{\leftarrow i}\mathcal{D}_{i})) &\simeq \Hom_{\mathsf{C}}(\mathcal{F}(Y), \lim_{\leftarrow i}\mathcal{D}_{i}) \\
+    &\simeq \lim_{\leftarrow i} \Hom_{\mathsf{C}}(\mathcal{G}(Y), \mathcal{D}_{i}) &\left(\substack{\text{Hom functor commutes with} \\ \text{limits: \hyperref[thm:homfunctorpreserveslimits]{Theorem~\ref*{thm:homfunctorpreserveslimits}}}}\right) \\
+    &\simeq \lim_{\leftarrow i} \Hom_{\mathsf{D}}(Y, \mathcal{G}\circ \mathcal{D}_{i}) \\
+    &\simeq \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow i}(\mathcal{G}\circ \mathcal{D}_{i})).
+  \end{align*}
+
+  By the Yoneda lemma, specifically \hyperref[cor:yonedaembeddingrespectsisomorphisms]{Corollary~\ref*{cor:yonedaembeddingrespectsisomorphisms}}, we have a natural isomorphism
+  \begin{equation*}
+    \mathcal{G}(\lim_{\leftarrow i}\mathcal{D}_{i}) \simeq \lim_{\leftarrow i}(\mathcal{G} \circ \mathcal{D}_{i}).
+  \end{equation*}
+\end{proof}
+
+\begin{corollary}
+  \label{cor:leftadjointspreservecolimits}
+  Any functor $\mathcal{F}$ which is a left-ajoint preserves colimits.
+\end{corollary}
+\begin{proof}
+  Dual to the proof of \hyperref[thm:rightadjointspreservelimits]{Theorem~\ref*{thm:rightadjointspreservelimits}}.
+\end{proof}
+
+
+\end{document}

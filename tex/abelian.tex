@@ -1,0 +1,903 @@
+
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+\chapter{Abelian categories}\label{sec:abeliancategories}
+
+This section draws heavily from~\cite{EGNO-tensor-categories}.
+
+\section{Additive categories}
+
+Recall that $\mathsf{Ab}$ is the category of abelian groups.
+\begin{definition}[$\mathsf{Ab}$-enriched category]
+  \label{def:abenrichedcategory}
+  A category $\mathsf{C}$ is \defn{$\mathsf{Ab}$-enriched} if
+  \begin{enumerate}
+    \item for all objects $A$, $B \in \Obj(\mathsf{C})$, the hom-set $\text{Hom}_{\mathsf{C}}(A, B)$ has the structure of an abelian group (i.e.\ one can add morphisms), such that
+
+    \item the composition
+      \begin{equation*}
+        \circ\colon \Hom_{\mathsf{C}}(B, C) \times \Hom_{\mathsf{C}}(A, B) \to \Hom_{C}(A, C)
+      \end{equation*}
+      is additive in each slot: for any $f_{1}$, $f_{2} \in \Hom_{\mathsf{C}}(B, C)$ and $g \in \Hom_{\mathsf{C}}(A, B)$, we must have
+      \begin{equation*}
+        (f_{1} + f_{2}) \circ g = f_{1} \circ g + f_{2} \circ g,
+      \end{equation*}
+      and similarly in the second slot.
+  \end{enumerate}
+\end{definition}
+
+\begin{note}
+  \label{note:inabenrichedcategorynoemptyhomsets}
+  In any $\mathsf{Ab}$-enriched category, every hom-set has at least one element---the identity element of the hom-set taken as an abelian group.
+\end{note}
+
+\begin{definition}[endomorphism ring]
+  \label{def:endomorphismring}
+  Let $\mathsf{C}$ be an $\mathsf{Ab}$-enriched category, and let $A \in \Obj(\mathsf{C})$. The \defn{endomorphism ring} of $A$, denoted $\mathrm{End}(A)$, is $\Hom_{\mathsf{C}}(A, A)$, with addition given by the abelian structure and multiplication given by composition.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:abeliancategorycoproductsareproducts}
+  In an $\mathsf{Ab}$-enriched category $\mathsf{C}$, a finite product is also a coproduct, and vice versa. In particular, initial objects and terminal objects coincide.
+\end{lemma}
+\begin{proof}
+  %First, we show that initial and terminal objects coincide. Let $\emptyset$ be initial and $*$ terminal in $\mathsf{C}$.
+  %
+  %Since $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ has only one element, it must be both the identity morphism on $\emptyset$ \emph{and} the identity element of $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ as an abelian group. Similarly, $\id_{*}$ must be the identity element of $\Hom_{\mathsf{C}}(*, *)$.
+
+  %Since $\emptyset$ is initial and $*$ is final, $\Hom_{\mathsf{C}}(\emptyset, *)$ has exactly one element $f$. By \hyperref[note:inabenrichedcategorynoemptyhomsets]{Note \ref*{note:inabenrichedcategorynoemptyhomsets}}, we are guaranteed that $\Hom_{\mathsf{C}}(*, \emptyset)$ has at least one element.
+
+  See~\cite{nlab-additive-category}, Proposition 2.1 for details.
+\end{proof}
+
+\begin{definition}[additive category]
+  \label{def:additivecategory}
+  A category $\mathsf{C}$ is \defn{additive} if it has biproducts (\hyperref[def:categorywithbiproducts]{Definition~\ref*{def:categorywithbiproducts}}) and is $\mathsf{Ab}$-enriched.
+\end{definition}
+
+
+\begin{example}
+  The category $\mathsf{Ab}$ of Abelian groups is an additive category. We have already seen that it has the direct sum $\oplus$ as biproduct. Given any two abelian groups $A$ and $B$ and morphisms $f$, $g\colon A \to B$, we can define the sum $f + g$ via
+  \begin{equation*}
+    (f + g)(a) = f(a) + g(a)\qquad\text{for all }a \in A.
+  \end{equation*}
+  Then for another abelian group $C$ and a morphism $h\colon B \to C$, we have
+  \begin{equation*}
+    \left[ h \circ (f+g) \right](a) = h(f(a) + g(a)) = h(f(a)) + h(g(a)) = \left[ h \circ f + h \circ g \right](a),
+  \end{equation*}
+  so
+  \begin{equation*}
+    h \circ (f+g) =h \circ f + h \circ g,
+  \end{equation*}
+  and similarly in the other slot.
+\end{example}
+
+\begin{example}
+  The category $\mathsf{Vect}_{k}$ is additive. Since vector spaces are in particular abelian groups under addition, it is naturally $\mathsf{Ab}$-enriched,
+\end{example}
+
+\begin{definition}[additive functor]
+  \label{def:additivefunctor}
+  Let $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ be a functor between additive categories. We say that $\mathcal{F}$ is \defn{additive} if for each $X$, $Y \in \Obj(\mathsf{C})$ the map
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(X, Y) \to \Hom_{\mathsf{D}}(\mathcal{F}(X), \mathcal{F}(Y))
+  \end{equation*}
+  is a homomorphism of abelian groups.
+\end{definition}
+
+\begin{lemma}
+  For any additive functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$, there exists a natural isomorphism
+  \begin{equation*}
+    \Phi\colon \mathcal{F}(-) \oplus \mathcal{F}(-) \Rightarrow \mathcal{F}(- \oplus -).
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  The commutativity of the following diagram is immediate.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge, row sep=huge]
+      \mathcal{F}(X \oplus Y)
+      \arrow[r, "\mathcal{F}(f \oplus g)"]
+      \arrow[d, swap, "\Phi_{X, Y}"]
+      & \mathcal{F}(X' \oplus Y')
+      \arrow[d, "\Phi_{X', Y'}"]
+      \\
+      \mathcal{F}(X) \oplus \mathcal{F}(Y)
+      \arrow[r, "\mathcal{F}(f) \oplus \mathcal{F}(g)"]
+      & \mathcal{F}(X') \oplus \mathcal{F}(Y')
+    \end{tikzcd}
+  \end{equation*}
+
+  The $(X, Y)$-component $\Phi_{X, Y}$ is an isomorphism because
+\end{proof}
+
+
+\section{Pre-abelian categories}~\label{sec:preabeliancategories}
+
+\begin{definition}[pre-abelian category]
+  \label{def:preabeliancategory}
+  A category  $\mathsf{C}$ is \defn{pre-abelian} if it is additive and every morphism has a kernel (\hyperref[def:kernelofmorphism]{Definition~\ref*{def:kernelofmorphism}}) and a cokernel (\hyperref[def:cokernalofmorphism]{Definition~\ref*{def:cokernalofmorphism}}).
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:preabeliancategorieshaveequalizers}
+  Pre-abelian categories have equalizers (\hyperref[def:equalizer]{Definition~\ref*{def:equalizer}}).
+\end{lemma}
+\begin{proof}
+  We show that in an pre-abelian category, the equalizer of $f$ and $g$ coincides with the kernel of $f - g$. It suffices to show that the kernel of $f - g$ satisfies the universal property for the equalizer of $f$ and $g$.
+
+  Here is the diagram for the universal property of the kernel of $f - g$.
+  \begin{equation*}
+    \begin{tikzcd}
+      Z
+      \arrow[rrd, bend left]
+      \arrow[ddr, bend right, swap, "i"]
+      \arrow[dr, dashed, "\exists!\bar{\imath}"]
+      \\
+      & \ker(f - g)
+      \arrow[d, swap, "\iota_{f - g}"]
+      \arrow[r]
+      & 0
+      \arrow[d]
+      \\
+      & A
+      \arrow[r, "f - g"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+
+  The universal property tells us that for any object $Z \in \Obj(\mathsf{C})$ and any morphism $i\colon Z \to A$ with $i \circ (f - g) = 0$ (i.e. $i \circ f = i \circ g$), there exists a unique morphism $\bar{\imath}\colon Z \to \ker(f - g)$ such that $i = \bar{\imath} \circ \iota_{f - g}$.
+\end{proof}
+
+\begin{corollary}
+  Every pre-abelian category has all finite limits.
+\end{corollary}
+\begin{proof}
+  By \hyperref[thm:criterionforfinitelimits]{Theorem~\ref*{thm:criterionforfinitelimits}}, a category has finite limits if and only if it has finite products and equalizers. Pre-abelian categories have finite products by definition, and equalizers by \hyperref[lemma:preabeliancategorieshaveequalizers]{Lemma~\ref*{lemma:preabeliancategorieshaveequalizers}}.
+\end{proof}
+
+Recall from \hyperref[sec:biproducts]{Section~\ref*{sec:biproducts}} the following definition.
+
+\begin{definition}[zero morphism]
+  \label{def:zeromorphism}
+  Let $\mathsf{C}$ be a category with zero object $0$. For any two objects $A$, $B \in \Obj(\mathsf{C})$, the \defn{zero morphism} $0_{A,B}$ is the unique morphism $A \to B$ which factors through $0$.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[rr, bend left, "0_{A, B}"]
+      \arrow[r]
+      & 0
+      \arrow[r]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{notation}
+  It will often be clear what the source and destination of the zero morphism are; in this case we will drop the subscripts, writing $0$ instead of $0_{AB}$.
+\end{notation}
+
+It is easy to see that the left- or right-composition of the zero morphism with any other morphism results in the zero morphism: $f \circ 0 = 0$ and $0 \circ g = 0$.
+
+\begin{lemma}
+  \label{lemma:everymorphisminapreabeliancategoryfactors}
+  Every morphism $f\colon A \to B$ in a pre-abelian catgory has a canonical decomposition
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "p"]
+      & \coker(\ker(f))
+      \arrow[r, "\bar{f}"]
+      & \ker(\coker(f))
+      \arrow[r, "i"]
+      & B
+    \end{tikzcd},
+  \end{equation*}
+  where $p$ is an epimorphism (\hyperref[def:epimorphism]{Definition~\ref*{def:epimorphism}}) and $i$ is a monomorphism (\hyperref[def:monomorphism]{Definition~\ref*{def:monomorphism}}).
+\end{lemma}
+\begin{proof}
+  We start with a map
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      & B
+    \end{tikzcd}.
+  \end{equation*}
+
+  Since we are in a pre-abelian category, we are guaranteed that $f$ has a kernel $(\ker(f), \iota)$ and a cokernel $(\coker(f), \pi)$. From the universality squares it is immediate that $f \circ \iota = 0$ and $\pi \circ f = 0$ This tells us that the composition $\pi \circ f \circ \iota = 0$, so the following commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[r, "f"]
+      & B
+      \arrow[dr, "\pi"]
+      \\
+      \ker(f)
+      \arrow[ur, "\iota"]
+      \arrow[dr]
+      & & & \coker(f)
+      \\
+      & 0
+      \arrow[r]
+      & 0
+      \arrow[ur]
+    \end{tikzcd}
+  \end{equation*}
+  We know that $\pi$ has a kernel $(\ker(\pi), i)$ and $\iota$ has a cokernel $(\coker(\iota), p)$, so we can add their commutativity squares as well.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[r, "f"]
+      \arrow[d, "p"]
+      & B
+      \arrow[dr, "\pi"]
+      \\
+      \ker(f)
+      \arrow[ur, "\iota"]
+      \arrow[dr]
+      & \coker(\iota)
+      & \ker(\pi)
+      \arrow[u, "i"]
+      \arrow[d]
+      & \coker(f)
+      \\
+      & 0
+      \arrow[u]
+      \arrow[r]
+      & 0
+      \arrow[ur]
+    \end{tikzcd}
+  \end{equation*}
+
+  If we squint hard enough, we can see the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[rrd, bend left]
+      \arrow[rdd, bend right, swap, "f"]
+      \\
+      & \ker(\pi)
+      \arrow[r]
+      \arrow[d, "i"]
+      & 0
+      \arrow[d]
+      \\
+      & B
+      \arrow[r, "\pi"]
+      & \coker(f)
+    \end{tikzcd}
+  \end{equation*}
+  The outer square commutes because $\pi \circ f = 0$, so the universal property for $\ker(\pi)$ gives us a unique morphism $A \to \ker(\pi)$. Let's add this to our diagram, along with a morphism $0 \to \ker(\pi)$ which trivially keeps everything commutative.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[r, "f"]
+      \arrow[d, "p"]
+      \arrow[dr]
+      & B
+      \arrow[dr, "\pi"]
+      \\
+      \ker(f)
+      \arrow[ur, "\iota"]
+      \arrow[dr]
+      & \coker(\iota)
+      & \ker(\pi)
+      \arrow[u, "i"]
+      \arrow[d]
+      & \coker(f)
+      \\
+      & 0
+      \arrow[u]
+      \arrow[r]
+      \arrow[ur]
+      & 0
+      \arrow[ur]
+    \end{tikzcd}
+  \end{equation*}
+
+  Again, buried in the bowels of our new diagram, we find the following.
+  \begin{equation*}
+    \begin{tikzcd}
+      \ker(f)
+      \arrow[r, "\iota"]
+      \arrow[d]
+      & A
+      \arrow[d, "\pi"]
+      \arrow[ddr, bend left]
+      \\
+      0
+      \arrow[r]
+      \arrow[drr, bend right]
+      & \coker(\iota)
+      \\
+      & & \ker(\pi)
+    \end{tikzcd}
+  \end{equation*}
+  And again, the universal property of cokernels gives us a unique morphism $\bar{f}\colon \coker(\iota) \to \ker(\pi)$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & A
+      \arrow[r, "f"]
+      \arrow[d, "p"]
+      \arrow[dr]
+      & B
+      \arrow[dr, "\pi"]
+      \\
+      \ker(f)
+      \arrow[ur, "\iota"]
+      \arrow[dr]
+      & \coker(\iota)
+      \arrow[r, "\bar{f}"]
+      & \ker(\pi)
+      \arrow[u, "i"]
+      \arrow[d]
+      & \coker(f)
+      \\
+      & 0
+      \arrow[u]
+      \arrow[r]
+      \arrow[ur]
+      & 0
+      \arrow[ur]
+    \end{tikzcd}
+  \end{equation*}
+
+  The fruit of our laborious construction is the following commuting square.
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "f"]
+      \arrow[d, swap, "p"]
+      & B
+      \arrow[d, "i"]
+      \\
+      \coker(\iota)
+      \arrow[r, "\bar{f}"]
+      & \ker(\pi)
+    \end{tikzcd}
+  \end{equation*}
+  We have seen (\hyperref[lemma:canonicalinjectionismono]{Lemma~\ref*{lemma:canonicalinjectionismono}}) that $i$ is mono, and (\hyperref[lemma:canonicalsurjectionisepi]{Lemma~\ref*{lemma:canonicalsurjectionisepi}}) that $p$ is epi.
+
+  Now we abuse terminology by calling $\iota = \ker(f)$ and $\pi = \coker(f)$. Then we have the required decomposition.
+\end{proof}
+
+\begin{note}
+  The abuse of notation above is ubiquitous in the literature.
+\end{note}
+
+
+\section{Abelian categories}
+
+This section is under very heavy construction. Don't trust anything you read here.
+\begin{definition}[abelian category]
+  \label{def:abeliancategory}
+  A pre-abelian category $\mathsf{C}$ is \defn{abelian} if for each morphism $f$, the canonical morphism guaranteed by \hyperref[lemma:everymorphisminapreabeliancategoryfactors]{Lemma~\ref*{lemma:everymorphisminapreabeliancategoryfactors}}
+  \begin{equation*}
+    \bar{f}\colon \coker(\ker(f)) \to \ker(\coker(f))
+  \end{equation*}
+  is an isomorphism.
+\end{definition}
+
+\begin{note}
+  The above piecemeal definition is equivalent to the following.
+
+  A category $\mathsf{C}$ is \emph{abelian} if
+  \begin{enumerate}
+    \item it is $\mathsf{Ab}$-enriched \hyperref[def:additivecategory]{Definition~\ref*{def:additivecategory}}, i.e.\ each hom-set has the structure of an abelian group and composition is bilinear;
+    \item it admits finite coproducts, hence (by \hyperref[lemma:abeliancategorycoproductsareproducts]{Lemma~\ref*{lemma:abeliancategorycoproductsareproducts}}) biproducts and zero objects;
+    \item every morphism has a kernel and a cokernel;
+    \item for every morphism, $f$, the canonical morphism $\bar{f}\colon \coker(\ker(f)) \to \ker(\coker(f))$ is an isomorphism.
+  \end{enumerate}
+\end{note}
+
+For the remainder of the section, let $\mathsf{C}$ be an abelian category.
+
+\begin{lemma}
+  In an abelian category, every morphism decomposes into the composition of an epimorphism and a monomorphism.
+\end{lemma}
+\begin{proof}
+  For any morphism $f$, bracketing the decomposition $f = i \circ \bar{f} \circ p$ as
+  \begin{equation*}
+    i \circ (\bar{f} \circ p).
+  \end{equation*}
+  gives such a composition.
+\end{proof}
+
+\begin{note}
+  The above decomposition is unique up to unique isomorphism.
+\end{note}
+
+\begin{definition}[image of a morphism]
+  \label{def:imageofamorphism}
+  Let $f\colon A \to B$ be a morphism. The object $\ker(\coker(f))$ is called the \defn{image} of $f$, and is denoted $\im(f)$.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:morphismwhichkillsontherightismono}
+  $\,$
+  \begin{enumerate}
+    \item A morphism $f\colon A \to B$ is mono iff for all $Z \in \Obj(\mathsf{C})$ and for all $g\colon Z \to A$, $f \circ g = 0$ implies $g = 0$.
+    \item A morphism $f\colon A \to B$ is epi iff for all $Z \in \Obj(\mathsf{C})$ and for all $g\colon B \to Z$, $g \circ f = 0$ implies $g = 0$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  $\,$
+  \begin{enumerate}
+    \item First, suppose $f$ is mono. Consider the following diagram.
+      \begin{equation*}
+        \begin{tikzcd}
+          Z
+          \arrow[r, shift left, "g"]
+          \arrow[r, swap, shift right, "0"]
+          & A
+          \arrow[r, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+
+      If the above diagram commutes, i.e.\ if $f \circ g = 0$, then $g = 0$, so $1 \implies 2$.
+
+      Now suppose that for all $Z \in \Obj(\mathsf{C})$ and all $g\colon Z \to A$, $f \circ g = 0$ implies $g = 0$.
+
+      Let $g$, $g'\colon Z \to A$, and suppose that $f \circ g = f \circ g'$. Then $f \circ (g - g') = 0$. But that means that $g - g' = 0$, i.e. $g = g'$. Thus, $2 \implies 1$.
+
+    \item Dual to the proof above.
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:monoifkernelzeroepiifcokerzero}
+  Let $f\colon A \to B$. We have the following.
+  \begin{enumerate}
+    \item The morphism $f$ is mono iff $\ker(f) = 0$\label{part:monoifkernelzeroepiifcokerzero1}
+    \item The morphism $f$ is epi iff $\coker(f) = 0$.\label{part:monoifkernelzeroepiifcokerzero2}
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  $\,$
+  \begin{enumerate}
+    \item We first show that if $\ker(f) = 0$, then $f$ is mono. Suppose $\ker(f) = 0$. By the universal property of kernels, we know that for any $Z \in \Obj(\mathsf{C})$ and any $g\colon Z \to A$ with $f \circ g = 0$ there exists a unique map $\bar{g}\colon Z \to \ker(f)$ such that $g = \iota \circ \bar{g}$.
+      \begin{equation*}
+        \begin{tikzcd}
+          Z
+          \arrow[rdd, bend right, swap, "g"]
+          \arrow[rd, dashed, "\exists!g"]
+          \\
+          & \ker(f) = 0
+          \arrow[r]
+          \arrow[d, swap, "\iota"]
+          & 0
+          \arrow[d]
+          \\
+          & A
+          \arrow[r, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+      But then $g$ factors through the zero object, so we must have $g = 0$. This shows that $f \circ g = 0 \implies g = 0$, and by \hyperref[lemma:morphismwhichkillsontherightismono]{Lemma~\ref*{lemma:morphismwhichkillsontherightismono}} $f$ must be mono.
+
+      Next, we show that if $f$ is mono, then $\ker(f) = 0$. To do this, it suffices to show that $\ker(f)$ is final, i.e.\ that there exists a unique morphism from every object to $\ker(f)$.
+
+      Since $\Hom_{\mathsf{C}}(Z, \ker(f))$ has the structure of an abelian group, it must contain at least one element. Suppose it contains two morphisms $h_{1}$ and $h_{2}$.
+      \begin{equation*}
+        \begin{tikzcd}
+          Z
+          \arrow[rd, shift left, "h_{1}"]
+          \arrow[rd, shift right, swap, "h_{2}"]
+          \\
+          & \ker(f)
+          \arrow[r]
+          \arrow[d, swap, "\iota"]
+          & 0
+          \arrow[d]
+          \\
+          & A
+          \arrow[r, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+      Our aim is to show that $h_{1} = h_{2}$. To this end, compose each with $\iota$.
+      \begin{equation*}
+        \begin{tikzcd}
+          Z
+          \arrow[rd, shift left, "h_{1}"]
+          \arrow[rd, shift right, swap, "h_{2}"]
+          \arrow[rdd, bend right, shift left, "\iota \circ h_{1}"]
+          \arrow[rdd, bend right, shift right, swap, "\iota \circ h_{2}"]
+          \\
+          & \ker(f)
+          \arrow[r]
+          \arrow[d, swap, "\iota"]
+          & 0
+          \arrow[d]
+          \\
+          & A
+          \arrow[r, "f"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+      Since $f \circ \iota = 0$, we have $f \circ (\iota \circ h_{1}) = 0$ and $f \circ (\iota \circ h_{2}) = 0$. But since $f$ is mono, by \hyperref[lemma:morphismwhichkillsontherightismono]{Lemma~\ref*{lemma:morphismwhichkillsontherightismono}}, we must have $\iota \circ h_{1} = 0 = \iota \circ h_{2}$. But by \hyperref[lemma:canonicalinjectionismono]{Lemma~\ref*{lemma:canonicalinjectionismono}}, $\iota$ is mono, so again we have
+      \begin{equation*}
+        h_{1} = h_{2} = 0,
+      \end{equation*}
+      and we are done.
+
+    \item Dual to the proof above.
+  \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+  We have the following.
+  \begin{enumerate}
+    \item The kernel of the zero morphism $0: A \to B$ is the pair $(A, \id_{A})$.
+    \item The cokernel of the zero morphism $0: A \to B$ is the pair $(B, \id_{B})$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  $\,$
+  \begin{enumerate}
+    \item We need only verify that the universal property is satisfied. That is, for any object $Z \in \Obj(\mathsf{C})$ and any morphism $h\colon Z \to A$ such that $0 \circ g = 0$, there exists a unique morphism $\bar{g}\colon Z \to \ker(0)$ such that the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}
+          Z
+          \arrow[rdd, swap, bend right, "g"]
+          \arrow[rd, dashed, "\bar{g}=g"]
+          \\
+          & \ker(0) = A
+          \arrow[r, "0"]
+          \arrow[d, swap, "\iota = \id_{A}"]
+          & 0
+          \arrow[d]
+          \\
+          & A
+          \arrow[r, "0"]
+          & B
+        \end{tikzcd}
+      \end{equation*}
+      But this is pretty trivial: $\bar{g} = g$.
+
+    \item Dual to above.
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+  All abelian categories are binormal (\hyperref[def:binormalcategory]{Definition~\ref*{def:binormalcategory}}). That is to say:
+  \begin{enumerate}
+    \item all monomorphisms are kernels
+    \item all epimorphisms are cokernels.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  $\,$
+  \begin{enumerate}
+    \item Consider the following diagram taken \hyperref[lemma:everymorphisminapreabeliancategoryfactors]{Lemma~\ref*{lemma:everymorphisminapreabeliancategoryfactors}}, which shows the canonical factorization of any morphism $f$.
+      \begin{equation*}
+        \begin{tikzcd}
+          & A
+          \arrow[r, "f"]
+          \arrow[d, "p"]
+          \arrow[dr]
+          & B
+          \arrow[dr, "\pi"]
+          \\
+          \ker(f)
+          \arrow[ur, "\iota"]
+          \arrow[dr]
+          & \coker(\iota)
+          \arrow[r, "\bar{f}"]
+          & \ker(\pi)
+          \arrow[u, "i"]
+          \arrow[d]
+          & \coker(f)
+          \\
+          & 0
+          \arrow[u]
+          \arrow[r]
+          \arrow[ur]
+          & 0
+          \arrow[ur]
+        \end{tikzcd}
+      \end{equation*}
+
+      By definition of a pre-abelian category, we know that $\bar{f}$ is an isomorphism.
+  \end{enumerate}
+\end{proof}
+
+\begin{note}
+  The above theorem is actually an equivalent definition of an abelian category, but the proof of equivalence is far from trivial. See e.g.~\cite{freyd-abelian-categories} for details.
+\end{note}
+
+\begin{definition}[subobject, quotient object, subquotient object]
+  \label{def:subobjectquotientobject}
+  Let $Y \in \Obj(\mathsf{C})$.
+  \begin{enumerate}
+    \item A \defn{subobject} of $Y$ is an object $X \in \Obj(\mathsf{C})$ together with a monomorphism $i\colon X \hookrightarrow Y$. If $X$ is a subobject of $Y$ we will write $X \subseteq Y$.
+    \item A \defn{quotient object} of $Y$ is an object $Z$ together with an epimorphism $p\colon Y \twoheadrightarrow Z$.
+    \item A \defn{subquotient object} of $Y$ is a quotient object of a subobject of $Y$.
+  \end{enumerate}
+\end{definition}
+
+%\begin{lemma}
+%  Let $O$ be an object, $Z$ be a subquotient of $O$, and $Z'$ a subquotient of $Z$. Then $Z'$ is a subquotient of $O$.
+%\end{lemma}
+%\begin{proof}
+%  A subquotient $Z$ of $O$ is a quotient $Z$ of a subobject $X$ of $O$.
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      X
+%      \arrow[r, hookrightarrow]
+%      \arrow[d, twoheadrightarrow]
+%      & O
+%      \\
+%      Z
+%    \end{tikzcd}
+%  \end{equation*}
+%  A subquotient $Z'$ of $Z$ looks like this.
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      & X
+%      \arrow[r, hookrightarrow]
+%      \arrow[d, twoheadrightarrow]
+%      & O
+%      \\
+%      X'
+%      \arrow[r, hookrightarrow]
+%      \arrow[d, twoheadrightarrow]
+%      & Z
+%      \\
+%      Z'
+%    \end{tikzcd}
+%  \end{equation*}
+%
+%  Take pullback yadda yadda. Will finish later.
+%\end{proof}
+
+\begin{definition}[quotient]
+  \label{def:quotient}
+  Let $X \subseteq Y$, i.e.\ let there exist a monomorphism $f\colon X \hookrightarrow Y$. The \defn{quotient} $Y/X$ is the cokernel $(\coker(f), \pi_{f})$.
+\end{definition}
+
+\begin{example}
+  Let $V$ be a vector space, $W \subseteq V$ a subspace. Then we have the canonical inclusion map $\iota\colon W \hookrightarrow V$, so $W$ is a subobject of $V$ in the sense of \hyperref[def:subobjectquotientobject]{Definition~\ref*{def:subobjectquotientobject}}.
+
+  According to \hyperref[def:quotient]{Definition~\ref*{def:quotient}}, the quotient $V / W$ is the cokernel $(\coker(\iota), \pi_{\iota})$ of $\iota$. We saw in \hyperref[eg:invectcokernelsarequotientsbyimage]{Example~\ref*{eg:invectcokernelsarequotientsbyimage}} that the cokernel of $\iota$ was $V / \im(\iota)$. However, $\im(\iota)$ is exactly $W$! So the categorical notion of the quotient $V / W$ agrees with the linear algebra notion.
+\end{example}
+
+\begin{definition}[$k$-linear category]
+  \label{def:linearcategory}
+  An abelian category \hyperref[def:abeliancategory]{Definition~\ref*{def:abeliancategory}} $\mathsf{C}$ is \defn{$k$-linear} if for all $A$, $B \in \Obj(\mathsf{C})$ the hom-set $\Hom_{\mathsf{C}}(A, B)$ has the structure of a $k$-vector space whose additive structure is the abelian structure, and for which the composition of morphisms is $k$-linear.
+\end{definition}
+
+\begin{example}
+  The category $\mathsf{Vect}_{k}$ is $k$-linear.
+\end{example}
+
+\begin{definition}[$k$-linear functor]
+  \label{def:linearfunctor}
+  let $\mathsf{C}$ and $\mathsf{D}$ be two $k$-linear categories, and $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ a functor. Suppose that for all objects $C$, $D \in \Obj(\mathsf{C})$ all morphisms $f$, $g\colon C \to D$, and all $\alpha$, $\beta \in k$, we have
+  \begin{equation*}
+    \mathcal{F}(\alpha f + \beta g) = \alpha \mathcal{F}(f) + \beta \mathcal{G}(g).
+  \end{equation*}
+
+  Then we say that $\mathcal{F}$ is \defn{$k$-linear}.
+\end{definition}
+
+
+\section{Exact sequences}
+
+\begin{definition}[exact sequence]
+  \label{def:exactsequence}
+  A sequence of morphisms
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & X_{i-1}
+      \arrow[r, "f_{i-1}"]
+      & X_{i}
+      \arrow[r, "f_{i}"]
+      & X_{i+1}
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  is called \defn{exact in degree $i$} if the image (\hyperref[def:imageofamorphism]{Definition \ref*{def:imageofamorphism}}) of $f_{i-1}$ is equal to the kernel (\hyperref[def:kernelofmorphism]{Definition \ref*{def:kernelofmorphism}}) of $f_{i}$. A sequence is \defn{exact} if it is exact in every degree.
+\end{definition}
+
+\begin{lemma}
+  If a sequence
+  \begin{equation*}
+    \begin{tikzcd}
+      \cdots
+      \arrow[r]
+      & X_{i-1}
+      \arrow[r, "f_{i-1}"]
+      & X_{i}
+      \arrow[r, "f_{i}"]
+      & X_{i+1}
+      \arrow[r]
+      & \cdots
+    \end{tikzcd}
+  \end{equation*}
+  is exact in degree $i$, then $f_{i} \circ f_{i-1} = 0$.
+\end{lemma}
+
+\begin{definition}[short exact sequence]
+  \label{def:shortexactsequence}
+  A \defn{short exact sequence} is an exact sequence of the following form.
+  \begin{equation*}
+    \begin{tikzcd}
+      0
+      \arrow[r]
+      & X
+      \arrow[r]
+      & Y
+      \arrow[r]
+      & Z
+      \arrow[r]
+      & 0
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+%This definition has some immediate trivial consequences.
+%\begin{lemma}
+%  Let
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      0
+%      \arrow[r]
+%      & X
+%      \arrow[r, "f"]
+%      & Y
+%      \arrow[r, "g"]
+%      & Z
+%      \arrow[r]
+%      & 0
+%    \end{tikzcd}
+%  \end{equation*}
+%  be a short exact sequence. Then
+%  \begin{enumerate}
+%    \item $f$ is mono
+%    \item $g$ is epi
+%    \item $Z \simeq Y/X$.
+%  \end{enumerate}
+%\end{lemma}
+%\begin{proof}
+%  $\,$
+%  \begin{enumerate}
+%    \item An easy consequence of \hyperref[lemma:monoifkernelzeroepiifcokerzero]{Lemma \ref*{lemma:monoifkernelzeroepiifcokerzero}, part \ref*{part:monoifkernelzeroepiifcokerzero1}}.
+%    \item An easy consequence of \hyperref[lemma:monoifkernelzeroepiifcokerzero]{Lemma \ref*{lemma:monoifkernelzeroepiifcokerzero}, part \ref*{part:monoifkernelzeroepiifcokerzero2}}.
+%    \item We need to show that
+%  \end{enumerate}
+%\end{proof}
+
+\begin{definition}[exact functor]
+  \label{def:exactfunctor}
+  Let $\mathsf{C}$, $\mathsf{D}$ be abelian categories, $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ a functor. We say that $\mathcal{F}$ is
+  \begin{itemize}
+    \item \defn{left exact} if it preserves biproducts and kernels
+    \item \defn{right exact} if it preserves biproducts and cokernels
+    \item \defn{exact} if it is both left exact and right exact.
+  \end{itemize}
+\end{definition}
+
+%\begin{theorem}
+%  Let $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ be a functor between abelian categories. Let
+%  \begin{equation*}
+%    \begin{tikzcd}
+%      0
+%      \arrow[r]
+%      & A
+%      \arrow[r]
+%      & B
+%      \arrow[r]
+%      & C
+%      \arrow[r]
+%      & 0
+%    \end{tikzcd}
+%  \end{equation*}
+%  be a short exact sequence in $\mathsf{C}$. Then
+%  \begin{itemize}
+%    \item if $\mathcal{F}$ is left exact, then
+%      \begin{equation*}
+%        \begin{tikzcd}
+%          0
+%          \arrow[r]
+%          & \mathcal{F}(A)
+%          \arrow[r]
+%          & \mathcal{F}(B)
+%          \arrow[r]
+%          & \mathcal{F}(C)
+%        \end{tikzcd}
+%      \end{equation*}
+%      is an exact sequence in $\mathsf{D}$.
+%
+%    \item if $\mathcal{F}$ is right exact, then
+%      \begin{equation*}
+%        \begin{tikzcd}
+%          \mathcal{F}(A)
+%          \arrow[r]
+%          & \mathcal{F}(B)
+%          \arrow[r]
+%          & \mathcal{F}(C)
+%          \arrow[r]
+%          & 0
+%        \end{tikzcd}
+%      \end{equation*}
+%      is an exact sequence in $\mathsf{D}$.
+%    \item if $\mathcal{F}$ is exact, then
+%      \begin{equation*}
+%        \begin{tikzcd}
+%          0
+%          \arrow[r]
+%          & \mathcal{F}(A)
+%          \arrow[r]
+%          & \mathcal{F}(B)
+%          \arrow[r]
+%          & \mathcal{F}(C)
+%          \arrow[r]
+%          & 0
+%        \end{tikzcd}
+%      \end{equation*}
+%      is an exact sequence in $\mathsf{D}$.
+%  \end{itemize}
+%\end{theorem}
+%\begin{proof}
+%
+%\end{proof}
+
+
+\section{Length of objects}
+
+\begin{definition}[simple object]
+  \label{def:simpleobject}A nonzero object $X \in \Obj(\mathsf{C})$ is called \defn{simple} if $0$ and $X$ are its only subobjects.
+\end{definition}
+
+\begin{example}
+  In $\mathsf{Vect}_{k}$, the only simple object (up to isomorphism) is $k$, taken as a one-dimensional vector space over itself.
+\end{example}
+
+\begin{definition}[semisimple object]
+  \label{def:semisimpleobject}
+  An object $Y \in \Obj(\mathsf{C})$ is \defn{semisimple} if it is isomorphic to a dirct sum of simple objects.
+\end{definition}
+
+\begin{example}
+  In $\mathsf{Vect}_{k}$, all finite-dimensional vector spaces are semisimple.
+\end{example}
+
+\begin{definition}[semisimple category]
+  \label{def:semisimple category}
+  An abelian category $\mathsf{C}$ is \defn{semisimple} if every object of $\mathsf{C}$ is semisimple.
+\end{definition}
+
+\begin{example}
+  The category $\mathsf{FinVect}_{k}$ is semisimple.
+\end{example}
+
+\begin{definition}[Jordan-H{\"o}lder series]
+  \label{def:jordanholderseries}
+  Let $X \in \Obj(\mathsf{C})$. A filtration
+  \begin{equation*}
+    0 = X_{0} \subset X_{1} \subset \cdots \subset X_{n-1} \subset X_{n} = X
+  \end{equation*}
+  of $X$ such that $X_{i} / X_{i-1}$ is simple for all $i$ is called a \defn{Jordan H{\"o}lder series} for $X$. The integer $n$ is called the \defn{length} of the series $X_{i}$.
+\end{definition}
+
+The importance of Jordan-H{\"o}lder series is the following.
+
+\begin{theorem}[Jordan-H{\"o}lder]
+  \label{thm:jordanholdertheorem}
+  Let $X_{i}$ and $Y_{i}$ be two Jordan-H{\"o}lder series for some object $X \in \Obj(\mathsf{C})$. Then the length of $X_{i}$ is equal to the length of $Y_{i}$, and the objects $Y_{i}/Y_{i-1}$ are a reordering of $X_{i}/X_{i-1}$.
+\end{theorem}
+\begin{proof}
+  See~\cite{EGNO-tensor-categories}, pg. 5, Theorem 1.5.4.
+\end{proof}
+
+\begin{definition}[length]
+  \label{def:length}
+  The \defn{length} of an object $X$ is defined to be the length of any of its Jordan-H{\"o}lder series. This is well-defined by \hyperref[thm:jordanholdertheorem]{Theorem~\ref*{thm:jordanholdertheorem}}.
+\end{definition}
+
+\end{document}

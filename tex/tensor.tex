@@ -1,0 +1,153 @@
+
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+\chapter{Tensor Categories}
+
+The following definition is taken almost verbatim from~\cite{nlab-deligne-theorem}.
+\begin{definition}[tensor category]
+  \label{def:tensorcategory}
+  Let $k$ be a field. A \defn{$k$-tensor category} $\mathsf{A}$ (as considered by Deligne in~\cite{deligne-categories-tensorielle}) is an
+  \begin{enumerate}
+    \item essentially small (\hyperref[def:essentiallysmall]{Definition~\ref*{def:essentiallysmall}})
+
+    \item $k$-linear\footnote{Hence abelian.} (\hyperref[def:linearcategory]{Definition~\ref*{def:linearcategory}})
+
+    \item rigid (\hyperref[def:rigidmonoidalcategory]{Definition~\ref*{def:rigidmonoidalcategory}})
+
+    \item symmetric (\hyperref[def:symmetricmonoidalcategory]{Definition~\ref*{def:symmetricmonoidalcategory}})
+
+    \item monoidal category (\hyperref[def:monoidalcategory]{Definition~\ref*{def:monoidalcategory}})
+  \end{enumerate}
+  such that
+  \begin{enumerate}
+    \item the tensor product functor $\otimes\colon \mathsf{A} \times \mathsf{A} \rightsquigarrow \mathsf{A}$ is, in both arguments separately,
+      \begin{enumerate}
+        \item $k$-linear (\hyperref[def:linearfunctor]{Definition~\ref*{def:linearfunctor}})
+
+        \item exact (\hyperref[def:exactfunctor]{Definition~\ref*{def:exactfunctor}})
+      \end{enumerate}
+
+    \item $\mathrm{End}(1) \simeq k$, where $\mathrm{End}$ denotes the endomorphism ring (\hyperref[def:endomorphismring]{Definition~\ref*{def:endomorphismring}}).
+  \end{enumerate}
+\end{definition}
+
+\begin{example}
+  $\mathsf{Vect}_{k}$ is \emph{not} a tensor category because it is not essentially small; there is one isomorphism class of vector spaces for each cardinal, and there is no set of all cardinals. However, its subcategory $\mathsf{FinVect}_{k}$ is a tensor category.
+\end{example}
+
+\begin{definition}[finite tensor category]
+  \label{def:finitetensorcategory}
+  A $k$-tensor category $\mathsf{A}$ is called \defn{finite} (over $k$) if
+  \begin{enumerate}
+    \item There are only finitely many simple objects in $\mathsf{A}$, and each of them admits a projective presentation.
+
+    \item Each object $A$ of $\mathsf{A}$ is of finite length.
+
+    \item For any two objects $A$, $B$ of $\mathsf{A}$, the hom-object (i.e. $k$-vector space) $\Hom_{\mathsf{A}}(A, B)$ is finite-dimensional.
+  \end{enumerate}
+\end{definition}
+
+\begin{example}
+  The category $\mathsf{FinVect}_{k}$ is finite.
+  \begin{enumerate}
+    \item The only simple object is $k$ taken as a one-dimensional vector space over itself.
+
+    \item The length of a finite-dimensional vector space is simply its dimension.
+
+    \item The vector space $\Hom_{\mathsf{FinVect}}(V, W)$ has dimension $\dim(V) \dim(W)$.
+  \end{enumerate}
+\end{example}
+
+\begin{definition}[finitely $\otimes$-generated]
+  \label{def:finitelygenerated}
+  A $k$-tensor category $\mathsf{A}$ is called \defn{finitely $\otimes$-generated} if there exists an object $E \in \Obj(\mathsf{A})$ such that every other object $X \in A$ is a subquotient (\hyperref[def:subobjectquotientobject]{Definition \ref*{def:subobjectquotientobject}}) of a finite direct sum of tensor products of $E$; that is to say, if there exists a finite collection of integers $n_{i}$ such that $X$ is a subquotient of $\bigoplus_{i} E^{\otimes^{n_{i}}}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \bigoplus_{i} E^{\otimes^{n_{i}}}
+      \arrow[d, twoheadrightarrow, "\pi"]
+      \\
+      X
+      \arrow[r, hookrightarrow, "\iota"]
+      & \left( \bigoplus_{i} E^{\otimes^{n_{i}}} \right) / Q
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  The category $\mathsf{FinVect}_{k}$ is finitely generated since any finite-dimensional vector space is isomorphic to $k^{n} = k \oplus \cdots \oplus k$ for some $n$.
+\end{example}
+
+\begin{definition}[subexponential growth]
+  \label{def:subexponentialgrowth}
+  A tensor category $\mathsf{A}$ has \defn{subexponential growth} if, for each object $X$ there exists a natural number $N_{X}$ such that
+  \begin{equation*}
+    \mathrm{len}(X^{\otimes_{n}}) \leq (N_{X})^{n}.
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  The category $\mathsf{FinVect}_{k}$ has subexponential growth. For any finite-dimensional vector space $V$, we always have
+  \begin{equation*}
+    \mathrm{dim}(V^{\otimes^{n}}) = (\dim(V))^{n},
+  \end{equation*}
+  so we can take $N_{V} = \mathrm{dim}(V)$.
+\end{example}
+
+\begin{theorem}
+  Let $\mathsf{A}$ be a tensor category, and suppose that
+  \begin{enumerate}
+    \item every object $A \in \Obj(\mathsf{A})$ has a finite length
+
+    \item the dimension of every hom space $\Hom_{\mathsf{A}}(A, B)$ is finite over $k$.
+  \end{enumerate}
+
+  Then the category $\mathsf{Ind}(\mathsf{A})$ of ind-objects of $\mathsf{A}$ (\hyperref[def:categoryofindobjects]{Definition \ref*{def:categoryofindobjects}}) has the following properties.
+  \begin{enumerate}
+    \item $\mathsf{Ind}(\mathsf{A})$ is abelian (\hyperref[def:abeliancategory]{Definition \ref*{def:abeliancategory}}).
+
+    \item $A \hookrightarrow \mathsf{Ind}(\mathsf{A})$ is a full subcategory (cf. \hyperref[note:fullinclusionintoindcategory]{Note \ref*{note:fullinclusionintoindcategory}}).
+
+    \item The tensor product on $\mathsf{A}$ extends to $\mathsf{Ind}(\mathsf{A})$ via
+      \begin{align*}
+        X \otimes Y &\simeq (\lim_{\rightarrow i}X_{i}) \otimes (\lim_{\rightarrow j}Y_{j}) \\
+        &\simeq \lim_{\rightarrow i,j} (X_{i} \otimes Y_{j}).
+      \end{align*}
+
+    \item The category $\mathsf{Ind}(\mathsf{A})$ fails to be a tensor category only because it is not necessarily essentially small and rigid. More specifically, an object $A \in \mathsf{Ind}(\mathsf{A})$ is dualizable if and only if it is in $\mathsf{A}$.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  Proposition 3.38 in \cite{nlab-deligne-theorem}.
+\end{proof}
+
+\begin{definition}[tensor functor]
+  \label{def:tensorfunctor}
+  Let $(\mathscr{A}, \otimes_{A}, \id_{A})$ and $(\mathscr{B}, \otimes_{B}, \id_{B})$ be $k$-tensor categories. A functor $\mathcal{F}\colon \mathscr{A} \to \mathscr{B}$ is called a \defn{tensor functor} if it is
+  \begin{enumerate}
+    \item braided (\hyperref[def:braidedmonoidalfunctor]{Definition \ref*{def:braidedmonoidalfunctor}}) and
+
+    \item strong monoidal (\hyperref[def:monoidalfunctor]{Definition \ref*{def:monoidalfunctor}}).
+  \end{enumerate}
+\end{definition}
+
+%In any $k$-tensor category $\mathscr{A}$, the hom-sets have the structure of $k$-vector spaces, and we can view them as living in $\mathsf{Vect}_{k}$. This allows us to treat vector spaces, in certain situations, as `honorary $\mathscr{A}$-objects'.
+%\begin{definition}[tensor product of a vector space and a tensor category object]
+%  \label{def:tensorproductofavectorspaceandatensorcategoryobject}
+%  Let $\mathscr{A}$ be a $k$-tensor category. Let $V$ be a vector space. Define a functor $(-) \tilde{\otimes} X\colon \mathsf{Vect}_{k} \to \mathscr{A}$ as left-adjoint to $\Hom_{\mathscr{A}}(X,-)$:
+%  \begin{equation*}
+%    \Hom_{\mathscr{A}}(V \tilde{\otimes} X, Y) \simeq \Hom_{\mathsf{Vect}_{k}}(V, \Hom_{\mathscr{A}}(X, Y)).
+%  \end{equation*}
+%  Indeed, this extends to a functor $\tilde{\otimes}\colon \mathsf{Vect}_{k} \times \mathscr{A} \to \mathscr{A}$ in the obvious way. It is also not difficult to check that it is $k$-linear in each slot.
+%\end{definition}
+%
+%\begin{definition}[hom between vector space and tensor category object]
+%  \label{def:hombetweenvectorspaceandtensorcategoryobject}
+%  Let $\mathscr{A}$ be a tensor category and $(-) \tilde{\otimes} X$ the functor from \hyperref[def:tensorproductofavectorspaceandatensorcategoryobject]{Definition \ref*{def:tensorproductofavectorspaceandatensorcategoryobject}}. Define a functor $\mathscr{H}om()$
+%\end{definition}
+%
+%\begin{notation}
+%  Although the functor $\tilde{\otimes}$ defined above is obviously not the same as the bifunctor $\otimes$ from the monoidal structure on $\mathscr{A}$, we will drop the tilde from now on. The idea is to view vector spaces as \emph{almost} $\mathscr{A}$-objects.
+%\end{notation}
+
+
+\end{document}

@@ -1,0 +1,577 @@
+\documentclass[notes.tex]{subfiles}
+\begin{document}
+
+\chapter{Hom functors and the Yoneda lemma}\label{sec:homfunctorsandyoneda}
+
+\section{The Hom functor}\label{section:homfunctor}
+
+Given any locally small category (\hyperref[def:smalllocallysmallcategoryhomset]{Definition~\ref*{def:smalllocallysmallcategoryhomset}}) $\mathsf{C}$ and two objects $A$, $B \in \Obj(\mathsf{C})$, we have thus far notated the set of all morphisms $A \to B$ by $\Hom_{\mathsf{C}}(A, B)$. This may have seemed a slightly odd notation, but there was a good reason for it: $\Hom_{\mathsf{C}}$ is really a functor.
+
+To be more explicit, we can view $\Hom_{\mathsf{C}}$ in the following way: it takes two objects, say $A$ and $B$, and returns the set of morphisms $A \to B$. It's a functor $\mathsf{C} \times \mathsf{C}$ to set!
+
+(Actually, as we'll see, this isn't quite right: it is actually a functor $\mathsf{C}^{\text{op}} \times \mathsf{C} \to \mathsf{Set}$. But this is easier to understand if it comes about in a natural way, so we'll keep writing $\mathsf{C} \times \mathsf{C}$ for the time being.)
+
+Okay, so it takes a pair of objects and returns the set of morphisms between them, but any functor has to send morphisms to morphisms. How does it do that?
+
+A morphism in $\mathsf{C} \times \mathsf{C}$ between two objects $(A', A)$ and $(B', B)$ is an ordered pair $(f', f)$ of two morphisms:
+\begin{equation*}
+  f\colon A \to B\qquad\text{and}\qquad f'\colon A' \to B'.
+\end{equation*}
+We can draw this as follows.
+\begin{equation*}
+  \begin{tikzcd}[row sep=tiny]
+    A'
+    \arrow[r, "f'"]
+    & B'
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+  \end{tikzcd}
+\end{equation*}
+We have to send this to a set-function $\Hom_{\mathsf{C}}(A', A) \to \Hom_{\mathsf{C}}(B', B)$. So let $m$ be a morphism in $\Hom_{\mathsf{C}}(A, A')$. We can draw this into our little diagram above like so.
+\begin{equation*}
+  \begin{tikzcd}
+    A'
+    \arrow[r, "f'"]
+    \arrow[d, swap, "m"]
+    & B'
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+  \end{tikzcd}
+\end{equation*}
+
+Notice: we want to build from $m$, $f$, and $f'$ a morphism $B' \to B$. Suppose $f'$ were going the other way.
+\begin{equation*}
+  \begin{tikzcd}
+    A'
+    \arrow[d, swap, "m"]
+    & B'
+    \arrow[l, swap, "f'"]
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+  \end{tikzcd}
+\end{equation*}
+Then we could get what we want simply by taking the composition $f \circ m \circ f'$.
+\begin{equation*}
+  \begin{tikzcd}
+    A'
+    \arrow[d, swap, "m"]
+    & B'
+    \arrow[l, swap, "f'"]
+    \arrow[d, dashed, "f \circ m \circ f'"]
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+  \end{tikzcd}
+\end{equation*}
+But we can make $f'$ go the other way simply by making the first argument of $\Hom_{\mathsf{C}}$ come from the opposite category: that is, we want $\Hom_{\mathsf{C}}$ to be a functor $\mathsf{C}^{\text{op}} \times \mathsf{C} \to \mathsf{Set}$.
+
+As the function $m \mapsto f \circ m \circ f'$ is the action of the functor $\Hom_{\mathsf{C}}$ on the morphism $(f', f)$, it is natural to call it $\mathrm{Hom}_{\mathsf{C}}(f', f)$.
+
+Of course, we should check that this \emph{really is} a functor, i.e.\ that it treats identities and compositions correctly. This is completely routine, and you should skip down to \hyperref[def:homfunctor]{Definition~\ref*{def:homfunctor}} if you read the last sentence with annoyance.
+
+First, we need to show that $\Hom_{\mathsf{C}}(\id_{A'}, \id_{A})$ is the identity function $\id_{\Hom_{\mathsf{C}}(A', A)}$. It is, since if $m \in \Hom_{\mathsf{C}}(A', A)$,
+\begin{equation*}
+  \Hom_{\mathsf{C}}(\id_{A'}, \id_{A})\colon m \mapsto \id_{A} \circ m \circ \id_{A'} = m.
+\end{equation*}
+
+Next, we have to check that compositions work the way they're supposed to. Suppose we have objects and morphisms like this:
+\begin{equation*}
+  \begin{tikzcd}[row sep=tiny]
+    A'
+    & B'
+    \arrow[l, swap, "f'"]
+    & C'
+    \arrow[l, swap, "g'"]
+    \\
+    A
+    \arrow[r, "f"]
+    & B
+    \arrow[r, "g"]
+    & C
+  \end{tikzcd}
+\end{equation*}
+where the primed stuff is in $\mathsf{C}^{\mathrm{op}}$ and the unprimed stuff is in $\mathsf{C}$. This can be viewed as three objects $(A', A)$, etc.\ in $\mathsf{C}^{\mathrm{op}} \times \mathsf{C}$ and two morphisms  $(f', f)$ and $(g', g)$ between them.
+
+Okay, so we can compose $(f', f)$ and $(g', g)$ to get a morphism
+\begin{equation*}
+  (g', g) \circ (f', f) = (f' \circ g', g \circ f)\colon (A', A) \to (C', C).
+\end{equation*}
+Note that the order of the composition in the first argument has been turned around: this is expected since the first argument lives in $\mathsf{C}^{\mathrm{op}}$. To check that $\Hom_{\mathsf{C}}$ handles compositions correctly, we need to verify that
+\begin{equation*}
+  \Hom_{\mathsf{C}}(g, g') \circ \Hom_{\mathsf{C}}(f, f') = \Hom_{\mathsf{C}}(f' \circ g', g \circ f).
+\end{equation*}
+
+Let $m \in \Hom_{\mathsf{C}}(A', A)$. We victoriously compute
+\begin{align*}
+  [\Hom_{\mathsf{C}}(g, g') \circ \Hom_{\mathsf{C}}(f, f')](m) &= \Hom_{\mathsf{C}}(g, g')(f \circ m \circ f') \\
+  &= g \circ f \circ m \circ f' \circ g' \\
+  &= \Hom_{\mathsf{C}}(f' \circ g', g \circ f).
+\end{align*}
+
+Let's formalize this in a definition.
+\begin{definition}[hom functor]
+  \label{def:homfunctor}
+  Let $\mathsf{C}$ be a locally small category. The \defn{hom functor} $\Hom_{\mathsf{C}}$ is the functor
+  \begin{equation*}
+    \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{Set}
+  \end{equation*}
+  which sends the object $(A', A)$ to the set $\Hom_{\mathsf{C}}(A', A)$ of morphisms $A' \to A$, and the morphism $(f', f)\colon (A', A) \to (B', B)$ to the function
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(f', f)\colon \Hom_{\mathsf{C}}(A', A) \to \Hom_{\mathsf{C}}(B', B);\qquad m \mapsto f \circ m \circ f'.
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  \label{eg:naturaltransformationsforcccs}
+  Hom functors give us a new way of looking at the universal property for products, coproducts, and exponentials.
+
+  Let $\mathsf{C}$ be a locally small category with products, and let $X$, $A$, $B \in \Obj(\mathsf{C})$. Recall that the universal property for the product $A \times B$ allows us to exchange two morphisms
+  \begin{equation*}
+    f_{1}\colon X \to A\qquad\text{and}\qquad f_{2}\colon X \to B
+  \end{equation*}
+  for a morphism
+  \begin{equation*}
+    f\colon X \to A \times B.
+  \end{equation*}
+
+  We can also compose a morphism $g\colon X \to A \times B$ with the canonical projections
+  \begin{equation*}
+    \pi_{A}\colon A \times B \to A \qquad\text{and}\qquad \pi_{B}\colon A \times B \to B
+  \end{equation*}
+  to get two morphisms
+  \begin{equation*}
+    \pi_{A} \circ f\colon X \to A\qquad\text{and}\qquad \pi_{B} \circ f\colon X \to B.
+  \end{equation*}
+
+  This means that there is a bijection
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(X, A \times B) \simeq \Hom_{\mathsf{C}}(X, A) \times \Hom_{\mathsf{C}}(X, B).
+  \end{equation*}
+
+  In fact this bijection is natural in $X$. That is to say, there is a natural bijection between the following functors $\mathsf{C}^{\mathrm{op}} \to \mathsf{Set}$:
+  \begin{equation*}
+    h_{A \times B}\colon X \to \Hom_{\mathsf{C}}(X, A \times B)\qquad\text{and}\qquad h_{A} \times h_{B}\colon X \to \Hom_{\mathsf{C}}(X, A) \times \Hom_{\mathsf{C}}(X, B).
+  \end{equation*}
+
+  Let's prove naturality. Let
+  \begin{equation*}
+    \Phi_{X}\colon \Hom(X, A \times B) \to \Hom(X, A) \times \Hom(X, B);\qquad f \mapsto (\pi_{A} \circ f, \pi_{B} \circ f)
+  \end{equation*}
+  be the components of the above transformation, and let $g\colon X' \to X$. Naturality follows from the fact that the diagram below commutes.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      \Hom(X, A \times B)
+      \arrow[rr, "{\Hom(g, \id_{A \times B})}"]
+      \arrow[d, swap, "\Phi_{X}"]
+      & & \Hom(X', A \times B)
+      \arrow[d, "\Phi_{X'}"]
+      \\
+      \Hom(X, A) \times \Hom(X, B)
+      \arrow[rr, "{\Hom(g, \id_{A}) \times \Hom(g, \id_{B})}"]
+      & & \Hom(X', A) \times \Hom(X', B)
+    \end{tikzcd}
+  \end{equation*}
+  \begin{equation*}
+    \begin{tikzcd}
+      f
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & f \circ g
+      \arrow[d, mapsto]
+      \\
+      (\pi_{A} \circ f, \pi_{B} \circ g)
+      \arrow[r, mapsto]
+      & (\pi_{A} \circ f \circ g, \pi_{B} \circ f \circ g)
+    \end{tikzcd}
+  \end{equation*}
+
+  The coproduct does a similar thing: it allows us to trade two morphisms
+  \begin{equation*}
+    A \to X\qquad\text{and}\qquad B \to X
+  \end{equation*}
+  for a morphism
+  \begin{equation*}
+    A \amalg B \to X,
+  \end{equation*}
+  and vice versa. Similar reasoning yields a natural bijection between the following functors $\mathsf{C} \rightsquigarrow \mathsf{Set}$:
+  \begin{equation*}
+    h^{A \amalg B} \Rightarrow h^{A} \times h^{B}.
+  \end{equation*}
+
+  The exponential is a little bit more complicated: it allows us to trade a morphism
+  \begin{equation*}
+    X \times A \to B
+  \end{equation*}
+  for a morphism
+  \begin{equation*}
+    X \to B^{A},
+  \end{equation*}
+  and vice versa. That is to say, we have a bijection between two functors $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{Set}$
+  \begin{equation*}
+    X \mapsto \Hom_{\mathsf{C}}(X \times A, B)\qquad\text{and}\qquad X \mapsto \Hom_{\mathsf{C}}(X, B^{A}).
+  \end{equation*}
+  The fact that the functors are more complicated does not hurt us: the above bijection is still natural.
+\end{example}
+
+The hom functor as defined above is cute, but not a whole lot else. Things get interesting when we curry it.
+
+Recall from computer science the concept of currying. Suppose we are given a function of two arguments, say $f(x, y)$. The idea of currying is this: if we like, we can view $f$ as a family of functions of only one variable $y$, indexed by $x$:
+\begin{equation*}
+  h_{x}(y) = f(x, y).
+\end{equation*}
+
+We can even view $h$ as a function which takes one argument $x$, and which returns a \emph{function} $h_{x}$ of one variable $y$.
+
+This sets up a correspondence between functions $f\colon A \times B \to C$ and functions $h\colon A \to C^{B}$, where $C^{B}$ is the set of functions $B \to C$. The map which replaces $f$ by $h$ is called \emph{currying}. We can also go the other way (i.e. $h \mapsto f$), which is called \emph{uncurrying}.
+
+We have been intentionally vague about the nature of our function $f$, and what sort of arguments it might take; everything we have said also holds for, say, bifunctors.
+
+In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}}$. We can fix any $A \in \Obj(\mathsf{C})$ and curry either argument. This gives us the following.
+
+\begin{definition}[curried hom functor]
+  \label{def:curriedhomfunctor}
+  Let $\mathsf{C}$ be a locally small category, $A \in \Obj(\mathsf{C})$. We can construct from the hom functor $\Hom_{\mathsf{C}}$
+  \begin{itemize}
+    \item a functor $h^{A}\colon \mathsf{C} \rightsquigarrow \mathsf{Set}$ which maps
+      \begin{itemize}
+        \item an object $B \in \Obj(\mathsf{C})$ to the set $\Hom_{\mathsf{C}}(A, B)$, and
+
+        \item a morphism $f\colon B \to B'$ to a $\mathsf{Set}$-function
+          \begin{equation*}
+            h^{A}(f)\colon \Hom_{\mathsf{C}}(A, B) \to \Hom_{\mathsf{C}}(A, B'); \qquad m \mapsto f \circ m.
+          \end{equation*}
+      \end{itemize}
+
+    \item a functor $h_{A}\colon \mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{Set}$ which maps
+      \begin{itemize}
+        \item an object $B \in \Obj(\mathsf{C})$ to the set $\Hom_{\mathsf{C}}(B, A)$, and
+
+        \item a morphism $f\colon B \to B'$ to a $\mathsf{Set}$-function
+          \begin{equation*}
+            h_{A}(f)\colon \Hom_{\mathsf{C}}(B', A) \to \Hom_{\mathsf{C}}(B, A); \qquad m \mapsto m \circ f.
+          \end{equation*}
+      \end{itemize}
+  \end{itemize}
+\end{definition}
+
+
+\section{Representable functors}
+
+Roughly speaking, a functor $\mathsf{C} \rightsquigarrow \mathsf{Set}$ is representable if it is
+
+\begin{definition}[representable functor]
+  \label{def:representablefunctor}
+  Let $\mathsf{C}$ be a category. A functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{Set}$ is \defn{representable} if there is an object $A \in \Obj(\mathsf{C})$ and a natural isomorphism (\hyperref[def:naturalisomorphism]{Definition~\ref*{def:naturalisomorphism}})
+  \begin{equation*}
+    \eta\colon \mathcal{F} \Rightarrow
+    \begin{cases}
+      h^{A}, & \text{if $\mathcal{F}$ is covariant} \\
+      h_{A}, & \text{if $\mathcal{F}$ is contravariant.}
+    \end{cases}
+  \end{equation*}
+\end{definition}
+
+\begin{note}
+  Since natural isomorphisms are invertible, we could equivalently define a representable functor with the natural isomorphism going the other way.
+\end{note}
+
+\begin{example}
+  Consider the forgetful functor $\mathcal{U}\colon \mathsf{Grp} \rightsquigarrow \mathsf{Set}$ which sends a group to its underlying set, and a group homomorphism to its underlying function. This functor is represented by the group $(\Z, +)$.
+
+  To see this, we have to check that there is a natural isomorphism $\eta$ between $\mathcal{U}$ and $h^{\Z} = \Hom_{\mathsf{Grp}}(\Z, -)$. That is to say, for each group $G$, there a $\mathsf{Set}$-isomorphism (i.e.\ a bijection)
+  \begin{equation*}
+    \eta_{G}\colon \mathcal{U}(G) \to \Hom_{\mathsf{Grp}}(\Z, G)
+  \end{equation*}
+  satisfying the naturality conditions in \hyperref[def:naturaltransformation]{Definition~\ref*{def:naturaltransformation}}.
+
+  First, let's show that there's a bijection by providing an injection in both directions. Pick some $g \in G$. Then there is a unique group homomorphism which sends $1 \mapsto g$, so we have an injection $\mathcal{U}(G) \hookrightarrow \Hom_{\mathsf{Grp}}(\Z, G)$.
+
+  Now suppose we are given a group homomorphism $\Z \to G$. This sends $1$ to some element $g \in G$, and this completely determines the rest of the homomorphism. Thus, we have an injection $\Hom_{\mathsf{Grp}(\Z, G)} \hookrightarrow \mathcal{U}(G)$.
+
+  All that is left is to show that $\eta$ satisfies the naturality condition. Let $F$ and $H$ be groups, and $f\colon G \to H$ a homomorphism. We need to show that the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{U}(G)
+      \arrow[r, "\mathcal{U}(f)"]
+      \arrow[d, swap, "\eta_{G}"]
+      & \mathcal{U}(H)
+      \arrow[d, "\eta_{H}"]
+      \\
+      \Hom_{\mathsf{Grp}}(\Z, G)
+      \arrow[r, "h^{\Z}(f)"]
+      & \Hom_{\mathsf{Grp}}(\Z, H)
+    \end{tikzcd}
+  \end{equation*}
+  The upper path from top left to bottom right assigns to each $g \in G$ the function $\Z \to G$ which maps $1 \mapsto f(g)$. Walking down $\eta_{G}$ from $\mathcal{U}(G)$ to $\Hom_{\mathsf{Grp}}(\Z, G)$, $g$ is mapped to the function $\Z \to G$ which maps $1 \mapsto g$. Walking right, we compose this function with $f$ to get a new function $\Z \to H$ which sends $1 \mapsto f(g)$. This function is really the image of a homomorphism and is therefore unique, so the diagram commutes.
+\end{example}
+
+
+\section{The Yoneda embedding}
+
+The Yoneda embedding is a very powerful tool which allows us to prove things about any locally small category by embedding that category into $\mathsf{Set}$, and using the enormous amount of structure that $\mathsf{Set}$ has.
+
+%In the thread \cite{baez-categories-usenet} on the sci.math google group, John Baez explains the importance of the Yoneda lemma in the following way.
+%
+%\begin{quote}
+%  Category theory can be viewed in many ways, but one is as a massive generalization of set theory.  The category $\mathsf{Set}$ has sets as objects and functions between them as morphisms.  In practice, other categories are often built by taking as objects ``sets with extra structure'' and as morphisms ``functions preserving the extra structure.''  For example, $\mathsf{Vect}$ is the category whose objects are vector spaces and whose morphisms are linear functions.  The extra structure in this case is the linear structure.  One can easily list hundreds more such examples.
+%
+%  However, an abstract category needn't have as its objects ``sets with structure''---its objects are simply abstract thingamabobs!  (I would have said ``simply abstract objects'', but that would sound circular here, since it is, so I resorted to a more technical term.)  At this point the Yoneda lemma leaps to our rescue by saying that all (small enough) categories can be embedded in categories in which the objects are sets with structure and the morphisms are structure-preserving functions between these.
+%
+%  Here's the basic idea of how it works, in watered-down form.  To each object $x$, we associate the set $S(x)$ of all morphisms \textit{to} $x$ from all other objects.  This set has a certain structure which one can work out, and a morphism $f\colon x \to y$ gives rise to a structure-preserving function $S(f)$ from $S(x)$ to $S(y)$ in the obvious way: given a morphism from something to $x$, just compose it with $f$ to get a morphism to $y$.
+%
+%  So we have taken our original category and embedded in a category of ``sets with structure.''
+%\end{quote}
+
+\begin{definition}[Yoneda embedding]
+  \label{def:yonedaembedding}
+  Let $\mathsf{C}$ be a locally small category. The \defn{Yoneda embedding} is the functor
+  \begin{equation*}
+    \mathcal{Y}\colon \mathsf{C} \rightsquigarrow [\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \qquad A \mapsto h_{A} = \Hom_{\mathsf{C}}(-, A).
+  \end{equation*}
+  where $[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}]$ is the category of functors $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{Set}$, defined in \hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}.
+
+  Of course, we also need to say how $\mathcal{Y}$ behaves on morphisms. Let $f\colon A \to A'$. Then $\mathcal{Y}(f)$ will be a morphism from $h_{A}$ to $h_{A'}$, i.e.\ a natural transformation $h_{A} \Rightarrow h_{A'}$. We can specify how it behaves by specifying its components ${(\mathcal{Y}(f))}_{B}$.
+
+  Plugging in definitions, we find that ${(\mathcal{Y}(f))}_{B}$ is a map $\Hom_{\mathsf{C}}(B, A) \to \Hom_{\mathsf{C}}(B, A')$. But we know how to get such a map---we can compose all of the maps $B \to A$ with $f$ to get maps $B \to A'$. So $\mathcal{Y}(f)$, as a natural transformation $\Hom_{\mathsf{C}}(-, A) \to \Hom_{\mathsf{C}}(-, A')$, simply composes everything in sight with $f$.
+\end{definition}
+
+\begin{theorem}[Yoneda lemma]
+  Let $\mathcal{F}$ be a functor from $\mathsf{C}^{\mathrm{op}}$ to $\mathsf{Set}$. Let $A \in \Obj(\mathsf{C})$. Then there is a set-isomorphism (i.e.\ a bijection) $\eta$ between the set $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{A}, \mathcal{F})$ of natural transformations $h_{A} \Rightarrow \mathcal{F}$ and the set $\mathcal{F}(A)$. Furthermore, this isomorphism is natural in $A$.
+\end{theorem}
+\begin{note}
+  A quick admission before we begin: we will be sweeping issues with size under the rug in what follows by tacitly assuming that $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{A}, \mathcal{F})$ is a set. The reader will have to trust that everything works out in the end.
+\end{note}
+\begin{proof}
+  A natural transformation $\Phi\colon h_{A} \Rightarrow \mathcal{F}$ consists of a collection of $\mathsf{Set}$-morphisms (that is to say, functions) $\Phi_{B}\colon \Hom_{\mathsf{C}}(B, A) \to \mathcal{F}(A)$, one for each $B \in \Obj(\mathsf{C})$. We need to show that to each element of $\mathcal{F}(A)$ there corresponds exactly one $\Phi$. We will do this by showing that any $\Phi$ is completely determined by where $\Phi_{A}$ sends the identity morphism $\id_{A} \in \Hom_{\mathsf{C}}(A, A)$, so there is exactly one natural transformation for each place $\Phi$ can send $\id_{A}$.
+
+  The proof that this is the case can be illustrated by the following commutative diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom(A, A)
+      \arrow[rrr, "h_{A}(f)"]
+      \arrow[ddd, swap, "\Phi_{A}"]
+      & & & \Hom(B, A)
+      \arrow[ddd, "\Phi_{B}"]
+      \\
+      & \id_{A}
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & f
+      \arrow[d, mapsto]
+      \\
+      & a
+      \arrow[r, mapsto]
+      & (\mathcal{F}f)(a) \stackrel{!}{=} \Phi_{B}(f)
+      \\
+      \mathcal{F}(A)
+      \arrow[rrr, swap, "\mathcal{F}(f)"]
+      & & & \mathcal{F}(B)
+    \end{tikzcd}
+  \end{equation*}
+  Here's what the above diagram means. The natural transformation $\Phi\colon h_{A} \Rightarrow \mathcal{F}$ has a component $\Phi_{A}\colon \Hom_{\mathsf{C}}(A, A) \to \mathcal{F}(A)$, and $\Phi_{A}$ has to send the identity transformation $\id_{A}$ \emph{somewhere}. It can send it to any element of $\mathcal{F}(A)$; let's call $\Phi_{A}(\id_{A}) = a$.
+
+  Now the naturality conditions force our hand. For any $B \in \Obj(\mathsf{C})$ and any $f\colon B \to A$, the naturality square above means that $\Phi_{B}(f)$ \emph{has to} be equal to $(\mathcal{F}f)(a)$. We get no choice in the matter.
+
+  But this completely determines $\Phi$! So we have shown that there is exactly one natural transformation for every element of $\mathcal{F}(A)$. We are done!
+
+  Well, almost. We still have to show that the bijection we constructed above is natural. To that end, let $f\colon B \to A$. We need to show that the following square commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{A}, \mathcal{F})
+      \arrow[r, "\eta_{A}"]
+      \arrow[d, swap, "{\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(\mathcal{Y}(f), \mathcal{F})}"]
+      & \mathcal{F}(A)
+      \arrow[d, "\mathcal{F}(f)"]
+      \\
+      \Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{B}, \mathcal{F})
+      \arrow[r, "\eta_{B}"]
+      & \mathcal{F}(B)
+    \end{tikzcd}
+  \end{equation*}
+
+  This is notationally dense, and deserves a lot of explanation. The natural transformation $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(\mathcal{Y}(f), \mathcal{F})$ looks complicated, but it's really not since we know what the hom functor does: it takes every natural transformation $h_{A} \Rightarrow \mathcal{F}$ and pre-composes it with $\mathcal{Y}(f)$. The natural transformation $\eta_{A}$ takes a natural transformation $\Phi\colon h_{A} \Rightarrow \mathcal{F}$ and sends it to the element $\Phi_{A}(\id_{A}) \in \mathcal{F}(A)$.
+
+  So, starting at the top left with a natural transformation $\Phi\colon h_{A} \Rightarrow \mathcal{F}$, we can go to the bottom right in two ways.
+  \begin{enumerate}
+    \item We can head down to $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{B}, \mathcal{F})$, mapping
+      \begin{equation*}
+        \Phi \mapsto \Phi \circ \mathcal{Y}(f),
+      \end{equation*}
+      then use $\eta_{B}$ to map this to $\mathcal{F}(B)$:
+      \begin{equation*}
+        \Phi \circ \mathcal{Y}(f) \mapsto {(\Phi \circ \mathcal{Y}(f))}_{B}(\id_{B}).
+      \end{equation*}
+
+      We can simplify this right away. The component of the composition of natural transformations is the composition of the components, i.e.
+      \begin{equation*}
+        {(\Phi \circ \mathcal{Y}(f))}_{B}(\id_{B}) = (\Phi_{B} \circ \mathcal{Y}{(f)}_{B})(\id_{B}).
+      \end{equation*}
+      We also know how $\mathcal{Y}(f)$ behaves: it composes everything in sight with $f$.
+      \begin{equation*}
+        \mathcal{Y}(f)(\id_{B}) = f.
+      \end{equation*}
+      Thus, we have
+      \begin{equation*}
+        (\Phi \circ \mathcal{Y}(f))(\id_{B}) = \Phi_{B}(f).
+      \end{equation*}
+
+    \item We can first head to the right using $\eta_{A}$. This sends $\Phi$ to
+      \begin{equation*}
+        \Phi_{A}(\id_{A}) \in \mathcal{F}(A).
+      \end{equation*}
+      We can then map this to $\mathcal{F}(B)$ with $f$, getting
+      \begin{equation*}
+        \mathcal{F}(f)(\Phi_{A}(\id_{A})).
+      \end{equation*}
+  \end{enumerate}
+
+  The naturality condition is thus
+  \begin{equation*}
+    (\mathcal{F}(f))(\Phi_{A}(\id_{A})) = \Phi_{B}(f),
+  \end{equation*}
+  which we saw above was true for any natural transformation $\Phi$.
+\end{proof}
+\begin{lemma}
+  The Yoneda embedding is fully faithful (\hyperref[def:fullfaithfulfunctor]{Definition~\ref*{def:fullfaithfulfunctor}}).
+\end{lemma}
+\begin{proof}
+  We have to show that for all $A$, $B \in \Obj(\mathsf{C})$, the map
+  \begin{equation*}
+    \mathcal{Y}_{A, B}\colon \Hom_{\mathsf{C}}(A, B) \to \Hom_{[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}]}(h_{A}, h_{B})
+  \end{equation*}
+  is a bijection.
+
+  Fix $B \in \Obj(\mathsf{C})$, and consider the functor $h_{B}$. By the Yoneda lemma, there is a bijection between $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{A}, h_{B})$ and $h_{B}(A)$. By definition,
+  \begin{equation*}
+    h_{B}(A) = \Hom_{\mathsf{C}}(A, B).
+  \end{equation*}
+
+  But $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{A}, h_{B})$ is nothing else but $\Hom_{[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}]}(h_{A}, h_{B})$, so we are done.
+\end{proof}
+
+\begin{note}
+  \label{note:covariantyonedaembedding}
+  We defined the Yoneda embedding to be the functor $A \mapsto h_{A}$; this is sometimes called the \emph{contravariant Yoneda embedding}. We could also have studied to map $A$ to $h^{A}$, called the \emph{covariant Yoneda embedding}, in which case a slight modification of the proof of the Yoneda lemma would have told us that the map
+  \begin{equation*}
+    \Hom_{\mathsf{C^{\mathrm{op}}}}(B, A) \to \Hom_{[\mathsf{C}, \mathsf{Set}]}(h^{A}, h^{B})
+  \end{equation*}
+  is a natural bijection. This is often called the \emph{covariant Yoneda lemma}.
+\end{note}
+
+Here is a situation in which the Yoneda lemma is commonly used.
+\begin{corollary}
+  \label{cor:yonedaembeddingrespectsisomorphisms}
+  Let $\mathsf{C}$ be a locally small category. Suppose for all $A \in \Obj(\mathsf{C})$ there is a bijection
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(A, B) \stackrel{\sim}{\to} \Hom_{\mathsf{C}}(A, B')
+  \end{equation*}
+  which is natural in $A$. Then $B \simeq B'$
+\end{corollary}
+\begin{proof}
+  We have a natural isomorphism $h_{B} \Rightarrow h_{B'}$. Since the Yoneda embedding is fully faithful, it is injective on objects up to isomorphism (\hyperref[lemma:fullyfaithfulfunctorinjectiveuptoisomorphism]{Lemma~\ref*{lemma:fullyfaithfulfunctorinjectiveuptoisomorphism}}). Thus, since $h_{B}$ and $h_{B'}$ are isomorphic, so must be $B \simeq B'$.
+\end{proof}
+
+
+\section{Applications}
+
+We have now built up enough machinery to make the proofs of a great variety of things trivial, as long as we accept a few assertions.
+
+It is possible, for example, to prove that the product is associative in \emph{any} locally small category, just from the fact that it is associative in $\mathsf{Set}$.
+\begin{lemma}
+  The Cartesian product is associative in $\mathsf{Set}$. That is, there is a natural isomorphism $\alpha$ between $(A \times B) \times C$ and $A \times (B \times C)$ for any sets $A$, $B$, and $C$.
+\end{lemma}
+\begin{proof}
+  The isomorphism is given by $\alpha_{A, B, C}\colon ((a, b), c) \mapsto (a, (b, c))$. This is natural because for functions like this,
+  \begin{equation*}
+    \begin{tikzcd}[row sep=tiny]
+      A
+      \arrow[r, "f"]
+      & A'
+      \\
+      B
+      \arrow[r, "g"]
+      & B'
+      \\
+      C
+      \arrow[r, "h"]
+      & C'
+    \end{tikzcd}
+  \end{equation*}
+  the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      ((a, b), c)
+      \arrow[r, mapsto, "{((f, g), h)}"]
+      \arrow[d, mapsto, swap, "{\alpha_{A, B, C}}"]
+      & ((f(a), g(b)), h(c))
+      \arrow[d, mapsto, "{\alpha_{A', B', C'}}"]
+      \\
+      (a, (b, c))
+      \arrow[r, mapsto, swap, "{(f, (g, h))}"]
+      & (f(a), (g(b), h(c)))
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+\begin{theorem}
+  \label{thm:categoricalproductisassociative}
+  In any locally small category $\mathsf{C}$ with products, there is a natural isomorphism $(A \times B) \times C \simeq A \times (B \times C)$.
+\end{theorem}
+\begin{proof}
+  We have the following string of natural isomorphisms for any $X$, $A$, $B$, $C \in \Obj(\mathsf{C})$.
+  \begin{align*}
+    \Hom_{\mathsf{C}}(X, (A \times B) \times C) &\simeq \Hom_{\mathsf{C}}(X, A \times B) \times \Hom_{\mathsf{C}}(X, C) \\
+    & \simeq (\Hom_{\mathsf{C}}(X, A) \times \Hom_{\mathsf{C}}(X, B)) \times \Hom_{\mathsf{C}}(X, C) \\
+    & \simeq \Hom_{\mathsf{C}}(X, A) \times (\Hom_{\mathsf{C}}(X, B) \times \Hom_{\mathsf{C}}(X, C)) \\
+    & \simeq \Hom_{\mathsf{C}}(X, A) \times \Hom_{\mathsf{C}}(X, B \times C) \\
+    & \simeq \Hom_{\mathsf{C}}(X, A \times (B \times C)).
+  \end{align*}
+
+  Thus, by \hyperref[cor:yonedaembeddingrespectsisomorphisms]{Corollary~\ref*{cor:yonedaembeddingrespectsisomorphisms}}, $(A \times B) \times C \simeq A \times (B \times C)$.
+\end{proof}
+
+\begin{note}
+  By induction, all finite products are associative.
+\end{note}
+
+\begin{theorem}
+  In any category with products $\times$, coproducts $+$, initial object $0$, final object $1$, and exponentials, we have the following natural isomorphisms.
+  \begin{enumerate}
+    \item $A \times (B + C) \simeq (A \times B) + (A \times C)$
+    \item $C^{A + B} \simeq C^{A} \times C^{B}$.
+    \item ${(C^{A})}^{B} \simeq C^{A \times B}$
+    \item ${(A \times B)}^{C} \simeq A^{C} \times B^{C}$
+    \item $C^{0} \simeq 1$
+    \item $C^{1} \simeq C$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  $\,$
+  \begin{enumerate}
+    \item We have the following list of natural isomorphisms.
+      \begin{align*}
+        \Hom_{\mathsf{C}}(A \times (B + C), X) & \simeq \Hom_{\mathsf{C}}(B + C, X^{A}) \\
+        & \simeq \Hom_{\mathsf{C}}(B, X^{A}) \times \Hom_{\mathsf{C}}(C, X^{A}) \\
+        & \simeq \Hom_{\mathsf{C}}(B \times A, X) \times \Hom_{\mathsf{C}}(C \times A, X) \\
+        & \simeq \Hom_{\mathsf{C}}((B \times A) + (C \times A), X).
+      \end{align*}
+    \item We have the following list of natural isomorphisms.
+      \begin{align*}
+        \Hom(X, C^{A + B}) & \simeq \Hom(X \times (A + B), C) \\
+        & \simeq \Hom_{\mathsf{C}}((X \times A) + (X \times B), C) \\
+        & \simeq \Hom_{\mathsf{C}}(X \times A, C) \times \Hom_{\mathsf{C}}(X \times B, C) \\
+        & \simeq \Hom_{\mathsf{C}}(X, C^{A}) \times \Hom_{\mathsf{C}}(X, C^{B}) \\
+        & \simeq \Hom_{\mathsf{C}}(X, C^{A} \times C^{B}).
+      \end{align*}
+  \end{enumerate}
+  Etc.
+\end{proof}
+
+
+\end{document}
