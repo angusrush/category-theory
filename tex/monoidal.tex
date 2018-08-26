@@ -8,7 +8,14 @@
 
 \subsection{Basic definitions}\label{ssc:basic_definitions}
 
-Monoidal categories are the first ingredient in the categorification and generalization of the tensor product. Roughly speaking, the tensor product allows us to multiply two vector spaces to produce a new vector space. There are natural isomorphisms making this multiplication associative, and an `identity vector space' given by the ground field regarded as a one-dimensional vector space over itself. This means that the tensor product gives the set of all vector spaces the structure of a monoid.
+Many types of mathematical structures can be combined to form new ones. For example: 
+\begin{itemize}
+  \item The tensor product allows us to use two vector spaces to produce a new one, as does the direct sum.
+
+  \item The Cartesian product and the disjoint union of sets produce a new set out of two given ones.
+\end{itemize}
+
+In each of these cases, there is a natural isomorphisms making this combination associative, and an identity object which acts, up to natural isomorphism, as a left and right identity. This means that each of these operations gives the collection of all objects the structure of a monoid.
 
 A monoidal category will be a category in which the objects have the structure of a monoid, i.e.\ there is a suitably defined `multiplication' (usually written $\otimes$) which is unital (with unit $1$) and associative. The prototypical example of categorical multiplication is the product (see \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}}), although it is far from the only one.
 
@@ -171,9 +178,7 @@ The correct way of solving this problem is by demanding that certain diagrams, c
 %\end{proof}
 %
 \begin{note}
-  This insight is due to~\cite{unapolagetic-mathematician-mac-lanes-theorem}.
-
-  The triangle and pentagon diagram are the first in a long list of coherence diagrams designed to pacify categorical structures into behaving like their algebraic counterparts. For a monoid, multiplication is associative by fiat, and the extension of this to $n$-fold products follows by a trivial application of induction. In monoidal categories, associators are isomorphisms rather than equalities, and we have no a priori guarantee that different ways of composing associators give the same isomorphism.
+  The triangle and pentagon diagram are the first in a long list of coherence diagrams designed to make categorical structures behave like their algebraic counterparts. For a monoid, multiplication is associative by fiat, and the extension of this to $n$-fold products follows by induction. In monoidal categories, associators are isomorphisms rather than equalities, and we have no a priori guarantee that different ways of composing associators give the same isomorphism.
 
   Mac Lane's coherence theorem shows us that this is exactly what the coherence diagrams guarantee.
 \end{note}

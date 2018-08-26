@@ -160,9 +160,20 @@ Categories capture the essence of `things and composable maps between them.' The
 It is often helpful to visualize objects and morphisms in categories as as graphs\footnote{Strictly speaking, they are \emph{multidigraphs,} i.e.\ directed graphs which are allowed to have more than one edge between any given pair of vertices.} with the objects as vertices and the morphisms as edges. This makes it possible to reason about categories using graph-like diagrams. Scroll to almost any later page in this document, and you will likely see a diagram or two which resembles this one (copied directly from \hyperref[def:pullback]{Definition~\ref*{def:pullback}}).
 \begin{equation*}
   \begin{tikzcd}
-    V \arrow[rrd, bend left, "t"] \arrow[rd, dashed, "\exists!h"] \arrow[rdd, bend right, swap, "s"] &   &  \\
-    & U \arrow[r, "q"] \arrow[d, swap, "p"] & B \arrow[d, "g"] \\
-    & A \arrow[r, swap, "f"] & C
+    V
+    \arrow[rrd, bend left, "t"]
+    \arrow[rd, dashed, "\exists!h"]
+    \arrow[rdd, bend right, swap, "s"]
+    \\
+    & U
+    \arrow[r, "q"]
+    \arrow[d, swap, "p"]
+    & B
+    \arrow[d, "g"]
+    \\
+    & A
+    \arrow[r, swap, "f"]
+    & C
   \end{tikzcd}
 \end{equation*}
 
@@ -849,8 +860,8 @@ This example makes clear a common theme of natural transformations: they formali
     \eta_{*} \circ \rho(g) = \rho'(g) \circ \eta_{*}.
   \end{equation*}
 
-  Intertwiners are extremely important in high-energy physics. 
-  
+  Intertwiners are extremely important in high-energy physics.
+
   In scattering theory one models the state of the world as $T \to - \infty$ as a composite system of several incoming free particles, and as $T \to +\infty$ a composite system of outgoing free particles. Therefore, the Hilbert space of the incoming particles is
   \begin{equation*}
     \mathscr{H}_{\mathrm{in}} = \mathscr{H}_{1, \mathrm{in}} \otimes \cdots \otimes \mathscr{H}_{m, \mathrm{in}}
@@ -1458,7 +1469,7 @@ You may have noticed that initial, terminal, and zero objects may not be unique.
 
 Showing that terminal and zero objects are unique up to unique isomorphism is almost exactly the same.
 
-\subsubsection{The reason we did comma categories}
+\subsubsection{Morphisms to and from functors}
 
 We have succeeded in specifying certain objects (namely initial, terminal, and zero objects) in a category using only categeorical information uniquely up to a unique isomorphism. Unfortunately, initial, terminal, and zero objects are usually not very interesting; they are often trivial examples of the structures contained in the category.
 
@@ -1510,8 +1521,6 @@ Just as slice categories are dual to coslice categories, we can take the dual of
 
 
 \subsubsection{Initial and terminal morphisms}
-
-
 
 \begin{definition}[initial morphism]
   \label{def:initialmorphism}
@@ -1574,9 +1583,9 @@ Again, with the diagram helpfully rotated, we have the following.
 \end{note}
 
 
-\subsubsection{Many, many examples of universal properties}
+\subsubsection{Examples of universal properties}
 
-Generally when one sees universal properties, they are not in the form `an initial morphism in so-and-so comma category.' Often, one has to play around with them a bit to get them into that form. In fact, this is seldom useful. In this section, we give several examples of universal properties as they are commonly written down, and translate them into the form above for practice.
+Generally when one sees universal properties, they are not in the form `an initial morphism in such-and-such a comma category.' Often, one has to play around with them a bit to get them into that form. In fact, this is seldom useful. In this section, we give several examples of universal properties as they are commonly written down, and translate them into the form above for practice.
 
 \begin{example}[tensor algebra]
   \label{eg:tensoralgebra}

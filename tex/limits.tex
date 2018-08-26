@@ -298,9 +298,20 @@ In what follows, $\mathsf{C}$ will be a category and $A$, $B$, etc.\ objects in 
   there is a unique morphism $h\colon V \to U$ such that the diagram
   \begin{equation*}
     \begin{tikzcd}
-      V \arrow[rrd, bend left, "t"] \arrow[rd, dashed, "\exists!h"] \arrow[rdd, bend right, swap, "s"] &   &  \\
-      & U \arrow[r, "q"] \arrow[d, swap, "p"] & B \arrow[d, "g"] \\
-      & A \arrow[r, swap, "f"] & C
+      V
+      \arrow[rrd, bend left, "t"]
+      \arrow[rd, dashed, "\exists!h"]
+      \arrow[rdd, bend right, swap, "s"]
+      \\
+      & U
+      \arrow[r, "q"]
+      \arrow[d, swap, "p"]
+      & B
+      \arrow[d, "g"]
+      \\
+      & A
+      \arrow[r, swap, "f"]
+      & C
     \end{tikzcd}
   \end{equation*}
   commutes.
