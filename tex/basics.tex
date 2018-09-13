@@ -690,9 +690,9 @@ A contravariant functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D
 
 Saunders Mac Lane, one of the fathers of category theory, used to say that he invented categories so he could talk about functors, and he invented functors so he could talk about natural transformations. Indeed, arguably the first paper ever published on category theory, published by Eilenberg and Mac Lane in 1945 and titled ``General Theory of Natural Equivalences.''~\cite{awodey-intro-to-categories}, was about natural transformations.
 
-Natural transformation can be viewed in several ways. At their most abstract, the provide a notion of `morphisms between functors,' and indeed we will later define a category whose objects are functors between two categories and whose morphisms are natural transformations. More concretely, however, they often provide a rigoros definition of canonicalness.
+Natural transformation can be viewed in several ways. At their most abstract, the provide a notion of `morphisms between functors,' and indeed we will later see that natural transformations provide the most canonical notion of morphisms for a category whose objects are functors. However, they were originally studied not for this reaso, but because they provide a rigorous footing for the notion of \emph{canonicalness}.
 
-For example, one often hears the statement ``For any two sets $A$ and $B$, $A \times B$ is isomorphic to $B \times A$.'' This is certainly true, but not very meaningful; any two sets with the same number of elements are canonical. What one is trying to say is that $A \times B$ and $B \times A$ are \emph{canonically} isomorphic. The question is: what exactly is meant by `canonical'?
+For example, one often hears the statement ``The cartesian product of sets is commutative up to isomorphism because for any two sets $A$ and $B$, $A \times B$ is isomorphic to $B \times A$.'' This is certainly true, but not very meaningful; any two sets with the same number of elements are isomorphic. What one is trying to say is that $A \times B$ and $B \times A$ are \emph{canonically} isomorphic. The question is: what exactly is meant by `canonical'?
 
 This is a surprisingly elusive question. Between any two sets $A$ and $B$, there is an obvious map
 \begin{equation*}
@@ -960,7 +960,7 @@ We mentioned earlier that one could define a category whose objects were functor
   The above composition $\Psi \circ \Phi$ is called \defn{vertical composition}.
 \end{definition}
 
-We can now define, for any categories $\mathsf{C}$ and $\mathsf{D}$, a category whose objects are functors $\mathsf{C} \rightsquigarrow \mathsf{D}$ and whose morphisms are natural transformations.
+Any time we see a collection of things and mappings between them, we should try and make them into a category. We saw that functors were mappings between categories, and defined a category $\mathsf{Cat}$ whose objects are categories and whose morphisms are functors. We can now define a category whose objects are functors and whose morphisms are natural transformations.
 
 \begin{definition}[functor category]
   \label{def:functorcategory}
@@ -1393,9 +1393,9 @@ One can also define a coslice category, which is what you get when you take a sl
 
 \section{Universal properties}\label{sec:universalproperties}
 
-In linear algebra, it is aesthetically preferrable to avoid introducing an arbitrary basis every time one needs to prove something, instead using properties intrinsic to the vector space itself. This is arguably true in general: the prettiest way of working with a structure is to use only the information available from the category in which the structure lives. The definition of a product (of sets, for example) is best given without making use of hand-wavy statements like ``ordered pairs of an element here and an element there.''
+In linear algebra, it is ugly to introduce a basis every time one needs to prove something about a vector space. Instead it is preferable to use properties intrinsic to the vector space itself. This is a reflection of a more general phenomenon: the prettiest way of working with a structure is often to use only the information available from the category in which the structure lives.
 
-There is a very powerful way of defining objects using only category-theoretic information, called \emph{universal properties.}
+There is a very powerful way of defining structures using only category-theoretic information, called \emph{universal properties.}
 
 Universal properties are ubiquitous in mathematics. The reader, whether he or she is aware of it or not has almost certainly seen and used a few examples, such as the universal properties for products and tensor algebras. They are astonishingly useful.
 
@@ -1586,6 +1586,8 @@ Again, with the diagram helpfully rotated, we have the following.
 \subsubsection{Examples of universal properties}
 
 Generally when one sees universal properties, they are not in the form `an initial morphism in such-and-such a comma category.' Often, one has to play around with them a bit to get them into that form. In fact, this is seldom useful. In this section, we give several examples of universal properties as they are commonly written down, and translate them into the form above for practice.
+
+These examples are just for practice---we will reproduce these definitions when we encounter them later.
 
 \begin{example}[tensor algebra]
   \label{eg:tensoralgebra}
