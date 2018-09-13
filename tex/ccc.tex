@@ -13,7 +13,32 @@ Cartesian closed categories are the prototype for many of the structures possess
 
 \section{Products}
 
-We saw in \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}} the definition for a categorical product. In some categories, we can naturally take the product of any two objects; one generally says that such a category \emph{has products}. We formalize that in the following.
+We saw in \hyperref[eg:universalpropertyofproducts]{Example~\ref*{eg:universalpropertyofproducts}} the definition for a categorical product.
+
+\begin{definition}[categorical product]
+  \label{def:categoricalproduct}
+  Let $\mathsf{C}$ be a category, and $A$ and $B$ in $\Obj(\mathsf{C})$. A product of $A$ and $B$ is an object $X$ (often denoted $A\times B$) together with a pair of morphisms $\pi_{1}\colon X \to A$ and $\pi_{2}\colon X \to B$ such that for every object $Y$ and pair of morphisms $f_{1}\colon Y \to A$, $f_{2}\colon Y \to B$, there exists a unique morphism $f\colon Y \to A \times B$ such that the following diagram commutes.
+  \begin{equation*}
+    \begin{tikzcd}
+      & Y \arrow[dl, swap, "f_{1}"] \arrow[d, "f"] \arrow[dr, "f_{2}"] & \\
+      l & X \arrow[l, "\pi_{1}"] \arrow[r, swap, "\pi_{2}"] & B
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+
+\begin{example}
+  In the category $\mathsf{Set}$, the categorical product is the Cartesian product. More specifically: 
+  \begin{itemize}
+    \item For any two sets, the product object $X$ is $A \times B$
+    \item The projectios $\pi_{1}$ and $\pi_{2}$ are defined by
+      \begin{equation*}
+        \pi_{1}(a, b) = a,\qquad \pi_{2}(a, b) = b.
+      \end{equation*}
+  \end{itemize}
+  To check this, we must show that $X$, together with $\pi_{1}$ and $\pi_{2}$ satisfy the universal property for products.
+\end{example}
+
+In some categories, we can naturally take the product of any two objects; one generally says that such a category \emph{has products}. We formalize that in the following.
 
 \begin{definition}[category with products]
   \label{def:categorywithproducts}
