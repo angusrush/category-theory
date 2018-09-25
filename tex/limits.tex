@@ -12,7 +12,7 @@ The reader may have noticed that there is a lot of difference between
   \label{def:diagram}
   Let $\mathsf{J}$ and $\mathsf{C}$ be categories. A \defn{diagram} of type $\mathsf{J}$ in $\mathsf{C}$ is a (covariant) functor
   \begin{equation*}
-    \mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}.
+    \mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}.
   \end{equation*}
 \end{definition}
 
@@ -20,15 +20,15 @@ One thinks of the functor $\mathcal{D}$ embedding the index category $\textsf{J}
 
 \begin{definition}[cone]
   \label{def:cone}
-  Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ be a diagram. Let $\mathsf{1}$ be the category with one object and one morphism (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}) and $\mathcal{F}_{X}$ the functor $\mathsf{1} \rightsquigarrow \mathsf{C}$ which picks out $X \in \Obj(\mathsf{C})$ (see \hyperref[eg:functorfrom1category]{Example~\ref*{eg:functorfrom1category}}). Let $\mathcal{K}$ be the unique functor $\mathsf{J} \rightsquigarrow \mathsf{1}$.
+  Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ be a diagram. Let $\mathsf{1}$ be the category with one object and one morphism (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}) and $\mathcal{F}_{X}$ the functor $\mathsf{1} \rightarrow \mathsf{C}$ which picks out $X \in \Obj(\mathsf{C})$ (see \hyperref[eg:functorfrom1category]{Example~\ref*{eg:functorfrom1category}}). Let $\mathcal{K}$ be the unique functor $\mathsf{J} \rightarrow \mathsf{1}$.
   \begin{equation*}
     \begin{tikzcd}
       \mathsf{1}
-      \arrow[rd, rightsquigarrow, "\mathcal{F}_{X}"]
+      \arrow[rd, rightarrow, "\mathcal{F}_{X}"]
       \\
       \mathsf{J}
-      \arrow[u, rightsquigarrow, "\mathcal{K}"]
-      \arrow[r, rightsquigarrow, "\mathcal{D}"]
+      \arrow[u, rightarrow, "\mathcal{K}"]
+      \arrow[r, rightarrow, "\mathcal{D}"]
       & \mathsf{C}
     \end{tikzcd}
   \end{equation*}
@@ -53,14 +53,14 @@ One thinks of the functor $\mathcal{D}$ embedding the index category $\textsf{J}
 
 \begin{note}
   \label{note:alternatedefinitionofcone}
-  Here is an alternate definition. Let $\Delta$ be the functor $\mathsf{C} \rightsquigarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightsquigarrow \mathsf{C}$, see TODO) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightsquigarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is then an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
+  Here is an alternate definition. Let $\Delta$ be the functor $\mathsf{C} \rightarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightarrow \mathsf{C}$, see TODO) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is then an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
   \begin{equation*}
     \begin{tikzcd}
       \mathsf{C}
-      \arrow[r, rightsquigarrow, "\Delta"]
+      \arrow[r, rightarrow, "\Delta"]
       & {[\mathsf{J}, \mathsf{C}]}
       & \mathsf{1}
-      \arrow[l, swap, rightsquigarrow, "\mathcal{D}"]
+      \arrow[l, swap, rightarrow, "\mathcal{D}"]
     \end{tikzcd}.
   \end{equation*}
 
@@ -75,7 +75,7 @@ This allows us to make the following definition.
 \end{definition}
 
 \begin{note}
-  The alternate definition given in \hyperref[note:alternatedefinitionofcone]{Note~\ref*{note:alternatedefinitionofcone}} not only reiterates what cones look like, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$, i.e.
+  The alternate definition given in \hyperref[note:alternatedefinitionofcone]{Note~\ref*{note:alternatedefinitionofcone}} not only reproduces the definition of a cone, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$, i.e.
   \begin{itemize}
     \item an object in the category $(\Delta \downarrow \mathcal{D})$, i.e.
     \item a pair $(X, \Phi)$, where $X \in \Obj(\mathsf{C})$ and $\Phi\colon \Delta_{X} \Rightarrow \mathcal{D}$ is a natural transformation, i.e.
@@ -140,11 +140,11 @@ Cocones are the dual notion to cones. We make the following definition.
 The categorical definitions of cones and cocones allow us to define limits and colimits succinctly.
 \begin{definition}[limits, colimits]
   \label{def:limitscolimits}
-  A \defn{limit} of a diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ is a final object in the category $(\Delta \downarrow \mathcal{D})$. A \defn{colimit} is an initial object in the category $(\mathcal{D} \downarrow \Delta)$.
+  A \defn{limit} of a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ is a final object in the category $(\Delta \downarrow \mathcal{D})$. A \defn{colimit} is an initial object in the category $(\mathcal{D} \downarrow \Delta)$.
 \end{definition}
 
 \begin{note}
-  The above definition of a limit unwraps as follows. The limit of a diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ is a cone $(X, \Phi)$ over $\mathcal{D}$ such that for any other cone $(Y, \Gamma)$ over $\mathcal{D}$, there is a unique map $\xi\colon Y \to X$ such that for each $J \in \Obj(\mathsf{J})$, the following diagram commutes.
+  The above definition of a limit unwraps as follows. The limit of a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ is a cone $(X, \Phi)$ over $\mathcal{D}$ such that for any other cone $(Y, \Gamma)$ over $\mathcal{D}$, there is a unique map $\xi\colon Y \to X$ such that for each $J \in \Obj(\mathsf{J})$, the following diagram commutes.
   \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
       Y
@@ -159,7 +159,7 @@ The categorical definitions of cones and cocones allow us to define limits and c
 \end{note}
 
 \begin{notation}
-  We often denote the limit over the diagram $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ by
+  We often denote the limit over the diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ by
   \begin{equation*}
     \lim_{\leftarrow} \mathcal{D}.
   \end{equation*}
@@ -677,7 +677,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 
 \end{theorem}
 \begin{proof}
-  Let $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ be a finite diagram. We want to prove that $\mathcal{D}$ has a limit; we will do this by constructing a universal cone over it, i.e.
+  Let $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ be a finite diagram. We want to prove that $\mathcal{D}$ has a limit; we will do this by constructing a universal cone over it, i.e.
   \begin{itemize}
     \item an object $L \in \Obj(\mathsf{C})$, and
     \item for each $j \in \Obj(\mathsf{J})$, a morphism $P_{j}\colon L \to \mathcal{D}(j)$
@@ -768,13 +768,13 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 
 \begin{theorem}
   \label{thm:homfunctorpreserveslimits}
-  Let $\mathsf{C}$ be a locally small category. The hom functor $\Hom_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{Set}$ preserves limits in the second argument, i.e.~for $\mathcal{D}\colon \mathsf{J} \rightsquigarrow \mathsf{C}$ a diagram in $\mathsf{C}$ we have a natural isomorphism
+  Let $\mathsf{C}$ be a locally small category. The hom functor $\Hom_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightarrow \mathsf{Set}$ preserves limits in the second argument, i.e.~for $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ a diagram in $\mathsf{C}$ we have a natural isomorphism
   \begin{equation*}
     \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow}\mathcal{D}) \simeq \lim_{\leftarrow}\Hom_{\mathsf{C}}(Y, \mathcal{D}),
   \end{equation*}
   where the limit on the RHS is over the hom-set diagram
   \begin{equation*}
-    \Hom_{\mathsf{C}}(Y, -) \circ \mathcal{D} \colon \mathsf{J} \rightsquigarrow \mathsf{Set}.
+    \Hom_{\mathsf{C}}(Y, -) \circ \mathcal{D} \colon \mathsf{J} \rightarrow \mathsf{Set}.
   \end{equation*}
 \end{theorem}
 \begin{proof}
@@ -803,7 +803,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 
   Let us understand the elements of the set $\lim_{\leftarrow}\Hom_{\mathsf{C}}(Y, \mathcal{D})$. The diagram
   \begin{equation*}
-    \Hom_{\mathsf{C}}(Y, -) \circ \mathcal{D} \colon \mathsf{J} \rightsquigarrow \mathsf{Set}
+    \Hom_{\mathsf{C}}(Y, -) \circ \mathcal{D} \colon \mathsf{J} \rightarrow \mathsf{Set}
   \end{equation*}
   maps $J \in \Obj(\mathsf{J})$ to $\Hom_{\mathsf{C}}(Y, \mathcal{D}(J)) \in \Obj(\mathsf{Set})$. A universal cone over this diagram is a set $S$ together with, for each $J_{i} \in \Obj(\mathsf{J})$, a function
   \begin{equation*}
@@ -915,7 +915,7 @@ We now define the so-called \emph{category of inductive objects} (or simply \emp
   \label{def:categoryofindobjects}
   Let $\mathsf{C}$ be a category. We define the \defn{category of ind-objects} of $\mathsf{C}$, denote $\mathsf{Ind}(\mathsf{C})$ as follows.
   \begin{itemize}
-    \item The objects $F \in \Obj(\mathsf{Ind}(\mathsf{C}))$ are defined to be filtered colimits of objects of diagrams $\mathcal{F}\colon \mathsf{D} \rightsquigarrow \mathsf{C}$.
+    \item The objects $F \in \Obj(\mathsf{Ind}(\mathsf{C}))$ are defined to be filtered colimits of objects of diagrams $\mathcal{F}\colon \mathsf{D} \rightarrow \mathsf{C}$.
 
     \item For two objects $F = \lim_{\rightarrow d}\mathcal{F}_{d}$ and $G = \lim_{\rightarrow e}\mathcal{G}_{e}$, the morphisms $\Hom_{\mathsf{Ind}(\mathsf{C})}(F, G)$ are defined to be the set
       \begin{equation*}

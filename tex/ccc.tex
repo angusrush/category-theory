@@ -62,6 +62,10 @@ In some categories, we can take the product of any two objects; one generally sa
   Sometimes people call a category with products a \emph{Cartesian category}, but others use this terminology to mean a category with all finite limits.\footnote{We will see later that any category with both products and equalizers has all finite limits.} We will avoid it altogether.
 \end{note}
 
+\begin{example}
+  The category $\mathsf{Cat}$,
+\end{example}
+
 Recall that in \hyperref[eg:cartesian_product_of_sets_is_bifunctor]{Example~\ref*{eg:cartesian_product_of_sets_is_bifunctor}} we showed that the Cartesian product of two sets is functorial. The same turns out to be true for the categorical product.
 \begin{theorem}
   \label{thm:productisafunctor}
@@ -82,7 +86,7 @@ Recall that in \hyperref[eg:cartesian_product_of_sets_is_bifunctor]{Example~\ref
           \begin{equation*}
             \begin{tikzcd}[column sep=large, row sep=small]
               {(X,Y)} \arrow[r, "{(f,g)}"] \arrow[rr, bend left, "{(f',g') \circ (f,g) = (f'\circ f, g'\circ g)}"] & {(X',Y')} \arrow[r, "{(f',g')}"] &  {(X'',Y'')} \\
-              & \,\arrow[dd, rightsquigarrow, "\times"] & \\
+              & \,\arrow[dd, rightarrow, "\times"] & \\
               & \, & \\
               & \, & \\
               X\times Y \arrow[r, "f\times g"] \arrow[rr, bend right, swap, "f'\times g' \circ f \times g = (f'\circ f)\times(g'\circ g)"] & X' \times Y' \arrow[r, "f'\times g'"]& X''\times Y''
@@ -159,7 +163,7 @@ The meaning of this theorem is that in any category where you can take products 
 
 \begin{example}[diagonal functor]
   \label{eg:diagonalfunctor}
-  Let $\mathsf{C}$ be a category, $\mathsf{C} \times \mathsf{C}$ the product category of $\mathsf{C}$ with itself. The \defn{diagonal functor} $\Delta\colon \mathsf{C} \rightsquigarrow \mathsf{C} \times \mathsf{C}$ is the functor which sends
+  Let $\mathsf{C}$ be a category, $\mathsf{C} \times \mathsf{C}$ the product category of $\mathsf{C}$ with itself. The \defn{diagonal functor} $\Delta\colon \mathsf{C} \rightarrow \mathsf{C} \times \mathsf{C}$ is the functor which sends
   \begin{itemize}
     \item each object $A \in \Obj(\mathsf{C})$ to the pair $(A,A) \in \Obj(\mathsf{C} \times \mathsf{C})$, and
     \item each morphism $f\colon A \to B$ to the ordered pair
@@ -236,7 +240,7 @@ The product is, in an appropriate way, commutative.
 We have the following analog of \hyperref[thm:productisafunctor]{Theorem~\ref*{thm:productisafunctor}}.
 \begin{theorem}
   \label{thm:coproductisafunctor}
-  Let $C$ be a category with coproducts. Then we have a functor $\amalg\colon C \times C \rightsquigarrow C$.
+  Let $C$ be a category with coproducts. Then we have a functor $\amalg\colon C \times C \rightarrow C$.
 \end{theorem}
 \begin{proof}
   We verify that $\amalg$ allows us to define canonically a coproduct of morphisms. Let $X_{1}$, $X_{2}$, $Y_{1}$, $Y_{2} \in \Obj(C)$, and let $f\colon X_{1} \to Y_{1}$ and $g\colon X_{2} \to Y_{2}$. We have the following diagram.

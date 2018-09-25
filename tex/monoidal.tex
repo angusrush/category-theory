@@ -112,7 +112,7 @@ The correct way of solving this problem is by demanding that certain diagrams, c
 \end{example}
 
 \begin{lemma}
-  The tensor product $\otimes$ of vector spaces is a bifunctor $\mathsf{Vect}_{k} \times \mathsf{Ve ct}_{k} \rightsquigarrow \mathsf{Vect}_{k}$.
+  The tensor product $\otimes$ of vector spaces is a bifunctor $\mathsf{Vect}_{k} \times \mathsf{Ve ct}_{k} \rightarrow \mathsf{Vect}_{k}$.
 \end{lemma}
 \begin{proof}
   It is clear what the domain and codomain of the tensor product is, and how it behaves on objects and morphisms. The only non-trivial aspect is showing that the standard definition of the tensor product of morphisms respects composition, which is not difficult.
@@ -190,7 +190,7 @@ The correct way of solving this problem is by demanding that certain diagrams, c
 The following definition was taken \emph{mutatis mutandis} from~\cite{baez-definitions-everyone-should-know}.
 \begin{definition}[monoidal functor]
   \label{def:monoidalfunctor}
-  Let $\mathsf{C}$ and $\mathsf{C}'$ be monoidal categories. A functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{C}'$ is \defn{lax monoidal} if it is equipped with
+  Let $\mathsf{C}$ and $\mathsf{C}'$ be monoidal categories. A functor $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{C}'$ is \defn{lax monoidal} if it is equipped with
   \begin{itemize}
     \item a natural transformation $\Phi_{X, Y}\colon \mathcal{F}(X) \otimes \mathcal{F}(Y) \to \mathcal{F}(X \otimes Y)$, and
 
@@ -295,7 +295,7 @@ The following definition was taken \emph{mutatis mutandis} from~\cite{baez-defin
 
 \begin{definition}[invertible object]
   \label{def:invertibleobject}
-  Let $(\mathsf{C}, \otimes, 1)$ be a monoidal category. An \defn{invertible object} (sometimes called a \emph{line object}) is an object $L \in \Obj(\mathsf{C})$ such that both of the functors $\mathsf{C} \rightsquigarrow \mathsf{C}$
+  Let $(\mathsf{C}, \otimes, 1)$ be a monoidal category. An \defn{invertible object} (sometimes called a \emph{line object}) is an object $L \in \Obj(\mathsf{C})$ such that both of the functors $\mathsf{C} \rightarrow \mathsf{C}$
   \begin{itemize}
     \item $\ell_{L}\colon A \mapsto L \otimes A$
     \item $\sr_{L}\colon A \mapsto A \otimes L$
@@ -576,7 +576,7 @@ We can now generalize the notion of an exponential object (\hyperref[def:exponen
 
 Recall the definition of the hom functor on a locally small category $\mathsf{C}$ (\hyperref[def:homfunctor]{Definition~\ref*{def:homfunctor}}): it is the functor which maps two objects to the set of morphisms between them, so it is a functor
 \begin{equation*}
-  \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{Set}.
+  \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightarrow \mathsf{Set}.
 \end{equation*}
 
 If we take $\mathsf{C} = \mathsf{Set}$, then our hom functor never really leaves $\mathsf{Set}$; it is \emph{internal} to $\mathsf{Set}$. This is our first example of an \emph{internal hom functor}. In fact, it is the prototypical internal hom functor, and we can learn a lot by studying its properties.
@@ -585,7 +585,7 @@ Let $X$ and $Y$ be sets. Denote the set of all functions $X \to Y$ by $[X,Y]$.
 
 Let $S$ be any other set, and consider a function $f\colon S \to [X, Y]$. For each element $s \in S$, $f$ picks out a function $h_{s}\colon X \to Y$. But this is just a curried version of a function $S \times X \to Y$! So as we saw in \hyperref[section:homfunctor]{Section~\ref*{section:homfunctor}}, we have a bijection between the sets $[S, [X, Y]]$ and $[S \times X, Y]$. In fact, this is even a \emph{natural} bijection, i.e.\ a natural transformation between the functors
 \begin{equation*}
-  [-,[-,-]]\qquad \text{and}\quad [- \times -, -]\colon \mathsf{Set}^{\mathrm{op}} \times \mathsf{Set}^{\mathrm{op}} \times \mathsf{Set} \rightsquigarrow \mathsf{Set}.
+  [-,[-,-]]\qquad \text{and}\quad [- \times -, -]\colon \mathsf{Set}^{\mathrm{op}} \times \mathsf{Set}^{\mathrm{op}} \times \mathsf{Set} \rightarrow \mathsf{Set}.
 \end{equation*}
 
 Let's check this. First, we need to figure out how our functors act on functions. Suppose we have sets and functions like so.
@@ -689,7 +689,7 @@ We picked this example because the collection $[A, B]$ of all functions between 
   \label{def:internalhomfunctor}
   Let $(\mathsf{C}, \otimes)$ be a monoidal category. An \defn{internal hom functor} is a functor
   \begin{equation*}
-    {[-, -]}_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{C}
+    {[-, -]}_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightarrow \mathsf{C}
   \end{equation*}
   such that for every $X \in \Obj(\mathsf{C})$ we have a pair of adjoint functors
   \begin{equation*}

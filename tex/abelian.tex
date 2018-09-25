@@ -79,7 +79,7 @@ Recall that $\mathsf{Ab}$ is the category of abelian groups.
 
 \begin{definition}[additive functor]
   \label{def:additivefunctor}
-  Let $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ be a functor between additive categories. We say that $\mathcal{F}$ is \defn{additive} if for each $X$, $Y \in \Obj(\mathsf{C})$ the map
+  Let $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$ be a functor between additive categories. We say that $\mathcal{F}$ is \defn{additive} if for each $X$, $Y \in \Obj(\mathsf{C})$ the map
   \begin{equation*}
     \Hom_{\mathsf{C}}(X, Y) \to \Hom_{\mathsf{D}}(\mathcal{F}(X), \mathcal{F}(Y))
   \end{equation*}
@@ -87,7 +87,7 @@ Recall that $\mathsf{Ab}$ is the category of abelian groups.
 \end{definition}
 
 \begin{lemma}
-  For any additive functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$, there exists a natural isomorphism
+  For any additive functor $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$, there exists a natural isomorphism
   \begin{equation*}
     \Phi\colon \mathcal{F}(-) \oplus \mathcal{F}(-) \Rightarrow \mathcal{F}(- \oplus -).
   \end{equation*}
@@ -675,7 +675,7 @@ For the remainder of the section, let $\mathsf{C}$ be an abelian category.
 
 \begin{definition}[$k$-linear functor]
   \label{def:linearfunctor}
-  let $\mathsf{C}$ and $\mathsf{D}$ be two $k$-linear categories, and $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ a functor. Suppose that for all objects $C$, $D \in \Obj(\mathsf{C})$ all morphisms $f$, $g\colon C \to D$, and all $\alpha$, $\beta \in k$, we have
+  let $\mathsf{C}$ and $\mathsf{D}$ be two $k$-linear categories, and $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$ a functor. Suppose that for all objects $C$, $D \in \Obj(\mathsf{C})$ all morphisms $f$, $g\colon C \to D$, and all $\alpha$, $\beta \in k$, we have
   \begin{equation*}
     \mathcal{F}(\alpha f + \beta g) = \alpha \mathcal{F}(f) + \beta \mathcal{G}(g).
   \end{equation*}
@@ -775,7 +775,7 @@ For the remainder of the section, let $\mathsf{C}$ be an abelian category.
 
 \begin{definition}[exact functor]
   \label{def:exactfunctor}
-  Let $\mathsf{C}$, $\mathsf{D}$ be abelian categories, $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ a functor. We say that $\mathcal{F}$ is
+  Let $\mathsf{C}$, $\mathsf{D}$ be abelian categories, $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$ a functor. We say that $\mathcal{F}$ is
   \begin{itemize}
     \item \defn{left exact} if it preserves biproducts and kernels
     \item \defn{right exact} if it preserves biproducts and cokernels
@@ -784,7 +784,7 @@ For the remainder of the section, let $\mathsf{C}$ be an abelian category.
 \end{definition}
 
 %\begin{theorem}
-%  Let $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$ be a functor between abelian categories. Let
+%  Let $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$ be a functor between abelian categories. Let
 %  \begin{equation*}
 %    \begin{tikzcd}
 %      0

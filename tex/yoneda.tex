@@ -121,7 +121,7 @@ Let's formalize this in a definition.
   \label{def:homfunctor}
   Let $\mathsf{C}$ be a locally small category. The \defn{hom functor} $\Hom_{\mathsf{C}}$ is the functor
   \begin{equation*}
-    \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightsquigarrow \mathsf{Set}
+    \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightarrow \mathsf{Set}
   \end{equation*}
   which sends the object $(A', A)$ to the set $\Hom_{\mathsf{C}}(A', A)$ of morphisms $A' \to A$, and the morphism $(f', f)\colon (A', A) \to (B', B)$ to the function
   \begin{equation*}
@@ -201,7 +201,7 @@ Let's formalize this in a definition.
   \begin{equation*}
     A \amalg B \to X,
   \end{equation*}
-  and vice versa. Similar reasoning yields a natural bijection between the following functors $\mathsf{C} \rightsquigarrow \mathsf{Set}$:
+  and vice versa. Similar reasoning yields a natural bijection between the following functors $\mathsf{C} \rightarrow \mathsf{Set}$:
   \begin{equation*}
     h^{A \amalg B} \Rightarrow h^{A} \times h^{B}.
   \end{equation*}
@@ -214,7 +214,7 @@ Let's formalize this in a definition.
   \begin{equation*}
     X \to B^{A},
   \end{equation*}
-  and vice versa. That is to say, we have a bijection between two functors $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{Set}$
+  and vice versa. That is to say, we have a bijection between two functors $\mathsf{C}^{\mathrm{op}} \rightarrow \mathsf{Set}$
   \begin{equation*}
     X \mapsto \Hom_{\mathsf{C}}(X \times A, B)\qquad\text{and}\qquad X \mapsto \Hom_{\mathsf{C}}(X, B^{A}).
   \end{equation*}
@@ -240,7 +240,7 @@ In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}
   \label{def:curriedhomfunctor}
   Let $\mathsf{C}$ be a locally small category, $A \in \Obj(\mathsf{C})$. We can construct from the hom functor $\Hom_{\mathsf{C}}$
   \begin{itemize}
-    \item a functor $h^{A}\colon \mathsf{C} \rightsquigarrow \mathsf{Set}$ which maps
+    \item a functor $h^{A}\colon \mathsf{C} \rightarrow \mathsf{Set}$ which maps
       \begin{itemize}
         \item an object $B \in \Obj(\mathsf{C})$ to the set $\Hom_{\mathsf{C}}(A, B)$, and
 
@@ -250,7 +250,7 @@ In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}
           \end{equation*}
       \end{itemize}
 
-    \item a functor $h_{A}\colon \mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{Set}$ which maps
+    \item a functor $h_{A}\colon \mathsf{C}^{\mathrm{op}} \rightarrow \mathsf{Set}$ which maps
       \begin{itemize}
         \item an object $B \in \Obj(\mathsf{C})$ to the set $\Hom_{\mathsf{C}}(B, A)$, and
 
@@ -265,11 +265,11 @@ In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}
 
 \section{Representable functors}
 
-Roughly speaking, a functor $\mathsf{C} \rightsquigarrow \mathsf{Set}$ is representable if it is
+Roughly speaking, a functor $\mathsf{C} \rightarrow \mathsf{Set}$ is representable if it is
 
 \begin{definition}[representable functor]
   \label{def:representablefunctor}
-  Let $\mathsf{C}$ be a category. A functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{Set}$ is \defn{representable} if there is an object $A \in \Obj(\mathsf{C})$ and a natural isomorphism (\hyperref[def:naturalisomorphism]{Definition~\ref*{def:naturalisomorphism}})
+  Let $\mathsf{C}$ be a category. A functor $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{Set}$ is \defn{representable} if there is an object $A \in \Obj(\mathsf{C})$ and a natural isomorphism (\hyperref[def:naturalisomorphism]{Definition~\ref*{def:naturalisomorphism}})
   \begin{equation*}
     \eta\colon \mathcal{F} \Rightarrow
     \begin{cases}
@@ -284,7 +284,7 @@ Roughly speaking, a functor $\mathsf{C} \rightsquigarrow \mathsf{Set}$ is repres
 \end{note}
 
 \begin{example}
-  Consider the forgetful functor $\mathcal{U}\colon \mathsf{Grp} \rightsquigarrow \mathsf{Set}$ which sends a group to its underlying set, and a group homomorphism to its underlying function. This functor is represented by the group $(\Z, +)$.
+  Consider the forgetful functor $\mathcal{U}\colon \mathsf{Grp} \rightarrow \mathsf{Set}$ which sends a group to its underlying set, and a group homomorphism to its underlying function. This functor is represented by the group $(\Z, +)$.
 
   To see this, we have to check that there is a natural isomorphism $\eta$ between $\mathcal{U}$ and $h^{\Z} = \Hom_{\mathsf{Grp}}(\Z, -)$. That is to say, for each group $G$, there a $\mathsf{Set}$-isomorphism (i.e.\ a bijection)
   \begin{equation*}
@@ -334,9 +334,9 @@ The Yoneda embedding is a very powerful tool which allows us to prove things abo
   \label{def:yonedaembedding}
   Let $\mathsf{C}$ be a locally small category. The \defn{Yoneda embedding} is the functor
   \begin{equation*}
-    \mathcal{Y}\colon \mathsf{C} \rightsquigarrow [\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \qquad A \mapsto h_{A} = \Hom_{\mathsf{C}}(-, A).
+    \mathcal{Y}\colon \mathsf{C} \rightarrow [\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \qquad A \mapsto h_{A} = \Hom_{\mathsf{C}}(-, A).
   \end{equation*}
-  where $[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}]$ is the category of functors $\mathsf{C}^{\mathrm{op}} \rightsquigarrow \mathsf{Set}$, defined in \hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}.
+  where $[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}]$ is the category of functors $\mathsf{C}^{\mathrm{op}} \rightarrow \mathsf{Set}$, defined in \hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}.
 
   Of course, we also need to say how $\mathcal{Y}$ behaves on morphisms. Let $f\colon A \to A'$. Then $\mathcal{Y}(f)$ will be a morphism from $h_{A}$ to $h_{A'}$, i.e.\ a natural transformation $h_{A} \Rightarrow h_{A'}$. We can specify how it behaves by specifying its components ${(\mathcal{Y}(f))}_{B}$.
 
