@@ -4,6 +4,9 @@
 
 \chapter{Adjunctions}\label{sec:adjunctions}
 
+\section{Hom set adjunction}
+\label{sec:hom_set_adjunction}
+
 Consider the following functors:
 \begin{itemize}
   \item $\mathcal{U}\colon \mathsf{Grp} \rightarrow \mathsf{Set}$, which sends a group to its underlying set, and
@@ -13,7 +16,7 @@ Consider the following functors:
 
 The functors $\mathcal{U}$ and $\mathcal{F}$ are dual in the following sense: $\mathcal{U}$ is the most efficient way of moving from $\mathsf{Grp}$ to $\mathsf{Set}$ since all groups are in particular sets; $\mathcal{F}$ might be thought of as providing the most efficient way of moving from $\mathsf{Set}$ to $\mathsf{Grp}$. But how would one go about formalizing this?
 
-Well, these functors have the following property. Let $S$ be a set, $G$ be a group, and let $f\colon S \to \mathcal{U}(G)$, $s \mapsto f(s)$ be a set-function. Then there is an associated group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$, which sends $s_{1}s_{2}\dots s_{n} \mapsto f(s_{1}s_{2}\dots s_{n}) = f(s_{1})\cdots f(s_{n})$. In fact, $\tilde{f}$ is the unique homomorphism $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
+The functors $\mathcal{U}$ and $\mathcal{F}$ have the following property. Let $S$ be a set, $G$ be a group, and let $f\colon S \to \mathcal{U}(G)$, $s \mapsto f(s)$ be a set-function. Then there is an associated group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$, which sends $s_{1}s_{2}\dots s_{n} \mapsto f(s_{1}s_{2}\dots s_{n}) = f(s_{1})\cdots f(s_{n})$. In fact, $\tilde{f}$ is the unique homomorphism $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
 
 Similarly, for every group homomorphism $g\colon \mathcal{F}(S) \to G$, there is an associated function $S \to \mathcal{U}(G)$ given by restricting $g$ to $S$. In fact, this is the unique function $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
 
@@ -74,7 +77,8 @@ This mathematical structure turns out to be a recurring theme in the study of ca
 
 \end{definition}
 
-Here are two equivalent definitions which are often used.
+\section{Unit-counit adjunction}
+\label{sec:unit_counit_adjunction}
 
 \begin{definition}[unit-counit adjunction]
   \label{def:unitcounitadjunction}
@@ -105,92 +109,95 @@ Here are two equivalent definitions which are often used.
     \end{tikzcd}
   \end{equation*}
   commute.
-
-  The triangle diagrams take quite some explanation. The unit $\eta$ is a natural transformation $\id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$. We can draw it like this.
-  \begin{equation*}
-    \begin{tikzcd}[column sep=huge]
-      \mathsf{C}
-      \arrow[r, rightarrow, bend left, "\id_{\mathsf{C}}"{name=U}]
-      \arrow[r, rightarrow, swap, bend right, "\mathcal{G} \circ \mathcal{F}"{name=D}]
-      \arrow[from=U, to=D, Rightarrow, "\eta"]
-      & \mathsf{C}
-    \end{tikzcd}.
-  \end{equation*}
-  Analogously, we can draw $\varepsilon$ like this.
-  \begin{equation*}
-    \begin{tikzcd}[column sep=huge]
-      \mathsf{D}
-      \arrow[r, rightarrow, bend left, "\mathcal{F} \circ \mathcal{G}"{name=U}]
-      \arrow[r, rightarrow, swap, bend right, "\id_{\mathsf{D}}"{name=D}]
-      \arrow[from=U, to=D, Rightarrow, "\varepsilon"]
-      & \mathsf{D}
-    \end{tikzcd}.
-  \end{equation*}
-
-  We can arrange these artfully like so.
-  \begin{equation*}
-    \begin{tikzcd}
-      \mathsf{C}
-      \arrow[r, rightarrow, "\mathcal{F}" description]
-      \arrow[rr, rightarrow, bend left=75, "\id_{\mathsf{C}}"{name=UU}]
-      \arrow[rr, swap, rightarrow, bend left=30, "\mathcal{G} \circ \mathcal{F}"{name=U}]
-      & \mathsf{D}
-      \arrow[r, rightarrow, "\mathcal{G}" description]
-      \arrow[rr, rightarrow, bend right=75, swap, "\id_{\mathsf{D}}"{name=DD}]
-      \arrow[rr, rightarrow, bend right=30, "\mathcal{F} \circ \mathcal{G}"{name=D}]
-      \arrow[from=D, to=DD, Rightarrow, "\varepsilon"]
-      & \mathsf{C}
-      \arrow[from=UU, to=U, Rightarrow, swap, "\eta"]
-      \arrow[r, rightarrow, "\mathcal{F}" description]
-      & \mathsf{D}
-    \end{tikzcd}
-  \end{equation*}
-  Notice that we haven't actually \emph{done} anything; this diagram is just the diagrams for the unit and counit, plus some extraneous information.
-
-  We can whisker the $\eta$ on top from the right, and the $\varepsilon$ below from the left, to get the following diagram,
-  \begin{equation*}
-    \begin{tikzcd}
-      \mathsf{C}
-      \arrow[r, rightarrow, "\mathcal{F}" description]
-      \arrow[rrr, rightarrow, bend right=60, swap, "\mathcal{F}"{name=D}]
-      \arrow[rrr, rightarrow, bend left=60, "\mathcal{F}"{name=U}]
-      \arrow[rrr, rightarrow, bend left=30, swap, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=MU}]
-      \arrow[rrr, rightarrow, bend right=30, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=MD}]
-      & \mathsf{D}
-      \arrow[from=U, to=MU, Rightarrow, swap, "\mathcal{F}\eta"]
-      \arrow[r, rightarrow, "\mathcal{G}" description]
-      \arrow[from=MD, to=D, Rightarrow, "\varepsilon\mathcal{F}"]
-      & \mathsf{C}
-      \arrow[r, rightarrow, "\mathcal{F}" description]
-      & \mathsf{D}
-    \end{tikzcd}
-  \end{equation*}
-  then consolidate to get this:
-  \begin{equation*}
-    \begin{tikzcd}[row sep=huge, column sep=huge]
-      \mathsf{C}
-      \arrow[r, rightarrow, bend left=60, "\mathcal{F}"{name=U}]
-      \arrow[r, rightarrow, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=M} description]
-      \arrow[r, rightarrow, bend right=60, swap, "\mathcal{F}"{name=D}]
-      & \mathsf{D}
-      \arrow[from=U, to=M, Rightarrow, "\mathcal{F}\eta"]
-      \arrow[from=M, to=D, Rightarrow, "\varepsilon\mathcal{F}"]
-    \end{tikzcd}
-  \end{equation*}
-  We can then take the composition $\varepsilon \mathcal{F} \circ \mathcal{F}\eta$ to get a natural transformation $\mathcal{F} \Rightarrow \mathcal{F}$
-  \begin{equation*}
-    \begin{tikzcd}[row sep=huge, column sep=huge]
-      \mathsf{C}
-      \arrow[r, bend left, rightarrow, "\mathcal{F}"{name=U}]
-      \arrow[r, bend right, swap, rightarrow, "\mathcal{F}"{name=D}]
-      \arrow[from=U, to=D, Rightarrow, "\varepsilon\mathcal{F} \circ \mathcal{F}\eta"]
-      &\mathsf{D};
-    \end{tikzcd}
-  \end{equation*}
-  the first triangle diagram says that this must be the same as the identity natural transformation $\id_{\mathcal{F}}$.
-
-  The second triangle diagram is analogous.
 \end{definition}
+
+The triangle diagrams take quite some explanation. The unit $\eta$ is a natural transformation $\id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$. We can draw it like this.
+\begin{equation*}
+  \begin{tikzcd}[column sep=huge]
+    \mathsf{C}
+    \arrow[r, rightarrow, bend left, "\id_{\mathsf{C}}"{name=U}]
+    \arrow[r, rightarrow, swap, bend right, "\mathcal{G} \circ \mathcal{F}"{name=D}]
+    \arrow[from=U, to=D, Rightarrow, "\eta"]
+    & \mathsf{C}
+  \end{tikzcd}.
+\end{equation*}
+Analogously, we can draw $\varepsilon$ like this.
+\begin{equation*}
+  \begin{tikzcd}[column sep=huge]
+    \mathsf{D}
+    \arrow[r, rightarrow, bend left, "\mathcal{F} \circ \mathcal{G}"{name=U}]
+    \arrow[r, rightarrow, swap, bend right, "\id_{\mathsf{D}}"{name=D}]
+    \arrow[from=U, to=D, Rightarrow, "\varepsilon"]
+    & \mathsf{D}
+  \end{tikzcd}.
+\end{equation*}
+
+We can arrange these artfully like so.
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[r, rightarrow, "\mathcal{F}" description]
+    \arrow[rr, rightarrow, bend left=75, "\id_{\mathsf{C}}"{name=UU}]
+    \arrow[rr, swap, rightarrow, bend left=30, "\mathcal{G} \circ \mathcal{F}"{name=U}]
+    & \mathsf{D}
+    \arrow[r, rightarrow, "\mathcal{G}" description]
+    \arrow[rr, rightarrow, bend right=75, swap, "\id_{\mathsf{D}}"{name=DD}]
+    \arrow[rr, rightarrow, bend right=30, "\mathcal{F} \circ \mathcal{G}"{name=D}]
+    \arrow[from=D, to=DD, Rightarrow, "\varepsilon"]
+    & \mathsf{C}
+    \arrow[from=UU, to=U, Rightarrow, swap, "\eta"]
+    \arrow[r, rightarrow, "\mathcal{F}" description]
+    & \mathsf{D}
+  \end{tikzcd}
+\end{equation*}
+Notice that we haven't actually \emph{done} anything; this diagram is just the diagrams for the unit and counit, plus some extraneous information.
+
+We can whisker the $\eta$ on top from the right, and the $\varepsilon$ below from the left, to get the following diagram,
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[r, rightarrow, "\mathcal{F}" description]
+    \arrow[rrr, rightarrow, bend right=60, swap, "\mathcal{F}"{name=D}]
+    \arrow[rrr, rightarrow, bend left=60, "\mathcal{F}"{name=U}]
+    \arrow[rrr, rightarrow, bend left=30, swap, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=MU}]
+    \arrow[rrr, rightarrow, bend right=30, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=MD}]
+    & \mathsf{D}
+    \arrow[from=U, to=MU, Rightarrow, swap, "\mathcal{F}\eta"]
+    \arrow[r, rightarrow, "\mathcal{G}" description]
+    \arrow[from=MD, to=D, Rightarrow, "\varepsilon\mathcal{F}"]
+    & \mathsf{C}
+    \arrow[r, rightarrow, "\mathcal{F}" description]
+    & \mathsf{D}
+  \end{tikzcd}
+\end{equation*}
+then consolidate to get this:
+\begin{equation*}
+  \begin{tikzcd}[row sep=huge, column sep=huge]
+    \mathsf{C}
+    \arrow[r, rightarrow, bend left=60, "\mathcal{F}"{name=U}]
+    \arrow[r, rightarrow, "\mathcal{F} \circ \mathcal{G} \circ \mathcal{F}"{name=M} description]
+    \arrow[r, rightarrow, bend right=60, swap, "\mathcal{F}"{name=D}]
+    & \mathsf{D}
+    \arrow[from=U, to=M, Rightarrow, "\mathcal{F}\eta"]
+    \arrow[from=M, to=D, Rightarrow, "\varepsilon\mathcal{F}"]
+  \end{tikzcd}
+\end{equation*}
+We can then take the composition $\varepsilon \mathcal{F} \circ \mathcal{F}\eta$ to get a natural transformation $\mathcal{F} \Rightarrow \mathcal{F}$
+\begin{equation*}
+  \begin{tikzcd}[row sep=huge, column sep=huge]
+    \mathsf{C}
+    \arrow[r, bend left, rightarrow, "\mathcal{F}"{name=U}]
+    \arrow[r, bend right, swap, rightarrow, "\mathcal{F}"{name=D}]
+    \arrow[from=U, to=D, Rightarrow, "\varepsilon\mathcal{F} \circ \mathcal{F}\eta"]
+    &\mathsf{D};
+  \end{tikzcd}
+\end{equation*}
+the first triangle diagram says that this must be the same as the identity natural transformation $\id_{\mathcal{F}}$.
+
+The second triangle diagram is analogous.
+
+\section{Unit-counit adjunctions are hom-set adjunctions}
+\label{sec:unit_counit_adjunctions_are_hom_set_adjunctions}
 
 \begin{lemma}
   The functors $\mathcal{F}$ and $\mathcal{G}$ form a unit-counit adjunction if and only if they form a hom-set adjunction.
@@ -329,7 +336,7 @@ Here are two equivalent definitions which are often used.
       & \Hom_{\mathsf{C}}(C, \mathcal{G}'(E))
     \end{tikzcd}
   \end{equation*}
-  But the fully faithfulness of the Yoneda embedding tells us that there exist isomorphisms $\mu_{D}$ and $\mu_{E}$ making the following diagram commute,
+  But the full- and faithfulness of the Yoneda embedding tells us that there exist isomorphisms $\mu_{D}$ and $\mu_{E}$ making the following diagram commute,
   \begin{equation*}
     \begin{tikzcd}
       \mathcal{G}(D)
@@ -395,5 +402,32 @@ Here are two equivalent definitions which are often used.
   Dual to the proof of \hyperref[thm:rightadjointspreservelimits]{Theorem~\ref*{thm:rightadjointspreservelimits}}.
 \end{proof}
 
+\section{Adjunctions generaize categorical equivalences}
+\label{sec:adjunctions_generaize_categorical_equivalences}
+
+\begin{theorem}
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. The following are equivalent.
+  \begin{enumerate}
+    \item $\mathcal{F}$ is part of an equivalence of categories (\hyperref[def:categoricalequivalence]{Definition~\ref*{def:categoricalequivalence}}) $(\mathcal{F}, \mathcal{G}, \eta, \epsilon)$.
+
+    \item $\mathcal{F}$ is fully faithful (\hyperref[def:essentiallysurjective]{Definition~\ref*{def:essentiallysurjective}}) and essentially surjective (\hyperref[def:fullfaithfulfunctor]{Definition~\ref*{def:fullfaithfulfunctor}}).
+
+    \item $\mathcal{F}$ is part of a unit-counit adjunction (\hyperref[def:unitcounitadjunction]{Definition~\ref*{def:unitcounitadjunction}}) $(\mathcal{F}, \mathcal{G}, \epsilon, \eta)$, where $\epsilon$ and $\eta$ are isomorphisms.
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item[3. $\Rightarrow$ 1.] Obvious.
+            
+    \item[1. $\Rightarrow$ 2.] Assume $(\mathcal{F}, \mathcal{G}, \eta\colon \mathcal{F} \circ \mathcal{G} \to \id_{G}, \epsilon\colon \id_{C} \to \mathcal{G} \circ \mathcal{F})$ is an equivalence of categories. 
+      
+      First we show that $\mathcal{F}$ is essentially surjective. Evaluating $\eta$ at any $Y \in \Obj(\mathsf{D})$, we get an isomorphism $(\mathcal{F} \circ \mathcal{G})(Y) \simeq Y$. Thus, for any $Y \in \Obj(\mathsf{C})$, there is an isomorphism between $Y$ and some element $\mathcal{F}(\mathcal{G}(Y))$.
+
+      Next, we show that $\mathcal{F}$ is fully faithful.
+            
+    \item[2. $\Rightarrow$ 3.]
+  \end{enumerate}
+\end{proof}
 
 \end{document}

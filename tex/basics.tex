@@ -4,6 +4,115 @@
 
 \chapter{Basic category theory}\label{ch:categories}
 
+\section{Foundational issues}
+\label{sec:foundational_issues}
+
+\begin{note}
+  I want to edit this section pretty seriously as I don't really understand universes at the moment. Furthermore, since most of these notes was written in the language of proper classes, there are probably still a few latent references to them. I'll remove these references as I find them.
+\end{note}
+
+Set theory as formulated in ZFC has foundational annoyances. One particularly pernicious one says that not every definable collection of objects is small enough to be a set. For example, there is no set of all sets, nor set of all groups, rings, etc.
+
+Category theory is to a large extent built upon ZFC, and needs to talk about the collection of all sets, groups, rings, and many other structures. When doing category theory, there are three common ways to deal with collections which are too large to be sets.
+\begin{enumerate}
+  \item One defines the notion of a \emph{proper class,} which is simply another word for a definable collection too large to be a set, and works with proper classes in addition to sets.
+
+  \item Following Grothendieck, one can add an additional axiom, called the \emph{universe axiom,} to ZFC which ensures the existence a set of all sets one is allowed to use. This set of all sets one is allowed to use is called a \emph{Grothendieck universe.}
+
+  \item Introduce categories, rather than sets, as foundational objects.
+\end{enumerate}
+
+The first approach is the most common, and the third the most radical. We will use the second here.
+
+\begin{definition}[Grothendieck universe]
+  \label{def:universe}
+  A \defn{Grothendieck universe} (or simply \emph{universe}) is a set $\mathcal{U}$ with the following properties:
+  \begin{enumerate}[label=\emph{U\arabic*.}]
+    \item If $x \in \mathcal{U}$ and $y \in x$, then $y \in \mathcal{U}$. That is, if if $x \in \mathcal{U}$, then $x$ is a subset of $\mathcal{U}$.
+
+    \item If $x$, $y \in \mathcal{U}$, then $\{x, y\} \in \mathcal{U}$
+
+    \item If $x \in \mathcal{U}$, then $2^{X}$ is also in $\mathcal{U}$.
+
+    \item If $I \in \mathcal{U}$ and $\{x_{i}\}_{i \in U}$ with $x_{i} \in \mathcal{U}$, then
+      \begin{equation*}
+        \bigcup_{i \in I} x_{i} \in \mathcal{U}.
+      \end{equation*}
+  \end{enumerate}
+\end{definition}
+
+The \emph{universe axiom} says that for every set $X$, there is a universe which has $X$ as an element.
+
+These axioms imply that universes are closed under many of the properties one would hope.\footnote{See the below lemma.} The upshot is that all familiar constructions from everyday life can be performed within any universe $\mathcal{U}$. From now on, we fix a universe $\mathcal{U}$ such that $\N \in \mathcal{U}$ (which is possible by the universe axiom).
+
+\begin{lemma}
+  \label{lemma:properties_of_universes}
+  \leavevmode
+  \begin{enumerate}
+    \item $x \in \mathcal{U} \implies \{x\} \in \mathcal{U}$
+
+    \item $y \in \mathcal{U}$, $x \subseteq y \implies x \in \mathcal{U}$
+
+    \item $x$, $y \in \mathcal{U} \implies (x, y) \equiv \{x, \{x, y\}\} \in \mathcal{U}$
+
+    \item $x$, $y \in \mathcal{U} \implies x \cup y$, $x \times y \in \mathcal{U}$.
+
+    \item $x$, $y \in \mathcal{U} \implies \mathrm{Maps}(x, y) \in \mathcal{U}$
+
+    \item $I \in \mathcal{U}$, $\{x_{i}\}_{i \in J}$ with $x_{i} \in \mathcal{U} \implies \prod_{i \in J} x_{i}$, $\coprod_{i \in J} x_{i}$, $\bigcap_{i \in J} x_{i} \in \mathcal{U}$.
+
+    \item $x \in \mathcal{U} \implies x \cup \{x\} \in \mathcal{U}$, hence $\N \subset \mathcal{U}$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  \leavevmode
+  \begin{enumerate}
+    \item If $x$ in $\mathcal{U}$, then by \emph{U2} $\{x, x\} \in \mathcal{U}$. But $\{x, x\} = \{x\}$.
+
+    \item If $y \in \mathcal{U}$, then $2^{y} \in \mathcal{U}$ by \emph{U3.} Any subset of $y$ is an element of $2^{y}$, so \emph{U1} implies that any subset of $y$ belongs to $\mathcal{U}$.
+
+    \item If $x$ and $y \in \mathcal{U}$, then $\{x, y\} \in \mathcal{U}$ by \emph{U1.} Then again by \emph{U1,} $\{x, \{x, y\}\} \in \mathcal{U}$.
+
+    \item For any $a$, $b \in \mathcal{U}$, $a \neq b$, we have by \emph{U2} that $\{a, b\} \in \mathcal{U}$. Thus, binary unions follow from \emph{U4,} which demands the existence of unions indexed by any set in $\mathcal{U}$. 
+      
+      From \emph{U2.}, if $x$, $y \in \mathcal{U}$ then every element of $x$ and every element of $y$ is in $U$, so ordered pairs of an element of $x$ and an element of $y$ are in $\mathcal{U}$. Thus, the singletons each containing an ordered pair are in $\mathcal{U}$, so the union
+      \begin{equation*}
+        \bigcup_{\alpha \in x} \bigcup_{\beta \in y} \{(\alpha, \beta)\}
+      \end{equation*}
+      is in $\mathcal{U}$.
+
+    \item The set of all maps $x \to y$ is a subset of the set $2^{x \times y}$.
+
+    \item As a set, 
+      \begin{equation*}
+        \prod_{i \in I} x_{i} = \left\{f\colon I \to \bigcup_{i \in I} x_{i}\ \Big|\ f(i) \in x_{i} \text{ for all }i \in I\right\} \subset \mathrm{Maps}\left(I, \bigcup_{i \in I} x_{i}\right)
+      \end{equation*}
+
+      As a set,
+      \begin{equation*}
+        \coprod_{i \in I} x_{i} = \bigcup_{i \in I} x_{i} \times \{i\}.
+      \end{equation*}
+
+      Intersection is subset of union.
+
+    \item If $x \in \mathcal{U}$ then $\{x\} \in \mathcal{U}$ by 1., so by 4., $x \cup \{x\} \in \mathcal{U}$.
+  \end{enumerate}
+\end{proof}
+
+\begin{definition}[small set, class, large set]
+  \label{def:small_set_class_large_set}
+  We make the following definitions.
+  \begin{itemize}
+    \item We call the elements of $\mathcal{U}$ \emph{small sets}. 
+    \item We call subsets of $\mathcal{U}$ \emph{classes}.
+    \item We call everything else \emph{Large sets}.
+  \end{itemize}
+
+  Small sets agree with the usual (=ZFC) notion of sets, and classes agree with the usual notion of proper classes. In what follows, we will write \emph{set} when we mean \emph{small set,} unless confusion is likely to arise. Unfortunately, especially when talking about foundational issues, confusion is likely to arise.
+\end{definition}
+
+By the universe axiom, for any set (as defined in ZFC), there is a universe which has that set as an element. From now on, we will work in some universe $\mathcal{U}$ which has $\N$ as an element.
+
 \section{Categories}\label{sec:categoriesbasicdefinitions}
 
 \subsection{What is a category?}
@@ -20,14 +129,17 @@ Unfortunately, there are many different conventions regarding how to typeset cat
   \label{def:category}
   A \defn{category} $\mathsf{C}$ consists of the following pieces of data.
   \begin{itemize}
-    \item A collection\footnote{There is a reason we say that there is a \emph{collection}, rather than a \emph{set}, of objects (and morphisms): it may be that there may be `too many' objects (or morphisms) to be contained in a set. For example, there is no set of all sets, but we will see that there is a category of sets. We will for the most part sidestep foundational questions of size, but in some cases it will be unavoidable. In particular, categories whose objects and/or morphisms \emph{are\/} small enough to be contained in a set will play an especially important role.} $\Obj(\mathsf{C})$ of \emph{objects}.
-    \item For every two objects $A$, $B \in \Obj(\mathsf{C})$, a collection $\Hom(A,B)$ of \emph{morphisms\/} with the following properties.
-      \begin{enumerate}
-        \item\label{item:compositionofmorphisms} For any $f \in \Hom(A,B)$ and $g \in \Hom(B,C)$, there is an associated morphism
-          \begin{equation*}
-            g \circ f \in \Hom(A,C),
-          \end{equation*} called the \emph{composition\/} of $f$ and $g$.
+    \item A set\footnote{Note that we are working within ZFCU, so this definition does not preclude interesting categories, such as the category of all sets.} $\Obj(\mathsf{C})$ of \emph{objects}.
 
+    \item For every two objects $A$, $B \in \Obj(\mathsf{C})$, a set $\Hom(A,B)$ of \emph{morphisms\/}.
+
+    \item\label{item:compositionofmorphisms} 
+      For every objects $X$, $Y$, $Z$, a map 
+      \begin{equation*}
+        \Hom(Y, Z) \times \Hom(X, Y) \to \Hom(X, Z);\qquad (f, g) \mapsto f \circ g
+      \end{equation*}
+      called the \emph{composition\/} of $f$ and $g$, which satisfies the following properties.
+      \begin{enumerate}
         \item This composition is associative: $(f \circ g) \circ h = f \circ (g \circ h)$.
 
         \item\label{item:existenceofidentitymorphism} For every $A \in \Obj(\mathsf{C})$, there is at least one morphism $\id_{A}$, called the \emph{identity morphism\/} which functions as both a left and right identity with respect to the composition of morphisms, i.e.\
@@ -57,13 +169,13 @@ Here is something to be aware of: the identity morphism $\id_{A}\colon A \to A$ 
 The idea of a category is very abstract, but not abstruse. The easiest way to convince oneself of this is to see some examples. The most common type of category is given by `mathematical structures and structure-preserving maps between them,' so many of our examples will be in this vein.
 
 \begin{example}[The category of sets]
-  The prototypical category is $\mathsf{Set}$, the category whose objects are sets and whose morphisms are functions.
+  The prototypical category is $\mathsf{Set}$, the category whose objects are small sets and whose morphisms are functions between them.
 
   In order to check that $\mathsf{Set}$ is indeed a category, we need to check that the axioms are satisfied. In fact, everything is more or less clear by definition.
 
-  Our category $\mathsf{Set}$ first needs a collection of objects. Although there is no set of all sets, there certainly is a collection of all sets. Therefore, we are free to choose
+  Our category $\mathsf{Set}$ first needs a collection of objects. Although there is no set of all sets, there certainly is a set of small sets -- the universe $\mathcal{U}$ itself. Therefore, we define
   \begin{equation*}
-    \Obj(\mathsf{Set}) = [\text{all sets}].
+    \Obj(\mathsf{Set}) = \mathcal{U}.
   \end{equation*}
 
   The next thing $\mathsf{Set}$ needs is, for each pair of objects (i.e.\ sets) $A$ and $B$, a collection of morphisms $\Hom_{\mathsf{Set}}(A, B)$ between them. The morphisms between the objects in $\mathsf{Set}$ will consist of all set-functions between. That is,
@@ -102,10 +214,88 @@ The idea of a category is very abstract, but not abstruse. The easiest way to co
   \end{equation*}
 \end{example}
 
+\begin{example}[poset category]
+  \label{eg:poset_category}
+  Let $(P, \leq)$ be a poset. One can define from this a category $\mathcal{P}(P)$, whose objects are $\Obj(\mathcal{P}) = P$ and whose morphisms are
+  \begin{equation*}
+    \Hom_{\mathcal{P}}(A, B) =
+    \begin{cases}
+      \{*\}, & A \leq B \\
+      \emptyset, & \text{otherwise}.
+    \end{cases}
+  \end{equation*}
+
+  This immediately furnishes us with many examples of categories. For example:
+  \begin{itemize}
+    \item Any set
+      \begin{equation*}
+        [n] = \{0, 1, \ldots, n\}
+      \end{equation*}
+      is a poset with $\leq$ inherited from the integers. We can draw these categories as follows (omitting identity arrows)
+      \begin{equation*}
+        [0]\colon
+        \begin{tikzcd}
+          0
+        \end{tikzcd}
+        ,\qquad
+        [1]\colon
+        \begin{tikzcd}
+          0
+          \arrow[r]
+          & 1
+        \end{tikzcd}
+        ,\qquad[2]\colon
+        \begin{tikzcd}[column sep=small]
+          & 1
+          \arrow[dr]
+          \\
+          0
+          \arrow[ur]
+          \arrow[rr]
+          & & 2
+        \end{tikzcd}
+        ,\qquad[3]\colon
+        \begin{tikzcd}
+          0 
+          \arrow[r]
+          \arrow[d]
+          \arrow[rd]
+          & 1
+          \arrow[d]
+          \arrow[dl, crossing over]
+          \\
+          2
+          \arrow[r]
+          & 3
+        \end{tikzcd}
+      \end{equation*}
+
+    \item Any power set is a poset. The poset category of the power set of $\{0, 1\}$, denoted $\mathcal{P}(\{0, 1\})$ by mild abuse of notation, can be drawn as follows.
+      \begin{equation*}
+        \begin{tikzcd}
+          \emptyset
+          \arrow[dr]
+          \arrow[r]
+          \arrow[d]
+          & \{0\}
+          \arrow[d]
+          \\
+          \{1\}
+          \arrow[r]
+          & \{0, 1\}
+        \end{tikzcd}
+      \end{equation*}
+
+    %\item Poset given by the power set of $\{0, 1, 2\}$: Looks like a cube with filled-in diagonals.
+
+    %\item $Y \subset \R^{3}$ simplicial complex. $\Delta(Y)$ = poset of all subsimplices. Challenge: draw a picture of this for $\Delta(Y)$ for some interesting $Y$.
+  \end{itemize}
+\end{example}
+
 Categories capture the essence of `things and composable maps between them.' There are many mathematical structures which naturally come with a notion of map between them, usually called homomorphisms. These structure preserving maps are almost always composable, which means it is often natural to imagine such objects as living in their own categories.
 \begin{example}
   \label{eg:examplesofcategories}
-  If you know what the following mathematical objects are, it is nearly effortless to check that they are categories.\footnote{Look at the definition. It \emph{really is} trivial.}
+  If you know what the following mathematical objects are, it is nearly effortless to check that they are categories.\footnote{Note that since we are working in a universe $\mathcal{U}$, we restrict ourselves to objects whose underlying sets are small. This is no great restriction, and if you're not interested in foundations you can safely ignore it.}
   \begin{itemize}
     \item $\mathsf{Grp}$, whose objects are groups and whose morphisms are group homomorphisms.
 
@@ -137,11 +327,11 @@ Categories capture the essence of `things and composable maps between them.' The
   \label{eg:groupsaregroupoidswithoneobject}
   Here is a slightly whimsical example of a category, which is different in nature to the other categories we've looked at before. This category is important when studying group representations.
 
-  Let $G$ be a group. We are going to create a category $\mathsf{G}$ which behaves like this group.
+  Let $G$ be a group. We are going to create a category $BG$ which behaves like this group.
   \begin{itemize}
-    \item Our category $\mathsf{G}$ has only one object, called $*$.
+    \item Our category $BG$ has only one object, called $*$.
 
-    \item The set $\Hom_{\mathsf{G}}(*, *)$ is equal to the underlying set of the group $G$, and for $f$, $g \in \Hom_{\mathsf{G}}(*, *)$, the compositions $f \circ g = f\cdot g$, where $\cdot$ is the group operation in $G$. The identity $e \in G$ is the identity morphism $\id_{*}$ on $*$.
+    \item The set $\Hom_{BG}(*, *)$ is equal to the underlying set of the group $G$, and for $f$, $g \in \Hom_{BG}(*, *)$, the compositions $f \circ g = f\cdot g$, where $\cdot$ is the group operation in $G$. The identity $e \in G$ is the identity morphism $\id_{*}$ on $*$.
   \end{itemize}
   \begin{equation*}
     \begin{tikzcd}
@@ -177,7 +367,7 @@ It is often helpful to visualize objects and morphisms in categories as as graph
   \end{tikzcd}
 \end{equation*}
 
-Category theorists frequently employ these diagrams, called \emph{commutative diagrams,}\footnote{We will define later when a diagram does or does not commute. Annoyingly, even diagrams which don't commute are called commutative diagrams.} to make the ideas beind a proof more clear. Many results in category theory are most easily proved by drawing such a diagram, and then pointing at edges and vertices while repeating the phrase `and then this goes here' and furrowing one's brow. This sort of proof is called a `diagram chase,' and category theorists are very fond of them.
+Category theorists frequently employ these diagrams, called \emph{commutative diagrams,}\footnote{We will define later when a diagram does or does not commute. Annoyingly, even diagrams which don't commute are often called commutative diagrams.} to make the ideas beind a proof more clear. Many results in category theory are most easily proved by drawing such a diagram, and then pointing at edges and vertices while repeating the phrase `and then this goes here' and furrowing one's brow. This sort of proof is called a `diagram chase,' and category theorists are very fond of them.
 
 
 \subsection{Building new categories from existing ones}
@@ -493,13 +683,13 @@ Using classes instead of sets works perfectly well. However, sets are better beh
   \label{def:smalllocallysmallcategoryhomset}
   A category $\mathsf{C}$ can have the following properties.
   \begin{itemize}
-    \item We say that $\mathsf{C}$ is \defn{locally small} if for all $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set.
+    \item We say that $\mathsf{C}$ is \defn{locally small} if for all $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a small set.
 
-    \item We say that $\mathsf{C}$ is \defn{small} if $\Obj(\mathsf{C})$ is a set and for all objects $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a set.
+    \item We say that $\mathsf{C}$ is \defn{small} if $\Obj(\mathsf{C})$ is a small set and for all objects $A$, $B \in \Obj(\mathsf{C})$, $\Hom_{\mathsf{C}}(A, B)$ is a small set.
   \end{itemize}
 \end{definition}
 
-If we are working with a category which is locally small, so that $\Hom_{\mathsf{C}}(A,B)$ is always a set, we call $\Hom_{\mathsf{C}}(A, B)$ the \defn{hom-set}. (Actually, terminology is often abused, and $\Hom_{\mathsf{C}}(A, B)$ is called a hom-set even if it is not a set.)
+If we are working with a category which is locally small, so that $\Hom_{\mathsf{C}}(A,B)$ is always a small set, we call $\Hom_{\mathsf{C}}(A, B)$ the \defn{hom-set}. (Actually, terminology is often abused, and $\Hom_{\mathsf{C}}(A, B)$ is called a hom-set even if it is not a set.)
 
 \begin{example}
   The category $\mathsf{Set}$ is locally small but not small.
@@ -583,11 +773,11 @@ There is a special name for functors whose domain is a product category.
     \rho(gh) = \rho(g)\cdot \rho(h).
   \end{equation*}
 
-  Let $G$ be a group. Recall \hyperref[eg:groupsaregroupoidswithoneobject]{Example~\ref*{eg:groupsaregroupoidswithoneobject}}, in which we constructed from a group $G$ a category $\mathsf{G}$ with one object $*$, whose morphisms $\Hom_{\mathsf{G}}(*, *)$ were given by the elements of $G$.
+  Let $G$ be a group. Recall \hyperref[eg:groupsaregroupoidswithoneobject]{Example~\ref*{eg:groupsaregroupoidswithoneobject}}, in which we constructed from a group $G$ a category $BG$ with one object $*$, whose morphisms $\Hom_{BG}(*, *)$ were given by the elements of $G$.
 
-  Then functors $\rho\colon \mathsf{G} \rightsquigarrow \mathsf{Vect}_{k}$ are $k$-linear representations of $G$!
+  Then functors $\rho\colon BG \rightsquigarrow \mathsf{Vect}_{k}$ are $k$-linear representations of $G$!
 
-  To see this, let us unwrap the definition. The functor $\rho$ assigns to $* \in \Obj(\mathsf{G})$ an object $\rho(*) = V \in \Obj(\mathsf{Vect})$, and to each morphism $g\colon * \to *$ a morphism $\rho(g)\colon V \to V$. Furthermore, $\rho$ must respect composition in the sense that
+  To see this, let us unwrap the definition. The functor $\rho$ assigns to $* \in \Obj(BG)$ an object $\rho(*) = V \in \Obj(\mathsf{Vect})$, and to each morphism $g\colon * \to *$ a morphism $\rho(g)\colon V \to V$. Furthermore, $\rho$ must respect composition in the sense that
   \begin{equation*}
     \rho(g\cdot h) = \rho(g)\cdot \rho(h).
   \end{equation*}
@@ -618,6 +808,14 @@ There is a special name for functors whose domain is a product category.
 
     \item ${(\,\cdot\,)}^{*}$, which maps each commutative ring $K$ to its group of units $K^{*}$, and each morphism $K \to K'$ to its restriction to $K^{*}$.
   \end{itemize}
+\end{example}
+
+\begin{example}
+  Let $\mathcal{P}(\{0, 1\})$ be the poset category from \hyperref[eg:poset_category]{Example~\ref*{eg:poset_category}}. A functor $\mathcal{P}(\{0, 1\}) \rightsquigarrow \mathsf{C}$ is a commuting square in $\mathsf{C}$. Similarly, a functor $\mathcal{P}(\{0, 1, 2\}) \rightsquigarrow \mathcal{C}$ is a cube whose faces commute.
+\end{example}
+
+\begin{example}
+  Let $k$ be a field. There is a functor $(-)^{*}\colon \mathsf{Vect}_{k}^{\op} \rightsquigarrow \mathsf{Vect}_{k}$ which sends each vector space to its dual.
 \end{example}
 
 \subsection{Properties of functors}
@@ -673,7 +871,7 @@ What we have called simply a \emph{functor,} many people would call a \emph{cova
 \end{equation*}
 In order to respect compositions, these people say, a contravariant functor must obey the modified composition rule
 \begin{equation*}
-  \mathcal{F}(g \circ f) = \mathcal{F}(f) \circ \mathcal{F}(g).
+  \mathcal{F}(f \circ g) = \mathcal{F}(g) \circ \mathcal{F}(f).
 \end{equation*}
 
 We are choosing not to use the notion of a contravariant functor, and for a good reason: we don't need it! Recall the so-called opposite category (\hyperref[def:oppositecategory]{Definition~\ref*{def:oppositecategory}}). Roughly speaking, the opposite to a category is a category in which arrows go the other way.
@@ -964,7 +1162,7 @@ Any time we see a collection of things and mappings between them, we should try 
 
 \begin{definition}[functor category]
   \label{def:functorcategory}
-  Let $\mathsf{C}$ and $\mathsf{D}$ be categories. The \defn{functor category} $\mathsf{Func}(\mathsf{C}, \mathsf{D})$ (sometimes $\mathsf{D}^{\mathsf{C}}$ or $[\mathsf{C},\mathsf{D}]$) is the category whose objects are functors $\mathsf{C} \rightsquigarrow \mathsf{D}$, and whose morphisms are natural transformations between them. The composition is given by vertical composition.
+  Let $\mathsf{C}$ and $\mathsf{D}$ be categories. The \defn{functor category} $\mathsf{Fun}(\mathsf{C}, \mathsf{D})$ (sometimes $\mathsf{D}^{\mathsf{C}}$ or $[\mathsf{C},\mathsf{D}]$) is the category whose objects are functors $\mathsf{C} \rightsquigarrow \mathsf{D}$, and whose morphisms are natural transformations between them. The composition is given by vertical composition.
 \end{definition}
 
 
@@ -1235,7 +1433,7 @@ We would like to be able to express when two categories are the `same.' The corr
       \mathsf{C} \arrow[r, rightsquigarrow, shift left, "\mathcal{F}"] & \arrow[l, shift left, rightsquigarrow, "\mathcal{G}"] \mathsf{D}
     \end{tikzcd}
   \end{equation*}
-  and natural isomorphisms $\eta\colon \mathcal{F} \circ \mathcal{G} \Rightarrow \id_{\mathsf{C}}$ and $\varphi\colon \id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$.
+  and natural isomorphisms $\eta\colon \mathcal{F} \circ \mathcal{G} \Rightarrow \id_{\mathsf{C}}$ and $\epsilon\colon \id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$.
 \end{definition}
 
 \begin{note}
