@@ -4,8 +4,12 @@
 
 \chapter{Adjunctions}\label{sec:adjunctions}
 
-\section{Hom set adjunction}
-\label{sec:hom_set_adjunction}
+\section{Motivating example}
+\label{sec:motivating_example}
+
+\begin{note}
+  This section is under heavy construction. It's not very good at the moment.
+\end{note}
 
 Consider the following functors:
 \begin{itemize}
@@ -15,6 +19,15 @@ Consider the following functors:
 \end{itemize}
 
 The functors $\mathcal{U}$ and $\mathcal{F}$ are dual in the following sense: $\mathcal{U}$ is the most efficient way of moving from $\mathsf{Grp}$ to $\mathsf{Set}$ since all groups are in particular sets; $\mathcal{F}$ might be thought of as providing the most efficient way of moving from $\mathsf{Set}$ to $\mathsf{Grp}$. But how would one go about formalizing this?
+
+Free-forgetful adjunctions are an example of an extremely powerful structure called an \emph{adjuction}. We have encountered it before---we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
+\begin{equation*}
+  \Hom_{\mathsf{C}}(X \times (-), B)\qquad\text{and}\qquad \Hom_{\mathsf{C}}(X, B^{(-)}).
+\end{equation*}
+this is a so-called \emph{hom-set adjunction}.
+
+\subsection{Hom-set adjunction}
+\label{ssc:hom_set_adjunction}
 
 The functors $\mathcal{U}$ and $\mathcal{F}$ have the following property. Let $S$ be a set, $G$ be a group, and let $f\colon S \to \mathcal{U}(G)$, $s \mapsto f(s)$ be a set-function. Then there is an associated group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$, which sends $s_{1}s_{2}\dots s_{n} \mapsto f(s_{1}s_{2}\dots s_{n}) = f(s_{1})\cdots f(s_{n})$. In fact, $\tilde{f}$ is the unique homomorphism $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
 
@@ -39,10 +52,42 @@ We can define a natural isomorphism $\Phi$ between these functors with component
   \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G));\qquad f \to \tilde{f}.
 \end{equation*}
 
-This mathematical structure turns out to be a recurring theme in the study of categories, called an \emph{adjuction}. We have encountered it before: we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
+\subsection{Unit-counit adjunction}
+\label{ssc:unit_counit_adjunction}
+
+Suppose we take the natural isomorphism from the last section
 \begin{equation*}
-  \Hom_{\mathsf{C}}(X \times (-), B)\qquad\text{and}\qquad \Hom_{\mathsf{C}}(X, B^{(-)}).
+  \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G))
 \end{equation*}
+and evaluate it at $S = \mathcal{U}(G)$. This gives us an isomorphsim
+\begin{equation*}
+  \Phi_{\mathcal{U}(G), G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(\mathcal{U}(S)), G) \to \Hom_{\mathsf{Set}}(\mathcal{U}(G), \mathcal{U}(G)).
+\end{equation*}
+In particular, the element $\id_{\mathcal{U}(G)}$ is the preimage of some group homomorphism
+\begin{equation*}
+  \epsilon_{G}\colon \mathcal{F}(\mathcal{U}(G)) \to G.
+\end{equation*}
+Taken together for all $G$, the $\epsilon_{G}$ form a natural transformation
+\begin{equation*}
+  \epsilon\colon \mathcal{F} \circ \mathcal{U} \to \id_{\mathsf{Grp}}.
+\end{equation*}
+
+evaluate it at $G = \mathcal{F}(S)$. This gives us an isomorphism
+\begin{equation*}
+  \Hom_{\mathsf{Grp}}(\mathcal{F}(S), \mathcal{F}(S)) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(\mathcal{F}(G))).
+\end{equation*}
+In particular, the identity $\id_{\mathcal{F}(G)}$ is mapped to some map
+\begin{equation*}
+  \eta_{S}\colon S \to \mathcal{U}(\mathcal{G}(S)).
+\end{equation*}
+In fact, taken together, the $\eta_{S}$ form a natural transformation
+\begin{equation*}
+  \eta\colon \id_{\mathsf{Set}} \Rightarrow \mathcal{U} \circ \mathcal{G}.
+\end{equation*}
+
+
+\section{Hom set adjunction}
+\label{sec:hom_set_adjunction}
 
 \begin{definition}[hom-set adjunction]
   \label{def:homsetadjunction}
@@ -204,82 +249,172 @@ The second triangle diagram is analogous.
 \label{sec:unit_counit_adjunctions_are_hom_set_adjunctions}
 
 \begin{lemma}
-  The functors $\mathcal{F}$ and $\mathcal{G}$ form a unit-counit adjunction if and only if they form a hom-set adjunction.
+  \label{lemma:hom-set_adjunction_implies_unit-counit_adjunction}
+  If the functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{G}\colon \mathsf{D} \to \mathsf{C}$ form a hom-set adjunction, they form a unit-counit adjunction.
 \end{lemma}
+\begin{proof}[Sketch of proof]
+  Our plan of attack is the following.
+  \begin{enumerate}
+    \item We show that from a hom-set adjunction $\mathcal{F} \dashv \mathcal{G}$, we can form, for each $A \in \Obj(\mathsf{C})$, a map
+      \begin{equation*}
+        \eta_{A}\colon A \to (\mathcal{G} \circ \mathcal{F})(A)
+      \end{equation*}
+      and for each $B \in \Obj(\mathsf{D})$, a map
+      \begin{equation*}
+        \epsilon_{B}\colon (\mathcal{F} \circ \mathcal{G})(B) \to B.
+      \end{equation*}
+
+    \item We show that, component-wise, these satisfy the triangle identities.
+      \begin{equation*}
+        {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = {(\id_{\mathcal{F}})}_{A}\qquad\text{and}\qquad {(\mathcal{G}_{\varepsilon})}_{B} \circ {(\eta\mathcal{G})}_{B} = {(\id_{\mathcal{G}})}_{B}.
+      \end{equation*}
+
+    \item We show that $\eta_{A}$ and $\epsilon_{B}$ are components of two natural transformations 
+      \begin{equation*}
+        \eta\colon \id_{\mathsf{C}} \to \mathcal{G} \circ \mathcal{F} \qquad \text{and}\qquad \epsilon\colon \mathcal{F} \circ \mathcal{G} \to \id_{\mathsf{D}}.
+      \end{equation*}
+  \end{enumerate}
+  The reason for doing things in this order is that we will use the component-wise triangle identities in showing naturality.
+\end{proof}
 \begin{proof}
-  Suppose $\mathcal{F}$ and $\mathcal{G}$ form a hom-set adjunction with natural isomorphism $\Phi$. Then for any $A \in \Obj(\mathsf{C})$, we have $\mathcal{F}(A) \in \Obj(\mathsf{D})$, so $\Phi$ give us a bijection
-  \begin{equation*}
-    \Phi_{A, \mathcal{F}(A)}\colon \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A)) \to \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A)).
-  \end{equation*}
-  We don't know much in general about $\Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))$, but the category axioms tell us that it always contains $\id_{\mathcal{F}(A)}$. We can use $\Phi_{A, \mathcal{F}(A)}$ to map this to
-  \begin{equation*}
-    \Phi_{A, \mathcal{F}(A)}(\id_{\mathcal{F}(A)}) \in \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A)).
-  \end{equation*}
-  Let's call $\Phi_{A, \mathcal{F}(A)}(\id_{\mathcal{F}(A)}) = \eta_{A}$.
+  \leavevmode
+  \begin{enumerate}
+    \item Suppose $\mathcal{F}$ and $\mathcal{G}$ form a hom-set adjunction with natural isomorphism $\Phi$. Then for any $A \in \Obj(\mathsf{C})$, we have $\mathcal{F}(A) \in \Obj(\mathsf{D})$, so $\Phi$ give us a bijection
+      \begin{equation*}
+        \Phi_{A, \mathcal{F}(A)}\colon \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A)) \to \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A)).
+      \end{equation*}
+      We don't know much in general about $\Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))$, but the category axioms tell us that it always contains $\id_{\mathcal{F}(A)}$. We can use $\Phi_{A, \mathcal{F}(A)}$ to map this to
+      \begin{equation*}
+        \Phi_{A, \mathcal{F}(A)}(\id_{\mathcal{F}(A)}) \in \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A)).
+      \end{equation*}
+      Let's call $\Phi_{A, \mathcal{F}(A)}(\id_{\mathcal{F}(A)}) = \eta_{A}$.
 
-  Similarly, if $B \in \Obj(\mathsf{D})$, then $\mathcal{G}(B) \in \Obj(\mathsf{C})$, so $\Phi$ gives us a bijection
-  \begin{equation*}
-    \Phi_{\mathcal{G}(B), B}\colon \Hom_{\mathsf{D}}((\mathcal{F} \circ \mathcal{G})(B), B) \to \Hom_{\mathsf{C}}(\mathcal{G}(B), \mathcal{G}(B)).
-  \end{equation*}
+      Similarly, if $B \in \Obj(\mathsf{D})$, then $\mathcal{G}(B) \in \Obj(\mathsf{C})$, so $\Phi$ gives us a bijection
+      \begin{equation*}
+        \Phi_{\mathcal{G}(B), B}\colon \Hom_{\mathsf{D}}((\mathcal{F} \circ \mathcal{G})(B), B) \to \Hom_{\mathsf{C}}(\mathcal{G}(B), \mathcal{G}(B)).
+      \end{equation*}
 
-  Since $\Phi_{\mathcal{G}(B), B}$ is a bijection, it is invertible, and we can evaluate the inverse on $\id_{\mathcal{G}(B)}$. Let's call
-  \begin{equation*}
-    \Phi^{-1}_{\mathcal{G}(B), B}(\id_{\mathcal{G}(B)}) = \varepsilon_{B}.
-  \end{equation*}
+      Since $\Phi_{\mathcal{G}(B), B}$ is a bijection, it is invertible, and we can evaluate the inverse on $\id_{\mathcal{G}(B)}$. Let's call
+      \begin{equation*}
+        \Phi^{-1}_{\mathcal{G}(B), B}(\id_{\mathcal{G}(B)}) = \varepsilon_{B}.
+      \end{equation*}
 
-  Clearly, $\eta_{A}$ and $\varepsilon_{B}$ are completely determined by $\Phi$ and $\Phi^{-1}$ respectively. It turns out that the converse is also true; in a manner reminiscent of the proof of the Yoneda lemma, we can express $\Phi_{A, B}$ in terms of $\eta$, and $\Phi^{-1}_{A, B}$ in terms of $\varepsilon$, for \emph{any} $A$ and $B$. Here's how this is done.
+    \item Clearly, $\eta_{A}$ and $\varepsilon_{B}$ are completely determined by $\Phi$ and $\Phi^{-1}$ respectively. It turns out that the converse is also true; in a manner reminiscent of the proof of the Yoneda lemma, we can express $\Phi$ in terms of $\eta$, and $\Phi^{-1}$ in terms of $\varepsilon$, for \emph{any} $A$ and $B$. We do this using the naturality of $\Phi$. 
+      
+      The naturality of $\Phi$ tells us for any $A \in \Obj(\mathsf{C})$, $B \in \Obj(\mathsf{D})$, and $g\colon \mathcal{F}(A) \to B$, the following diagram has to commute.
+      \begin{equation*}
+        \begin{tikzcd}[row sep=huge, column sep=huge]
+          \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))
+          \arrow[r, "g \circ (-)"]
+          \arrow[d, swap, "\Phi_{A, \mathcal{F}(A)}"]
+          & \Hom_{\mathsf{D}}(\mathcal{F}(A), B)
+          \arrow[d, "\Phi_{A, B}"]
+          \\
+          \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A))
+          \arrow[r, "\mathcal{G}(g) \circ (-)"]
+          & \Hom_{\mathsf{C}}(A, \mathcal{G}(B)).
+        \end{tikzcd}
+      \end{equation*}
+      Let's start at the top left with $\id_{\mathcal{F}(A)}$ and see what happens. Taking the top road to the bottom right, we have $\Phi_{A, B}(g)$, and from the bottom road we have $\mathcal{G}(g) \circ \eta_{A}$. The diagram commutes, so we have
+      \begin{equation}
+        \label{eq:eta_triangle}
+        \Phi_{A, B}(g) = \mathcal{G}(g) \circ \eta_{A}.
+      \end{equation}
+      Similarly, the commutativity of the diagram
+      \begin{equation*}
+        \begin{tikzcd}[row sep=huge, column sep=huge]
+          \Hom_{\mathsf{D}}((\mathcal{F} \circ \mathcal{G})(B), B)
+          \arrow[r, "(-) \circ \mathcal{F}(f)"]
+          & \Hom_{\mathsf{D}}(\mathcal{F}(A), B)
+          \\
+          \Hom_{\mathsf{C}}(\mathcal{G}(B), \mathcal{G}(B))
+          \arrow[r, "(-) \circ f"]
+          \arrow[u, "{\Phi^{-1}_{\mathcal{G}(B), B}}"]
+          & \Hom_{\mathsf{C}}(A, \mathcal{G}(B))
+          \arrow[u, swap, "\Phi^{-1}_{A, B}"]
+        \end{tikzcd}
+      \end{equation*}
+      means that, for any $f\colon A \to \mathcal{G}(B)$,
+      \begin{equation}
+        \label{eq:epsilon_triangle}
+        \Phi^{-1}_{A, B}(f) = \varepsilon_{B} \circ \mathcal{F}(f)
+      \end{equation}
 
-  We use the naturality of $\Phi$. We know that for any $A \in \Obj(\mathsf{C})$, $B \in \Obj(\mathsf{D})$, and $g\colon \mathcal{F}(A) \to B$, the following diagram has to commute.
-  \begin{equation*}
-    \begin{tikzcd}[row sep=huge, column sep=huge]
-      \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))
-      \arrow[r, "g \circ (-)"]
-      \arrow[d, swap, "\Phi_{A, \mathcal{F}(A)}"]
-      & \Hom_{\mathsf{D}}(\mathcal{F}(A), B)
-      \arrow[d, "\Phi_{A, B}"]
-      \\
-      \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A))
-      \arrow[r, "\mathcal{G}(g) \circ (-)"]
-      & \Hom_{\mathsf{C}}(A, \mathcal{G}(B)).
-    \end{tikzcd}
-  \end{equation*}
-  Let's start at the top left with $\id_{\mathcal{F}(A)}$ and see what happens. Taking the top road to the bottom right, we have $\Phi_{A, B}(g)$, and from the bottom road we have $\mathcal{G}(g) \circ \eta_{A}$. The diagram commutes, so we have
-  \begin{equation*}
-    \Phi_{A, B}(g) = \mathcal{G}(g) \circ \eta_{A}.
-  \end{equation*}
-  Similarly, the commutativity of the diagram
-  \begin{equation*}
-    \begin{tikzcd}[row sep=huge, column sep=huge]
-      \Hom_{\mathsf{D}}((\mathcal{F} \circ \mathcal{G})(B), B)
-      \arrow[r, "(-) \circ \mathcal{F}(f)"]
-      & \Hom_{\mathsf{D}}(\mathcal{F}(A), B)
-      \\
-      \Hom_{\mathsf{C}}(\mathcal{G}(B), \mathcal{G}(B))
-      \arrow[r, "(-) \circ f"]
-      \arrow[u, "{\Phi^{-1}_{\mathcal{G}(B), B}}"]
-      & \Hom_{\mathsf{C}}(A, \mathcal{G}(B))
-      \arrow[u, swap, "\Phi^{-1}_{A, B}"]
-    \end{tikzcd}
-  \end{equation*}
-  means that, for any $f\colon A \to \mathcal{G}(B)$,
-  \begin{equation*}
-    \Phi^{-1}_{A, B}(f) = \varepsilon_{B} \circ \mathcal{F}(f)
-  \end{equation*}
+      To show that $\eta$ and $\varepsilon$ as defined here satisfy the triangle identities, we need to show that for all $A \in \Obj(\mathsf{C})$ and all $B \in \Obj(\mathsf{D})$,
+      \begin{equation*}
+        {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = {(\id_{\mathcal{F}})}_{A}\qquad\text{and}\quad {(\mathcal{G}\varepsilon)}_{B} \circ {(\eta\mathcal{G})}_{B} = {(\id_{\mathcal{G}})}_{B}.
+      \end{equation*}
+      We have
+      \begin{equation*}
+        {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = \varepsilon_{\mathcal{F}(A)} \circ \mathcal{F}(\eta_{A}) = \Phi^{-1}_{A, \mathcal{F}(A)}(\eta_{A}) = \id_{A} = {(\id_{\mathcal{F}})}_{A}
+      \end{equation*}
+      and
+      \begin{equation*}
+        {(\mathcal{G}_{\varepsilon})}_{B} \circ {(\eta\mathcal{G})}_{B} = \mathcal{G}(\varepsilon_{B}) \circ \eta_{\mathcal{G}(B)} = \Phi_{\mathcal{G}(B), B}(\varepsilon_{B}) = \id_{B} = {(\id_{\mathcal{G}})}_{B}.
+      \end{equation*}
 
-  To show that $\eta$ and $\varepsilon$ as defined here satisfy the triangle identities, we need to show that for all $A \in \Obj(\mathsf{C})$ and all $B \in \Obj(\mathsf{D})$,
-  \begin{equation*}
-    {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = {(\id_{\mathcal{F}})}_{A}\qquad\text{and}\quad {(\mathcal{G}\varepsilon)}_{B} \circ {(\eta\mathcal{G})}_{B} = {(\id_{\mathcal{G}})}_{B}.
-  \end{equation*}
-  We have
-  \begin{equation*}
-    {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = \varepsilon_{\mathcal{F}(A)} \circ \mathcal{F}(\eta_{A}) = \Phi^{-1}_{A, \mathcal{F}(A)}(\eta_{A}) = \id_{A} = {(\id_{\mathcal{F}})}_{A}
-  \end{equation*}
-  and
-  \begin{equation*}
-    {(\mathcal{G}_{\varepsilon})}_{B} \circ {(\eta\mathcal{G})}_{B} = \mathcal{G}(\varepsilon_{B}) \circ \eta_{\mathcal{G}(B)} = \Phi_{\mathcal{G}(B), B}(\varepsilon_{B}) = \id_{B} = {(\id_{\mathcal{G}})}_{B}.
-  \end{equation*}
+    \item Let $g\colon A' \to A$. By the naturality of $\Phi$, the following diagram commutes.
+      \begin{equation*}
+        \begin{tikzcd}[column sep=tiny]
+          \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(A))
+          \arrow[rrr, "(-) \circ \mathcal{F}(g)"]
+          \arrow[ddd, swap, "\Phi_{A, \mathcal{F}(A)}"]
+          &&& \Hom_{\mathsf{D}}(\mathcal{F}(A'), \mathcal{F}(A))
+          \arrow[ddd, "\Phi_{A', \mathcal{F}(A)}"]
+          \\
+          & \id_{\mathcal{F}(A)}
+          \arrow[r, mapsto]
+          \arrow[d, mapsto]
+          & \mathcal{F}(g)
+          \arrow[d, mapsto]
+          \\
+          & \eta_{A}
+          \arrow[r, mapsto]
+          & \eta_{A} \circ g \overset{!}{=} \Phi_{A', \mathcal{F}_{A}}(\mathcal{F}(g))
+          \\
+          \Hom_{\mathsf{C}}(A, (\mathcal{G} \circ \mathcal{F})(A))
+          \arrow[rrr, "(-) \circ g"]
+          &&& \Hom_{\mathsf{C}}(A', (\mathcal{G} \circ \mathcal{F})(A))
+        \end{tikzcd}
+      \end{equation*}
+
+      Following $\id_{\mathcal{F}(A)}$ around, we find the condition $\eta_{A} \circ g \overset{!}{=} \Phi_{A', \mathcal{F}_{A}}(\mathcal{F}(g))$. But by \hyperref[eq:eta_triangle]{Equation~\ref*{eq:eta_triangle}}, we have
+      \begin{equation*}
+        \Phi_{A', \mathcal{F}(A)}(\mathcal{F}(g)) = (\mathcal{G} \circ \mathcal{F})(g) \circ \eta_{A'},
+      \end{equation*}
+      so our condition reads
+      \begin{equation*}
+        \eta_{A} \circ g = (\mathcal{G} \circ \mathcal{F})(g) \circ \eta_{A'}.
+      \end{equation*}
+      But this says precisely that the naturality square
+      \begin{equation*}
+        \begin{tikzcd}
+          (\mathcal{G} \circ \mathcal{F})(A)
+          \arrow[r, "\eta_{A}"]
+          \arrow[d, swap, "(\mathcal{G} \circ \mathcal{F})(f)"]
+          & A
+          \arrow[d, "f"]
+          \\
+          (\mathcal{G} \circ \mathcal{F})(A')
+          \arrow[r, "\eta_{A'}"]
+          & A'
+        \end{tikzcd}
+      \end{equation*}
+      commutes.
+
+  \end{enumerate}
 \end{proof}
 
+\begin{lemma}
+  \label{lemma:unit-counit_adjunction_implies_hom-set_adjunction}
+  If the functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{G}\colon \mathsf{D} \to \mathsf{C}$ form a unit-counit adjunction, they form a hom-set  adjunction.
+\end{lemma}
+\begin{proof}
+  We have seen in the proof of the previous lemma that we can write
+  \begin{equation*}
+    \Phi_{A, B}(g) = \mathcal{G}(g) \circ \eta_{A}\qquad\text{and}\qquad \Phi^{-1}_{A,B}(g) = \epsilon_{B} \circ \mathcal{F}(f).
+  \end{equation*}
+\end{proof}
 
 \begin{definition}[adjunct]
   \label{def:adjunct}
@@ -340,7 +475,7 @@ The second triangle diagram is analogous.
       & \Hom_{\mathsf{C}}(C, \mathcal{G}'(E))
     \end{tikzcd}
   \end{equation*}
-  But the full- and faithfulness of the Yoneda embedding tells us that there exist isomorphisms $\mu_{D}$ and $\mu_{E}$ making the following diagram commute,
+  But the full- and faithfulness of the Yoneda embedding tells us that there is a natural isomorphism with components $\mu_{D}$ and $\mu_{E}$ making the following diagram commute.
   \begin{equation*}
     \begin{tikzcd}
       \mathcal{G}(D)
@@ -354,7 +489,6 @@ The second triangle diagram is analogous.
       & \mathcal{G}'(E)
     \end{tikzcd}
   \end{equation*}
-  and taking the collection of all such $\mu_{(-)}$ gives us a natural isomorphism $\mu\colon \mathcal{G} \Rightarrow \mathcal{G}'$.
 \end{proof}
 
 \begin{note}
@@ -423,13 +557,13 @@ The second triangle diagram is analogous.
   \leavevmode
   \begin{enumerate}
     \item[3. $\Rightarrow$ 1.] Obvious.
-            
+
     \item[1. $\Rightarrow$ 2.] Assume $(\mathcal{F}, \mathcal{G}, \eta\colon \mathcal{F} \circ \mathcal{G} \to \id_{G}, \epsilon\colon \id_{C} \to \mathcal{G} \circ \mathcal{F})$ is an equivalence of categories. 
-      
+
       First we show that $\mathcal{F}$ is essentially surjective. Evaluating $\eta$ at any $Y \in \Obj(\mathsf{D})$, we get an isomorphism $(\mathcal{F} \circ \mathcal{G})(Y) \simeq Y$. Thus, for any $Y \in \Obj(\mathsf{C})$, there is an isomorphism between $Y$ and some element $\mathcal{F}(\mathcal{G}(Y))$ in the image of $\mathcal{F}$.
 
       Next, we show that $\mathcal{F}$ is fully faithful.
-            
+
     \item[2. $\Rightarrow$ 3.]
   \end{enumerate}
 \end{proof}

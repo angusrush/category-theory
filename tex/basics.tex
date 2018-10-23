@@ -41,13 +41,16 @@ The first approach is the most common, and the third the most radical. We will u
   \end{enumerate}
 \end{definition}
 
-The \emph{universe axiom} says that for every set $X$, there is a universe which has $X$ as an element.
+\begin{definition}[universe axiom]
+  \label{def:universe_axiom}
+  The \defn{universe axiom} says that for every set $X$, there is a universe which has $X$ as an element.
+\end{definition}
 
 These axioms imply that universes are closed under many of the properties one would hope.\footnote{See the below lemma.} The upshot is that all familiar constructions from everyday life can be performed within any universe $\mathcal{U}$. From now on, we fix a universe $\mathcal{U}$ such that $\N \in \mathcal{U}$ (which is possible by the universe axiom).
 
 \begin{lemma}
   \label{lemma:properties_of_universes}
-  \leavevmode
+  Grothendieck universes have the following properties.
   \begin{enumerate}
     \item $x \in \mathcal{U} \implies \{x\} \in \mathcal{U}$
 
@@ -108,7 +111,7 @@ These axioms imply that universes are closed under many of the properties one wo
     \item We call everything else \emph{Large sets}.
   \end{itemize}
 
-  Small sets agree with the usual (=ZFC) notion of sets, and classes agree with the usual notion of proper classes. In what follows, we will write \emph{set} when we mean \emph{small set,} unless confusion is likely to arise. Unfortunately, especially when talking about foundational issues, confusion is likely to arise.
+  In general, small sets agree with the usual (i.e.\ ZFC) notion of sets, and classes agree with the usual notion of proper classes. In what follows, we will write \emph{set} when we mean \emph{small set,} unless confusion is likely to arise. Unfortunately, especially when talking about foundational issues, confusion is likely to arise.
 \end{definition}
 
 By the universe axiom, for any set (as defined in ZFC), there is a universe which has that set as an element. From now on, we will work in some universe $\mathcal{U}$ which has $\N$ as an element.
@@ -344,6 +347,9 @@ Categories capture the essence of `things and composable maps between them.' The
   \end{equation*}
 \end{example}
 
+\begin{example}
+  Let $X$ be a topological space. We can define a category $\pi_{\leq q}(X)$ whose objects are the points of $X$, and whose morphisms $x \to y$ are homotopy classes of paths $x \to y$.
+\end{example}
 
 \subsubsection{Commutative diagrams}\label{sss:commutative_diagrams}
 

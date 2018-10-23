@@ -236,6 +236,40 @@ We have been intentionally vague about the nature of our function $f$, and what 
 
 In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}}$. We can fix any $A \in \Obj(\mathsf{C})$ and curry either argument. This gives us the following.
 
+\begin{lemma}
+  \label{lemma:functors_are_natural_transformations_between_hom_functors}
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor between locally small categories. Then $\mathcal{F}$ induces a natural transformation with components
+  \begin{equation*}
+    \mathcal{F}_{A,B}\colon \Hom_{\mathsf{C}}(A, B) \Rightarrow \Hom_{\mathsf{D}}(\mathcal{F}(A), \mathcal{F}(B));\qquad (f\colon A \to B) \mapsto (\mathcal{F}(f)\colon \mathcal{F}(A) \to \mathcal{F}(B)).
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  The following square commutes.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      \Hom_{C}(A, B)
+      \arrow[rrr, "\mathcal{F}_{A,B}"]
+      \arrow[ddd, swap, "g \circ (-) \circ f"]
+      &&& \Hom_{D}(\mathcal{F}(A), \mathcal{F}(B))
+      \arrow[ddd, "\mathcal{F}(g) \circ \mathcal{F}(-) \circ \mathcal{F}(f)"]
+      \\
+      & h
+      \arrow[r, mapsto]
+      \arrow[d, mapsto]
+      & \mathcal{F}(h)
+      \arrow[d, mapsto]
+      \\
+      & g \circ h \circ f
+      \arrow[r, mapsto]
+      & \mathcal{F}(g \circ h \circ f) = \mathcal{F}(g) \circ \mathcal{F}(h) \circ \mathcal{F}(f)
+      \\
+      \Hom_{C}(A', B')
+      \arrow[rrr, "\mathcal{F}_{A',B'}"]
+      &&& \Hom_{D}(\mathcal{F}(A'), \mathcal{F}(B'))
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+
 \begin{definition}[curried hom functor]
   \label{def:curriedhomfunctor}
   Let $\mathsf{C}$ be a locally small category, $A \in \Obj(\mathsf{C})$. We can construct from the hom functor $\Hom_{\mathsf{C}}$

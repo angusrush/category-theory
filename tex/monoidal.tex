@@ -778,6 +778,7 @@ In a closed monoidal category, the adjunction between the internal hom and the t
   \end{equation*}
 \end{proof}
 
+We saw in \hyperref[lemma:functors_are_natural_transformations_between_hom_functors]{Lemma~\ref*{lemma:functors_are_natural_transformations_between_hom_functors}} that the any functor extends to a natural transformation between hom functors. This property extends to the internal hom.
 \begin{lemma}
   \label{lemma:cantensorbothsidesofinternalhom}
   Let $(\mathsf{C}, \otimes, 1)$ be a closed symmetric monoidal category. For any $A$, $B$, $R \in \Obj(\mathsf{C})$, there is a natural transformation
@@ -787,18 +788,12 @@ In a closed monoidal category, the adjunction between the internal hom and the t
   natural in $A$ and $B$.
 \end{lemma}
 \begin{proof}
-  The assignment $R \otimes (-)$ is a functor, and induces a transformation of the regular hom functor
-  \begin{equation*}
-    \Hom_{\mathsf{C}}(A, B) \mapsto \Hom_{\mathsf{C}}(R \otimes A, R \otimes B)
-  \end{equation*}
-  which is natural in $A$ and $B$. We would like to show that the internal hom functor also has this property.
-
   The following string of natural transformations guarantees it by the Yoneda lemma.
   \begin{align*}
-    \Hom_{\mathsf{C}}(X, {[A, B]}_{\mathsf{C}}) &\simeq \Hom_{\mathsf{C}}(X \otimes A, \otimes B) \\
-    &\simeq \Hom_{\mathsf{C}}(R \otimes X \otimes A, R \otimes B) \\
-    &\simeq \Hom_{\mathsf{C}}(X \otimes (R \otimes A), R \otimes B) \\
-    & \simeq \Hom_{\mathsf{C}}(X, {[R \otimes A, R \otimes B]}_{\mathsf{C}}).
+    \Hom_{\mathsf{C}}(X, {[A, B]}_{\mathsf{C}}) \simeq&\, \Hom_{\mathsf{C}}(X \otimes A, B) \\
+    \to&\, \Hom_{\mathsf{C}}(R \otimes X \otimes A, R \otimes B) \\
+    \simeq&\, \Hom_{\mathsf{C}}(X \otimes (R \otimes A), R \otimes B) \\
+    \simeq&\, \Hom_{\mathsf{C}}(X, {[R \otimes A, R \otimes B]}_{\mathsf{C}}).
   \end{align*}
 \end{proof}
 
