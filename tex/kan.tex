@@ -1,0 +1,79 @@
+\documentclass[notes.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Kan extensions}\label{sec:kan_extensions}
+
+\section{Global Kan extensions}
+\label{sec:global_kan_extensions}
+
+Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{C}'$ be a functor. For any other category $\mathsf{D}$, $\mathcal{F}$ induces a functor
+\begin{equation*}
+  \mathcal{F}^{*}\colon [\mathsf{C}', \mathsf{D}] \to [\mathsf{C}, \mathsf{D}]
+\end{equation*}
+which sends a functor $\mathcal{G}\colon \mathsf{C}' \to \mathsf{D}$ to its precomposition $\mathcal{G} \circ \mathcal{F}$
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}'
+    \arrow[r, "\mathcal{G}"]
+    & \mathsf{D}
+  \end{tikzcd}
+  \qquad
+  \mapsto
+  \qquad
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[r, swap, "\mathcal{F}"]
+    \arrow[rr, bend left, "\mathcal{F}^{*}(\mathcal{G})"]
+    & \mathsf{C'}
+    \arrow[r, swap, "\mathcal{G}"]
+    & \mathsf{D}
+  \end{tikzcd}
+\end{equation*}
+and a natural transformation $\eta\colon \mathcal{G} \to \mathcal{G}'$ to its left whiskering (\hyperref[eg:whiskering]{Example~\ref*{eg:whiskering}}) $\eta\mathcal{F}$.
+\begin{equation*}
+  \begin{tikzcd}[column sep=huge]
+    \mathsf{C}
+    \arrow[r, "\mathcal{F}"]
+    &\mathsf{C}'
+    \arrow[r, bend left, "\mathcal{G}"{name=U}]
+    \arrow[r, bend right, swap, "\mathcal{G}'"{name=D}]
+    & \mathsf{D}
+    \arrow[from=U, to=D, Rightarrow, "\eta"]
+  \end{tikzcd} 
+  \qquad
+  \mapsto
+  \qquad
+  \begin{tikzcd}[column sep=huge]
+    \mathsf{C}
+    \arrow[r, bend left, "\mathcal{G} \circ \mathcal{F}"{name=U}]
+    \arrow[r, bend right, swap, "\mathcal{G} \circ \mathcal{F}'"{name=D}]
+    & \mathsf{D}
+    \arrow[from=U, to=D, Rightarrow, "\mathcal{F}^{*}(\eta)"]
+  \end{tikzcd}
+\end{equation*}
+
+\begin{definition}[Kan extension]
+  \label{def:kan_extension}
+  Suppose the functor $\mathcal{F}^{*}$ defined above has a left adjoint
+  \begin{equation*}
+    \mathcal{F}_{!}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
+  \end{equation*}
+  and right adjoint
+  \begin{equation*}
+    \mathcal{F}_{*}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
+  \end{equation*}
+  \begin{itemize}
+    \item We call $\mathcal{F}_{!}$ the \defn{left Kan extension} along $\mathcal{F}$. For $\mathcal{\mathcal{G}} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{!}(\mathcal{G})$ the \defn{left Kan extension of $\mathcal{G}$ along $\mathcal{F}$}. 
+          
+    \item We call $\mathcal{F}_{*}$ the \defn{right Kan extension} along $\mathcal{F}$, and for any $\mathcal{G} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{*}(\mathcal{G})$ the \defn{right Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  Consider the case in which $\mathsf{C}'$ is the terminal category $\mathsf{1}$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). There is a unique functor from any category $\mathsf{C} \to \mathsf{1}$, which sends every object to $\mathsf{1}$ and every morphism to the identity morphism. Furthermore, any functor $\mathcal{F}\colon 1 \to \mathsf{D}$ is completely determined by where it sends the unique object $*$, as $\mathcal{F}(\id_{*}) = \id_{\mathcal{F}(\id(*))}$.
+
+  Now fix categories $\mathsf{C}$, and consider functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{1}$ and $\mathcal{F}_{D}\colon \mathsf{1} \to \mathsf{D}$.
+\end{example}
+
+\end{document}
