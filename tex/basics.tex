@@ -882,7 +882,7 @@ In order to respect compositions, these people say, a contravariant functor must
 
 We are choosing not to use the notion of a contravariant functor, and for a good reason: we don't need it! Recall the so-called opposite category (\hyperref[def:oppositecategory]{Definition~\ref*{def:oppositecategory}}). Roughly speaking, the opposite to a category is a category in which arrows go the other way.
 
-A contravariant functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$, then, can be thought of as a \emph{covariant} (i.e.\ ordinary) functor $\mathcal{F}\colon \mathsf{C}^{\op} \rightsquigarrow$. This turns out to be much simpler and more convenient than dealing with two kinds of functors all the time.
+A contravariant functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D}$, then, can be thought of as a \emph{covariant} (i.e.\ ordinary) functor $\mathcal{F}\colon \mathsf{C}^{\op} \rightsquigarrow \to \mathcal{D}$. This turns out to be much simpler and more convenient than dealing with two kinds of functors all the time.
 
 \begin{definition}[contravariant functor]
   \label{def:contravariant_functor}
@@ -1040,11 +1040,11 @@ This example makes clear a common theme of natural transformations: they formali
 
 \begin{example}[intertwiners and scattering theory]
   \label{eg:intertwinersarenaturaltransformations}
-  Let $G$ be a group, $\mathsf{G}$ the category which mimics it, and let $\rho$ and $\rho'\colon \mathsf{G} \rightsquigarrow \mathsf{Vect}$ be representations (recall \hyperref[eg:functorscanbegrouprepresentation]{Example~\ref*{eg:functorscanbegrouprepresentation}}). Let $\rho(*) = V$ and $\rho'(*) = W$.
+  Let $G$ be a group, $BG$ its delooping groupoid, and let $\rho$ and $\rho'\colon \mathsf{G} \rightsquigarrow \mathsf{Vect}$ be representations (recall \hyperref[eg:functorscanbegrouprepresentation]{Example~\ref*{eg:functorscanbegrouprepresentation}}). Let $\rho(*) = V$ and $\rho'(*) = W$.
 
   A natural transformation $\eta\colon \rho \Rightarrow \rho'$ is called an \emph{intertwiner}. So what \emph{is} an intertwiner?
 
-  The natural transformation $\eta$ has only one component, $\eta_{*}\colon V \to W$, which is subject to the condition that for any $g \in \Hom_{\mathsf{G}}(*,*)$, the diagram below commutes.
+  The natural transformation $\eta$ has only one component, $\eta_{*}\colon V \to W$, which is subject to the condition that for any $g \in \Hom_{BG}(*,*)$, the diagram below commutes.
   \begin{equation*}
     \begin{tikzcd}
       V
