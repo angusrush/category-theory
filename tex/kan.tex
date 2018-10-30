@@ -4,6 +4,22 @@
 
 \chapter{Kan extensions}\label{sec:kan_extensions}
 
+\section{Motivation}
+\label{sec:motivation}
+
+Let $\mathsf{C}$ be a category, and $\mathcal{I}\colon \mathsf{S} \to \mathsf{C}$ a subcategory inclusion. Given a functor $\mathcal{F}$ from $\mathcal{C}$ to any category $\mathcal{D}$, we can restrict $\mathcal{F}$ to $\mathcal{S}$ by pulling it back with $\mathcal{I}$. We denote this restriction by
+\begin{equation*}
+  \mathcal{I}^{*}(\mathcal{F}) = \mathcal{F} \circ \mathcal{I}.
+\end{equation*}
+
+In fact, $\mathcal{I}$ induces a functor on the category of functors $\mathsf{C} \to \mathsf{D}$ (\hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}). Recall that we denoted this category by $[\mathsf{C}, \mathsf{D}]$. 
+
+Admittedly, restricting the domain of a functor is not a very good party trick, even if done in a functorial way. The more impressive thing would be to \emph{increase} the domain of a functor. 
+
+We have seen this kind of behavior before. For example, it is easy to turn a group into a set by forgetting the group structure. We saw that there was a way to turn a set into a group in a canonical way by forming the free group over it. We mentioned that this was a reflection of a more general phenomenon known as \emph{free-forgetful adjunction} (\hyperref[note:freeforgetfuladjunctions]{Note~\ref*{note:freeforgetfuladjunctions}}). This suggests that the best possible solution to extending the domain of a functor is to search for a functor which is adjoint to the restriction functor $\mathcal{I}^{*}$.
+
+Of course, it is also interesting to consider the case where $\mathcal{I}$ is not an inclusion. In fact, we will see that by choosing $\mathcal{I}$ in different ways leads to a generalization of many different categorical concepts, such as limits.
+
 \section{Global Kan extensions}
 \label{sec:global_kan_extensions}
 
@@ -73,7 +89,14 @@ and a natural transformation $\eta\colon \mathcal{G} \to \mathcal{G}'$ to its le
 \begin{example}
   Consider the case in which $\mathsf{C}'$ is the terminal category $\mathsf{1}$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). There is a unique functor from any category $\mathsf{C} \to \mathsf{1}$, which sends every object to $\mathsf{1}$ and every morphism to the identity morphism. Furthermore, any functor $\mathcal{F}\colon 1 \to \mathsf{D}$ is completely determined by where it sends the unique object $*$, as $\mathcal{F}(\id_{*}) = \id_{\mathcal{F}(\id(*))}$.
 
-  Now fix categories $\mathsf{C}$, and consider functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{1}$ and $\mathcal{F}_{D}\colon \mathsf{1} \to \mathsf{D}$.
+  Now fix categories $\mathsf{C}$, and consider functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{1}$ and $\mathcal{F}_{X}\colon \mathsf{1} \to \mathsf{D}$.
+
+  Suppose we are given an adjunction $\mathcal{F}^{*} \dashv \mathcal{F}_{*}$. This can be realized as a hom-set bijection
+  \begin{equation*}
+    \Hom_{[\mathsf{C}, \mathsf{D}]}(\mathcal{F}^{*}\mathcal{F}_{X}, \mathcal{G}) \simeq \Hom_{[\mathsf{1}, \mathsf{D}]}(\mathcal{F}_{X}, \mathcal{F}_{*}\mathcal{G}).
+  \end{equation*}
+
+  Now let us think about what precisely is contained in each of the hom-sets. First note that the functor $\mathcal{F}^{\infty}\mathcal{F}_{X} = \mathcal{F}_{X} \circ \mathcal{F}$ is simply the constant functor which assigns to every object in $\mathcal{D}$ the object $X \in \Obj(\mathsf{D})$, and to every morphism the identity morphism $\id_{X}$. A natural transformation from this to any other functor
 \end{example}
 
 \end{document}
