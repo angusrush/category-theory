@@ -63,7 +63,7 @@ and evaluate it at $S = \mathcal{U}(G)$. This gives us an isomorphsim
 \begin{equation*}
   \Phi_{\mathcal{U}(G), G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(\mathcal{U}(S)), G) \to \Hom_{\mathsf{Set}}(\mathcal{U}(G), \mathcal{U}(G)).
 \end{equation*}
-In particular, the element $\id_{\mathcal{U}(G)}$ is the preimage of some group homomorphism
+In particular, the element $\id_{\mathcal{U}(G)}$ is the image of some group homomorphism
 \begin{equation*}
   \epsilon_{G}\colon \mathcal{F}(\mathcal{U}(G)) \to G.
 \end{equation*}
@@ -245,6 +245,32 @@ the first triangle diagram says that this must be the same as the identity natur
 
 The second triangle diagram is analogous.
 
+\section{Adjunction from universal morphism}
+\label{sec:adjunction_from_universal_morphism}
+
+\begin{definition}[universal morphism adjunction]
+  \label{def:universal_morphism_adjunction}
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. We say that $\mathcal{F}$ is a \defn{left adjoint universal morphism adjunction} if for each $X \in \Obj(\mathsf{D})$, the category of morphisms $(\mathcal{F} \downarrow X) $(\hyperref[def:categoryofmorphismsfromafunctortoanobject]{Definition~\ref*{def:categoryofmorphismsfromafunctortoanobject}}) has a terminal object, which we denote by $\mathcal{G}(X)$. That is, $\mathcal{F}$ is a left adjoing universal morphism functor if for each $X \in \Obj(\mathsf{C})$, $Y \in \Obj(\mathsf{D})$, and morphism $f\colon \mathcal{F}(Y) \to X$, we have the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{F}(Y)
+      \arrow[rd, "f"]
+      \arrow[d, swap, "\mathcal{F}(g)"]
+      & & Y
+      \arrow[d, dashed, "\exists!g"]
+      \\
+      \mathcal{F}(\mathcal{G}(X))
+      \arrow[r, swap, "\epsilon_{X}"]
+      & X
+      & \mathcal{G}(X)
+    \end{tikzcd}
+  \end{equation*}
+
+  Similarly, we say that $\mathcal{F}$ is a \defn{right adjoint universal morphism adjunction} if for each $Y \in \Obj(\mathsf{C})$, the category of morphisms $(Y \downarrow \mathcal{G})$ (\hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}) has a initial object.
+\end{definition}
+
+The above terminology is horrendous, and should probably be changed. The rationale behind introducing it is that it will not be around for long, since we will see that all of these definitions of left- and right adjunctions are equivalent.
+
 \section{Unit-counit adjunctions are hom-set adjunctions}
 \label{sec:unit_counit_adjunctions_are_hom_set_adjunctions}
 
@@ -300,7 +326,7 @@ The second triangle diagram is analogous.
       \end{equation*}
 
     \item Clearly, $\eta_{A}$ and $\varepsilon_{B}$ are completely determined by $\Phi$ and $\Phi^{-1}$ respectively. It turns out that the converse is also true; in a manner reminiscent of the proof of the Yoneda lemma, we can express $\Phi$ in terms of $\eta$, and $\Phi^{-1}$ in terms of $\varepsilon$, for \emph{any} $A$ and $B$. We do this using the naturality of $\Phi$. 
-      
+
       The naturality of $\Phi$ tells us for any $A \in \Obj(\mathsf{C})$, $B \in \Obj(\mathsf{D})$, and $g\colon \mathcal{F}(A) \to B$, the following diagram has to commute.
       \begin{equation*}
         \begin{tikzcd}[row sep=huge, column sep=huge]

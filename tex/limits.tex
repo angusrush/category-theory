@@ -664,20 +664,20 @@ Pushouts are the dual notion to pullbacks.
 \end{example}
 
 
-\section{A necessary and sufficient condition for the existence of finite limits}
+\section{A necessary and sufficient condition for the existence of small limits}
 
-In this section we prove a simple criterion to check that a category has all finite limits (i.e.\ limits over diagrams with a finite number of objects and a finite number of morphisms). The idea is as follows.
+In this section we prove a simple criterion to check that a category has all small limits (i.e.\ limits over diagrams with a small set of objects and between each two objects a small set of morphisms). The idea is as follows.
 
 In general, adding more objects to a diagram makes the limit over it larger, and adding more morphisms makes the limit smaller. In the extreme case in which are no morphisms (apart from the identity morphisms), the limit is simply the categorical product. As we add morphisms, roughly speaking, we have to get rid of the parts of the product which prevent the triangles they form from commuting. Thus, to make the universal cone over a diagram, we can start with the product, and cut out the bare minimum we need to make everything commute: the way to do that is with an equalizer.
 
 The following proof was adapted from~\cite{awodey-category-theory}.
 \begin{theorem}
   \label{thm:criterionforfinitelimits}
-  Let $\mathsf{C}$ be a category. Then if $\mathsf{C}$ has all finite products and equalizers, $\mathsf{C}$ has all finite limits.
+  Let $\mathsf{C}$ be a category. Then if $\mathsf{C}$ has all small products and binary equalizers, $\mathsf{C}$ has all small limits.
 
 \end{theorem}
 \begin{proof}
-  Let $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ be a finite diagram. We want to prove that $\mathcal{D}$ has a limit; we will do this by constructing a universal cone over it, i.e.
+  Let $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ be a small diagram. We want to prove that $\mathcal{D}$ has a limit; we will do this by constructing a universal cone over it, i.e.
   \begin{itemize}
     \item an object $L \in \Obj(\mathsf{C})$, and
     \item for each $j \in \Obj(\mathsf{J})$, a morphism $P_{j}\colon L \to \mathcal{D}(j)$
@@ -714,7 +714,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 
   Denote by $\Mor(\mathsf{J})$ the set of all morphisms in $\mathsf{J}$. For any $\alpha \in \Mor(\mathsf{J})$, denote by $\dom(\alpha)$ the domain of $\alpha$, and by $\cod(\alpha)$ the codomain.
 
-  Consider the following finite products:
+  Consider the following small products:
   \begin{equation*}
     A = \prod_{j \in \Obj(\mathsf{J})} \mathcal{D}(j)\qquad\text{and}\qquad B = \prod_{\alpha \in \Mor(\mathsf{J})} \mathcal{D}(\cod(\alpha)).
   \end{equation*}
@@ -724,7 +724,19 @@ The following proof was adapted from~\cite{awodey-category-theory}.
     R_{\alpha} = \pi_{\mathcal{D}(\cod(\alpha))};\qquad S_{\alpha} = \mathcal{D}(\alpha) \circ \pi_{\mathcal{D}(\dom(\alpha))}.
   \end{equation*}
 
-  Now let $e\colon L \to A$ be the equalizer of $R$ and $S$ (we are guaranteed the existence of this equalizer by assumption). Further, define $P_{j}\colon L \to \mathcal{D}(j)$ by
+  Now let $e\colon L \to A$ be the equalizer of $R$ and $S$ (we are guaranteed the existence of this equalizer by assumption). 
+  \begin{equation*}
+    \begin{tikzcd}
+      L
+      \arrow[r, hookrightarrow, "e"]
+      & \prod\limits_{j \in \Obj(\mathsf{J})} \mathcal{D}(j)
+      \arrow[r, shift left, "R"]
+      \arrow[r, shift right, swap, "S"]
+      & \prod\limits_{\alpha \in \Mor(\mathsf{J})} \mathcal{D}(\cod(\alpha))
+    \end{tikzcd}
+  \end{equation*}
+
+  Further, define $P_{j}\colon L \to \mathcal{D}(j)$ by
   \begin{equation*}
     P_{j} = \pi_{\mathcal{D}(j)} \circ e
   \end{equation*}

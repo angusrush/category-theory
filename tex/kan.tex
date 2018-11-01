@@ -16,12 +16,14 @@ In fact, $\mathcal{I}$ induces a functor on the category of functors $\mathsf{C}
 
 Admittedly, restricting the domain of a functor is not a very good party trick, even if done in a functorial way. The more impressive thing would be to \emph{increase} the domain of a functor. 
 
-We have seen this kind of behavior before. For example, it is easy to turn a group into a set by forgetting the group structure. We saw that there was a way to turn a set into a group in a canonical way by forming the free group over it. We mentioned that this was a reflection of a more general phenomenon known as \emph{free-forgetful adjunction} (\hyperref[note:freeforgetfuladjunctions]{Note~\ref*{note:freeforgetfuladjunctions}}). This suggests that the best possible solution to extending the domain of a functor is to search for a functor which is adjoint to the restriction functor $\mathcal{I}^{*}$.
+We have come up against this kind of problem before. For example, it is easy to turn a group into a set by forgetting the group structure. We saw that there was a way to turn a set into a group in a canonical way by forming the free group over it. We mentioned that this was a reflection of a more general phenomenon known as \emph{free-forgetful adjunction} (\hyperref[note:freeforgetfuladjunctions]{Note~\ref*{note:freeforgetfuladjunctions}}). This suggests that the best possible solution to extending the domain of a functor is to search for a functor which is adjoint to the restriction functor $\mathcal{I}^{*}$.
 
-Of course, it is also interesting to consider the case where $\mathcal{I}$ is not an inclusion. In fact, we will see that by choosing $\mathcal{I}$ in different ways leads to a generalization of many different categorical concepts, such as limits.
+Of course, it is also interesting to consider the case where $\mathcal{I}$ is not an inclusion. In fact, we will see that by choosing $\mathcal{I}$ in different ways leads to a generalization of many different categorical concepts, such as limits. Left and right adjoints will be known as \emph{left right Kan extensions.}
 
 \section{Global Kan extensions}
 \label{sec:global_kan_extensions}
+
+The most general, high-level notion of a Kan extension is called a \emph{global Kan extension.}
 
 Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{C}'$ be a functor. For any other category $\mathsf{D}$, $\mathcal{F}$ induces a functor
 \begin{equation*}
