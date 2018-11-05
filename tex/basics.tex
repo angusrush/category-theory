@@ -1868,15 +1868,15 @@ These examples are just for practice---we will reproduce these definitions when 
       \end{tikzcd}
     \end{equation*}
   \end{quote}
-  Consider the comma category $(\Delta \downarrow (X_{1},X_{2}))$ (where $\Delta$ is the diagonal functor, see \hyperref[eg:diagonalfunctor]{Example~\ref*{eg:diagonalfunctor}}) given by the following diagram.
+  Consider the comma category $(\delta \downarrow (X_{1},X_{2}))$ (where $\delta$ is the diagonal functor, see \hyperref[eg:diagonalfunctor]{Example~\ref*{eg:diagonalfunctor}}) given by the following diagram.
   \begin{equation*}
     \begin{tikzcd}[column sep=huge]
-      \mathsf{C} \arrow[r, rightsquigarrow, "\Delta"] & \mathsf{C}\times\mathsf{C} & \mathsf{1} \arrow[l, swap, rightsquigarrow, "\mathcal{F}_{(X_{1},X_{2})}"]
+      \mathsf{C} \arrow[r, rightsquigarrow, "\delta"] & \mathsf{C}\times\mathsf{C} & \mathsf{1} \arrow[l, swap, rightsquigarrow, "\mathcal{F}_{(X_{1},X_{2})}"]
     \end{tikzcd}
   \end{equation*}
   The objects of this category are pairs $(A, (s,t))$, where $A \in \Obj(\mathsf{C})$ and
   \begin{equation*}
-    (s,t)\colon \Delta(A) = (A,A) \to (X_{1}, X_{2}).
+    (s,t)\colon \delta(A) = (A,A) \to (X_{1}, X_{2}).
   \end{equation*}
 
   The morphisms $(A, (s,t)) \to (B, (u,v))$ are morphisms $r\colon A \to B$ such that the diagram
@@ -1895,7 +1895,7 @@ These examples are just for practice---we will reproduce these definitions when 
       (X_{1}\times X_{2}, X_{1}\times X_{2}) \arrow[r, swap, "{(\pi_{1}, \pi_{2})}"] &  (X_{1}, X_{2})& X_{1}\times X_{2}
     \end{tikzcd}
   \end{equation*}
-  commutes. If we re-arrange our diagram a bit, it is not too hard to see that it is equivalent to the one given above. Thus, we can say: a product of two sets $X_{1}$ and $X_{2}$ is a final object in the category $(\Delta \downarrow (X_{1}, X_{2}))$
+  commutes. If we re-arrange our diagram a bit, it is not too hard to see that it is equivalent to the one given above. Thus, we can say: a product of two sets $X_{1}$ and $X_{2}$ is a final object in the category $(\delta \downarrow (X_{1}, X_{2}))$
 \end{example}
 
 \end{document}

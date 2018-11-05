@@ -72,7 +72,7 @@ Taken together for all $G$, the $\epsilon_{G}$ form a natural transformation
   \epsilon\colon \mathcal{F} \circ \mathcal{U} \to \id_{\mathsf{Grp}}.
 \end{equation*}
 
-evaluate it at $G = \mathcal{F}(S)$. This gives us an isomorphism
+Evaluating it at $G = \mathcal{F}(S)$. This gives us an isomorphism
 \begin{equation*}
   \Hom_{\mathsf{Grp}}(\mathcal{F}(S), \mathcal{F}(S)) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(\mathcal{F}(G))).
 \end{equation*}
@@ -85,6 +85,30 @@ In fact, taken together, the $\eta_{S}$ form a natural transformation
   \eta\colon \id_{\mathsf{Set}} \Rightarrow \mathcal{U} \circ \mathcal{G}.
 \end{equation*}
 
+\subsection{Adjunction from universal property}
+\label{ssc:adjunction_from_universal_property}
+
+The previous discussion may be slightly odd to those who have already encountered free groups, because free groups are almost always defined in terms of a universal property rather than some sort of abstract nonsense involving functors. The universal property of the free group is as follows.
+
+Let $S$ be a set, and let $f\colon S \to G$ be any function from $S$ to a group $G$. Then there is a unique group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$ such that the following diagram commutes.
+\begin{equation*}
+  \begin{tikzcd}
+    S
+    \arrow[r, "\eta_{S}"]
+    \arrow[rd, swap, "f"]
+    & (\mathcal{U} \circ \mathcal{F})(S)
+    \arrow[d, "\mathcal{U}(\tilde{f})"]
+    & \mathcal{F}(S)
+    \arrow[d, "\exists!\tilde{f}"]
+    \\
+    & \mathcal{U}(G)
+    & G
+  \end{tikzcd}
+\end{equation*}
+
+As we saw in \hyperref[sec:universalproperties]{Section~\ref*{sec:universalproperties}}, this simply says that the free group over $S$ is initial in the comma category $(S \downarrow \mathcal{U})$.
+
+We have written the injection $S \hookrightarrow (\mathcal{U} \circ \mathcal{F})(S)$ in the evocative notation $\eta_{S}$. As the reader has probably guessed, this is because taken together the $\eta_{S}$ form a natural transformation which functions as the unit in a unit-counit adjunction.
 
 \section{Hom set adjunction}
 \label{sec:hom_set_adjunction}
@@ -245,12 +269,12 @@ the first triangle diagram says that this must be the same as the identity natur
 
 The second triangle diagram is analogous.
 
-\section{Adjunction from universal morphism}
-\label{sec:adjunction_from_universal_morphism}
+\section{Adjunction from universal property}
+\label{sec:adjunction_from_universal_property}
 
 \begin{definition}[universal morphism adjunction]
   \label{def:universal_morphism_adjunction}
-  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. We say that $\mathcal{F}$ is a \defn{left adjoint universal morphism adjunction} if for each $X \in \Obj(\mathsf{D})$, the category of morphisms $(\mathcal{F} \downarrow X) $(\hyperref[def:categoryofmorphismsfromafunctortoanobject]{Definition~\ref*{def:categoryofmorphismsfromafunctortoanobject}}) has a terminal object, which we denote by $\mathcal{G}(X)$. That is, $\mathcal{F}$ is a left adjoing universal morphism functor if for each $X \in \Obj(\mathsf{C})$, $Y \in \Obj(\mathsf{D})$, and morphism $f\colon \mathcal{F}(Y) \to X$, we have the following diagram.
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. We say that $\mathcal{F}$ is a \defn{left universal morphism adjunction} if for each $X \in \Obj(\mathsf{D})$, the category of morphisms $(\mathcal{F} \downarrow X)$ (see \hyperref[def:categoryofmorphismsfromafunctortoanobject]{Definition~\ref*{def:categoryofmorphismsfromafunctortoanobject}}) has a terminal object, which we denote by $\mathcal{G}(X)$. That is, $\mathcal{F}$ is a left adjoing universal morphism functor if for each $X \in \Obj(\mathsf{C})$, $Y \in \Obj(\mathsf{D})$, and morphism $f\colon \mathcal{F}(Y) \to X$, we have the following diagram.
   \begin{equation*}
     \begin{tikzcd}
       \mathcal{F}(Y)
@@ -266,13 +290,81 @@ The second triangle diagram is analogous.
     \end{tikzcd}
   \end{equation*}
 
-  Similarly, we say that $\mathcal{F}$ is a \defn{right adjoint universal morphism adjunction} if for each $Y \in \Obj(\mathsf{C})$, the category of morphisms $(Y \downarrow \mathcal{G})$ (\hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}) has a initial object.
+  Similarly, we say that $\mathcal{F}$ is a \defn{right universal morphism adjunction} if for each $Y \in \Obj(\mathsf{C})$, the category of morphisms $(Y \downarrow \mathcal{G})$ (\hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}) has a initial object.
 \end{definition}
 
-The above terminology is horrendous, and should probably be changed. The rationale behind introducing it is that it will not be around for long, since we will see that all of these definitions of left- and right adjunctions are equivalent.
+The above terminology is horrendous, and at some point I'll figure out a nicer way of doing this. probably be changed. The rationale behind introducing it is that it will not be around for long, since we will see that all of these definitions of left- and right adjunctions are equivalent.
 
-\section{Unit-counit adjunctions are hom-set adjunctions}
+\section{All of these are equivalent}
 \label{sec:unit_counit_adjunctions_are_hom_set_adjunctions}
+
+\begin{lemma}
+  \label{lemma:universal_morphism_adjunction_implies_hom_set_adjunction}
+  If the functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ is part of a left universal morphism adjunction, there is a functor $\mathcal{G}\colon \mathsf{D} \to \mathsf{C}$ such that $\mathcal{F} \dashv \mathcal{G}$ is a hom-set adjunction.
+\end{lemma}
+\begin{proof}
+  Suppose $\mathcal{F}$ is part of a universal adjunction (\hyperref[def:universal_morphism_adjunction]{Definition~\ref*{def:universal_morphism_adjunction}}), i.e.\ for every object $X \in \Obj(\mathsf{D})$ there exists a terminal object in the category $(\mathcal{F} \downarrow X)$, which we will denote $(\mathcal{G}(X), \epsilon_{X})$.\footnote{Of course, the objects $\mathcal{G}(X)$ are only specified up to unique isomorphism, and we have to pick representatives using the axiom of choice.} The first claim is that the assignment $X \mapsto \mathcal{G}(X)$ extends to a functor $\mathcal{G}\colon \mathsf{D} \to \mathsf{C}$.  To this end, let $f\colon X \to X'$.
+  \begin{equation*}
+    \begin{tikzcd}
+      (\mathcal{F} \circ \mathcal{G})(X)
+      \arrow[r, "\epsilon_{X}"]
+      & X
+      \arrow[d, "f"]
+      \\
+      (\mathcal{F} \circ \mathcal{G})(X')
+      \arrow[r, swap, "\epsilon_{X'}"]
+      & X'
+    \end{tikzcd}
+  \end{equation*}
+  Composing $f \circ \epsilon_{X}$, we find the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      (\mathcal{F} \circ \mathcal{G})(X)
+      \arrow[r, "\epsilon_{X}"]
+      \arrow[rd, "f \circ \epsilon_{X}"]
+      & X
+      \arrow[d, "f"]
+      \\
+      (\mathcal{F} \circ \mathcal{G})(X')
+      \arrow[r, swap, "\epsilon_{X'}"]
+      & X'
+    \end{tikzcd}
+  \end{equation*}
+  The universal property now gives us a unique morphism $\mathcal{G}(X) \to \mathcal{G}(X')$, which we'll call $\mathcal{G}(f)$.
+  \begin{equation*}
+    \begin{tikzcd}
+      (\mathcal{F} \circ \mathcal{G})(X)
+      \arrow[r, "\epsilon_{X}"]
+      \arrow[rd, "f \circ \epsilon_{X}"]
+      \arrow[d, swap, "(\mathcal{G} \circ \mathcal{F})(f)"]
+      & X
+      \arrow[d, "f"]
+      & \mathcal{G}(X)
+      \arrow[d, "\exists!\mathcal{G}(f)"]
+      \\
+      (\mathcal{F} \circ \mathcal{G})(X')
+      \arrow[r, swap, "\epsilon_{X'}"]
+      & X'
+      & \mathcal{G}(X')
+    \end{tikzcd}
+  \end{equation*}
+  The usual manipulations (formally identical to those in \hyperref[thm:productisafunctor]{Theorem~\ref*{thm:productisafunctor}}) show that $\mathcal{G}$ respects compositions, and therefore defines a bona fide functor.
+
+  Let's take a closer look at the commuting square above.
+  \begin{equation*}
+    \begin{tikzcd}
+      (\mathcal{F} \circ \mathcal{G})(X)
+      \arrow[r, "\epsilon_{X}"]
+      \arrow[d, swap, "(\mathcal{G} \circ \mathcal{F})(f)"]
+      & X
+      \arrow[d, "f"]
+      \\
+      (\mathcal{F} \circ \mathcal{G})(X')
+      \arrow[r, swap, "\epsilon_{X'}"]
+      & X'
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
 
 \begin{lemma}
   \label{lemma:hom-set_adjunction_implies_unit-counit_adjunction}
@@ -295,7 +387,7 @@ The above terminology is horrendous, and should probably be changed. The rationa
         {(\varepsilon\mathcal{F})}_{A} \circ {(\mathcal{F}\eta)}_{A} = {(\id_{\mathcal{F}})}_{A}\qquad\text{and}\qquad {(\mathcal{G}_{\varepsilon})}_{B} \circ {(\eta\mathcal{G})}_{B} = {(\id_{\mathcal{G}})}_{B}.
       \end{equation*}
 
-    \item We show that $\eta_{A}$ and $\epsilon_{B}$ are components of two natural transformations 
+    \item We show that $\eta_{A}$ and $\epsilon_{B}$ are components of two natural transformations
       \begin{equation*}
         \eta\colon \id_{\mathsf{C}} \to \mathcal{G} \circ \mathcal{F} \qquad \text{and}\qquad \epsilon\colon \mathcal{F} \circ \mathcal{G} \to \id_{\mathsf{D}}.
       \end{equation*}
@@ -325,7 +417,7 @@ The above terminology is horrendous, and should probably be changed. The rationa
         \Phi^{-1}_{\mathcal{G}(B), B}(\id_{\mathcal{G}(B)}) = \varepsilon_{B}.
       \end{equation*}
 
-    \item Clearly, $\eta_{A}$ and $\varepsilon_{B}$ are completely determined by $\Phi$ and $\Phi^{-1}$ respectively. It turns out that the converse is also true; in a manner reminiscent of the proof of the Yoneda lemma, we can express $\Phi$ in terms of $\eta$, and $\Phi^{-1}$ in terms of $\varepsilon$, for \emph{any} $A$ and $B$. We do this using the naturality of $\Phi$. 
+    \item Clearly, $\eta_{A}$ and $\varepsilon_{B}$ are completely determined by $\Phi$ and $\Phi^{-1}$ respectively. It turns out that the converse is also true; in a manner reminiscent of the proof of the Yoneda lemma, we can express $\Phi$ in terms of $\eta$, and $\Phi^{-1}$ in terms of $\varepsilon$, for \emph{any} $A$ and $B$. We do this using the naturality of $\Phi$.
 
       The naturality of $\Phi$ tells us for any $A \in \Obj(\mathsf{C})$, $B \in \Obj(\mathsf{D})$, and $g\colon \mathcal{F}(A) \to B$, the following diagram has to commute.
       \begin{equation*}
@@ -585,7 +677,7 @@ The above terminology is horrendous, and should probably be changed. The rationa
   \begin{enumerate}
     \item[3. $\Rightarrow$ 1.] Obvious.
 
-    \item[1. $\Rightarrow$ 2.] Assume $(\mathcal{F}, \mathcal{G}, \eta\colon \mathcal{F} \circ \mathcal{G} \to \id_{G}, \epsilon\colon \id_{C} \to \mathcal{G} \circ \mathcal{F})$ is an equivalence of categories. 
+    \item[1. $\Rightarrow$ 2.] Assume $(\mathcal{F}, \mathcal{G}, \eta\colon \mathcal{F} \circ \mathcal{G} \to \id_{G}, \epsilon\colon \id_{C} \to \mathcal{G} \circ \mathcal{F})$ is an equivalence of categories.
 
       First we show that $\mathcal{F}$ is essentially surjective. Evaluating $\eta$ at any $Y \in \Obj(\mathsf{D})$, we get an isomorphism $(\mathcal{F} \circ \mathcal{G})(Y) \simeq Y$. Thus, for any $Y \in \Obj(\mathsf{C})$, there is an isomorphism between $Y$ and some element $\mathcal{F}(\mathcal{G}(Y))$ in the image of $\mathcal{F}$.
 
@@ -594,5 +686,16 @@ The above terminology is horrendous, and should probably be changed. The rationa
     \item[2. $\Rightarrow$ 3.]
   \end{enumerate}
 \end{proof}
+
+\section{Important examples}
+\label{sec:important_examples}
+
+\begin{example}[limit-constant adjunction]
+  Let $\mathsf{J}$ and $\mathsf{C}$ be small categories. Denote by $\Delta\colon \mathsf{C} \to [\mathsf{I}, \mathsf{C}]$ the functor such that for all $X \in \Obj(\mathsf{C})$, $\Delta(X)$ is the constant functor which sends every object of $\mathsf{I}$ to $X$ and every morphism of $\mathsf{J}$ to $\id_{X}$.
+
+  Assume that every diagram $\mathcal{F}\colon \mathsf{J} \to \mathsf{C}$ has a limit. By TODO, this means that for every $\mathcal{D} \in [\mathsf{J}, \mathsf{C}]$, the comma category $(\Delta \downarrow \mathcal{D})$ has a terminal object. But this means that there is an adjoint functor $[\mathsf{J}, \mathsf{C}] \to \mathsf{C}$ which acts on objects by sending $\mathcal{D} \mapsto \lim_{\leftarrow} \mathcal{D}$.
+\end{example}
+
+Keep this example in mind during the chapter on Kan extensions.
 
 \end{document}

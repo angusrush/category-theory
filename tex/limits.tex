@@ -6,8 +6,6 @@
 
 \section{Limits and colimits}
 
-The reader may have noticed that there is a significant difference between
-
 \begin{definition}[diagram]
   \label{def:diagram}
   Let $\mathsf{J}$ and $\mathsf{C}$ be categories. A \defn{diagram} of type $\mathsf{J}$ in $\mathsf{C}$ is a (covariant) functor
@@ -20,40 +18,36 @@ One thinks of the functor $\mathcal{D}$ embedding the index category $\textsf{J}
 
 \begin{definition}[cone]
   \label{def:cone}
-  Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ be a diagram. Let $\mathsf{1}$ be the category with one object and one morphism (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}) and $\mathcal{F}_{X}$ the functor $\mathsf{1} \rightarrow \mathsf{C}$ which picks out $X \in \Obj(\mathsf{C})$ (see \hyperref[eg:functorfrom1category]{Example~\ref*{eg:functorfrom1category}}). Let $\mathcal{K}$ be the unique functor $\mathsf{J} \rightarrow \mathsf{1}$.
-  \begin{equation*}
-    \begin{tikzcd}
-      \mathsf{1}
-      \arrow[rd, rightarrow, "\mathcal{F}_{X}"]
-      \\
-      \mathsf{J}
-      \arrow[u, rightarrow, "\mathcal{K}"]
-      \arrow[r, rightarrow, "\mathcal{D}"]
-      & \mathsf{C}
-    \end{tikzcd}
-  \end{equation*}
-  A \defn{cone} of shape $\mathsf{J}$ from $X$ is an object $X \in \Obj(\mathsf{C})$ together with a natural transformation
-  \begin{equation*}
-    \varepsilon\colon \mathcal{F}_{X} \circ \mathcal{K} \Rightarrow \mathcal{D}.
-  \end{equation*}
+  %Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ be a diagram. Let $\mathsf{1}$ be the category with one object and one morphism (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}) and $\mathcal{F}_{X}$ the functor $\mathsf{1} \rightarrow \mathsf{C}$ which picks out $X \in \Obj(\mathsf{C})$ (see \hyperref[eg:functorfrom1category]{Example~\ref*{eg:functorfrom1category}}). Let $\mathcal{K}$ be the unique functor $\mathsf{J} \rightarrow \mathsf{1}$.
+  %\begin{equation*}
+  %  \begin{tikzcd}
+  %    \mathsf{1}
+  %    \arrow[rd, rightarrow, "\mathcal{F}_{X}"]
+  %    \\
+  %    \mathsf{J}
+  %    \arrow[u, rightarrow, "\mathcal{K}"]
+  %    \arrow[r, rightarrow, "\mathcal{D}"]
+  %    & \mathsf{C}
+  %  \end{tikzcd}
+  %\end{equation*}
+  %A \defn{cone} of shape $\mathsf{J}$ from $X$ is an object $X \in \Obj(\mathsf{C})$ together with a natural transformation
+  %\begin{equation*}
+  %  \varepsilon\colon \mathcal{F}_{X} \circ \mathcal{K} \Rightarrow \mathcal{D}.
+  %\end{equation*}
 
-  That is to say, a cone to $\mathsf{J}$ is an object $X \in \Obj(\mathsf{C})$ together with a family of morphisms $\Phi_{A}\colon X \to \mathcal{D}(A)$ (one for each $A \in \Obj(\mathsf{J})$) such that for all $A$, $B \in \Obj(\mathsf{J})$ and all $f\colon A \to B$ the following diagram commutes.
-  \begin{equation*}
-    \begin{tikzcd}[column sep=tiny]
-      & X
-      \arrow[dl, swap, "\Phi_{A}"]
-      \arrow[dr, "\Phi_{B}"]
-      \\
-      \mathcal{D}(A)
-      \arrow[rr, "\mathcal{D}(f)"]
-      & & \mathcal{D}(B)
-    \end{tikzcd}
-  \end{equation*}
-\end{definition}
-
-\begin{note}
-  \label{note:alternatedefinitionofcone}
-  Here is an alternate definition. Let $\Delta$ be the functor $\mathsf{C} \rightarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightarrow \mathsf{C}$, see TODO) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is then an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
+  %That is to say, a cone to $\mathsf{J}$ is an object $X \in \Obj(\mathsf{C})$ together with a family of morphisms $\Phi_{A}\colon X \to \mathcal{D}(A)$ (one for each $A \in \Obj(\mathsf{J})$) such that for all $A$, $B \in \Obj(\mathsf{J})$ and all $f\colon A \to B$ the following diagram commutes.
+  %\begin{equation*}
+  %  \begin{tikzcd}[column sep=tiny]
+  %    & X
+  %    \arrow[dl, swap, "\Phi_{A}"]
+  %    \arrow[dr, "\Phi_{B}"]
+  %    \\
+  %    \mathcal{D}(A)
+  %    \arrow[rr, "\mathcal{D}(f)"]
+  %    & & \mathcal{D}(B)
+  %  \end{tikzcd}
+  %\end{equation*}
+  Let $\Delta$ be the functor $\mathsf{C} \rightarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightarrow \mathsf{C}$, see \hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is then an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
   \begin{equation*}
     \begin{tikzcd}
       \mathsf{C}
@@ -65,46 +59,43 @@ One thinks of the functor $\mathcal{D}$ embedding the index category $\textsf{J}
   \end{equation*}
 
   The objects of this category are pairs $(X, f)$, where $X \in \Obj(\mathsf{C})$ and $f\colon \Delta(X) \to \mathcal{D}$; that is to say, $f$ is a natural transformation $\Delta_{X} \Rightarrow \mathcal{D}$.
+\end{definition}
 
-\end{note}
-This allows us to make the following definition.
 
 \begin{definition}[category of cones over a diagram]
   \label{def:categoryofconesoveradiagram}
   Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ a diagram. The \defn{category of cones over $\mathcal{D}$} is the category $(\Delta \downarrow \mathcal{D})$.
 \end{definition}
 
-\begin{note}
-  The alternate definition given in \hyperref[note:alternatedefinitionofcone]{Note~\ref*{note:alternatedefinitionofcone}} not only reproduces the definition of a cone, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$, i.e.
+  \hyperref[def:categoryofconesoveradiagram]{Definition~\ref*{def:categoryofconesoveradiagram}} not only gives the definition of a cone, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$, i.e.
   \begin{itemize}
     \item an object in the category $(\Delta \downarrow \mathcal{D})$, i.e.
     \item a pair $(X, \Phi)$, where $X \in \Obj(\mathsf{C})$ and $\Phi\colon \Delta_{X} \Rightarrow \mathcal{D}$ is a natural transformation, i.e.
     \item for each $J \in \Obj(\mathsf{J})$ a morphism $\Phi_{J}\colon X \to \mathcal{D}(J)$ such that for any other object $J' \in \Obj(\mathsf{J})$ and any morphism $f\colon J \to J'$ the following diagram commutes.
       \begin{equation*}
-        \begin{tikzcd}
+        \begin{tikzcd}[column sep=tiny]
           & X
           \arrow[ld, swap, "\Phi_{J}"]
           \arrow[rd, "\Phi_{J'}"]
           \\
           \mathcal{D}(J)
-          \arrow[rr, "\mathcal{D}(f)"]
+          \arrow[rr, swap, "\mathcal{D}(f)"]
           & & \mathcal{D}(J')
         \end{tikzcd}
       \end{equation*}
   \end{itemize}
-  This agrees with our previous definition of a cone.
 
   Let $(Y, \Gamma)$ be another cone over $\mathcal{D}$. Then a morphism $\Xi\colon (X, \Phi) \to (Y, \Gamma)$ is
   \begin{itemize}
     \item a morphism $\Xi \in \Hom_{(\Delta \downarrow \mathcal{D})}((X, \Phi), (Y, \Gamma))$, i.e.
     \item a natural transformation $\Xi\colon \Delta_{X} \Rightarrow \Delta_{Y}$ (i.e.\ a morphism $\Delta_{X} \to \Delta_{Y}$ in the category $[\mathsf{J}, \mathsf{C}]$) such that the diagram
       \begin{equation*}
-        \begin{tikzcd}
+        \begin{tikzcd}[column sep=tiny]
           \Delta_{X}
           \arrow[rr, Rightarrow, "\Xi"]
-          \arrow[rd, Rightarrow, "\Phi"]
+          \arrow[rd, swap, Rightarrow, "\Phi"]
           & &  \Delta_{Y}
-          \arrow[ld, swap, Rightarrow, "\Gamma"]
+          \arrow[ld, Rightarrow, "\Gamma"]
           \\
           & \mathcal{D}
         \end{tikzcd}
@@ -112,19 +103,18 @@ This allows us to make the following definition.
       commutes, i.e.
     \item a morphism $\xi\colon X \to Y$ such that for each $J \in \Obj(\mathsf{J})$, the diagram
       \begin{equation*}
-        \begin{tikzcd}
+        \begin{tikzcd}[column sep=tiny]
           X
           \arrow[rr, "\xi"]
-          \arrow[rd, "\Phi_{J}"]
+          \arrow[rd, swap, "\Phi_{J}"]
           & & Y
-          \arrow[ld, swap, "\Gamma_{J}"]
+          \arrow[ld, "\Gamma_{J}"]
           \\
           & \mathcal{D}(J)
         \end{tikzcd}
       \end{equation*}
       commutes.
   \end{itemize}
-\end{note}
 
 Cocones are the dual notion to cones. We make the following definition.
 \begin{definition}[cocone]
@@ -273,7 +263,7 @@ The categorical definitions of cones and cocones allow us to define limits and c
 
 In what follows, $\mathsf{C}$ will be a category and $A$, $B$, etc.\ objects in $\Obj(\mathsf{C})$.
 \begin{definition}[pullback]
-  \label{def:pullback}
+  \label{def:pullback_along_a_functor}
   Let $f$, $g$ be morphisms as follows.
   \begin{equation*}
     \begin{tikzcd}
