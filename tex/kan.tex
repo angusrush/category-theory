@@ -13,9 +13,9 @@ Let $\mathsf{C}$ be a category, and $\mathcal{I}\colon \mathsf{S} \to \mathsf{C}
   \mathcal{I}^{*}(\mathcal{F}) = \mathcal{F} \circ \mathcal{I}.
 \end{equation*}
 
-In fact, $\mathcal{I}$ induces a functor from the category of functors $\mathsf{C} \to \mathsf{D}$ (\hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}) to the category of functors $\mathsf{S} \to \mathsf{D}$. Recall that we denoted these categories by $[\mathsf{C}, \mathsf{D}]$ and $[\mathsf{S}, \mathsf{D}]$ respectively. 
+In fact, $\mathcal{I}$ induces a functor from the category of functors $\mathsf{C} \to \mathsf{D}$ (\hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}) to the category of functors $\mathsf{S} \to \mathsf{D}$. Recall that we denoted these categories by $[\mathsf{C}, \mathsf{D}]$ and $[\mathsf{S}, \mathsf{D}]$ respectively.
 
-Admittedly, restricting the domain of a functor is not a very good party trick, even if done in a functorial way. The more impressive thing would be to \emph{increase} the domain of a functor. 
+Admittedly, restricting the domain of a functor is not a very good party trick, even if done in a functorial way. The more impressive thing would be to \emph{increase} the domain of a functor.
 
 We have come up against this kind of problem before. For example, it is easy to turn a group into a set by forgetting the group structure. We saw that there was a canonical way to turn a set into a group by forming the free group over it. We mentioned that this was a reflection of a more general phenomenon known as \emph{free-forgetful adjunction} (\hyperref[note:freeforgetfuladjunctions]{Note~\ref*{note:freeforgetfuladjunctions}}). This suggests that the best possible solution to extending the domain of a functor is to search for a functor which is a left or right adjoint to the restriction functor $\mathcal{I}^{*}$.
 
@@ -44,11 +44,12 @@ The most high-level notion (although, as we will see, not the most useful) of a 
     \qquad
     \begin{tikzcd}
       \mathsf{C}
-      \arrow[r, swap, "\mathcal{F}"]
-      \arrow[rr, bend left, "\mathcal{F}^{*}(\mathcal{G})"]
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, "\mathcal{F}^{*}\mathcal{G}"]
+      && \mathsf{D}
+      \\
       & \mathsf{C'}
-      \arrow[r, swap, "\mathcal{G}"]
-      & \mathsf{D}
+      \arrow[ur, swap, "\mathcal{G}"]
     \end{tikzcd}
   \end{equation*}
   and a natural transformation $\eta\colon \mathcal{G} \to \mathcal{G}'$ to its left whiskering (\hyperref[eg:whiskering]{Example~\ref*{eg:whiskering}}) $\eta\mathcal{F}$.
@@ -61,7 +62,7 @@ The most high-level notion (although, as we will see, not the most useful) of a 
       \arrow[r, bend right, swap, "\mathcal{G}'"{name=D}]
       & \mathsf{D}
       \arrow[from=U, to=D, Rightarrow, "\eta"]
-    \end{tikzcd} 
+    \end{tikzcd}
     \qquad
     \mapsto
     \qquad
@@ -86,8 +87,8 @@ The most high-level notion (although, as we will see, not the most useful) of a 
     \mathcal{F}_{*}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
   \end{equation*}
   \begin{itemize}
-    \item We call $\mathcal{F}_{!}$ the \defn{left Kan extension} along $\mathcal{F}$. For $\mathcal{\mathcal{G}} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{!}(\mathcal{G})$ the \defn{left Kan extension of $\mathcal{G}$ along $\mathcal{F}$}. 
-          
+    \item We call $\mathcal{F}_{!}$ the \defn{left Kan extension} along $\mathcal{F}$. For $\mathcal{\mathcal{G}} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{!}(\mathcal{G})$ the \defn{left Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
+
     \item We call $\mathcal{F}_{*}$ the \defn{right Kan extension} along $\mathcal{F}$, and for any $\mathcal{G} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{*}(\mathcal{G})$ the \defn{right Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
   \end{itemize}
 \end{definition}
@@ -109,7 +110,7 @@ The most high-level notion (although, as we will see, not the most useful) of a 
 \section{Local Kan extensions}
 \label{sec:local_kan_extensions}
 
-By \hyperref[sec:unit_counit_adjunctions_are_hom_set_adjunctions]{Section~\ref*{sec:unit_counit_adjunctions_are_hom_set_adjunctions}}, we can also look at $\mathcal{F}$'s right-adjointness as guaranteeing that for every $\mathcal{D} \in \Obj([\mathsf{C}', \mathsf{D}])$, the category $(\mathcal{F} \downarrow \mathcal{D})$ has a terminal object. Similarly, we can look at $\mathcal{F}_{!}$'s left-adjointness as demonstrating that the category $(\mathcal{D} \downarrow \mathcal{F}_{!})$ has an initial object. This mirrors the definition of limits and colimits as being terminal (resp. initial) objects in the category $(\Delta \downarrow \mathcal{D})$ (resp. $(\mathcal{D} \downarrow \Delta)$).
+By \hyperref[sec:unit_counit_adjunctions_are_hom_set_adjunctions]{Section~\ref*{sec:unit_counit_adjunctions_are_hom_set_adjunctions}}, we can also look at $\mathcal{F}$'s right-adjointness as guaranteeing that for every $\mathcal{D} \in \Obj([\mathsf{C}', \mathsf{D}])$, the category $(\mathcal{F}^{*} \downarrow \mathcal{D})$ has a terminal object. Similarly, we can look at $\mathcal{F}_{!}$'s left-adjointness as demonstrating that the category $(\mathcal{D} \downarrow \mathcal{F}^{*})$ has an initial object. This mirrors the definition of limits and colimits as being terminal (resp. initial) objects in the category $(\Delta \downarrow \mathcal{D})$ (resp. $(\mathcal{D} \downarrow \Delta)$).
 
 For now, we will specialize to limits, so as not to have to keep writing down 'resp.'
 
@@ -117,8 +118,160 @@ We have seen that there is a functor which assigns limits, and that this is the 
 
 But this is not what we did: we first defined the categories $(\Delta \downarrow \mathcal{D})$, then defined limits as their terminal objects. Only much later did we show that under certain conditions, the limit was a functor whose left adjoint was the diagonal functor.
 
-By comparison, we first defined right Kan extensions as right adjoints, then showed that their existence was equivalent to the existence of terminal morphisms in $(\mathcal{F} \downarrow \mathcal{D})$. The analogy with limits suggests that we can define partial Kan extensions along a functor $\mathcal{F}$ even when the extension functor $\mathcal{F}$ does not exist.
+By comparison, we first defined right Kan extensions as right adjoints, then showed that their existence was equivalent to the existence of terminal morphisms in $(\mathcal{F}^{*} \downarrow \mathcal{D})$. The analogy with limits suggests that we can define partial Kan extensions along a functor $\mathcal{F}$ even when the extension functor $\mathcal{F}_{*}$ does not exist.
 
 This definition will turn out to be much more useful for us. It will turn out even to allow us to compute Kan extensions in certain situations.
+
+\subsection{Extensions}
+\label{ssc:extensions}
+
+An extension is an approximate solution to the problem that the Kan extension solves.
+
+\begin{definition}[extension]
+  \label{def:extension}
+  Consider categories and functors as below.
+  \begin{equation*}
+    \begin{tikzcd}
+        \mathsf{C}
+        \arrow[dr, swap, "\mathcal{F}"]
+        \arrow[rr, "\mathcal{D}"]
+        && \mathsf{D}
+        \\
+        & \mathsf{C'}
+      \end{tikzcd}
+  \end{equation*}
+    A \defn{right extension of $\mathcal{G}$ along $\mathcal{F}$} is an object in the comma category $(\mathcal{F}^{*} \downarrow \mathcal{D})$. That is, it is a pair $(\mathcal{G}, \eta)$, where $\mathcal{G}\colon \mathsf{C}' \to \mathsf{D}$ and
+    \begin{equation*}
+      \eta\colon \mathcal{D} \Rightarrow \mathcal{F}^{*}\mathcal{G}
+    \end{equation*}
+\end{definition}
+
+\subsection{Right extensions induce cones}
+\label{ssc:right_extensions_induce_cones}
+
+Let $\mathcal{D}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{F}\colon \mathsf{C} \to \mathsf{C'}$ be functors. Let $(G, \eta)$ be a right extension of $\mathcal{D}$ along $\mathcal{F}$.
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[dr, swap, "\mathcal{F}"]
+    \arrow[rr, "\mathcal{D}", ""'{name=U}]
+    && \mathsf{D}
+    \\
+    & \mathsf{C'}
+    \arrow[ur, swap, "\mathcal{G}"]
+    \arrow[d, to=U, Rightarrow, swap, "\eta"] 
+  \end{tikzcd}
+\end{equation*}
+For any $c \in \Obj(\mathsf{C}')$, denote by $(c \downarrow \mathcal{F})$ the category of morphisms from $c$ down to $\mathcal{F}$ (see \hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}), and denote by $\mathcal{U}$ the forgetful functor $(c \downarrow \mathcal{F}) \to \mathsf{C}$. We can define a functor $\evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}\colon (c \downarrow \mathcal{F}) \to \mathsf{D}$ as follows.
+\begin{equation*}
+  \begin{tikzcd}
+    (c \downarrow \mathcal{F})
+    \arrow[r, "\mathcal{U}"]
+    & \mathsf{C}
+    \arrow[r, "\mathcal{D}"]
+    & \mathsf{D}
+  \end{tikzcd}
+\end{equation*}
+
+To each such $c \in \Obj(\mathsf{C}')$, there is an associated cone $\xi$ over $\evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}$, constructed as follows.
+
+\begin{itemize}
+  \item The tip of the cone is $\mathcal{D}(c)$.
+
+  \item For each $(e, f) \in \Obj(c \downarrow \mathcal{F})$, the morphism $\xi_{(e, f)}\colon\mathcal{D}(c) \to \evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}(e, f) = \mathcal{D}(e)$ is defined by the composition
+    \begin{equation*}
+      \begin{tikzcd}
+        \mathcal{G}(c)
+        \arrow[r, "\mathcal{G}(f)"]
+        & \mathcal{G}(\mathcal{F}(e))
+        \arrow[r, "\eta_{e}"]
+        & \mathcal{D}(e)
+      \end{tikzcd}.
+    \end{equation*}
+\end{itemize}
+
+\begin{lemma}
+  \label{lemma:right_extension_induces_cone}
+  The cone described above really is a cone. That is, for each morphism $g\colon (e, f) \to (e', f')$,
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & c
+      \arrow[ld, swap, "f"]
+      \arrow[rd, "f'"]
+      \\
+      \mathcal{F}(e)
+      \arrow[rr, swap, "\mathcal{F}(g)"]
+      && \mathcal{F}(e')
+    \end{tikzcd}
+  \end{equation*}
+  the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & \mathcal{D}(c)
+      \arrow[dl, swap, "\xi_{(e, f)}"]
+      \arrow[dr, "\xi_{(e', f')}"]
+      \\
+      \mathcal{D}(e)
+      \arrow[rr, swap, "\mathcal{D}(g)"]
+      && \mathcal{D}(e')
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+\end{lemma}
+\begin{proof}
+  Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & \mathcal{D}(c)
+      \arrow[ld, swap, "\mathcal{G}(f)"]
+      \arrow[rd, "\mathcal{G}(f')"]
+      \\
+      (\mathcal{G} \circ \mathcal{F})(e)
+      \arrow[rr, swap, "\mathcal{G} \circ \mathcal{F}(e)"]
+      \arrow[d, swap, "\eta_{e}"]
+      && \mathcal{G} \circ \mathcal{F}(e')
+      \arrow[d, "\eta_{e'}"]
+      \\
+      \mathcal{D}(e)
+      \arrow[rr, swap, "\mathcal{D}(f)"]
+      &&\mathcal{D}(e')
+    \end{tikzcd}
+  \end{equation*}
+  The upper triangle is the functor $\mathcal{D}$ applied to the definition of commutativity in a category of morphisms, and the lower square is the naturality square for $\eta$.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:morphism_induces_functor_between_comma_categories}
+  Let $\mathcal{F}\colon \mathsf{I} \to \mathsf{J}$ be a functor. Let $f\colon i \to i'$ be a morphism in $\mathsf{I}$. Then $\mathcal{F}$ induces the following functors.
+  \begin{itemize}
+    \item $(\mathcal{F} \downarrow i) \to (\mathcal{F} \downarrow i')$.
+
+    \item $(i' \downarrow \mathcal{F}) \to (i \downarrow \mathcal{F})$.
+  \end{itemize}
+\end{lemma}
+
+We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c \in \Obj(\mathsf{C}')$, we could construct a cone. This cone turns out to encode a lot of interesting properties about the extension $(\mathcal{G}, \eta)$. In fact, we have the following rather astonishing result.
+
+\begin{theorem}
+  Let $(\mathcal{G}, \eta)$ be a right extension as below.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, "\mathcal{D}", ""'{name=U}]
+      && \mathsf{D}
+      \\
+      & \mathsf{C'}
+      \arrow[ur, swap, "\mathcal{G}"]
+      \arrow[d, to=U, Rightarrow, swap, "\eta"] 
+    \end{tikzcd}
+  \end{equation*}
+  If for every $c \in \Obj(\mathsf{C'})$ the cone 
+  
+  is a limit cone, then $(\mathcal{G}, \eta)$ is a right Kan extension.
+\end{theorem}
+\begin{proof}
+
+\end{proof}
 
 \end{document}
