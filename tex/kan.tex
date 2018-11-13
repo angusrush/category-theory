@@ -162,7 +162,7 @@ Let $\mathcal{D}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{F}\colon \mathsf
     \arrow[d, to=U, Rightarrow, swap, "\eta"] 
   \end{tikzcd}
 \end{equation*}
-For any $c \in \Obj(\mathsf{C}')$, denote by $(c \downarrow \mathcal{F})$ the category of morphisms from $c$ down to $\mathcal{F}$ (see \hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}), and denote by $\mathcal{U}$ the forgetful functor $(c \downarrow \mathcal{F}) \to \mathsf{C}$. We can define a functor $\evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}\colon (c \downarrow \mathcal{F}) \to \mathsf{D}$ as follows.
+For any $c \in \Obj(\mathsf{C}')$, denote by $(c \downarrow \mathcal{F})$ the category of morphisms from $c$ down to $\mathcal{F}$ (see \hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}), and denote by $\mathcal{U}$ the forgetful functor $(c \downarrow \mathcal{F}) \to \mathsf{C}$. We can define a functor $\evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}\colon (c \downarrow \mathcal{F}) \to \mathsf{D}$ as the following composition.
 \begin{equation*}
   \begin{tikzcd}
     (c \downarrow \mathcal{F})
@@ -178,7 +178,7 @@ To each such $c \in \Obj(\mathsf{C}')$, there is an associated cone $\xi$ over $
 \begin{itemize}
   \item The tip of the cone is $\mathcal{D}(c)$.
 
-  \item For each $(e, f) \in \Obj(c \downarrow \mathcal{F})$, the morphism $\xi_{(e, f)}\colon\mathcal{D}(c) \to \evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}(e, f) = \mathcal{D}(e)$ is defined by the composition
+  \item For each $(e, f) \in \Obj(c \downarrow \mathcal{F})$, the morphism $\xi_{(e, f)}\colon\mathcal{D}(c) \to \evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}(e, f) = \mathcal{D}(e)$ is given by the composition
     \begin{equation*}
       \begin{tikzcd}
         \mathcal{G}(c)
@@ -273,5 +273,11 @@ We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c \i
 \begin{proof}
 
 \end{proof}
+
+\section{A pointwise formula for Kan extensions}
+\label{sec:a_pointwise_formula_for_kan_extensions}
+
+This is a 
+
 
 \end{document}

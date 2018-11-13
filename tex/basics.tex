@@ -1347,6 +1347,12 @@ the natural transformation $\Psi$ gives us a commuting square
 \end{equation*}
 the two ways of going from top left to bottom right are nothing else but $\Psi_{\mathcal{F}(A)} \circ \mathcal{G}(\Phi_{A})$ and $\mathcal{G}'(\Phi_{A}) \circ \Psi_{\mathcal{F}(A)}$.
 
+%\subsection{Horizontal and vertical composition commute}
+%\label{ssc:horizontal_and_vertical_composition_commute}
+%
+%\begin{theorem}
+%  Suppose we have categories, functors, and natural transformations as follows.
+%\end{theorem}
 
 \subsubsection{Whiskering}
 
@@ -1427,9 +1433,22 @@ We will mainly be interested in a special case of horizontal composition, in whi
   This is called the \emph{left whiskering} of $\Psi$ with $\mathcal{F}$
 \end{example}
 
-We would like to be able to express when two categories are the `same.' The correct notion of sameness is provided by the following definition.
-
 \subsubsection{Categorical equivalence}
+
+We would like to be able to express when two categories are the `same.' One would think that this would be provided by the notion of an isomorphism, i.e.\ that two categories $\mathsf{C}$ and $\mathsf{D}$ should be thought of as the same if there are functors $\mathcal{F}$ and $\mathcal{G}$ between them such that $\mathcal{F} \circ \mathcal{G} = \id_{\mathsf{D}}$ and $\mathcal{G} \circ \mathcal{F} = \id_{\mathsf{C}}$.
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[r, rightsquigarrow, bend left, "\mathcal{F}"]
+    & \mathsf{D}
+    \arrow[l, rightsquigarrow, bend left, "\mathcal{G}"]
+  \end{tikzcd}
+\end{equation*}
+between them.
+
+However, this is not really in the spirit of category theory: we should never demand that two things be equal, when isomorphism will do. Therefore, we should demand not that the composition of $\mathcal{F}$ and $\mathcal{G}$ be equal to the identity functor `on the nose', merely that there a natural isomorphism between them.
+
+This gives us the following definition.
 
 \begin{definition}[categorical equivalence]
   \label{def:categoricalequivalence}

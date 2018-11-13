@@ -267,7 +267,45 @@ We can then take the composition $\varepsilon \mathcal{F} \circ \mathcal{F}\eta$
 \end{equation*}
 the first triangle diagram says that this must be the same as the identity natural transformation $\id_{\mathcal{F}}$.
 
-The second triangle diagram is analogous.
+What this means in practice is that if we start with the functor $\mathcal{F}$, use the unit to get $\mathcal{F} \circ \mathcal{G} \mathcal{F}$, then use the counit to map back to $\mathcal{F}$, this should be the same as not doing anything at all.
+
+The second triangle diagram is analogous; it tells us that starting with $\mathcal{G}$, using the counit to send this to $\mathcal{G} \circ \mathcal{F} \circ \mathcal{G}$, then going back to $\mathcal{G}$ with the unit should be the same as not doing anything.
+
+\begin{proposition}
+  Consider a unit-counit adjunction between functors $\mathcal{F}$ and $\mathcal{G}$ as above.
+  \begin{enumerate}
+    \item The functor $\mathcal{F}$ is fully faithful if and only if the unit
+      \begin{equation*}
+        \epsilon\colon \mathcal{F} \circ \mathcal{G} \Rightarrow \id_{\mathsf{D}}
+      \end{equation*}
+      is a natural isomorphism.
+
+    \item The functor $\mathcal{G}$ is fully faithful if and only if the counit
+      \begin{equation*}
+        \eta\colon \mathcal{G} \circ \mathcal{F} \Rightarrow \id_{\mathsf{C}}
+      \end{equation*}
+      is a natural isomorphism.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  We prove the second part. The second part is analogous. 
+  
+  Suppose $\eta$ is a natural isomorphism. Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}(a, b) 
+      \arrow[d, swap, "\eta_{b} \circ (-)"]
+      \arrow[rd]
+      \\
+      \mathsf{C}\left(a, (G \circ F)(b)\right)
+      \arrow[r, swap, "\Phi_{a,b}"]
+      & \mathsf{D}(F(a), F(b))
+    \end{tikzcd}
+  \end{equation*}
+  The downward arrow is obviously a bijection, and the rightward arrow is given to us since every unit-counit adjunction is equivalently a hom-set isomorphism. Thus, their composition is also a bijection.
+
+  Now suppose that $\mathcal{G}$ is fully faithful.
+\end{proof}
 
 \section{Adjunction from universal property}
 \label{sec:adjunction_from_universal_property}
