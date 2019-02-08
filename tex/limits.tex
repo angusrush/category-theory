@@ -14,7 +14,34 @@
   \end{equation*}
 \end{definition}
 
-One thinks of the functor $\mathcal{D}$ embedding the index category $\textsf{J}$ into $\mathsf{C}$.
+\begin{example}
+  Consider the category $\mathsf{J}$ with objects and morphisms as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & \bullet
+      \arrow[d]
+      \\
+      \star
+      \arrow[r]
+      & *
+    \end{tikzcd}
+  \end{equation*}
+
+  A diagram of type $\mathsf{J}$ in a category $\mathsf{C}$ is a functor $\mathsf{J} \to \mathsf{C}$, which picks out three objects and two morphisms in $\mathsf{C}$ as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & y
+      \arrow[d, "f"]
+      \\
+      x
+      \arrow[r, swap, "g"]
+      & z
+    \end{tikzcd}
+  \end{equation*}
+
+  As this example makes clear, one thinks of $\mathsf{J}$ as specifying the shape of the diagram in which one is interested.
+\end{example}
+
 
 \begin{definition}[cone]
   \label{def:cone}

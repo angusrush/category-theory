@@ -124,7 +124,7 @@ We have written the injection $S \hookrightarrow (\mathcal{U} \circ \mathcal{F})
       \arrow[l, rightarrow, bend left, "\mathcal{G}"]
     \end{tikzcd}
   \end{equation*}
-  We say that \defn{$\mathcal{F}$ is left-adjoint to $\mathcal{G}$} (or equivalently $\mathcal{G}$ is right-adjoint to $\mathcal{F}$) and write $\mathcal{F} \dashv \mathcal{G}$ if there is a natural isomorphism
+  We say that \defn{$\mathcal{F}$ is left-adjoint to $\mathcal{G}$} (or equivalently $\mathcal{G}$ is right-adjoint to $\mathcal{F}$) if there is a natural isomorphism
   \begin{equation*}
     \Phi\colon \Hom_{\mathsf{D}}(\mathcal{F}(-), -) \Rightarrow \Hom_{\mathsf{C}}(-, \mathcal{G}(-)),
   \end{equation*}
@@ -288,12 +288,12 @@ The second triangle diagram is analogous; it tells us that starting with $\mathc
   \end{enumerate}
 \end{proposition}
 \begin{proof}
-  We prove the second part. The second part is analogous. 
-  
+  We prove the second part. The second part is analogous.
+
   Suppose $\eta$ is a natural isomorphism. Consider the following diagram.
   \begin{equation*}
     \begin{tikzcd}
-      \mathsf{C}(a, b) 
+      \mathsf{C}(a, b)
       \arrow[d, swap, "\eta_{b} \circ (-)"]
       \arrow[rd]
       \\
@@ -335,6 +335,30 @@ The above terminology is horrendous, and at some point I'll figure out a nicer w
 
 \section{All of these are equivalent}
 \label{sec:unit_counit_adjunctions_are_hom_set_adjunctions}
+
+In this section, we will prove three main lemmas, which schematically do the following.
+\begin{equation*}
+  \begin{tikzcd}[row sep=large, column sep=tiny]
+    \left\{\substack{\text{Universal morphism}\\\text{adjunctions}}\right\}
+    \arrow[rr, bend left, Rightarrow]
+    && \left\{\substack{\text{Hom-set}\\\text{adjunctions}}\right\}
+    \arrow[dl, bend left, Rightarrow]
+    \\
+    & \left\{ \substack{\text{Unit-counit}\\\text{adjunctions}} \right\}
+    \arrow[ul, bend left, Rightarrow]
+  \end{tikzcd}
+\end{equation*}
+
+\begin{note}
+  It is common to typeset the statement \emph{$\mathcal{F}$ is left-adjoint to $\mathcal{G}$} by writing
+  \begin{equation*}
+    \mathcal{F} \dashv \mathcal{G}.
+  \end{equation*}
+  This is fine, but if we want to be more explicit about the domains and codomains, we will use the notation
+  \begin{equation*}
+    \mathcal{F} : \mathsf{C} \leftrightarrow \mathsf{D} : \mathcal{G}.
+  \end{equation*}
+\end{note}
 
 \begin{lemma}
   \label{lemma:universal_morphism_adjunction_implies_hom_set_adjunction}
@@ -400,6 +424,46 @@ The above terminology is horrendous, and at some point I'll figure out a nicer w
       (\mathcal{F} \circ \mathcal{G})(X')
       \arrow[r, swap, "\epsilon_{X'}"]
       & X'
+    \end{tikzcd}
+  \end{equation*}
+
+  It remains to show that there is a natural isomorphism
+  \begin{equation*}
+    \Hom_{\mathsf{D}}(F(-), -) \simeq \Hom_{\mathsf{C}}(-, G(-)).
+  \end{equation*}
+
+  To this end, let $f\colon \mathcal{F}(Y) \to X$ be a morphism in $\mathsf{D}$. By the universal property for $\mathcal{G}(X)$, there exists a unique morphism $\tilde{f}\colon Y \to \mathcal{G}(X)$ making the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      \mathcal{F}(Y)
+      \arrow[dr, swap, "f"]
+      \arrow[rr, "\mathcal{F}(\tilde{f})"]
+      && \mathcal{F}(\mathcal{G}(X))
+      \arrow[dl, "\epsilon_{X}"]
+      \\
+      & X
+    \end{tikzcd}
+  \end{equation*}
+  This assignment gives us our map $\Hom_{D}(\mathcal{F}(X), Y) \to \Hom_{C}(X, \mathcal{G}(Y))$.
+
+  On the other hand, given a map $g\colon Y \to \mathcal{G}(X)$, one can construct a map $\tilde{g}\colon \mathcal{F}(Y) \to X$ via the composition
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{F}(Y)
+      \arrow[r, "\mathcal{F}(g)"]
+      & \mathcal{F}(\mathcal{G}(X))
+      \arrow[r, "\epsilon_{X}"]
+      & X
+    \end{tikzcd}.
+  \end{equation*}
+
+  It remains to show that these operations are mutually inverse. Consider the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{F}(X)
+      &&&& \mathcal{F}(\mathcal{G}(Y))
+      \\
+      & \mathcal{F}(\mathcal{G}(Y))
     \end{tikzcd}
   \end{equation*}
 \end{proof}
@@ -647,16 +711,7 @@ The above terminology is horrendous, and at some point I'll figure out a nicer w
   \end{equation*}
 \end{proof}
 
-\begin{note}
-  \label{note:freeforgetfuladjunctions}
-  We do not give very many examples of adjunctions now because of the frequency with which category theory graces us with them. Howver, it is worth mentioning a specific class of adjunctions: the so-called \emph{free-forgetful adjunctions}. There are many \emph{free} objects in mathematics: free groups, free modules, free vector spaces, free categories, etc. These are all unified by the following property: the functors defining them are all left adjoints.
 
-  Let us take a specific example: the free vector space over a set. This takes a set $S$ and constructs a vector space which has as a basis the elements of $S$.
-
-  There is a forgetful functor $\mathcal{U}\colon \mathsf{Vect}_{k} \rightarrow \mathsf{Set}$ which takes any set and returns the set underlying it. There is a functor $\mathcal{F}\colon \mathsf{Set} \rightarrow \mathsf{Vect}_{k}$, which takes a set and returns the free vector space on it. It turns out that there is an adjunction $\mathcal{F} \dashv \mathcal{U}$.
-
-  And this is true of any free object! (In fact by definition.) In each case, the functor giving the free object is left adjoint to a forgetful functor.
-\end{note}
 
 \begin{theorem}
   \label{thm:rightadjointspreservelimits}
@@ -697,8 +752,76 @@ The above terminology is horrendous, and at some point I'll figure out a nicer w
   Dual to the proof of \hyperref[thm:rightadjointspreservelimits]{Theorem~\ref*{thm:rightadjointspreservelimits}}.
 \end{proof}
 
-\section{Adjunctions generaize categorical equivalences}
-\label{sec:adjunctions_generaize_categorical_equivalences}
+\section{The data of an adjunction}
+\label{sec:the_data_of_an_adjunction}
+
+In the last section, we saw that the concepts of hom-set adjunction, unit-counit adjunction, and universal morphism adjunction were all instances of one meta-concept, the adjunction. This means that, when given an adjunction, one has an enormous amount of redundant data.
+
+More specifically, an adjunction
+\begin{equation*}
+  \mathcal{F} : \mathsf{C} \leftrightarrow \mathsf{D} : \mathcal{G}
+\end{equation*}
+gives rise to the following pieces of data.
+\begin{enumerate}
+  \item A natural isomorphism $\Phi\colon \Hom_{\mathsf{D}}(\mathcal{F}(-), -) \Rightarrow \Hom_{\mathsf{C}}(-, \mathcal{G}(-))$.
+
+  \item A unit $\eta\colon \id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$ and counit $\epsilon\colon \mathcal{F} \circ \mathcal{G} \Rightarrow \id_{\mathsf{D}}$.
+
+  \item A terminal object in each category $(\mathcal{F} \downarrow d)$.
+
+  \item An initial object in each category $(c \downarrow \mathcal{G})$.
+\end{enumerate}
+
+
+\section{Important examples}
+\label{sec:important_examples}
+
+\begin{example}[free-forgetful adjunction]
+  \label{eg:freeforgetfuladjunctions}
+  There are many \emph{free} objects in mathematics: free groups, free modules, free vector spaces, free categories, etc. These are all unified by the following property: the functors defining them are all left adjoints to forgetful functors.
+
+  Let us take a specific example: the free vector space over a set. This takes a set $S$ and constructs a vector space which has as a basis the elements of $S$. When defining free vector space $V$ over a set $S$, one sees the following universal property:
+  \begin{quote}
+    For any vector space $W$ and any map $S \to W$, there exists a unique map $W \to V$ making the following diagram commute.
+    \begin{equation*}
+      \begin{tikzcd}
+        S
+        \arrow[r]
+        \arrow[dr]
+        & V
+        \arrow[d, dashed, "\exists!"]
+        \\
+        & W
+      \end{tikzcd}
+    \end{equation*}
+  \end{quote}
+
+  There is a forgetful functor $\mathcal{U}\colon \mathsf{Vect}_{k} \rightarrow \mathsf{Set}$ which takes any set and returns the set underlying it. There is a functor $\mathcal{F}\colon \mathsf{Set} \rightarrow \mathsf{Vect}_{k}$, which takes a set and returns the free vector space on it. It turns out that there is an adjunction $\mathcal{F} \dashv \mathcal{U}$.
+
+  And this is true of any free object! (In fact by definition.) In each case, the functor giving the free object is left adjoint to a forgetful functor.
+\end{example}
+
+\begin{example}[limit-constant adjunction]
+  Let $\mathsf{J}$ and $\mathsf{C}$ be small categories. Denote by $\Delta\colon \mathsf{C} \to [\mathsf{I}, \mathsf{C}]$ the functor such that for all $X \in \Obj(\mathsf{C})$, $\Delta(X)$ is the constant functor which sends every object of $\mathsf{I}$ to $X$ and every morphism of $\mathsf{J}$ to $\id_{X}$.
+
+  Assume that every diagram $\mathcal{F}\colon \mathsf{J} \to \mathsf{C}$ has a limit. By \hyperref[def:limitscolimits]{Defintion~\ref*{def:limitscolimits}} this means that for every $\mathcal{D} \in [\mathsf{J}, \mathsf{C}]$, the comma category $(\Delta \downarrow \mathcal{D})$ has a terminal object. But this means that there is an adjoint functor $[\mathsf{J}, \mathsf{C}] \to \mathsf{C}$ which acts on objects by sending $\mathcal{D} \mapsto \lim_{\leftarrow} \mathcal{D}$. That is, we have an adjunction
+  \begin{equation*}
+    \Delta : \mathsf{C} \leftrightarrow [\mathsf{J}, \mathsf{C}] : \lim_{\leftarrow}.
+  \end{equation*}
+  Similarly, there is an adjunction
+  \begin{equation*}
+    \lim_{\rightarrow} : \mathsf{C} \leftrightarrow [\mathsf{J}, \mathsf{C}] : \Delta.
+  \end{equation*}
+\end{example}
+
+Keep this example in mind during the chapter on Kan extensions.
+
+\section{What are adjunctions for?}
+\label{sec:what_are_adjunctions_for}
+
+One of the many ways to think about adjunctions is as a relaxation of categorical equivalences. Many examples of adjunctions arise when one has a functor which forgets some information. Of course, no functor will exist which adds back in forgotten information, so there is no hope of turning such a forgetful functor into an equivalence. However, one can often find an approximate inverse as a left or right adjoint.
+
+In this section, we will explore the relationship between adjunctions and categorical equivalences.
 
 \begin{theorem}
   Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. The following are equivalent.
@@ -725,15 +848,16 @@ The above terminology is horrendous, and at some point I'll figure out a nicer w
   \end{enumerate}
 \end{proof}
 
-\section{Important examples}
-\label{sec:important_examples}
+\begin{proposition}
+  Let
+  \begin{equation*}
+    \mathcal{F} : \mathsf{C} \leftrightarrow \mathsf{D} : \mathcal{G}
+  \end{equation*}
+  be an adjunction.
+  \begin{enumerate}
+    \item The functor $\mathcal{F}$ is fully faithful if and only if the unit $\eta\colon \id_{\mathsf{C}} \to \mathcal{G} \circ \mathcal{F}$ is a natural isomorphism.
 
-\begin{example}[limit-constant adjunction]
-  Let $\mathsf{J}$ and $\mathsf{C}$ be small categories. Denote by $\Delta\colon \mathsf{C} \to [\mathsf{I}, \mathsf{C}]$ the functor such that for all $X \in \Obj(\mathsf{C})$, $\Delta(X)$ is the constant functor which sends every object of $\mathsf{I}$ to $X$ and every morphism of $\mathsf{J}$ to $\id_{X}$.
-
-  Assume that every diagram $\mathcal{F}\colon \mathsf{J} \to \mathsf{C}$ has a limit. By TODO, this means that for every $\mathcal{D} \in [\mathsf{J}, \mathsf{C}]$, the comma category $(\Delta \downarrow \mathcal{D})$ has a terminal object. But this means that there is an adjoint functor $[\mathsf{J}, \mathsf{C}] \to \mathsf{C}$ which acts on objects by sending $\mathcal{D} \mapsto \lim_{\leftarrow} \mathcal{D}$.
-\end{example}
-
-Keep this example in mind during the chapter on Kan extensions.
-
+    \item The functor $\mathcal{G}$ is fully faithful if and only if the unit $\epsilon\colon $
+  \end{enumerate}
+\end{proposition}
 \end{document}

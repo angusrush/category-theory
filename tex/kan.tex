@@ -6,7 +6,7 @@
 \label{sec:kan_extensions}
 
 \section{Motivation}
-\label{sec:motivation}
+\label{sec:kan_extensions_motivation}
 
 Let $\mathsf{C}$ be a category, and $\mathcal{I}\colon \mathsf{S} \to \mathsf{C}$ a subcategory inclusion. Given a functor $\mathcal{F}$ from $\mathsf{C}$ to any category $\mathsf{D}$, we can restrict $\mathcal{F}$ to $\mathsf{S}$ by pulling it back with $\mathcal{I}$. We denote this restriction by
 \begin{equation*}
@@ -15,20 +15,20 @@ Let $\mathsf{C}$ be a category, and $\mathcal{I}\colon \mathsf{S} \to \mathsf{C}
 
 In fact, $\mathcal{I}$ induces a functor from the category of functors $\mathsf{C} \to \mathsf{D}$ (\hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}) to the category of functors $\mathsf{S} \to \mathsf{D}$. Recall that we denoted these categories by $[\mathsf{C}, \mathsf{D}]$ and $[\mathsf{S}, \mathsf{D}]$ respectively. What we have created is a functor
 \begin{equation*}
-  [\mathsf{C}, \mathsf{D}] \to [\mathsf{S}, \mathsf{D}]
+  \mathcal{I}^{*}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{S}, \mathsf{D}]
 \end{equation*}
-which acts on functors by restricting their domain.
+which acts on functors $\mathsf{C} \to \mathsf{D}$ by restricting their domain to the subcategory $\mathsf{S}$.
 
-Admittedly, restricting the domain of a functor is not a very good party trick, even if done in a functorial way. The more impressive thing would be to \emph{increase} the domain of a functor. This is what we aim to do.
+Admittedly, restricting the domain of a functor is not a very good party trick, even if done in a functorial way. The more impressive thing would be to \emph{extend} the domain of a functor along some inclusion. The problem of extending the domain of a functor is one example of the sort of problem that Kan extensions are designed to do.
 
-We have come up against this kind of problem before. For example, it is easy to turn a group into a set by forgetting the group structure. We saw that there was a canonical way to turn a set into a group by forming the free group over it. We mentioned that this was a reflection of a more general phenomenon known as \emph{free-forgetful adjunction} (\hyperref[note:freeforgetfuladjunctions]{Note~\ref*{note:freeforgetfuladjunctions}}). This suggests that the best possible solution to extending the domain of a functor is to search for a functor which is a left or right adjoint to the restriction functor $\mathcal{I}^{*}$.
+We have come up against the problem of finding a weak inverse to a lossy process before. For example, it is easy to turn a group into a set via the lossy process of forgetting the group structure; this is done by a functor $\mathcal{U}\colon \mathsf{Grp} \to \mathsf{Set}$. The inverse problem, i.e. turning a set into a group, is solved (to the extent possible) by taking a left adjoint to the forgetful functor. Together, these two functors form an adjunction, an example of a more general phenomenon known as \emph{free-forgetful adjunction} (\hyperref[eg:freeforgetfuladjunctions]{Note~\ref*{eg:freeforgetfuladjunctions}}). If we believe the mantra that adjunctions are weak inverses, we should try to solve the problem of extending the domain of a functor by searching for a functor which is adjoint to the restriction functor $\mathcal{I}^{*}$.
 
-Of course, it is also interesting to consider the case where $\mathcal{I}$ is not an inclusion. In fact, we will see that by choosing $\mathcal{I}$ in different ways leads to a generalization of many different categorical concepts, such as limits. Left and right adjoints will be known as \emph{left right Kan extensions.}
+Of course, it is also interesting to consider the case where $\mathcal{I}$ is not an inclusion. In fact, we will see that by choosing $\mathcal{I}$ in different ways leads to a generalization of many different categorical concepts, such as limits.
 
 \section{Global Kan extensions}
 \label{sec:global_kan_extensions}
 
-The most high-level notion (although, as we will see, not the most useful) of a Kan extension is called a \emph{global Kan extension.}
+The most high-level notion (although, as we will see, not the most useful) of a Kan extension is called a \emph{global Kan extension.} This is the concept discussed in \hyperref[sec:kan_extensions_motivation]{Section~\ref*{sec:kan_extensions_motivation}}.
 
 \begin{definition}[pullback]
   \label{def:pullback}
@@ -80,51 +80,88 @@ The most high-level notion (although, as we will see, not the most useful) of a 
   \end{equation*}
 \end{definition}
 
-\begin{definition}[Kan extension]
+\begin{definition}[Kan extension functor]
   \label{def:kan_extension}
-  Suppose the pullback functor $\mathcal{F}^{*}$ defined above has a left adjoint
-  \begin{equation*}
-    \mathcal{F}_{!}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
-  \end{equation*}
-  and right adjoint
-  \begin{equation*}
-    \mathcal{F}_{*}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
-  \end{equation*}
+  Consider the pullback functor $\mathcal{F}^{*}$.
+  
   \begin{itemize}
-    \item We call $\mathcal{F}_{!}$ the \defn{left Kan extension} along $\mathcal{F}$. For $\mathcal{\mathcal{G}} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{!}(\mathcal{G})$ the \defn{left Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
+    \item If $\mathcal{F}^{*}$ has right adjoint
+      \begin{equation*}
+        \mathcal{F}_{*}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
+      \end{equation*}
+      We call $\mathcal{F}_{*}$ the \defn{right Kan extension functor} along $\mathcal{F}$.
+      %, and for any $\mathcal{G} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{*}(\mathcal{G})$ the \defn{right Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
 
-    \item We call $\mathcal{F}_{*}$ the \defn{right Kan extension} along $\mathcal{F}$, and for any $\mathcal{G} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{*}(\mathcal{G})$ the \defn{right Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
+    \item If $\mathcal{F}^{*}$ has left adjoint
+      \begin{equation*}
+        \mathcal{F}_{!}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
+      \end{equation*}
+      We call $\mathcal{F}_{!}$ the \defn{left Kan extension functor} along $\mathcal{F}$. 
+      %For $\mathcal{\mathcal{G}} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{!}(\mathcal{G})$ the \defn{left Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
   \end{itemize}
 \end{definition}
 
 \begin{example}[Kan extensions capture limits and colimits]
-  Consider the case in which $\mathsf{C}'$ is the terminal category $\mathsf{1}$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). There is a unique functor from any category $\mathsf{C} \to \mathsf{1}$, which sends every object to $\mathsf{1}$ and every morphism to the identity morphism. Furthermore, any functor $\mathcal{F}\colon 1 \to \mathsf{D}$ is completely determined by where it sends the unique object $*$, as $\mathcal{F}(\id_{*}) = \id_{\mathcal{F}(\id(*))}$.
+  \label{eg:kan_extensions_capture_limits_and_colimits}
+  Consider the case in which $\mathsf{C}'$ is the terminal category $\mathsf{1}$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). There is a unique functor from any category $\mathsf{C} \to \mathsf{1}$, which sends every object to the unique object $* \in \Obj(\mathsf{1})$ and every morphism to the identity morphism. Furthermore, any functor $\mathcal{F}\colon 1 \to \mathsf{D}$ is completely determined by where it sends the unique object $*$.
 
-  Now fix categories $\mathsf{C}$, and consider functors $\mathcal{F}\colon \mathsf{C} \to \mathsf{1}$ and $\mathcal{F}_{X}\colon \mathsf{1} \to \mathsf{D}$.
+  Now fix categories $\mathsf{C}$ and $\mathsf{D}$, and consider the unique functor $\mathcal{C}\colon \mathsf{C} \to \mathsf{1}$.
 
-  Suppose we are given an adjunction $\mathcal{F}^{*} \dashv \mathcal{F}_{*}$. This can be realized as a hom-set bijection
+  The restriction of any $\mathcal{F}\colon \mathsf{1} \to \mathsf{C}$ along $\mathcal{C}$ is simply the constant functor $\Delta_{\mathcal{F}(*)}$. Therefore, the functor $\mathcal{C}^{*}\colon [\mathsf{1},\mathsf{D}] \to [\mathsf{C}, \mathsf{D}]$ carries exactly the same data as the diagonal functor $\Delta\colon \mathsf{D} \to [\mathsf{C},\mathsf{D}]$. Thus, $\mathcal{C}_{!}$ fits into the following adjunction.
   \begin{equation*}
-    \Hom_{[\mathsf{C}, \mathsf{D}]}(\mathcal{F}^{*}\mathcal{F}_{X}, \mathcal{G}) \simeq \Hom_{[\mathsf{1}, \mathsf{D}]}(\mathcal{F}_{X}, \mathcal{F}_{*}\mathcal{G}).
+    \mathcal{C}_{!} : [\mathsf{C}, \mathsf{D}] \leftrightarrow \mathsf{D} : \Delta
   \end{equation*}
 
-  Now let us think about what precisely is contained in each of the hom-sets. First note that the functor $\mathcal{F}^{*}\mathcal{F}_{X} = \mathcal{F}_{X} \circ \mathcal{F}$ is simply the constant functor which assigns to every object in $\mathcal{D}$ the object $X \in \Obj(\mathsf{D})$, and to every morphism the identity morphism $\id_{X}$. A natural transformation from this to any other functor
+  But we have seen that the colimit functor is right adjoint to the diagonal functor, so we have a natural isomorphism
+  \begin{equation*}
+    \mathcal{C}_{!} \simeq \lim_{\rightarrow}.
+  \end{equation*}
+  That is, the left Kan extension of any functor $\mathcal{D}$ along the terminal functor $\mathcal{C}$ is\footnote{Strictly speaking, we should write ``uniquely isomorphic to,'' but we don't because limits are only defined up to unique isomorphism anyway.} the colimit of $\mathcal{D}$:
+  \begin{equation*}
+    \mathcal{C}_{!}\mathcal{D} = \lim_{\rightarrow} \mathcal{D}.
+  \end{equation*}
+
+  Exactly analogous reasoning tells us that the right Kan extension of any functor $\mathcal{D}$ along the terminal functor $\mathcal{C}$ is the limit of $\mathcal{D}$:
+  \begin{equation*}
+    \mathcal{C}_{*}\mathcal{D} = \lim_{\leftarrow} \mathcal{D}.
+  \end{equation*}
 \end{example}
 
 
 \section{Local Kan extensions}
 \label{sec:local_kan_extensions}
 
-By \hyperref[sec:unit_counit_adjunctions_are_hom_set_adjunctions]{Section~\ref*{sec:unit_counit_adjunctions_are_hom_set_adjunctions}}, we can also look at $\mathcal{F}$'s right-adjointness as guaranteeing that for every $\mathcal{D} \in \Obj([\mathsf{C}', \mathsf{D}])$, the category $(\mathcal{F}^{*} \downarrow \mathcal{D})$ has a terminal object. Similarly, we can look at $\mathcal{F}_{!}$'s left-adjointness as demonstrating that the category $(\mathcal{D} \downarrow \mathcal{F}^{*})$ has an initial object. This mirrors the definition of limits and colimits as being terminal (resp. initial) objects in the category $(\Delta \downarrow \mathcal{D})$ (resp. $(\mathcal{D} \downarrow \Delta)$).
+By \hyperref[sec:unit_counit_adjunctions_are_hom_set_adjunctions]{Section~\ref*{sec:unit_counit_adjunctions_are_hom_set_adjunctions}}, we can also look at the right-adjointness of the pullback functor $\mathcal{F}^{*}$'s as guaranteeing that for every $\mathcal{D} \in \Obj([\mathsf{C}', \mathsf{D}])$, the category $(\mathcal{F}^{*} \downarrow \mathcal{D})$ has a terminal object. Similarly, we can look at $\mathcal{F}_{!}$'s left-adjointness as demonstrating that any category $(\mathcal{D} \downarrow \mathcal{F}^{*})$ has an initial object. This mirrors the definition of limits and colimits as being terminal (resp. initial) objects in the category $(\Delta \downarrow \mathcal{D})$ (resp. $(\mathcal{D} \downarrow \Delta)$). As we saw in \hyperref[eg:kan_extensions_capture_limits_and_colimits]{Example~\ref*{eg:kan_extensions_capture_limits_and_colimits}}, this is no accident; Kan extensions form a vast generalization of limits and colimits.
 
-For now, we will specialize to limits, so as not to have to keep writing down 'resp.'
+For now, we will specialize our discussion to the case of right Kan extensions and limits, so as not to have to keep writing down 'resp.'
 
-We have seen that there is a functor which assigns limits, and that this is the right adjoint to the diagonal functor. Of course, we could have defined limits as being the images of the limit functor. However, this would have been a wasteful definition, since in order to define limits for any diagram $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$ we would have had to demand that limits exist for \emph{every} diagram $\mathsf{J} \to \mathsf{C}$. Clearly this is not what we want; for example, we want to be able to take products of two objects in a category without worrying about whether the product of every two objects exists in that category.
+Recall that we defined limits as universal cones. We have seen that there is a functor which assigns limits, and that this is the right adjoint to the diagonal functor. This gives us another way to define limits: we could first have defined the limit functor as right adjoint to the diagonal functor, and then defined limits as being the images of the limit functor. However, this would have been an unnecessarily restrictive definition, since in general some, but not all, limits exist; if we had chosen to define limits in this functorial way, in order to define limits for any diagram $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$ we would have had to demand that limits exist for \emph{every} diagram in $\mathsf{D}$. Clearly this is not what we want; for example, we want to be able to take products of two objects in a category without worrying about whether all limits exist in that category.
 
-But this is not what we did: we first defined the categories $(\Delta \downarrow \mathcal{D})$, then defined limits as their terminal objects. Only much later did we show that under certain conditions, the limit was a functor whose left adjoint was the diagonal functor.
+Fortunately, this is not what we did: we first defined the categories $(\Delta \downarrow \mathcal{D})$, then defined limits as their terminal objects. Only much later did we show that under certain conditions, limits organized themselves into a functor whose left adjoint was the diagonal functor.
 
-By comparison, we first defined right Kan extensions as right adjoints, then showed that their existence was equivalent to the existence of terminal morphisms in $(\mathcal{F}^{*} \downarrow \mathcal{D})$. The analogy with limits suggests that we can define partial Kan extensions along a functor $\mathcal{F}$ even when the extension functor $\mathcal{F}_{*}$ does not exist.
+By comparison, we first defined right Kan extensions as right adjoints to a restriction functor, then showed that their existence was equivalent to the existence of terminal morphisms in appropriate comma categories. The analogy with limits suggests that we can define Kan extension of one functor along another even when not all extensions exist.
 
-This definition will turn out to be much more useful for us. It will turn out even to allow us to compute Kan extensions in certain situations.
+\begin{definition}[local Kan extension]
+  \label{def:local_kan_extension}
+  Consider categories and functors as below.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, "\mathcal{D}"]
+      && \mathsf{D}
+      \\
+      & \mathsf{C'}
+    \end{tikzcd}
+  \end{equation*}
+  \begin{itemize}
+    \item A \defn{right Kan extension of $\mathcal{D}$ along $\mathcal{F}$} is a terminal morphism in the category $(\mathcal{F}^{*} \downarrow \mathcal{D})$.
+
+    \item A \defn{left Kan extension of $\mathcal{D}$ along $\mathcal{F}$} is a terminal morphism in the category $(\mathcal{D}\downarrow \mathcal{F}^{*})$.
+  \end{itemize}
+\end{definition}
+
+This local definition will turn out to be much more useful than \hyperref[def:kan_extension]{Definition~\ref*{def:kan_extension}}. It will even to allow us to compute Kan extensions via an explicit formula in certain situations.
 
 \subsection{Extensions}
 \label{ssc:extensions}
@@ -136,18 +173,22 @@ An extension is an approximate solution to the problem that the Kan extension so
   Consider categories and functors as below.
   \begin{equation*}
     \begin{tikzcd}
-        \mathsf{C}
-        \arrow[dr, swap, "\mathcal{F}"]
-        \arrow[rr, "\mathcal{D}"]
-        && \mathsf{D}
-        \\
-        & \mathsf{C'}
-      \end{tikzcd}
+      \mathsf{C}
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, "\mathcal{D}"]
+      && \mathsf{D}
+      \\
+      & \mathsf{C'}
+    \end{tikzcd}
   \end{equation*}
-    A \defn{right extension of $\mathcal{G}$ along $\mathcal{F}$} is an object in the comma category $(\mathcal{F}^{*} \downarrow \mathcal{D})$. That is, it is a pair $(\mathcal{G}, \eta)$, where $\mathcal{G}\colon \mathsf{C}' \to \mathsf{D}$ and
-    \begin{equation*}
-      \eta\colon \mathcal{D} \Rightarrow \mathcal{F}^{*}\mathcal{G}
-    \end{equation*}
+  \begin{itemize}
+    \item A \defn{right extension of $\mathcal{G}$ along $\mathcal{F}$} is an object in the comma category $(\mathcal{F}^{*} \downarrow \mathcal{D})$. That is, it is a pair $(\mathcal{G}, \eta)$, where $\mathcal{G}\colon \mathsf{C}' \to \mathsf{D}$ and
+      \begin{equation*}
+        \eta\colon \mathcal{D} \Rightarrow \mathcal{F}^{*}\mathcal{G}
+      \end{equation*}
+
+    \item A \defn{left extension of $\mathcal{G}$ along $\mathcal{F}$} is an object in the comma category $(\mathcal{D} \downarrow \mathcal{F}^{*})$.
+  \end{itemize}
 \end{definition}
 
 \subsection{Right extensions induce cones}
@@ -246,13 +287,20 @@ To each such $c \in \Obj(\mathsf{C}')$, there is an associated cone $\xi$ over $
 
 \begin{lemma}
   \label{lemma:morphism_induces_functor_between_comma_categories}
-  Let $\mathcal{F}\colon \mathsf{I} \to \mathsf{J}$ be a functor. Let $f\colon i \to i'$ be a morphism in $\mathsf{I}$. Then $\mathcal{F}$ induces the following functors.
+  Let $\mathcal{F}\colon \mathsf{I} \to \mathsf{J}$ be a functor. Let $f\colon j \to j'$ be a morphism in $\mathsf{J}$. Then $\mathcal{F}$ induces the following functors.
   \begin{itemize}
-    \item $(\mathcal{F} \downarrow i) \to (\mathcal{F} \downarrow i')$.
+    \item $(\mathcal{F} \downarrow j) \to (\mathcal{F} \downarrow j')$.
 
-    \item $(i' \downarrow \mathcal{F}) \to (i \downarrow \mathcal{F})$.
+    \item $(j' \downarrow \mathcal{F}) \to (j \downarrow \mathcal{F})$.
   \end{itemize}
 \end{lemma}
+\begin{proof}
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{F}
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
 
 We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c \in \Obj(\mathsf{C}')$, we could construct a cone. This cone turns out to encode a lot of interesting properties about the extension $(\mathcal{G}, \eta)$. In fact, we have the following rather astonishing result.
 
@@ -271,7 +319,7 @@ We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c \i
     \end{tikzcd}
   \end{equation*}
   If for every $c \in \Obj(\mathsf{C'})$ the cone 
-  
+
   is a limit cone, then $(\mathcal{G}, \eta)$ is a right Kan extension.
 \end{theorem}
 \begin{proof}
