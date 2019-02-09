@@ -1,0 +1,92 @@
+\documentclass[notes.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Enrichment}
+\label{ch:enrichment}
+
+\begin{definition}[enriched category]
+  \label{def:enriched_category}
+  Let $(\mathsf{M}, \otimes, 1_{\mathsf{M}}, \alpha, \lambda, \rho)$ be a monoidal category. A \defn{$\mathsf{M}$-enriched category} $\mathsf{C}$ consists of the following data.
+  \begin{itemize}
+    \item A set $\Obj(\mathsf{C})$ of objects.
+
+    \item For each pair $x$, $y$ of objects, an object $\mathsf{C}(x, y) \in \mathsf{M}$ of morphisms.
+
+    \item For each object $x \in \mathsf{C}$, a morphism
+      \begin{equation*}
+        1_{\mathsf{M}} \to \mathsf{C}(x, x)
+      \end{equation*}
+      called the \emph{unit}
+
+    \item For objects $x$, $y$, and $z$, a morphism
+      \begin{equation*}
+        \mathsf{C}(x, y) \otimes \mathsf{C}(y, z) \to \mathsf{C}(x, z)
+      \end{equation*}
+      called the \emph{composition}.
+  \end{itemize}
+  This composition must be unital and associative, i.e.\ the diagrams
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}(x, y)
+      \arrow[r]
+      \arrow[d]
+      \arrow[rd, "\id"]
+      & \mathsf{C}(y, y) \otimes \mathsf{C}(x, y)
+      \arrow[d]
+      \\
+      \mathsf{C}(x, y) \otimes \mathsf{C}(x, x)
+      \arrow[r]
+      & \mathsf{C}(x, y)
+    \end{tikzcd}
+  \end{equation*}
+  and
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}(x, y) \otimes \mathsf{C}(y, z) \otimes \mathsf{C}(z, w)
+      \arrow[r]
+      \arrow[d]
+      & \mathsf{C}(x, y) \otimes \mathsf{C}(y, w)
+      \arrow[d]
+      \\
+      \mathsf{C}(x, z) \otimes \mathsf{C}(z, w)
+      \arrow[r]
+      & \mathsf{C}(x, w)
+    \end{tikzcd}
+  \end{equation*}
+  must commute (where unitors and associators are notationally supressed).
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:monoidal_functor_switches_enrichment}
+  Let $\mathcal{C}$ be an $\mathcal{M}$-enriched category, and let $F\colon \mathcal{M} \to \mathcal{N}$ be a monoidal functor with data
+  \begin{equation*}
+    \Phi_{x, y}\colon F(x) \otimes_{\mathcal{N}} F(y) \to F(x \otimes_{\mathcal{M}} y),\qquad \phi\colon 1_{\mathcal{N}} \to F(1_{\mathcal{M}}).
+  \end{equation*}
+  This data allows us to build from $\mathcal{C}$ a category enriched over $\mathcal{N}$.
+\end{lemma}
+\begin{proof}
+  \leavevmode
+  \begin{itemize}
+    \item We apply $F$ to each hom-object in $\mathcal{M}$ to get a new hom-object in $\mathcal{N}$;
+      \begin{equation*}
+        \mathcal{C}(x, y)_{\mathcal{N}} = F(\mathcal{C}(x, y)_{\mathcal{M}}).
+      \end{equation*}
+
+    \item The unit is the composition
+      \begin{equation*}
+        \begin{tikzcd}
+          1_{\mathcal{N}}
+          \arrow[r]
+          & F(1_{\mathcal{M}})
+          \arrow[r]
+          & \mathcal{F}(\mathcal{C}(x, y)_{\mathcal{M}})
+          \arrow[r, equals]
+          & \mathcal{C}(x, y)_{\mathcal{N}}
+        \end{tikzcd}
+      \end{equation*}
+
+    \item The composition is given by the obvious.
+  \end{itemize}
+\end{proof}
+\end{document}

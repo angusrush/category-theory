@@ -1,0 +1,79 @@
+\documentclass[notes.tex]{subfiles}
+
+\begin{document}
+\chapter{Higher categories}
+\label{ch:higher_categories}
+
+\section{2-categories}
+\label{sec:2_categories}
+
+\begin{definition}[2-category]
+  \label{def:2_category}
+  A \defn{2-category} is a category enriched over categories. More explicitly, a 2-category $\C$ consists of the following.
+  \begin{itemize}
+    \item A set $\Obj(\C)$ of objects.
+
+    \item For every two objects $x$, $y \in \Obj(\C)$, a category $\C(x, y)$ of morphisms.
+
+    \item For every object $x \in \Obj(\C)$, an object $\id_{x} \in \Obj(\C(x, y))$.
+
+    \item For every three objects $x$, $y$, $z$, a functor
+      \begin{equation*}
+        \mu\colon \C(y, z) \times \C(x, y) \to \C(x, z)
+      \end{equation*}
+      implementing composition.
+
+      These must make the following diagrams commute.
+      \begin{equation*}
+        \text{Associativity:}\qquad
+        \begin{tikzcd}
+          \C(z, w) \times \C(y, z) \times \C(x, y)
+          \arrow[r]
+          \arrow[d]
+          & \C(z, w) \times \C(x, z)
+          \arrow[d]
+          \\
+          \C(y, w) \times \C(x, y)
+          \arrow[r]
+          & \C(x, w)
+        \end{tikzcd}
+      \end{equation*}
+      \begin{equation*}
+        \text{Unitality:}\qquad
+        \begin{tikzcd}
+          \C(x, y)
+          \arrow[r]
+          \arrow[d]
+          \arrow[dr, "\id"]
+          & \C(y, y) \times \C(x, y)
+          \arrow[d]
+          \\
+          \C(x, y) \times \C(x, x)
+          \arrow[r]
+          & \C(x, y)
+        \end{tikzcd}
+      \end{equation*}
+  \end{itemize}
+\end{definition}
+
+\begin{example}
+  The category $\mathsf{Cat}$ is a 2-category.
+
+  \begin{itemize}
+    \item The objects $\Obj(\mathsf{Cat})$ are given by small categories.
+
+    \item The morphisms $\mathsf{Cat}(\mathsf{C}, \mathsf{D})$ is the category $[\mathsf{C}, \mathsf{D}]$.
+
+    \item The identity morphism is the identity functor. We have already seen that this is a functor.
+
+    \item The composition is given by composition of functors
+  \end{itemize}
+  These satisfy the conditions:
+  \begin{enumerate}
+    \item Indeed, the identity functor functions as a left and right identity, and whiskering by the identity is the identity.
+
+    \item Indeed, composition of functors is associative, and vertical composition is associative, although I don't know a nice way to prove this.
+  \end{enumerate}
+\end{example}
+
+\end{document}

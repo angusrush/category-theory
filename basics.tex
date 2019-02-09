@@ -1347,12 +1347,37 @@ the natural transformation $\Psi$ gives us a commuting square
 \end{equation*}
 the two ways of going from top left to bottom right are nothing else but $\Psi_{\mathcal{F}(A)} \circ \mathcal{G}(\Phi_{A})$ and $\mathcal{G}'(\Phi_{A}) \circ \Psi_{\mathcal{F}(A)}$.
 
-%\subsection{Horizontal and vertical composition commute}
-%\label{ssc:horizontal_and_vertical_composition_commute}
-%
-%\begin{theorem}
-%  Suppose we have categories, functors, and natural transformations as follows.
-%\end{theorem}
+It doesn't matter whether we first compose horizontally or vertically.
+\begin{theorem}
+  Suppose we have categories, functors, and natural transformations as follows.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      \mathsf{C}
+      \arrow[r, rightsquigarrow, bend left=60, "\mathcal{F}"{name=U}]
+      \arrow[r, rightsquigarrow, "\mathcal{G}"{name=M} description]
+      \arrow[r, rightsquigarrow, bend right=60, swap, "\mathcal{H}"{name=D}]
+      & \mathsf{D}
+      \arrow[r, rightsquigarrow, bend left=60, "\mathcal{F}'"{name=UU}]
+      \arrow[r, rightsquigarrow, "\mathcal{G}'"{name=MM} description]
+      \arrow[r, rightsquigarrow, bend right=60, swap, "\mathcal{H}'"{name=DD}]
+      & \mathsf{E}
+      \arrow[from=U, to=M, Rightarrow, "\Phi"]
+      \arrow[from=M, to=D, Rightarrow, "\Psi"]
+      \arrow[from=UU, to=MM, Rightarrow, "\Phi'"]
+      \arrow[from=MM, to=DD, Rightarrow, "\Psi'"]
+    \end{tikzcd}
+  \end{equation*}
+  Then
+  \begin{equation*}
+    (\Psi' \circ \Phi') * (\Psi \circ \Phi) \simeq (\Psi' * \Psi) \circ (\Phi' * \Phi).
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We have
+  \begin{align*}
+    [(\Psi' \circ \Phi') * (\Psi \circ \Phi)]_{c} =
+  \end{align*}
+\end{proof}
 
 \subsubsection{Whiskering}
 

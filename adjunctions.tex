@@ -4,12 +4,12 @@
 
 \chapter{Adjunctions}\label{sec:adjunctions}
 
+\begin{note}
+  This chapter is under heavy construction. It's not very good at the moment.
+\end{note}
+
 \section{Motivating example}
 \label{sec:motivating_example}
-
-\begin{note}
-  This section is under heavy construction. It's not very good at the moment.
-\end{note}
 
 Consider the following functors:
 \begin{itemize}
@@ -18,9 +18,13 @@ Consider the following functors:
   \item $\mathcal{F}\colon \mathsf{Set} \rightarrow \mathsf{Grp}$, which sends a set to the free group on it.
 \end{itemize}
 
-The functors $\mathcal{U}$ and $\mathcal{F}$ are dual in the following sense: $\mathcal{U}$ is the most efficient way of moving from $\mathsf{Grp}$ to $\mathsf{Set}$ since all groups are in particular sets; $\mathcal{F}$ might be thought of as providing the most efficient way of moving from $\mathsf{Set}$ to $\mathsf{Grp}$. But how would one go about formalizing this?
+The functor $\mathcal{U}$ is lossy; it forgets a structure, namely group multiplication. Of course, no inverse functor exists, since a set can have many different group structures on it. However, one can think of the functor $\mathcal{F}$ as a sort of weak inverse to $\mathcal{U}$; it constructs out of any set a group in a canonical way.
 
-Free-forgetful adjunctions are an example of an extremely powerful structure called an \emph{adjuction}. We have encountered it before---we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
+Many interesting mathematical structures arise in an attempt to add back in forgotten structure.
+
+But how would one go about formalizing this?
+
+This is an example of a free-forgetful adjunctions, a special case of an extremely powerful structure called an \emph{adjuction}. We have encountered adjunctions before---we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
 \begin{equation*}
   \Hom_{\mathsf{C}}(X \times (-), B)\qquad\text{and}\qquad \Hom_{\mathsf{C}}(X, B^{(-)}).
 \end{equation*}
@@ -755,7 +759,7 @@ In this section, we will prove three main lemmas, which schematically do the fol
 \section{The data of an adjunction}
 \label{sec:the_data_of_an_adjunction}
 
-In the last section, we saw that the concepts of hom-set adjunction, unit-counit adjunction, and universal morphism adjunction were all instances of one meta-concept, the adjunction. This means that, when given an adjunction, one has an enormous amount of redundant data.
+In the last section, we saw that the concepts of hom-set adjunction, unit-counit adjunction, and universal morphism adjunction were all instances of one meta-concept, the adjunction. This means that, when specifying an adjunction, one can choose to specify any of these, and derive the rest. One should really think of an adjunction, however, as consisting of all simultaneously.
 
 More specifically, an adjunction
 \begin{equation*}
@@ -772,6 +776,19 @@ gives rise to the following pieces of data.
   \item An initial object in each category $(c \downarrow \mathcal{G})$.
 \end{enumerate}
 
+These data are related to each other in the following way.
+
+\begin{itemize}
+  \item ($1 \to 2$): The counit has components $\epsilon_{X} = \Phi^{-1}_{\mathcal{G}(X),X}(\id_{\mathcal{G}(X)})$, and the unit has components $\epsilon_{Y} = \Phi_{Y,\mathcal{F}(Y)}(\id_{\mathcal{F}(Y)})$
+
+  \item ($1 \to 3$): The terminal object is $(\mathcal{G}(d), \epsilon_{d})$
+
+  \item ($1 \to 4$): The initial object is $(\mathcal{F}(c), \eta_{c})$
+
+  \item ($2 \to 1$): The natural transformation has components defined by $\Phi_{X,Y}(f) = \mathcal{G}(f) \circ \eta_{X}$, or equivalently $\Phi_{X,Y}^{-1}(g) = \epsilon_{Y} \circ \mathcal{F}(g)$.
+
+  \item ($2 \to 3$): The terminal object
+\end{itemize}
 
 \section{Important examples}
 \label{sec:important_examples}
@@ -802,7 +819,7 @@ gives rise to the following pieces of data.
 \end{example}
 
 \begin{example}[limit-constant adjunction]
-  Let $\mathsf{J}$ and $\mathsf{C}$ be small categories. Denote by $\Delta\colon \mathsf{C} \to [\mathsf{I}, \mathsf{C}]$ the functor such that for all $X \in \Obj(\mathsf{C})$, $\Delta(X)$ is the constant functor which sends every object of $\mathsf{I}$ to $X$ and every morphism of $\mathsf{J}$ to $\id_{X}$.
+  Let $\mathsf{J}$ and $\mathsf{C}$ be small categories. Denote by $\Delta\colon \mathsf{C} \to [\mathsf{J}, \mathsf{C}]$ the functor such that for all $X \in \Obj(\mathsf{C})$, $\Delta(X)$ is the constant functor which sends every object of $\mathsf{J}$ to $X$ and every morphism of $\mathsf{J}$ to $\id_{X}$.
 
   Assume that every diagram $\mathcal{F}\colon \mathsf{J} \to \mathsf{C}$ has a limit. By \hyperref[def:limitscolimits]{Defintion~\ref*{def:limitscolimits}} this means that for every $\mathcal{D} \in [\mathsf{J}, \mathsf{C}]$, the comma category $(\Delta \downarrow \mathcal{D})$ has a terminal object. But this means that there is an adjoint functor $[\mathsf{J}, \mathsf{C}] \to \mathsf{C}$ which acts on objects by sending $\mathcal{D} \mapsto \lim_{\leftarrow} \mathcal{D}$. That is, we have an adjunction
   \begin{equation*}
@@ -857,7 +874,60 @@ In this section, we will explore the relationship between adjunctions and catego
   \begin{enumerate}
     \item The functor $\mathcal{F}$ is fully faithful if and only if the unit $\eta\colon \id_{\mathsf{C}} \to \mathcal{G} \circ \mathcal{F}$ is a natural isomorphism.
 
-    \item The functor $\mathcal{G}$ is fully faithful if and only if the unit $\epsilon\colon $
+    \item The functor $\mathcal{G}$ is fully faithful if and only if the counit $\epsilon\colon \mathcal{F} \circ \mathcal{G} \to \id_{\mathsf{D}}$ is a natural isomorphism
   \end{enumerate}
 \end{proposition}
+\begin{proof}
+  We prove the first. The second is the first applied to the adjunction
+  \begin{equation*}
+    \mathcal{F}^{\op} : \mathsf{C} \leftrightarrow \mathsf{D} : \mathcal{G}^{\op}.
+  \end{equation*}
+
+  Suppose $\eta$ is a natural isomorphism. Consider the following composition.
+  \begin{equation*}
+    \begin{tikzcd}
+      \Hom_{\mathsf{C}}(a, b)
+      \arrow[r, "\mathcal{F}_{x,x}"]
+      & \Hom_{\mathsf{D}}(\mathcal{F}(a), \mathcal{F}(b))
+      \arrow[r, "\Phi_{a,\mathcal{F}(b)}"]
+      & 
+      \Hom_{\mathsf{C}}(a, (\mathcal{G} \circ \mathcal{F})(b))
+      \\
+      f
+      \arrow[r, mapsto]
+      & \mathcal{F}(f)
+      \arrow[r, mapsto]
+      & (\mathcal{G} \circ \mathcal{F})(f) \circ \eta_{a}
+    \end{tikzcd}
+  \end{equation*}
+
+  By naturality of $\eta$, the following square commutes.
+  \begin{equation*}
+    \begin{tikzcd}[row sep=large, column sep=large]
+      a
+      \arrow[d, swap, "\eta_{a}"]
+      \arrow[r, "f"]
+      & b
+      \arrow[d, "\eta_{b}"]
+      \\
+      (\mathcal{G} \circ \mathcal{F})(a)
+      \arrow[r, swap, "(\mathcal{G} \circ \mathcal{F})(f)"]
+      & (\mathcal{G} \circ \mathcal{F})(b)
+    \end{tikzcd}
+  \end{equation*}
+  Thus, we can equivalently view the above composition as sending $f \mapsto \eta_{b} \circ f$.
+
+  The second arrow $\Phi_{a, \mathcal{F}(b)}$ is a bijection by the definition of adjunction, and their composition is a bijection since the map $f \mapsto \eta_{b} \circ f$ has inverse $g \mapsto \eta_{b}^{-1} \circ g$. Thus, by the 2-out-of-3 law for bijections, $\mathcal{F}_{x,x}$ is a bijection.
+
+  Now suppose that $\eta$ is a natural isomorphism. Then both of the above maps are bijections, giving us a bijection
+  \begin{equation*}
+    \Hom_{\mathsf{C}}(a, b) \to \Hom_{\mathsf{C}}(a, (\mathcal{G} \circ \mathcal{F})(b));\qquad f \mapsto \eta_{a} \circ f.
+  \end{equation*}
+
+  Thus there exists some $g \in \Hom_{\mathsf{C}}((\mathcal{G} \circ \mathcal{F})(a), a)$ such that $\eta_{a} \circ g = \id_{(\mathcal{G} \circ \mathcal{F})(a)}$. Then
+  \begin{equation*}
+    \eta_{a} = \eta_{a} \circ \id_{b} = \eta_{a} \circ g \circ \eta_{a}.
+  \end{equation*}
+  But since $\eta_{a} \circ -$ is a bijection, this implies that $g \circ \eta_{a} = \id_{b}$, so $g$ is a two-sided inverse to $\eta_{a}$, as we were trying to show.
+\end{proof}
 \end{document}
