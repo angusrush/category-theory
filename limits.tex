@@ -8,7 +8,7 @@
 
 \begin{definition}[diagram]
   \label{def:diagram}
-  Let $\mathsf{J}$ and $\mathsf{C}$ be categories. A \defn{diagram} of type $\mathsf{J}$ in $\mathsf{C}$ is a (covariant) functor
+  Let $\mathsf{J}$ and $\mathsf{C}$ be categories. A \defn{diagram} of type $\mathsf{J}$ in $\mathsf{C}$ is a functor
   \begin{equation*}
     \mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}.
   \end{equation*}
@@ -27,7 +27,7 @@
     \end{tikzcd}
   \end{equation*}
 
-  A diagram of type $\mathsf{J}$ in a category $\mathsf{C}$ is a functor $\mathsf{J} \to \mathsf{C}$, which picks out three objects and two morphisms in $\mathsf{C}$ as follows.
+  A diagram of type $\mathsf{J}$ in a category $\mathsf{C}$ is a functor $\mathsf{J} \to \mathsf{C}$. Such a functor picks out three objects and two morphisms in $\mathsf{C}$ as follows.
   \begin{equation*}
     \begin{tikzcd}
       & y
@@ -934,6 +934,10 @@ Filtered categories are a generalization of filtered preorders.
   \end{itemize}
 \end{definition}
 
+\begin{example}
+  Any poset is a filtered category.
+\end{example}
+
 \begin{definition}[filtered colimit]
   \label{def:filteredcolimit}
   A \defn{filtered colimit} is a colimit over a diagram $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$, where $\mathsf{J}$ is a filtered category.
@@ -963,11 +967,11 @@ The importance of the category of ind-objects can be seen in the following examp
   \label{eg:inductiveobjectsaddinfinitedimensionalvectorspaces}
   Let $V$ be an infinite-dimensional vector space over some field $k$. Then $V$ can be realized as an object in the category $\mathsf{Ind}(\mathsf{FinVect})$.
 
+  To see this, let $V$ be any vector space. Consider the poset of finite-dimensional vector subspaces of $V$. We can express $V$ as the colimit of this poset. Thus, we have an embedding $\mathsf{Vect}_{k} \hookrightarrow \mathsf{Ind}(\mathsf{FinVect}_{k})$.
+
   In fact, there is an equivalence of categories $\mathsf{Vect}_{k} \simeq \mathsf{Ind}(\mathsf{FinVect}_{k})$. Similarly, there is an equivalence of categories $\mathsf{SVect}_{k} \simeq \mathsf{Ind}(\mathsf{FinSVect}_{k})$
 \end{example}
-\begin{note}
-  This is stated without proof as Example 3.39 of~\cite{nlab-deligne-theorem}. I haven't been able to find a real source for it.
-\end{note}
+
 
 
 \end{document}

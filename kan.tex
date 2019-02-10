@@ -46,7 +46,7 @@ The most high-level notion (although, as we will see, not the most useful) of a 
     \qquad
     \mapsto
     \qquad
-    \begin{tikzcd}
+    \begin{tikzcd}[column sep=small]
       \mathsf{C}
       \arrow[dr, swap, "\mathcal{F}"]
       \arrow[rr, "\mathcal{F}^{*}\mathcal{G}"]
@@ -82,8 +82,8 @@ The most high-level notion (although, as we will see, not the most useful) of a 
 
 \begin{definition}[Kan extension functor]
   \label{def:kan_extension}
-  Consider the pullback functor $\mathcal{F}^{*}$.
-  
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{C}'$ be a functor, and let $\mathsf{D}$ be any other category. Consider the pullback functor $\mathcal{F}^{*}$.
+
   \begin{itemize}
     \item If $\mathcal{F}^{*}$ has right adjoint
       \begin{equation*}
@@ -96,42 +96,64 @@ The most high-level notion (although, as we will see, not the most useful) of a 
       \begin{equation*}
         \mathcal{F}_{!}\colon [\mathsf{C}, \mathsf{D}] \to [\mathsf{C}', \mathsf{D}].
       \end{equation*}
-      We call $\mathcal{F}_{!}$ the \defn{left Kan extension functor} along $\mathcal{F}$. 
+      We call $\mathcal{F}_{!}$ the \defn{left Kan extension functor} along $\mathcal{F}$.
       %For $\mathcal{\mathcal{G}} \in [\mathsf{C}, \mathsf{D}]$, we call $\mathcal{F}_{!}(\mathcal{G})$ the \defn{left Kan extension of $\mathcal{G}$ along $\mathcal{F}$}.
   \end{itemize}
 \end{definition}
 
-\begin{example}[Kan extensions capture limits and colimits]
-  \label{eg:kan_extensions_capture_limits_and_colimits}
-  Consider the case in which $\mathsf{C}'$ is the terminal category $\mathsf{1}$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). There is a unique functor from any category $\mathsf{C} \to \mathsf{1}$, which sends every object to the unique object $* \in \Obj(\mathsf{1})$ and every morphism to the identity morphism. Furthermore, any functor $\mathcal{F}\colon 1 \to \mathsf{D}$ is completely determined by where it sends the unique object $*$.
+\section{Kan extensions capture limits and colimits}
+\label{sec:kan_extensions_capture_limits_and_colimits}
 
-  Now fix categories $\mathsf{C}$ and $\mathsf{D}$, and consider the unique functor $\mathcal{C}\colon \mathsf{C} \to \mathsf{1}$.
+When working with Kan extensions of a functor $\mathcal{D}$ along another functor $\mathcal{F}$, it is always helpful to have a drawing of the following triangle handy.
 
-  The restriction of any $\mathcal{F}\colon \mathsf{1} \to \mathsf{C}$ along $\mathcal{C}$ is simply the constant functor $\Delta_{\mathcal{F}(*)}$. Therefore, the functor $\mathcal{C}^{*}\colon [\mathsf{1},\mathsf{D}] \to [\mathsf{C}, \mathsf{D}]$ carries exactly the same data as the diagonal functor $\Delta\colon \mathsf{D} \to [\mathsf{C},\mathsf{D}]$. Thus, $\mathcal{C}_{!}$ fits into the following adjunction.
-  \begin{equation*}
-    \mathcal{C}_{!} : [\mathsf{C}, \mathsf{D}] \leftrightarrow \mathsf{D} : \Delta
-  \end{equation*}
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[rr, "\mathcal{D}"]
+    \arrow[dr, swap, "\mathcal{F}"]
+    && \mathsf{D}
+    \\
+    &\mathsf{C}'
+  \end{tikzcd}
+\end{equation*}
 
-  But we have seen that the colimit functor is right adjoint to the diagonal functor, so we have a natural isomorphism
-  \begin{equation*}
-    \mathcal{C}_{!} \simeq \lim_{\rightarrow}.
-  \end{equation*}
-  That is, the left Kan extension of any functor $\mathcal{D}$ along the terminal functor $\mathcal{C}$ is\footnote{Strictly speaking, we should write ``uniquely isomorphic to,'' but we don't because limits are only defined up to unique isomorphism anyway.} the colimit of $\mathcal{D}$:
-  \begin{equation*}
-    \mathcal{C}_{!}\mathcal{D} = \lim_{\rightarrow} \mathcal{D}.
-  \end{equation*}
+Consider the case in which $\mathsf{C}'$ is the terminal category $\mathsf{1}$ (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}). There is a unique functor from any category $\mathsf{C} \to \mathsf{1}$, which sends every object to the unique object $* \in \Obj(\mathsf{1})$ and every morphism to the identity morphism. Furthermore, any functor $\mathcal{F}\colon 1 \to \mathsf{D}$ is completely determined by where it sends the unique object $*$.
 
-  Exactly analogous reasoning tells us that the right Kan extension of any functor $\mathcal{D}$ along the terminal functor $\mathcal{C}$ is the limit of $\mathcal{D}$:
-  \begin{equation*}
-    \mathcal{C}_{*}\mathcal{D} = \lim_{\leftarrow} \mathcal{D}.
-  \end{equation*}
-\end{example}
+\begin{equation*}
+  \begin{tikzcd}
+    \mathsf{C}
+    \arrow[rr, "\mathcal{D}"]
+    \arrow[dr, swap, "\mathcal{C}"]
+    && \mathsf{D}
+    \\
+    & \mathsf{1}
+  \end{tikzcd}
+\end{equation*}
+
+The restriction of any $\mathcal{F}\colon \mathsf{1} \to \mathsf{C}$ along $\mathcal{C}$ is simply the constant functor $\Delta_{\mathcal{F}(*)}$. Therefore, the functor $\mathcal{C}^{*}\colon [\mathsf{1},\mathsf{D}] \to [\mathsf{C}, \mathsf{D}]$ carries exactly the same data as the diagonal functor $\Delta\colon \mathsf{D} \to [\mathsf{C},\mathsf{D}]$. Thus, $\mathcal{C}_{!}$ fits into the following adjunction.
+\begin{equation*}
+  \mathcal{C}_{!} : [\mathsf{C}, \mathsf{D}] \leftrightarrow \mathsf{D} : \Delta
+\end{equation*}
+
+But we have seen that the colimit functor is right adjoint to the diagonal functor, so we have a natural isomorphism
+\begin{equation*}
+  \mathcal{C}_{!} \simeq \lim_{\rightarrow}.
+\end{equation*}
+That is, the left Kan extension of any functor $\mathcal{D}$ along the terminal functor $\mathcal{C}$ is\footnote{Strictly speaking, we should write ``uniquely isomorphic to,'' but we don't because limits are only defined up to unique isomorphism anyway.} the colimit of $\mathcal{D}$:
+\begin{equation*}
+  \mathcal{C}_{!}\mathcal{D} = \lim_{\rightarrow} \mathcal{D}.
+\end{equation*}
+
+Exactly analogous reasoning tells us that the right Kan extension of any functor $\mathcal{D}$ along the terminal functor $\mathcal{C}$ is the limit of $\mathcal{D}$:
+\begin{equation*}
+  \mathcal{C}_{*}\mathcal{D} = \lim_{\leftarrow} \mathcal{D}.
+\end{equation*}
 
 
 \section{Local Kan extensions}
 \label{sec:local_kan_extensions}
 
-By \hyperref[sec:unit_counit_adjunctions_are_hom_set_adjunctions]{Section~\ref*{sec:unit_counit_adjunctions_are_hom_set_adjunctions}}, we can also look at the right-adjointness of the pullback functor $\mathcal{F}^{*}$'s as guaranteeing that for every $\mathcal{D} \in \Obj([\mathsf{C}', \mathsf{D}])$, the category $(\mathcal{F}^{*} \downarrow \mathcal{D})$ has a terminal object. Similarly, we can look at $\mathcal{F}_{!}$'s left-adjointness as demonstrating that any category $(\mathcal{D} \downarrow \mathcal{F}^{*})$ has an initial object. This mirrors the definition of limits and colimits as being terminal (resp. initial) objects in the category $(\Delta \downarrow \mathcal{D})$ (resp. $(\mathcal{D} \downarrow \Delta)$). As we saw in \hyperref[eg:kan_extensions_capture_limits_and_colimits]{Example~\ref*{eg:kan_extensions_capture_limits_and_colimits}}, this is no accident; Kan extensions form a vast generalization of limits and colimits.
+By \hyperref[sec:unit_counit_adjunctions_are_hom_set_adjunctions]{Section~\ref*{sec:unit_counit_adjunctions_are_hom_set_adjunctions}}, we can also look at the right-adjointness of the pullback functor $\mathcal{F}^{*}$'s as guaranteeing that for every $\mathcal{D} \in \Obj([\mathsf{C}', \mathsf{D}])$, the category $(\mathcal{F}^{*} \downarrow \mathcal{D})$ has a terminal object. Similarly, we can look at $\mathcal{F}_{!}$'s left-adjointness as demonstrating that any category $(\mathcal{D} \downarrow \mathcal{F}^{*})$ has an initial object. This mirrors the definition of limits and colimits as being terminal (resp. initial) objects in the category $(\Delta \downarrow \mathcal{D})$ (resp. $(\mathcal{D} \downarrow \Delta)$). As we saw in \hyperref[sec:kan_extensions_capture_limits_and_colimits]{section~\ref*{sec:kan_extensions_capture_limits_and_colimits}}, this is no accident; Kan extensions form a vast generalization of limits and colimits.
 
 For now, we will specialize our discussion to the case of right Kan extensions and limits, so as not to have to keep writing down 'resp.'
 
@@ -163,10 +185,16 @@ By comparison, we first defined right Kan extensions as right adjoints to a rest
 
 This local definition will turn out to be much more useful than \hyperref[def:kan_extension]{Definition~\ref*{def:kan_extension}}. It will even to allow us to compute Kan extensions via an explicit formula in certain situations.
 
-\subsection{Extensions}
-\label{ssc:extensions}
+\begin{example}
+  In the case where $\mathsf{C}' = \mathsf{1}$, we saw that global left and right Kan extensions recovered the limit and colimit functors. Essentially by definition, this works for local Kan extensions as well; we have
+  \begin{equation*}
+    \mathcal{C}_{*}\mathcal{D} = \lim_{\leftarrow} \mathcal{D},\qquad \text{and}\qquad \mathcal{C}_{!}\mathcal{D} = \lim_{\rightarrow} \mathcal{D}.
+  \end{equation*}
+\end{example}
 
-An extension is an approximate solution to the problem that the Kan extension solves.
+We defined limits in terms of cones. The close analogy between limits and Kan extensions suggests that we should define a Kan extensionish analog of cones.
+
+The appropriate notion is that of an \emph{extension.} Extensions generalize (co)cones in the sense that they reduce to them in the case of Kan extensions along $\mathcal{C}$.
 
 \begin{definition}[extension]
   \label{def:extension}
@@ -191,10 +219,98 @@ An extension is an approximate solution to the problem that the Kan extension so
   \end{itemize}
 \end{definition}
 
-\subsection{Right extensions induce cones}
-\label{ssc:right_extensions_induce_cones}
+\begin{example}
+  \label{eg:kan_extension_along_functor_to_discrete_groupoid}
+  We have seen that Kan extensions along the functor $\mathsf{C} \to \mathsf{1}$ reproduce limits and colimits. It will be instructive to study Kan extensions along functors $\mathsf{C} \to \mathsf{n}$, where $\mathsf{n}$ is the category with $n$ objects and only identity morphisms, i.e.\ the discrete groupoid with $n$ objects.
 
-Let $\mathcal{D}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{F}\colon \mathsf{C} \to \mathsf{C'}$ be functors. Let $(G, \eta)$ be a right extension of $\mathcal{D}$ along $\mathcal{F}$.
+  Consider such a functor $\mathsf{C} \to \mathsf{n}$. Denote by $i$ the functor $\mathsf{1} \to \mathsf{n}$ which takes $* \in \Obj(\mathsf{1})$ to the $i$th object in $\mathsf{n}$.
+
+  A functor $\mathcal{F}\colon \mathsf{C} \to \mathsf{n}$ is the same thing as a decomposition
+  \begin{equation*}
+    \mathsf{C} = \coprod_{c = 1}^{n} \mathsf{C}_{i},
+  \end{equation*}
+  where each $\mathsf{C}_{i}$ is the fiber over $i \in \Obj(\mathsf{n})$,
+  together with a family of functors
+  \begin{equation*}
+    \mathcal{D}|_{\mathsf{C}_{i}}\colon \mathsf{C}_{i} \to \mathsf{1}.
+  \end{equation*}
+
+  Consider right extensions of $\mathcal{D}$ along $\mathcal{F}$, i.e.\ objects in $(\mathcal{F}^{*} \downarrow \mathcal{D})$. These consist of pairs $(\eta, \mathcal{G})$, where $\eta\colon \mathcal{F}^{*}\mathcal{G} \to \mathcal{D}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, ""'{name=U}, "\mathcal{D}"]
+      && \mathsf{D}
+      \\
+      & \mathsf{n}
+      \arrow[ur, swap, "\mathcal{G}"]
+      \arrow[to=U, Rightarrow, swap, "\eta"]
+    \end{tikzcd}
+  \end{equation*}
+
+  The functor $\mathcal{F}^{*}\mathcal{G}$ is really the composition $\mathcal{G} \circ \mathcal{F}$, which (by the universal property for coproducts) consists of $n$ constant functors $\Delta^{i}_{d}\colon \mathsf{C}_{i} \to \mathsf{D}$, where $\Delta^{i}_{d}$ is the constant functor mapping everything in $\mathsf{C}_{i}$ to $d \in \Obj(\mathsf{D})$. The natural transformation $\eta$ therefore consists of $n$ cones
+  \begin{equation*}
+    \eta^{i}\colon \Delta^{i}_{d} \Rightarrow \mathcal{D}|_{\mathsf{C}_{i}}.
+  \end{equation*}
+
+  Such a right extension is universal if any other right extension factors through it. That is, given another right extension $(\epsilon, \mathcal{H})$, there is a unique natural transformation $\xi\colon \mathcal{H} \circ \mathcal{F} \Rightarrow \mathcal{G} \circ \mathcal{F}$ making the following diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=small]
+      \mathcal{H} \circ \mathcal{F}
+      \arrow[rr, Rightarrow, "\xi"]
+      \arrow[dr, Rightarrow, swap, "\epsilon"]
+      && \mathcal{G} \circ \mathcal{F}
+      \arrow[dl, Rightarrow, "\eta"]
+      \\
+      & \mathcal{D}
+    \end{tikzcd}
+  \end{equation*}
+  This says precisely that each cone must be universal. That is, we have
+  \begin{equation*}
+    (\mathcal{F}_{*}\mathcal{D})(i) = \lim_{\leftarrow} \mathcal{D}|_{\mathsf{C}_{i}},
+  \end{equation*}
+  where $\mathsf{D}|_{\mathsf{C}_{i}}$ is simply $\mathcal{D}$ restricted to the fiber over $i$.
+
+  The same is true for left Kan extensions; the value
+  \begin{equation*}
+    (\mathcal{F}_{!}\mathcal{D})(i) = \lim_{\rightarrow} \mathcal{D}|_{\mathsf{C}_{i}}.
+  \end{equation*}
+\end{example}
+
+We have more or less proved the following. I still need to work out size conditions, e.g.\ $\mathsf{C}'$ should almost certainly have to be small.
+\begin{proposition}
+  \label{prop:formula_for_kan_extension_through_groupoid}
+  Let $\mathsf{C}$ and $\mathsf{D}$ be categories and $\mathsf{C}'$ a discrete groupoid, and let $\mathcal{F}\colon \mathsf{C} \to \mathsf{C}'$ and $\mathcal{D}\colon \mathsf{C} \to \mathsf{D}$ be functors.
+  \begin{itemize}
+    \item Suppose the limit $\lim_{\leftarrow}\mathcal{D}|_{\mathsf{C}_{i}}$ exists for all $i \in \Obj(\mathsf{C}')$. Then a right Kan extension $\mathcal{F}_{*}\mathcal{D}$ exists, and is given by the formula
+      \begin{equation*}
+        (\mathcal{F}_{*}\mathcal{D})(i) = \lim_{\leftarrow} \mathcal{D}|_{\mathsf{C}_{i}},
+      \end{equation*}
+
+    \item Suppose the colimit $\lim_{\rightarrow}\mathcal{D}|_{\mathsf{C}_{i}}$ exists for all $i \in \Obj(\mathsf{C}')$. Then a left Kan extension $\mathcal{F}_{!}\mathcal{D}$ exists, and is given by the formula
+      \begin{equation*}
+        (\mathcal{F}_{!}\mathcal{D})(i) = \lim_{\rightarrow} \mathcal{D}|_{\mathsf{C}_{i}}.
+      \end{equation*}
+  \end{itemize}
+\end{proposition}
+
+This says that a Kan extension along a functor to a discrete groupoid $\mathsf{C}'$ consists of a collection of (co)limits parametrized by the objects of $\mathsf{C}'$.
+
+\begin{note}
+  In our simple case, the converse also holds: any Kan extension through a discrete groupoid is given by the above formulae. This is \emph{not} a general feature of the formula we derive! There are Kan extensions whose
+\end{note}
+
+\section{A pointwise formula for Kan extensions}
+\label{sec:a_pointwise_formula_for_kan_extensions}
+
+One would hope that we would be able to generalize the above formulae easily. However, their derivation rested crucially on the fact that for any category $\mathsf{C}'$ with no morphisms, any functor $\mathsf{C} \to \mathsf{C}'$ splits $\mathsf{C}$ into a disjoint union of its fibers, and we can easily construct (co)cones over the images of these fibers. Adding any morphisms to $\mathsf{C}'$ ruins this splitting, and we lose our (co)cones.
+
+The solution to this problem is to use `smarter' categories than the fibers of $\mathcal{F}$, over which we can still construct (co)cones in an obvious way: comma categories.
+
+The intuition is as follows. Any morphism $f\colon c' \to \tilde{c}'$ we add to $\mathsf{C}'$ allows the fiber $\mathsf{C}_{c'}$ to map into to the fiber $\mathsf{C}_{\tilde{c}'}$. We should include in the base of our cone not just the parts of $\mathsf{C}$ which are mapped to the identity $\id_{c'}$ (i.e.\ the fiber over $c'$), but also any fibers to which $\mathsf{C}_{c'}$ has access via some morphism. We have such a category: $(c' \downarrow \mathcal{F})$.
+
+Let $\mathcal{D}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{F}\colon \mathsf{C} \to \mathsf{C'}$ be functors. Let $(\mathcal{G}, \eta)$ be a right extension of $\mathcal{D}$ along $\mathcal{F}$.
 \begin{equation*}
   \begin{tikzcd}
     \mathsf{C}
@@ -204,13 +320,13 @@ Let $\mathcal{D}\colon \mathsf{C} \to \mathsf{D}$ and $\mathcal{F}\colon \mathsf
     \\
     & \mathsf{C'}
     \arrow[ur, swap, "\mathcal{G}"]
-    \arrow[d, to=U, Rightarrow, swap, "\eta"] 
+    \arrow[d, to=U, Rightarrow, swap, "\eta"]
   \end{tikzcd}
 \end{equation*}
-For any $c \in \Obj(\mathsf{C}')$, denote by $(c \downarrow \mathcal{F})$ the category of morphisms from $c$ down to $\mathcal{F}$ (see \hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}), and denote by $\mathcal{U}$ the forgetful functor $(c \downarrow \mathcal{F}) \to \mathsf{C}$. We can define a functor $\evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}\colon (c \downarrow \mathcal{F}) \to \mathsf{D}$ as the following composition.
+For any $c' \in \Obj(\mathsf{C}')$, denote by $(c' \downarrow \mathcal{F})$ the category of morphisms from $c'$ down to $\mathcal{F}$ (see \hyperref[def:categoryofmorphismsfromanobjecttoafunctor]{Definition~\ref*{def:categoryofmorphismsfromanobjecttoafunctor}}), and denote by $\mathcal{U}$ the forgetful functor $(c' \downarrow \mathcal{F}) \to \mathsf{C}$. We can define a functor $\evl{\mathcal{D}}_{(c' \downarrow \mathcal{F})}\colon (c' \downarrow \mathcal{F}) \to \mathsf{D}$ as the following composition.
 \begin{equation*}
   \begin{tikzcd}
-    (c \downarrow \mathcal{F})
+    (c' \downarrow \mathcal{F})
     \arrow[r, "\mathcal{U}"]
     & \mathsf{C}
     \arrow[r, "\mathcal{D}"]
@@ -218,72 +334,103 @@ For any $c \in \Obj(\mathsf{C}')$, denote by $(c \downarrow \mathcal{F})$ the ca
   \end{tikzcd}
 \end{equation*}
 
-To each such $c \in \Obj(\mathsf{C}')$, there is an associated cone $\xi$ over $\evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}$, constructed as follows.
+To each such $c' \in \Obj(\mathsf{C}')$, there is an associated cone $\xi$ over $\evl{\mathcal{D}}_{(c' \downarrow \mathcal{F})}$, constructed as follows.
 
 \begin{itemize}
-  \item The tip of the cone is $\mathcal{D}(c)$.
+  \item The tip of the cone is $\mathcal{G}(c')$.
 
-  \item For each $(e, f) \in \Obj(c \downarrow \mathcal{F})$, the morphism $\xi_{(e, f)}\colon\mathcal{D}(c) \to \evl{\mathcal{D}}_{(c \downarrow \mathcal{F})}(e, f) = \mathcal{D}(e)$ is given by the composition
+  \item For each $(\alpha, f) \in \Obj(c' \downarrow \mathcal{F})$, the morphism $\xi_{(\alpha, f)}\colon\mathcal{D}(c') \to \evl{\mathcal{D}}_{(c' \downarrow \mathcal{F})}(\alpha, f) = \mathcal{D}(\alpha)$ is given by the composition
     \begin{equation*}
       \begin{tikzcd}
-        \mathcal{G}(c)
+        \mathcal{G}(c')
         \arrow[r, "\mathcal{G}(f)"]
-        & \mathcal{G}(\mathcal{F}(e))
-        \arrow[r, "\eta_{e}"]
-        & \mathcal{D}(e)
+        & \mathcal{G}(\mathcal{F}(\alpha))
+        \arrow[r, "\eta_{\alpha}"]
+        & \mathcal{D}(\alpha)
       \end{tikzcd}.
+    \end{equation*}
+\end{itemize}
+
+Dually, considering now a \emph{left} extension $(\mathcal{G}, \eta)$ of $\mathcal{D}$ along $\mathcal{F}$, we get a cone as follows.
+\begin{itemize}
+  \item The tip is $\mathcal{G}(c')$
+
+  \item For each $(\alpha, f) \in \Obj(\mathcal{F} \downarrow c')$, the morphism $\xi_{\alpha, f}\colon \mathcal{D}(\alpha) \to \mathcal{D}(c')$ is given by the composition
+    \begin{equation*}
+      \begin{tikzcd}
+        \mathcal{D}(\alpha)
+        \arrow[r, "\eta_{\alpha}"]
+        & (\mathcal{G} \circ \mathcal{F})(\alpha)
+        \arrow[r, "\mathcal{G}(f)"]
+        & \mathcal{G}(c')
+      \end{tikzcd}
     \end{equation*}
 \end{itemize}
 
 \begin{lemma}
   \label{lemma:right_extension_induces_cone}
-  The cone described above really is a cone. That is, for each morphism $g\colon (e, f) \to (e', f')$,
+  The cone described above really is a cone. That is, for each morphism $g\colon (\alpha, f) \to (\alpha', f')$ as follows
   \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
-      & c
+      & c'
       \arrow[ld, swap, "f"]
       \arrow[rd, "f'"]
       \\
-      \mathcal{F}(e)
+      \mathcal{F}(\alpha)
       \arrow[rr, swap, "\mathcal{F}(g)"]
-      && \mathcal{F}(e')
+      && \mathcal{F}(\alpha')
     \end{tikzcd}
   \end{equation*}
   the diagram
   \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
-      & \mathcal{D}(c)
-      \arrow[dl, swap, "\xi_{(e, f)}"]
-      \arrow[dr, "\xi_{(e', f')}"]
+      & \mathcal{G}(c')
+      \arrow[dl, swap, "\xi_{(\alpha, f)}"]
+      \arrow[dr, "\xi_{(\alpha', f')}"]
       \\
-      \mathcal{D}(e)
+      \mathcal{D}(\alpha)
       \arrow[rr, swap, "\mathcal{D}(g)"]
-      && \mathcal{D}(e')
+      && \mathcal{D}(\alpha')
     \end{tikzcd}
   \end{equation*}
   commutes.
 \end{lemma}
+
 \begin{proof}
   Consider the following diagram.
   \begin{equation*}
     \begin{tikzcd}[column sep=tiny]
-      & \mathcal{D}(c)
+      & \mathcal{G}(c')
       \arrow[ld, swap, "\mathcal{G}(f)"]
       \arrow[rd, "\mathcal{G}(f')"]
       \\
-      (\mathcal{G} \circ \mathcal{F})(e)
-      \arrow[rr, swap, "\mathcal{G} \circ \mathcal{F}(e)"]
-      \arrow[d, swap, "\eta_{e}"]
-      && \mathcal{G} \circ \mathcal{F}(e')
-      \arrow[d, "\eta_{e'}"]
+      (\mathcal{G} \circ \mathcal{F})(\alpha)
+      \arrow[rr, swap, "\mathcal{G} \circ \mathcal{F}(\alpha)"]
+      \arrow[d, swap, "\eta_{\alpha}"]
+      && \mathcal{G} \circ \mathcal{F}(\alpha')
+      \arrow[d, "\eta_{\alpha'}"]
       \\
-      \mathcal{D}(e)
+      \mathcal{D}(\alpha)
       \arrow[rr, swap, "\mathcal{D}(f)"]
-      &&\mathcal{D}(e')
+      &&\mathcal{D}(\alpha')
     \end{tikzcd}
   \end{equation*}
   The upper triangle is the functor $\mathcal{D}$ applied to the definition of commutativity in a category of morphisms, and the lower square is the naturality square for $\eta$.
 \end{proof}
+
+\begin{example}
+  In the case that $\mathsf{C}'$ is a discrete groupoid, we have the following.
+
+  \begin{itemize}
+    \item The category $\mathsf{C}_{c'}$ is equivalent (in fact isomorphic) to both of the categories $(\mathcal{F} \downarrow c')$ and $(c' \downarrow \mathcal{F})$.
+
+    \item The cone which constructed above over $\evl{\mathcal{D}}_{(c' \downarrow \mathcal{F})}$ agrees with the cones $\eta^{i}$ from \hyperref[eg:kan_extension_along_functor_to_discrete_groupoid]{Example~\ref*{eg:kan_extension_along_functor_to_discrete_groupoid}}.
+
+    \item The cocone under $\evl{\mathcal{D}}_{(\mathcal{F} \downarrow c')}$ agrees with the cocones that we would have constructed if we had more time.
+  \end{itemize}
+
+  That is, the (co)cones we have constructed are a more general case of those we got from considering discrete groupoids.
+\end{example}
 
 \begin{lemma}
   \label{lemma:morphism_induces_functor_between_comma_categories}
@@ -295,16 +442,34 @@ To each such $c \in \Obj(\mathsf{C}')$, there is an associated cone $\xi$ over $
   \end{itemize}
 \end{lemma}
 \begin{proof}
-  \begin{equation*}
-    \begin{tikzcd}
-      \mathcal{F}
-    \end{tikzcd}
-  \end{equation*}
+  Obvious.
 \end{proof}
 
-We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c \in \Obj(\mathsf{C}')$, we could construct a cone. This cone turns out to encode a lot of interesting properties about the extension $(\mathcal{G}, \eta)$. In fact, we have the following rather astonishing result.
+We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c' \in \Obj(\mathsf{C}')$, we could construct a cone. We hoped that this cone would hope turn out to be the analog of the cones over $\mathsf{C}_{i}$ from \hyperref[eg:kan_extension_along_functor_to_discrete_groupoid]{Example~\ref*{eg:kan_extension_along_functor_to_discrete_groupoid}}. This turns out to be the case.
 
 \begin{theorem}
+  Consider categories and functors as follows,
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, "\mathcal{D}"]
+      && \mathsf{D}
+      \\
+      & \mathsf{C}'
+    \end{tikzcd}
+  \end{equation*}
+  where $\mathsf{C}$ is small and $\mathsf{D}$ has all small colimits. Then the Kan extension $\mathcal{F}_{!}\mathcal{D}$ exists and has values
+  \begin{equation*}
+    (\mathcal{F}_{!}\mathcal{D})(c') = \lim_{\rightarrow} \left( \begin{tikzcd} (\mathcal{F} \downarrow c') \arrow[r] & \mathsf{C} \arrow[r, "\mathcal{D}"] & \mathsf{D} \end{tikzcd} \right)
+  \end{equation*}
+\end{theorem}
+\begin{proof}
+  We first have to define how $\mathcal{F}_{!}\mathcal{D}$ behaves on morphisms. To this end, let $f\colon c' \to c''$. Then by \hyperref[lemma:morphism_induces_functor_between_comma_categories]{Lemma~\ref*{lemma:morphism_induces_functor_between_comma_categories}}, $f$ induces a
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:extension_whose_cones_are_limits_is_kan}
   Let $(\mathcal{G}, \eta)$ be a right extension as below.
   \begin{equation*}
     \begin{tikzcd}
@@ -315,21 +480,31 @@ We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c \i
       \\
       & \mathsf{C'}
       \arrow[ur, swap, "\mathcal{G}"]
-      \arrow[d, to=U, Rightarrow, swap, "\eta"] 
+      \arrow[d, to=U, Rightarrow, swap, "\eta"]
     \end{tikzcd}
   \end{equation*}
-  If for every $c \in \Obj(\mathsf{C'})$ the cone 
+  If for every $c' \in \Obj(\mathsf{C'})$ the cone with tip $\mathcal{G}(c')$ over the functor given by the composition
+  \begin{equation*}
+    (c' \downarrow \mathcal{F}) \to \mathsf{C} \to \mathsf{D}
+  \end{equation*}
+  with sides
+  \begin{equation*}
+    \xi_{(\alpha, f)} = \left( \begin{tikzcd} \mathcal{G}(c') \arrow[r, "\mathcal{G}(f)"] & (\mathcal{G} \circ \mathcal{F})(\alpha) \arrow[r, "\eta_{\alpha}"] & \mathcal{D}(\alpha) \end{tikzcd} \right)
+  \end{equation*}
 
   is a limit cone, then $(\mathcal{G}, \eta)$ is a right Kan extension.
-\end{theorem}
+\end{lemma}
 \begin{proof}
-
+  Let $(\mathcal{G}', \eta')$ be any other extension. We need to show that there is a unique natural transformation $\chi$ as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{G}' \circ \mathcal{F}
+      && \mathcal{G} \circ \mathcal{F}
+    \end{tikzcd}
+  \end{equation*}
 \end{proof}
 
-\section{A pointwise formula for Kan extensions}
-\label{sec:a_pointwise_formula_for_kan_extensions}
-
-This is a 
+This is a
 
 
 \end{document}
