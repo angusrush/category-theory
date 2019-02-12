@@ -504,7 +504,96 @@ We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c' \
   \end{equation*}
 \end{proof}
 
-This is a
+\section{Properties of Kan extensions}
+\label{sec:properties_of_kan_extensions}
 
+\begin{definition}[Yoneda extension]
+  \label{def:yoneda_extension}
+  One calls left Kan extensions along the Yoneda embedding (\hyperref[def:yonedaembedding]{Definition~\ref*{def:yonedaembedding}}) \defn{Yoneda extensions}.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:colimit_of_comma_category}
+  Let $\mathsf{C}$ be a locally small category. Denote by $\mathcal{Y}$ the Yoneda embedding $\mathsf{C} \to [\mathsf{C}^{\op}, \mathsf{Set}]$. We have
+  \begin{equation*}
+    \lim_{\rightarrow} \left[ (\mathcal{Y} \downarrow \mathcal{F}) \overset{\mathcal{U}}{\to} \mathsf{C} \overset{\mathcal{Y}}{\to} [\mathsf{C}^{\op}, \mathsf{Set}] \right] = \mathcal{F}.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  We need to show that $\mathcal{F}$ is naturally the base of a universal cocone under $\mathcal{Y} \circ \mathcal{U}$. That $\mathcal{F}$ is the base of a cocone is obvious, since every object $(\alpha, f)$ comes with a map $f\colon \mathcal{Y}(\alpha) \to \mathcal{F}$ as required, and the diagram below manifestly commutes for each morphism $g$.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{Y}(\alpha)
+      \arrow[rd, swap, Rightarrow, "f"]
+      \arrow[rr, Rightarrow, "\mathcal{Y}(g)"]
+      && \mathcal{Y}(\alpha')
+      \arrow[ld, Rightarrow, "f'"]
+      \\
+      & \mathcal{F}
+    \end{tikzcd}
+  \end{equation*}
+  That is, $f' \circ \mathcal{Y}(g) = f$
+  It remains to show that $\mathcal{F}$ is universal, i.e.\ that for any other cocone with tip $\mathcal{G} \in [\mathsf{C}^{\op}, \mathsf{Set}]$ and components
+  \begin{equation*}
+    \xi_{(\alpha, f)}\colon \mathcal{Y}(c) \Rightarrow \mathcal{G}
+  \end{equation*}
+  making the diagrams
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{Y}(\alpha)
+      \arrow[rd, swap, Rightarrow, "\xi_{(\alpha, f)}"]
+      \arrow[rr, Rightarrow, "\mathcal{Y}(g)"]
+      && \mathcal{Y}(\alpha')
+      \arrow[ld, Rightarrow, "\xi_{(\alpha', f')}"]
+      \\
+      & \mathcal{G}
+    \end{tikzcd}
+  \end{equation*}
+  commute (i.e.\ so that $\xi_{(\alpha', f')} \circ \mathcal{Y}(g) = \xi_{(\alpha, f)}$), this data is enough to define a unique natural transformation $\mathcal{F} \Rightarrow \mathcal{G}$.
+
+  But each object $(\alpha, f)$ also gives us, again by Yoneda, an element of $\mathcal{G}(\alpha)$. Thus, we are able to assign to each element of $\mathcal{F}(\alpha)$ a unique element of $\mathcal{G}(\alpha)$, giving us a map $\mathcal{F}(\alpha) \to \mathcal{G}(\alpha)$. This gives us a correspondence
+  \begin{equation*}
+    \Hom_{[\mathsf{C}^{\op}, \mathsf{Set}]}(\mathcal{Y}(\alpha), \mathcal{F}) \to \Hom_{[\mathsf{C}^{\op}, \mathsf{Set}]}(\mathcal{Y}(\alpha), \mathcal{G}),
+  \end{equation*}
+  natural in $\alpha$. By Yoneda, we get a natural transformation $\mathcal{F} \Rightarrow \mathcal{G}$.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:right_adjoint_to_yoneda_extension}
+  Let $\mathsf{I}$ be a small category, and let $\mathsf{C}$ be locally small and cocomplete. Let $\mathcal{F}$ be a functor. Then the Yoneda extension $\mathcal{Y}_{!}\mathcal{F}$ is left adjoint to the functor
+  \begin{equation*}
+    \mathcal{G}\colon \mathsf{C} \to [\mathsf{I}^{\op}, \mathsf{Set}];\qquad c \mapsto \Hom_{\mathsf{C}}(F(-), c).
+  \end{equation*}
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{I}
+      \arrow[rr, "\mathcal{F}"]
+      \arrow[dr, swap, "\mathcal{Y}"]
+      && \mathsf{C}
+      \\
+      & {[\mathsf{I}^{\mathrm{op}}, \mathsf{Set}]}
+      \arrow[ur, swap, "\mathcal{Y}_{!}\mathcal{F}"]
+    \end{tikzcd}
+    \qquad
+    \begin{tikzcd}
+      \mathcal{Y}_{!}\mathcal{F} : [\mathsf{I}^{\op}, \mathsf{Set}] \leftrightarrow \mathsf{C} : \mathcal{G}
+    \end{tikzcd}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Since $\mathsf{C}$ is cocomplete, we are entitled to use the colimit formula for left Kan extensions. That is, we can write
+  \begin{equation*}
+    (\mathcal{Y}_{!}\mathcal{F})(\mathcal{H}) = \lim_{\rightarrow} \left[ (\mathcal{Y} \downarrow \mathcal{H}) \overset{\mathcal{U}}{\to} I \overset{\mathcal{F}}{\to} \mathsf{C} \right] = \lim_{\rightarrow}\left[ \mathcal{F} \circ \mathcal{U} \right].
+  \end{equation*}
+  Thus, we have the following string of natural isomorphisms.
+  \begin{align*}
+    \Hom_{\mathsf{C}}((\mathcal{Y}_{!}\mathcal{F})(\mathcal{H}), c) &\simeq \Hom_{\mathsf{C}}(\lim_{\rightarrow} [\mathcal{F} \circ \mathcal{U}], c) \\
+    &\simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(\mathcal{F}(-), c) \circ \mathcal{U} \\
+    &\simeq \lim_{\leftarrow} \mathcal{G}(c) \circ \mathcal{U} \\
+    &\simeq \lim_{\leftarrow} \Hom_{[\mathsf{I}^{\op}, \mathsf{Set}]}(\mathcal{Y}(-), \mathcal{G}(c)) \circ \mathcal{U}. \\
+    &\simeq \Hom_{[\mathsf{I}^{\op}, \mathsf{Set}]}(\lim_{\rightarrow}\mathcal{U} \circ \mathcal{Y}, \mathcal{G}(c)) \\
+    &\simeq \Hom_{[\mathsf{I}^{\op}, \mathsf{Set}]}(\mathcal{H}, \mathcal{G}(c)).
+  \end{align*}
+\end{proof}
 
 \end{document}
