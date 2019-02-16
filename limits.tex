@@ -363,6 +363,26 @@ In what follows, $\mathsf{C}$ will be a category and $A$, $B$, etc.\ objects in 
   Now consider the map $V \to U$ sending $v$ to $(s(v), t(v))$. This certainly makes the above diagram commute; furthermore, any other map from $V$ to $U$ would not make the diagram commute. Thus $U$ and $h$ together satisfy the universal property.
 \end{example}
 
+\begin{example}
+  Suppose $f\colon X \to Y$ is a monomorphism. Then the square
+  \begin{equation*}
+    \begin{tikzcd}
+      A
+      \arrow[r, "\id"]
+      \arrow[d, swap, "\id"]
+      & A
+      \arrow[d, "f"]
+      \\
+      A
+      \arrow[r, swap, "f"]
+      & B
+    \end{tikzcd}
+  \end{equation*}
+  is a pullback square.
+
+  Conversely, if the above square is a pullback square, then $f$ is a monomorphism.
+\end{example}
+
 \begin{lemma}
   Let $f\colon X \to Y$ be a monomorphism. Then any pullback of $f$ is a monomorphism.
 \end{lemma}
@@ -976,6 +996,52 @@ The importance of the category of ind-objects can be seen in the following examp
 \label{sec:miscellaneous_results}
 
 \begin{theorem}
+  \label{thm:limit_over_category_with_initial_object_is_that}
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. 
+  
+  \begin{itemize}
+    \item If $\mathsf{C}$ has an initial object $i$, then $\lim_{\leftarrow \mathcal{F}} = F(i)$.
+
+    \item If $\mathsf{C}$ has a terminal object $i$, then $\lim_{\rightarrow \mathcal{F}} = F(i)$.
+  \end{itemize}
+\end{theorem}
+\begin{proof}
+  For each $c \in \Obj(\mathsf{C})$, we get a unique morphism $i \to c$. Sticking these into $\mathcal{F}$ gives us a cone $\alpha_{c}\colon F(i) \to F(c)$ under $\mathcal{F}(i)$.
+
+  Now let $(d, \eta)$ be any other cone over $\mathcal{F}$. In particular, $\eta$ has a component
+  \begin{equation*}
+  \eta_{i}\colon d \to \mathcal{F}(i).
+\end{equation*}
+  In order to show that $\alpha$ is a limit cone, we need only show that this is the only possible morphism $d \to F(i)$ such that the triangles
+  \begin{equation*}
+    \begin{tikzcd}
+      & d
+      \arrow[ddl, bend right, swap, "\eta_{j}"]
+      \arrow[d, "\eta_{i}"]
+      \\
+      & F(i)
+      \arrow[dl, "\alpha_{c}"]
+      \\
+      F(c)
+    \end{tikzcd}
+  \end{equation*}
+  commute for all $c$. Let $f\colon d \to F(i)$ be any other such morphism. The triangle above must in particular commute when $c = i$, so $\alpha_{i} = F(\id_{i}) = \id_{F(i)}$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & d
+      \arrow[ddl, bend right, swap, "\eta_{i}"]
+      \arrow[d, "f"]
+      \\
+      & F(i)
+      \arrow[dl, "\id_{F(i)}"]
+      \\
+      F(i)
+    \end{tikzcd}
+  \end{equation*}
+  Thus, $f = \eta_{i}$.
+\end{proof}
+
+\begin{theorem}
   Let $\mathsf{C}$ and $\mathsf{D}$ be categories, with $\mathsf{D}$ small and $\mathsf{C}$ locally small.
   \begin{itemize}
     \item If $\mathsf{D}$ is complete, then so is $[\mathsf{C}, \mathsf{D}]$.
@@ -984,7 +1050,7 @@ The importance of the category of ind-objects can be seen in the following examp
   \end{itemize}
 \end{theorem}
 \begin{proof}
-
+  The idea is as follows. A cone in a functor category is built out of natural transformations. Evaluating on a component gives a cone in the target category. A cone in a functor category is a limit cone if and only if each component is a limit cone.
 \end{proof}
 
 \end{document}

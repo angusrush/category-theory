@@ -448,6 +448,7 @@ Dually, considering now a \emph{left} extension $(\mathcal{G}, \eta)$ of $\mathc
 We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c' \in \Obj(\mathsf{C}')$, we could construct a cone. We hoped that this cone would hope turn out to be the analog of the cones over $\mathsf{C}_{i}$ from \hyperref[eg:kan_extension_along_functor_to_discrete_groupoid]{Example~\ref*{eg:kan_extension_along_functor_to_discrete_groupoid}}. This turns out to be the case.
 
 \begin{theorem}
+  \label{thm:kan_extensions_exist_when_we_have_enough_limits}
   Consider categories and functors as follows,
   \begin{equation*}
     \begin{tikzcd}
@@ -504,23 +505,110 @@ We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c' \
   \end{equation*}
 \end{proof}
 
+\begin{definition}[limit over a comma category]
+  \label{def:limit_over_a_comma_category}
+  Consider categories and functors as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{C}
+      \arrow[dr, swap, "\mathcal{F}"]
+      \arrow[rr, "\mathcal{D}"]
+      && \mathsf{D}
+      \\
+      & \mathsf{C}'
+    \end{tikzcd}
+  \end{equation*}
+  We define the notations
+  \begin{equation*}
+    \lim_{c \in (\mathcal{F} \downarrow c')} \mathcal{D}(c) = \lim_{\leftarrow} \left[ (\mathcal{F} \downarrow c') \to \mathsf{C} \to \mathsf{D} \right]
+  \end{equation*}
+  and
+  \begin{equation*}
+    \colim_{c \in (c' \downarrow \mathcal{F})} \mathcal{F}(c) = \lim_{\rightarrow} \left[ (c' \downarrow \mathcal{F}) \to \mathsf{C} \to \mathsf{D} \right]
+  \end{equation*}
+\end{definition}
+
 \section{Properties of Kan extensions}
 \label{sec:properties_of_kan_extensions}
+
+Recall that our original motivation for defining Kan extensions was the problem of extending the domain of an inclusion. One would hope that this extension, restricted to the original domain, would agree with the original functor. In situations in which we are allowed to use the colimit formula, this turns out to be the case.
+
+\begin{theorem}
+  \label{thm:kan_extension_along_fully_faithful_functor_counit_isomorphism}
+  Let $\mathsf{C}$ be a small category, and $\mathsf{D}$ locally small. Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{C'}$ be fully faithful.
+  \begin{itemize}
+    \item If $\mathsf{D}$ has small limits, then the counit
+      \begin{equation*}
+        \epsilon\colon \mathcal{F}^{*} \circ \mathcal{F}_{*} \Rightarrow \id_{\mathsf{C}'}
+      \end{equation*}
+      is a natural isomorphism.
+
+    \item If $\mathsf{D}$ has small colimits, then the unit
+      \begin{equation*}
+        \eta\colon \id_{\mathsf{D}} \Rightarrow \mathcal{F}^{*} \circ \mathcal{F}_{!}
+      \end{equation*}
+      is a natural isomorphism.
+  \end{itemize}
+\end{theorem}
+\begin{proof}
+  We need to show that each component
+  \begin{equation*}
+    \epsilon_{\mathcal{D}}\colon (\mathcal{F}^{*} \circ \mathcal{F}_{*})(\mathcal{D}) \Rightarrow \id_{\mathsf{C}'}
+  \end{equation*}
+  is a natural isomorphism. By definition of the pullback, we have
+  \begin{equation*}
+    (\mathcal{F}^{*} \circ \mathcal{F}_{*})(\mathcal{D}) = \mathcal{F}^{*}(\mathcal{F}_{*}\mathcal{D}) = \mathcal{F}_{*}\mathcal{D} \circ \mathcal{F}.
+  \end{equation*}
+
+  Consider some $c' \in \Obj(\mathsf{C}')$. By \hyperref[thm:kan_extensions_exist_when_we_have_enough_limits]{Theorem~\ref*{thm:kan_extensions_exist_when_we_have_enough_limits}}, we can compute $\mathcal{F}_{*}\mathcal{D}(c')$ via the limit formula
+  \begin{equation*}
+    \mathcal{F}_{*}\mathcal{D}(c') = \lim_{c \in (\mathcal{F} \downarrow c')} \mathcal{D}(c).
+  \end{equation*}
+  In particular, if $c' = \mathcal{F}(c)$ for some $c$, we have
+  \begin{equation*}
+    \mathcal{F}_{*}\mathcal{D}(\mathcal{F}(c)) = \lim_{c \in (\mathcal{F} \downarrow \mathcal{F}(c))} \mathcal{D}(c) = \lim\left[ (\mathcal{F} \downarrow \mathcal{F}(c)) \to \mathcal{C} \to \mathcal{D} \right].
+  \end{equation*}
+  Since the object $(c, \id_{\mathcal{F}(c)})$ is initial in $(\mathcal{F} \downarrow \mathcal{F}(c))$ we have by \hyperref[thm:limit_over_category_with_initial_object_is_that]{Theorem~\ref*{thm:limit_over_category_with_initial_object_is_that}} that
+  \begin{equation*}
+    \lim\left[ (\mathcal{F} \downarrow \mathcal{F}(c)) \to \mathcal{C} \to \mathcal{D} \right] = \mathcal{D}(c).
+  \end{equation*}
+  Thus, we have
+  \begin{equation*}
+    (\mathcal{F}^{*} \circ \mathcal{F}_{*})(\mathcal{D})(c) \simeq \mathcal{D}(c)
+  \end{equation*}
+  for all $c \in \Obj(\mathsf{C})$
+\end{proof}
+
+\begin{corollary}
+  Let $\mathsf{C}$ be a small category, and $\mathsf{D}$ locally small. Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{C'}$ be fully faithful.
+  \begin{itemize}
+    \item If $\mathsf{D}$ has small limits, then $\mathcal{F}_{*}$ is fully faithful.
+
+    \item If $\mathsf{D}$ has small colimits, then $\mathcal{F}_{!}$ fully faithful.
+  \end{itemize}
+\end{corollary}
+
+\section{Yoneda extensions}
+\label{sec:yoneda_extensions}
+
+One particularly important example of Kan extension is Kan extension along the Yoneda embedding.
 
 \begin{definition}[Yoneda extension]
   \label{def:yoneda_extension}
   One calls left Kan extensions along the Yoneda embedding (\hyperref[def:yonedaembedding]{Definition~\ref*{def:yonedaembedding}}) \defn{Yoneda extensions}.
 \end{definition}
 
+One can express any presheaf as a colimit.
+
 \begin{lemma}
   \label{lemma:colimit_of_comma_category}
-  Let $\mathsf{C}$ be a locally small category. Denote by $\mathcal{Y}$ the Yoneda embedding $\mathsf{C} \to [\mathsf{C}^{\op}, \mathsf{Set}]$. We have
+  Let $\mathsf{C}$ be a locally small category. Denote by $\mathcal{Y}$ the Yoneda embedding $\mathsf{C} \to [\mathsf{C}^{\op}, \mathsf{Set}]$. Then for any functor $\mathcal{F}\colon \mathsf{C}^{\op} \to \mathsf{Set}$ we have
   \begin{equation*}
-    \lim_{\rightarrow} \left[ (\mathcal{Y} \downarrow \mathcal{F}) \overset{\mathcal{U}}{\to} \mathsf{C} \overset{\mathcal{Y}}{\to} [\mathsf{C}^{\op}, \mathsf{Set}] \right] = \mathcal{F}.
+    \mathcal{F} \simeq \lim_{\rightarrow} \left[ (\mathcal{Y} \downarrow \mathcal{F}) \overset{\mathcal{U}}{\to} \mathsf{C} \overset{\mathcal{Y}}{\to} [\mathsf{C}^{\op}, \mathsf{Set}] \right].
   \end{equation*}
 \end{lemma}
 \begin{proof}
-  We need to show that $\mathcal{F}$ is naturally the base of a universal cocone under $\mathcal{Y} \circ \mathcal{U}$. That $\mathcal{F}$ is the base of a cocone is obvious, since every object $(\alpha, f)$ comes with a map $f\colon \mathcal{Y}(\alpha) \to \mathcal{F}$ as required, and the diagram below manifestly commutes for each morphism $g$.
+  We need to show that $\mathcal{F}$ is the base of a universal cocone under $\mathcal{Y} \circ \mathcal{U}$. That $\mathcal{F}$ is the base of a cocone is obvious, since every object $(\alpha, f)$ comes with a map $f\colon \mathcal{Y}(\alpha) \to \mathcal{F}$ as required, and the diagram below manifestly commutes for each morphism $g$.
   \begin{equation*}
     \begin{tikzcd}
       \mathcal{Y}(\alpha)
@@ -594,6 +682,47 @@ We saw above that given any extension $(\mathcal{G}, \eta)$ and any object $c' \
     &\simeq \Hom_{[\mathsf{I}^{\op}, \mathsf{Set}]}(\lim_{\rightarrow}\mathcal{U} \circ \mathcal{Y}, \mathcal{G}(c)) \\
     &\simeq \Hom_{[\mathsf{I}^{\op}, \mathsf{Set}]}(\mathcal{H}, \mathcal{G}(c)).
   \end{align*}
+\end{proof}
+
+\begin{corollary}
+  \label{cor:yoneda_extension_results_in_cocontinuous_functor}
+  Let $\mathsf{I}$ be a small category, and let $\mathsf{C}$ be locally small and cocomplete. Let $\mathcal{F}$ be a functor. Then the Yoneda extension $\mathcal{Y}_{!}\mathcal{F}$ is cocontiuous.
+\end{corollary}
+
+\begin{theorem}
+  \label{thm:yoneda_extension_of_restriction_preserves_colimits}
+  Let $\mathsf{C}$ be a small category, and let $\mathsf{D}$ be cocomplete. Let $\mathcal{F}\colon [\mathsf{C}^{\op}, \mathsf{Set}] \to \mathsf{D}$ be any functor. Then $\mathcal{F}$ preserves colimits if and only if it is the left Yoneda extension of its restriction $\mathcal{Y}^{*}F$.
+\end{theorem}
+\begin{proof}
+  Assume that $\mathcal{F} = (\mathcal{Y}_{!}\mathcal{Y}^{*})(\mathcal{F})$. By \hyperref[lemma:right_adjoint_to_yoneda_extension]{Lemma~\ref*{lemma:right_adjoint_to_yoneda_extension}}, $(\mathcal{Y}_{!}\mathcal{Y}^{*})(\mathcal{F})$ is a left adjoint, hence preserves colimits by \hyperref[cor:leftadjointspreservecolimits]{Corollary~\ref*{cor:leftadjointspreservecolimits}}.
+  
+  Now assume that $\mathcal{F}$ preserves colimits. Pick some functor $\mathcal{G}\colon \mathsf{C}^{\mathrm{op}} \to \mathsf{Set}$. By \hyperref[lemma:colimit_of_comma_category]{Lemma~\ref*{lemma:colimit_of_comma_category}}, we can write
+  \begin{align*}
+    \mathcal{F}(\mathcal{G}) &\simeq \mathcal{F}\left( \lim_{\rightarrow}\left[ (\mathcal{Y} \downarrow \mathcal{G}) \to \mathsf{C} \overset{\mathcal{Y}}{\to} [\mathsf{C}^{\mathrm{op}}, \mathsf{Set}] \right] \right) \\
+    &\simeq \lim_{\rightarrow} \left[ (\mathcal{Y} \downarrow \mathcal{G}) \to \mathsf{C} \overset{\mathcal{Y}}{\to} [\mathsf{C}^{\mathrm{op}}, \mathsf{Set}] \overset{\mathcal{F}}{\to} \mathsf{D} \right] \\
+    &\simeq \lim_{\rightarrow} \left[ (\mathcal{Y} \downarrow \mathcal{G}) \to \mathsf{C} \overset{\mathcal{Y}^{*}\mathcal{F}}{\to} \mathsf{D} \right] \\
+    &\simeq \mathcal{Y}_{!}(\mathcal{Y}^{*}\mathcal{F})(\mathcal{G}).
+  \end{align*}
+\end{proof}
+
+\begin{corollary}
+  Let $\mathsf{C}$ be a small category, and $\mathsf{D}$ locally small. There is an equivalence of categories
+  \begin{equation*}
+    [[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \mathsf{D}]_{\mathrm{cocontinuous}} \simeq [\mathsf{C}, \mathsf{D}].
+  \end{equation*}
+  That is, colimit preserving functors $[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}] \to \mathsf{D}$ are equivalent to functors $\mathsf{C} \to \mathsf{D}$.
+\end{corollary}
+\begin{proof}
+  We have an adjunction
+  \begin{equation*}
+    \mathcal{Y}_{!}: [\mathsf{C}, \mathsf{D}] \leftrightarrow [[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \mathsf{D}] : \mathcal{Y}^{*}.
+  \end{equation*}
+
+  By \hyperref[cor:yoneda_extension_results_in_cocontinuous_functor]{Corollary~\ref*{cor:yoneda_extension_results_in_cocontinuous_functor}}, the image of $\mathcal{Y}_{!}$ is completely contained in $[[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \mathsf{D}]_{\mathrm{cocontinuous}}$, so the above adjunction extends to an adjunction
+  \begin{equation*}
+    \mathcal{Y}_{!}: [\mathsf{C}, \mathsf{D}] \leftrightarrow [[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}], \mathsf{D}]_{\mathrm{cocontinuous}} : \mathcal{Y}^{*}.
+  \end{equation*}
+  We know that the Yoneda embedding is fully faithful. Thus, by \hyperref[thm:kan_extension_along_fully_faithful_functor_counit_isomorphism]{Theorem~\ref*{thm:kan_extension_along_fully_faithful_functor_counit_isomorphism}}, we have that the unit is an isomorphism. Also, by \hyperref[thm:yoneda_extension_of_restriction_preserves_colimits]{Theorem~\ref*{thm:yoneda_extension_of_restriction_preserves_colimits}}, the counit is an isomorphism, so the above adjunction is in fact an equivalence of categories.
 \end{proof}
 
 \end{document}

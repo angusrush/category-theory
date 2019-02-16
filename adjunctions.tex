@@ -866,15 +866,16 @@ In this section, we will explore the relationship between adjunctions and catego
 \end{proof}
 
 \begin{proposition}
+  \label{prop:conditions_for_fully_faithfulness_based_on_unit_or_counit}
   Let
   \begin{equation*}
     \mathcal{F} : \mathsf{C} \leftrightarrow \mathsf{D} : \mathcal{G}
   \end{equation*}
   be an adjunction.
   \begin{enumerate}
-    \item The functor $\mathcal{F}$ is fully faithful if and only if the unit $\eta\colon \id_{\mathsf{C}} \to \mathcal{G} \circ \mathcal{F}$ is a natural isomorphism.
+    \item The functor $\mathcal{F}$ is fully faithful if and only if the unit $\eta\colon \id_{\mathsf{C}} \Rightarrow \mathcal{G} \circ \mathcal{F}$ is a natural isomorphism.
 
-    \item The functor $\mathcal{G}$ is fully faithful if and only if the counit $\epsilon\colon \mathcal{F} \circ \mathcal{G} \to \id_{\mathsf{D}}$ is a natural isomorphism
+    \item The functor $\mathcal{G}$ is fully faithful if and only if the counit $\epsilon\colon \mathcal{F} \circ \mathcal{G} \Rightarrow \id_{\mathsf{D}}$ is a natural isomorphism
   \end{enumerate}
 \end{proposition}
 \begin{proof}
