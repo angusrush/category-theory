@@ -815,6 +815,17 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 
 \section{The hom functor preserves limits}
 
+For any functor $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$, recall that we defined the category of cones over $\mathcal{F}$ to be the category $(\Delta \downarrow \mathcal{F})$. If we pick an object $d \in \mathsf{D}$, the set of cones with tip $d$ is then $(\Delta_{d} \downarrow \mathcal{F})$.
+
+\begin{lemma}
+  \label{lemma:natural_bijection_between_cone_set_and_hom_set}
+  Let $\mathcal{F}\colon I \to \mathsf{C}$ be functor. Then $\mathcal{F}$ has a limit if and only if the functor
+  \begin{equation*}
+    \lim_{* \in I} \Hom_{\mathsf{C}}(-, F(*))
+  \end{equation*}
+  is representable.
+\end{lemma}
+
 \begin{theorem}
   \label{thm:homfunctorpreserveslimits}
   Let $\mathsf{C}$ be a locally small category. The hom functor $\Hom_{\mathsf{C}}\colon \mathsf{C}^{\mathrm{op}} \times \mathsf{C} \rightarrow \mathsf{Set}$ preserves limits in the second argument, i.e.~for $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ a diagram in $\mathsf{C}$ we have a natural isomorphism
@@ -829,7 +840,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
 \begin{proof}
   Let $L$ be the limit over the diagram $\mathcal{D}$. Then for any map $f\colon Y \to L$, there is a cone from $Y$ to $\mathcal{D}$ by composition, and for any cone with tip $Y$ over $\mathcal{D}$ we get a map $f\colon Y \to L$ from the universal property of limits. Thus, there is a bijection
   \begin{equation*}
-    \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow}\mathcal{D}) \simeq \mathrm{Cones}(Y, \mathcal{D}),
+    \Hom_{\mathsf{C}}(Y, \lim_{\leftarrow}\mathcal{D}) \simeq (Y \downarrow \mathcal{D}),
   \end{equation*}
   which is natural in $Y$ since the diagram
   \begin{equation*}
@@ -840,14 +851,14 @@ The following proof was adapted from~\cite{awodey-category-theory}.
       & \Hom_{\mathsf{C}}(Z, \lim_{\leftarrow}\mathcal{D})
       \arrow[d]
       \\
-      \mathrm{Cones}(Y, \mathcal{D})
+      (Y \downarrow \mathcal{D})
       \arrow[r, "(-) \circ f"]
-      & \mathrm{Cones}(Z, \mathcal{D})
+      & (Z \downarrow \mathcal{D})
     \end{tikzcd}
   \end{equation*}
   trivially commutes. We will be done if we can show that there is also a natural isomorphism
   \begin{equation*}
-    \mathrm{Cones}(Y, \mathcal{D}) \simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(Y, \mathcal{D}).
+    (Y \downarrow \mathcal{D}) \simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(Y, \mathcal{D}).
   \end{equation*}
 
   Let us understand the elements of the set $\lim_{\leftarrow}\Hom_{\mathsf{C}}(Y, \mathcal{D})$. The diagram
@@ -884,9 +895,9 @@ The following proof was adapted from~\cite{awodey-category-theory}.
       & & \mathcal{D}(J_{j})
     \end{tikzcd}
   \end{equation*}
-  commute. But this is exactly an element of $\mathrm{Cones}(Y, \mathcal{D})$. Conversely, every element of $\mathrm{Cones}(Y, \mathcal{D})$ gives us an element of $S$, so we have a bijection
+  commute. But this is exactly an element of $(Y \downarrow \mathcal{D})$. Conversely, every element of $(Y \downarrow \mathcal{D})$ gives us an element of $S$, so we have a bijection
   \begin{equation*}
-    \mathrm{Cones}(Y, \mathcal{D}) \simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(Y, \mathcal{D}),
+    (Y \downarrow \mathcal{D}) \simeq \lim_{\leftarrow} \Hom_{\mathsf{C}}(Y, \mathcal{D}),
   \end{equation*}
   which is natural as required.
 \end{proof}
@@ -1051,6 +1062,34 @@ The importance of the category of ind-objects can be seen in the following examp
 \end{theorem}
 \begin{proof}
   The idea is as follows. A cone in a functor category is built out of natural transformations. Evaluating on a component gives a cone in the target category. A cone in a functor category is a limit cone if and only if each component is a limit cone.
+\end{proof}
+
+Let $\mathcal{F}\colon J \to \mathcal{C}$ be any functor. The functor $\mathcal{F}$ induces a functor $\mathcal{G}\colon \mathsf{C}^{\op} \to \mathsf{Set}$ defined on objects via
+\begin{equation*}
+  \mathcal{G}\colon c \mapsto \lim \Hom_{\mathsf{C}}(c, F(-)).
+\end{equation*}
+To define $\mathcal{G}$ on morphisms, note that we can write the functor over which we are taking the limit as $h^{c} \circ F$, where $h^{c}$ is the covariant Yoneda embedding (\hyperref[note:covariantyonedaembedding]{~\ref*{note:covariantyonedaembedding}}). The functoriality of the covariant Yoneda embedding gives us, for any map $f\colon c \to d$ a natural transformation $h^{d} \circ \mathcal{F} \to h^{c} \circ \mathcal{F}$. This in turn induces a morphism of limits $\lim h^{d} \circ \mathcal{F} \to \lim h^{c} \circ \mathcal{F}$, which we define to be $\mathcal{G}(f)$.
+
+\begin{theorem}
+  Let $\mathcal{F}\colon J \to \mathsf{C}$ be a functor as above. Then the limit $\lim \mathcal{F}$ exists if and only if the functor $\mathcal{G}$ is representable.
+\end{theorem}
+\begin{proof}
+  First, suppose that the limit $\lim \mathcal{F}$ exists. Then we have
+  \begin{align*}
+    \Hom_{\mathsf{C}}(-, \lim \mathcal{F}) &\simeq \lim \hom_{\mathsf{C}}(\,\cdot\,, F(-)) \\
+    &\simeq \mathcal{G},
+  \end{align*}
+  so $\mathcal{G}$ is represented by $\lim \mathcal{F}$.
+
+  Conversely, suppose that $\mathcal{G}$ is representable, i.e.\ there exists a natural isomorphism
+  \begin{equation*}
+    \mathcal{G} \simeq \Hom_{\mathsf{C}}(-, X)
+  \end{equation*}
+  for some $X \in \Obj(\mathsf{C})$. By definition of $\mathcal{G}$, this is a natural isomorphism
+  \begin{equation*}
+    \lim_{*} \Hom_{\mathsf{C}}(-, F(*)) \simeq \Hom_{\mathsf{C}}(-, X).
+  \end{equation*}
+  But by the above
 \end{proof}
 
 \end{document}
