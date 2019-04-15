@@ -32,30 +32,79 @@ Recall that $\mathsf{Ab}$ is the category of abelian groups.
   In any $\mathsf{Ab}$-enriched category, every hom-set has at least one element---the identity element of the hom-set taken as an abelian group.
 \end{note}
 
-\begin{definition}[endomorphism ring]
-  \label{def:endomorphismring}
-  Let $\mathsf{C}$ be an $\mathsf{Ab}$-enriched category, and let $A \in \Obj(\mathsf{C})$. The \defn{endomorphism ring} of $A$, denoted $\mathrm{End}(A)$, is $\Hom_{\mathsf{C}}(A, A)$, with addition given by the abelian structure and multiplication given by composition.
-\end{definition}
-
 \begin{lemma}
   \label{lemma:abeliancategorycoproductsareproducts}
-  In an $\mathsf{Ab}$-enriched category $\mathsf{C}$, a finite product is also a coproduct, and vice versa. In particular, initial objects and terminal objects coincide.
+  Let $\mathsf{C}$ be an $\mathsf{Ab}$-enriched category with finite products. Then the product $X_{1} \times \cdots \times X_{n}$ satisfies the universal property for coproducts. In particular, initial objects and terminal objects coincide.
 \end{lemma}
 \begin{proof}
-  %First, we show that initial and terminal objects coincide. Let $\emptyset$ be initial and $*$ terminal in $\mathsf{C}$.
-  %
-  %Since $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ has only one element, it must be both the identity morphism on $\emptyset$ \emph{and} the identity element of $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ as an abelian group. Similarly, $\id_{*}$ must be the identity element of $\Hom_{\mathsf{C}}(*, *)$.
+  First, we show that initial and terminal objects coincide. Let $\emptyset$ be initial and $*$ terminal in $\mathsf{C}$.
 
-  %Since $\emptyset$ is initial and $*$ is final, $\Hom_{\mathsf{C}}(\emptyset, *)$ has exactly one element $f$. By \hyperref[note:inabenrichedcategorynoemptyhomsets]{Note \ref*{note:inabenrichedcategorynoemptyhomsets}}, we are guaranteed that $\Hom_{\mathsf{C}}(*, \emptyset)$ has at least one element.
+  Since $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ has only one element, it must be both the identity morphism on $\emptyset$ \emph{and} the identity element of $\Hom_{\mathsf{C}}(\emptyset, \emptyset)$ as an abelian group. Similarly, $\id_{*} = 0$ in $\Hom_{\mathsf{C}}(*, *)$.
 
-  See~\cite{nlab-additive-category}, Proposition 2.1 for details.
+  Since $\emptyset$ is initial and $*$ is final, $\Hom_{\mathsf{C}}(\emptyset, *)$ has exactly one element $f$. By \hyperref[note:inabenrichedcategorynoemptyhomsets]{Note \ref*{note:inabenrichedcategorynoemptyhomsets}}, we are guaranteed that $\Hom_{\mathsf{C}}(*, \emptyset)$ has at least one element, $g$. Then $g \circ f = 0 = \id$ and $f \circ g = 0 = \id$, so $f\colon \emptyset \to *$ is an isomorphism. Thus, initial and terminal objects coincide, so $\mathsf{C}$ has a zero object $0$.
+
+  We prove the lemma for binary products. The general case is preciesly the same.
+
+  For each $X$, $Y \in \mathcal{C}$, we can define $i_{X}\colon X \to X \times Y$ using the universal property for products as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      & X
+      \arrow[dl, swap, "\id"]
+      \arrow[d, dashed, "i_{X}"]
+      \arrow[dr, "0"]
+      \\
+      X
+      & X \times Y
+      \arrow[l]
+      \arrow[r]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+  Similarly, get $i_{Y}\colon Y \to X \times Y$.
+
+  The claim is that $X \times Y$, together with $i_{X}$ and $i_{Y}$, satisfies the universal property for coproducts; that is, that we can find a unique map $\phi$ making the below diagram commute.
+  \begin{equation*}
+    \begin{tikzcd}
+      X
+      \arrow[r, "i_{X}"]
+      \arrow[dr, swap, "f"]
+      & X \times Y
+      \arrow[d, dashed, "\phi"]
+      & Y
+      \arrow[l, swap, "i_{Y}"]
+      \arrow[dl, "g"]
+      \\
+      & Z
+    \end{tikzcd}
+  \end{equation*}
+  In fact, $\phi = f \circ \pi_{X} + g \circ \pi_{Y}$ satisfies the universal property. It is clear that this makes the diagram commute since $\pi_{X} \circ i_{X} = \id$, $\pi_{X} \circ i_{Y} = 0$, and similarly for $Y$.
+
+  Note that, by the universal property for products, there is a unique downward map. But both $\id_{X \times Y}$ and $i_{X} \circ \pi_{X} + i_{Y} \circ \pi_{Y}$ make it commute, so they must be equal.
+  \begin{equation*}
+    \begin{tikzcd}
+      & X \times Y
+      \arrow[dr, "\pi_{X}"]
+      \arrow[dl, swap, "\pi_{Y}"]
+      \arrow[d]
+      \\
+      X
+      & X \times Y
+      \arrow[r, swap, "\pi_{Y}"]
+      \arrow[l, "\pi_{X}"]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+
+  Now we are ready to show that $\phi$ is unique. Suppose we have another candidate $\psi$ which also makes the above diagram commute. Then
+  \begin{equation*}
+    \psi = \psi \circ \id_{X \times Y} = f \circ \pi_{X} + g \circ \pi_{Y} = \phi.
+  \end{equation*}
 \end{proof}
 
 \begin{definition}[additive category]
   \label{def:additivecategory}
-  A category $\mathsf{C}$ is \defn{additive} if it has biproducts (\hyperref[def:categorywithbiproducts]{Definition~\ref*{def:categorywithbiproducts}}) and is $\mathsf{Ab}$-enriched.
+  A category $\mathsf{C}$ is \defn{additive} if it has products and is $\mathsf{Ab}$-enriched.
 \end{definition}
-
 
 \begin{example}
   The category $\mathsf{Ab}$ of Abelian groups is an additive category. We have already seen that it has the direct sum $\oplus$ as biproduct. Given any two abelian groups $A$ and $B$ and morphisms $f$, $g\colon A \to B$, we can define the sum $f + g$ via
@@ -150,10 +199,10 @@ Recall that $\mathsf{Ab}$ is the category of abelian groups.
 \end{proof}
 
 \begin{corollary}
-  Every pre-abelian category has all finite limits.
+  Every pre-abelian category has all finite limits and colimits.
 \end{corollary}
 \begin{proof}
-  By \hyperref[thm:criterionforfinitelimits]{Theorem~\ref*{thm:criterionforfinitelimits}}, a category has finite limits if and only if it has finite products and equalizers. Pre-abelian categories have finite products by definition, and equalizers by \hyperref[lemma:preabeliancategorieshaveequalizers]{Lemma~\ref*{lemma:preabeliancategorieshaveequalizers}}.
+  By \hyperref[thm:criterionforfinitelimits]{Theorem~\ref*{thm:criterionforfinitelimits}}, a category has finite limits if and only if it has finite products and equalizers. Pre-abelian categories have finite products by definition, and equalizers by \hyperref[lemma:preabeliancategorieshaveequalizers]{Lemma~\ref*{lemma:preabeliancategorieshaveequalizers}}. The colimit case is dual.
 \end{proof}
 
 Recall from \hyperref[sec:biproducts]{Section~\ref*{sec:biproducts}} the following definition.
@@ -372,11 +421,7 @@ It is easy to see that the left- or right-composition of the zero morphism with 
 This section is under very heavy construction. Don't trust anything you read here.
 \begin{definition}[abelian category]
   \label{def:abeliancategory}
-  A pre-abelian category $\mathsf{C}$ is \defn{abelian} if for each morphism $f$, the canonical morphism guaranteed by \hyperref[lemma:everymorphisminapreabeliancategoryfactors]{Lemma~\ref*{lemma:everymorphisminapreabeliancategoryfactors}}
-  \begin{equation*}
-    \bar{f}\colon \coker(\ker(f)) \to \ker(\coker(f))
-  \end{equation*}
-  is an isomorphism.
+  A pre-abelian category $\mathsf{C}$ is \defn{abelian} if every monic is the kernel of its cokernel, and every epic is the cokernel of its kernel.
 \end{definition}
 
 \begin{note}
@@ -387,21 +432,69 @@ This section is under very heavy construction. Don't trust anything you read her
     \item it is $\mathsf{Ab}$-enriched \hyperref[def:additivecategory]{Definition~\ref*{def:additivecategory}}, i.e.\ each hom-set has the structure of an abelian group and composition is bilinear;
     \item it admits finite coproducts, hence (by \hyperref[lemma:abeliancategorycoproductsareproducts]{Lemma~\ref*{lemma:abeliancategorycoproductsareproducts}}) biproducts and zero objects;
     \item every morphism has a kernel and a cokernel;
-    \item for every morphism, $f$, the canonical morphism $\bar{f}\colon \coker(\ker(f)) \to \ker(\coker(f))$ is an isomorphism.
+    \item every monomorphism is the kernel of its cokernel, and every epimorphism is the cokernel of its kernel.
   \end{enumerate}
 \end{note}
 
+\begin{example}
+  \leavevmode
+  \begin{itemize}
+    \item Let $R$ be a ring. Then the categories $R\mhyp\mathrm{Mod}$ and $\mathrm{Mod}\mhyp R$ of left- and right $R$-modules respectively, are abelian.
+
+    \item If $\mathsf{A}$ is abelian, then $\mathrm{Ch}(\mathsf{A})$, the category of chain complexes in $\mathsf{A}$, is abelian.
+
+    \item If $I$ is a small category, then $\mathrm{Fun}(I, \mathsf{A})$ is abelian.
+      \begin{itemize}
+        \item With $I = BG$ for some group $G$, this gives the category of $\mathsf{A}$-representations of $G$
+
+        \item With $X$ a topological space and $\mathrm{Open}(X)$ its category of opens, taking $I = \mathrm{Open}^{\op})$ tells us that the category of presheaves on $X$, denoted $\mathrm{Psh}(X)$, is abelian.
+      \end{itemize}
+  \end{itemize}
+\end{example}
+
+\begin{example}
+  Here are two more tricky cases.
+  \begin{itemize}
+    \item Consider $R = \C[x_{1}, x_{2}, \ldots]$ the ring of polynomials in countably many variables. Consider the full subcategory
+      \begin{equation*}
+        (R\mhyp\mathrm{Mod})^{\mathrm{fin\ gen}} \hookrightarrow R\mhyp\mathrm{Mod}.
+      \end{equation*}
+
+      This is additive (as a full subcategory), but does not have kernels in general. For example, consider the quotient
+      \begin{equation*}
+        f\colon R \twoheadrightarrow R/(x_{1}, \ldots) \overset{\text{as a vector space}}{\simeq} \C.
+      \end{equation*}
+      Both $R$ and $R/(x_{1}, \ldots)$ are finitely generated $R$-modules. It may at first seem that there cannot be a kernel since the kernel of $f$ is $(x_{1}, \ldots)$, which is not finitely generated. But this is not the kernel we are looking for---it is taken in the category of $R\mhyp\mathrm{Mod}$, which satisfies a much stronger universal property than the hypothetical kernel in $(R\mhyp\mathrm{Mod})$.
+
+      However, it turns out that there is no saving this construction. Suppose there was a kernel. It would have to be finitely generated, i.e.\ we could write
+      \begin{equation*}
+        \ker f = R[g_{1}, \ldots, g_{n}]/(\cdots).
+      \end{equation*}
+      Each of the $g_{i}$ are polynomials in (finitely many) variables $x_{i}$; in particular, there is a highest $i$ such that $x_{i}$ appears in one of the $g_{i}$. But then the map
+  \end{itemize}
+\end{example}
+
 For the remainder of the section, let $\mathsf{C}$ be an abelian category.
+
+\begin{lemma}
+  \label{lemma:mono_plus_epi_equals_iso_in_abelian_cat}
+  Let $\mathcal{A}$ be an abelian category, and let $f\colon A \to B$ be a morphism in $\mathcal{A}$. Then $f$ is an isomorphism if and only if $f$ is monic and epic.
+\end{lemma}
+\begin{proof}
+  The direction iso$\implies$monic and epic is obvious. To see the other direction, suppose that $f$ is monic and epic. Then
+\end{proof}
+
+In the equation $x^{2} + 2x + 3 = 1$
 
 \begin{lemma}
   In an abelian category, every morphism decomposes into the composition of an epimorphism and a monomorphism.
 \end{lemma}
 \begin{proof}
-  For any morphism $f$, bracketing the decomposition $f = i \circ \bar{f} \circ p$ as
-  \begin{equation*}
-    i \circ (\bar{f} \circ p).
-  \end{equation*}
-  gives such a composition.
+  %For any morphism $f$, bracketing the decomposition $f = i \circ \bar{f} \circ p$ as
+  %\begin{equation*}
+  %  i \circ (\bar{f} \circ p).
+  %\end{equation*}
+  %gives such a composition.
 \end{proof}
 
 \begin{note}
