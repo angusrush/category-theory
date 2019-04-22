@@ -25,6 +25,8 @@ Recall that $\mathsf{Ab}$ is the category of abelian groups.
       \end{equation*}
       and similarly in the second slot.
   \end{enumerate}
+
+  That is to say, $\mathsf{Ab}$-enriched categories are categories enriched over $(\mathsf{Ab}, \otimes_{\Z}, 0)$.
 \end{definition}
 
 \begin{note}
@@ -477,14 +479,41 @@ This section is under very heavy construction. Don't trust anything you read her
 For the remainder of the section, let $\mathsf{C}$ be an abelian category.
 
 \begin{lemma}
+  \label{lemma:kernel_of_monic_cokernel_of_epic_are_zero}
+  Let $f\colon A \to B$ be a morphism in an abelian category.
+  \begin{itemize}
+    \item If $f$ is mono, then $\ker f = 0$.
+
+    \item If $f$ is epi, then $\coker f = 0$.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  Suppose $f$ is mono. The kernel of $f$ has the property that for any morphism $g\colon C \to A$ such that $f \circ g = 0$, there exists a unique morphism $h\colon C \to \ker f$ such that $\iota \circ h  = g$. However, if $f$ is mono, then $f \circ g = 0 \implies g = 0$, so the zero morphism also has this property. Thus, $0$ is a kernel of $f$.
+  \begin{equation*}
+    \begin{tikzcd}
+      & C
+      \arrow[dr, "0"]
+      \arrow[d, swap, "g = 0"]
+      \arrow[dl, swap, "\exists!0"]
+      \\
+      0
+      \arrow[r]
+      & X
+      \arrow[r, swap, "f"]
+      & Y
+    \end{tikzcd}
+  \end{equation*}
+
+  The cokernel case is dual.
+\end{proof}
+
+\begin{lemma}
   \label{lemma:mono_plus_epi_equals_iso_in_abelian_cat}
   Let $\mathcal{A}$ be an abelian category, and let $f\colon A \to B$ be a morphism in $\mathcal{A}$. Then $f$ is an isomorphism if and only if $f$ is monic and epic.
 \end{lemma}
 \begin{proof}
-  The direction iso$\implies$monic and epic is obvious. To see the other direction, suppose that $f$ is monic and epic. Then
+  The direction iso$\implies$monic and epic is obvious. To see the other direction, suppose that $f$ is monic and epic. By monicness, \hyperref[lemma:kernel_of_monic_cokernel_of_epic_are_zero]{Lemma~\ref*{lemma:kernel_of_monic_cokernel_of_epic_are_zero}} implies that $\ker f = 0$. Because $f$ is epic, $f$ is the cokernel of the map $0 \to X$.
 \end{proof}
-
-In the equation $x^{2} + 2x + 3 = 1$
 
 \begin{lemma}
   In an abelian category, every morphism decomposes into the composition of an epimorphism and a monomorphism.
@@ -868,7 +897,7 @@ In the equation $x^{2} + 2x + 3 = 1$
 
 \begin{definition}[exact functor]
   \label{def:exactfunctor}
-  Let $\mathsf{C}$, $\mathsf{D}$ be abelian categories, $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$ a functor. We say that $\mathcal{F}$ is
+  Let $\mathsf{C}$, $\mathsf{D}$ be abelian categories, $\mathcal{F}\colon \mathsf{C} \rightarrow \mathsf{D}$ an additive functor (\hyperref[def:additivefunctor]{Definition~\ref*{def:additivefunctor}}). We say that $\mathcal{F}$ is
   \begin{itemize}
     \item \defn{left exact} if it preserves biproducts and kernels
     \item \defn{right exact} if it preserves biproducts and cokernels
