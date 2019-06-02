@@ -6,6 +6,58 @@
 
 \section{Limits and colimits}
 
+We have seen in REF that one of the ways of viewing the universal property for products is as specifying a sort of equivalence between two different pieces of data: it says that specifying a pair of morphisms $(f\colon X \to A, g\colon X \to B)$ is the same as specifying a single morphism $(f, g)\colon X \to A \times B$.
+\begin{equation*}
+  \begin{tikzcd}[row sep=tiny]
+    & A
+    \\
+    X
+    \arrow[ur, "f"]
+    \arrow[dr, swap, "g"]
+    \\
+    & B
+  \end{tikzcd}
+  \qquad \iff \qquad
+  \begin{tikzcd}
+    X
+    \arrow[r, "{(f, g)}"]
+    & A \times B
+  \end{tikzcd}
+\end{equation*}
+That is, the object $A \times B$ somehow collapses the data of a pair of morphisms from an object $X$ into objects $A$ and $B$ into a single datum.
+
+%Dually, the universal property for coproducts collapses information about maps \emph{out of} a pair of objects: we can trade a pair of maps $f\colon A \to X$ and $g\colon B \to X$ for a map $(f, g)\colon A \amalg B \to X$
+%\begin{equation*}
+%  \begin{tikzcd}[row sep=tiny]
+%    A
+%    \arrow[dr, "f"]
+%    \\
+%    & X
+%    \\
+%    B
+%    \arrow[ur, swap, "g"]
+%  \end{tikzcd}
+%  \qquad\iff\qquad
+%  \begin{tikzcd}
+%    A \amalg B
+%    \arrow[r, "{(f, g)}"]
+%    & X
+%  \end{tikzcd}
+%\end{equation*}
+
+The job of summarizing maps into a certain collection of objects and morphisms is done by limits.
+
+To make this statement precise, we need to clarify three things:
+\begin{enumerate}
+  \item We need to make precise the phrase `a certain collection of objects and morphisms.' This is the notion of a \emph{diagram} (\hyperref[def:diagram]{Definition~\ref*{def:diagram}}).
+
+  \item We need to come up with the correct notion of maps out of such a collection into another object. This is what is known as a \emph{cone} (\hyperref[def:cone]{Definition~\ref*{def:cone}}).
+
+  \item We need to decide what it means to say that another morphism `summarizes' such a collection. This happens when there exists a \emph{universal} cone, which we call a \emph{limit cone} (\hyperref[def:limitscolimits]{Definition~\ref*{def:limitscolimits}}).
+\end{enumerate}
+
+The solution to the first item is the notion of a \emph{diagram.}
+
 \begin{definition}[diagram]
   \label{def:diagram}
   Let $\mathsf{J}$ and $\mathsf{C}$ be categories. A \defn{diagram} of type $\mathsf{J}$ in $\mathsf{C}$ is a functor
@@ -13,6 +65,8 @@
     \mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}.
   \end{equation*}
 \end{definition}
+
+We think of $\mathsf{J}$ as parametrizing the objects and morphisms in our diagram, and $\mathcal{D}$ as giving a realization of $\mathsf{J}$ in $\mathsf{C}$.
 
 \begin{example}
   Consider the category $\mathsf{J}$ with objects and morphisms as follows.
@@ -41,7 +95,6 @@
 
   As this example makes clear, one thinks of $\mathsf{J}$ as specifying the shape of the diagram in which one is interested.
 \end{example}
-
 
 \begin{definition}[cone]
   \label{def:cone}
@@ -74,7 +127,7 @@
   %    & & \mathcal{D}(B)
   %  \end{tikzcd}
   %\end{equation*}
-  Let $\Delta$ be the functor $\mathsf{C} \rightarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightarrow \mathsf{C}$, see \hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is then an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
+  Let $\Delta$ be the functor $\mathsf{C} \rightarrow [\mathsf{J}, \mathsf{C}]$ (the category of functors $\mathsf{J} \rightarrow \mathsf{C}$, see \hyperref[def:functorcategory]{Definition~\ref*{def:functorcategory}}) which assigns to each object $X \in \Obj(\mathsf{C})$ the constant functor $\Delta_{X}: \mathsf{J} \rightarrow \mathsf{C}$, i.e.\ the functor which maps every object of $\mathsf{J}$ to $X$ and every morphism to $\id_{X}$. A cone over $\mathcal{D}$ is an object in the comma category (\hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}) $(\Delta \downarrow \mathcal{D})$ given by the diagram
   \begin{equation*}
     \begin{tikzcd}
       \mathsf{C}
@@ -86,62 +139,130 @@
   \end{equation*}
 
   The objects of this category are pairs $(X, f)$, where $X \in \Obj(\mathsf{C})$ and $f\colon \Delta(X) \to \mathcal{D}$; that is to say, $f$ is a natural transformation $\Delta_{X} \Rightarrow \mathcal{D}$.
+  %\begin{equation*}
+  %  \begin{tikzcd}[column sep=tiny]
+  %    && X
+  %    \\
+  %    A
+  %    \arrow[dr]
+  %    \arrow[rr]
+  %    && C
+  %    \arrow[dl]
+  %    \arrow[from=u]
+  %    \\
+  %    & B
+  %    && D
+  %    \arrow[ul]
+  %  \end{tikzcd}
+  %\end{equation*}
 \end{definition}
 
+This is an abstract definition, and it will be instructive to unwind it. Let $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$ be a diagram, and let $(X, \eta)$ be a cone over $\mathsf{J}$; that is, let $\eta\colon \Delta_{X} \Rightarrow \mathcal{D}$ be a natural transformation.
+
+The natural transformation $\eta$ provides the data of, for each object $i \in \Obj(\mathsf{J})$, a morphism
+\begin{equation*}
+  \eta_{i}\colon \mathcal{D}(i) \to X.
+\end{equation*}
+
+These morphisms are not arbitrary; whenever there is a morphism $f\colon i \to j$ in $\mathsf{J}$, they are required to make the diagram
+\begin{equation*}
+  \begin{tikzcd}[column sep=tiny]
+    & X
+    \arrow[dl, swap, "\eta_{i}"]
+    \arrow[dr, "\eta_{j}"]
+    \\
+    \mathcal{D}(i)
+    \arrow[rr, swap, "\mathcal{D}(f)"]
+    && \mathcal{D}(j)
+  \end{tikzcd}
+\end{equation*}
+commute.
+
+\begin{example}
+  \label{eg:cone_over_category_with_two_objects_no_morphisms}
+  Let $\mathsf{J}$ be the category with two objects and only identity morphisms. A $\mathsf{J}$-diagram in a category $\mathsf{C}$ is a functor $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$. This picks out a pair of objects in $\mathsf{C}$.
+  \begin{equation*}
+    \left( \begin{tikzcd}[column sep=tiny]
+      \bullet
+      & \star
+    \end{tikzcd} \right)
+    \overset{\mathcal{D}}{\longrightarrow}
+    \left( \begin{tikzcd}[column sep=tiny]
+      A
+      & B
+    \end{tikzcd} \right)
+  \end{equation*}
+
+  Let $(X, \eta)$ be a cone over $\mathcal{D}$. That is, $\eta$ consists of two morphisms 
+  \begin{equation*}
+    \eta_{A}\colon X \to A,\qquad \eta_{B}\colon X \to B.
+  \end{equation*}
+  There are no non-trivial morphisms in $\mathsf{J}$, meaning that $\eta_{A}$ and $\eta_{B}$ are not subject to any conditions; they are completely arbitrary.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny]
+      & X
+      \arrow[dl, swap, "\eta_{A}"]
+      \arrow[dr, "\eta_{B}"]
+      \\
+      A
+      && B
+    \end{tikzcd}
+  \end{equation*}
+\end{example}
 
 \begin{definition}[category of cones over a diagram]
   \label{def:categoryofconesoveradiagram}
   Let $\mathsf{C}$ be a category, $\mathsf{J}$ an index category, and $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$ a diagram. The \defn{category of cones over $\mathcal{D}$} is the category $(\Delta \downarrow \mathcal{D})$.
 \end{definition}
 
-  \hyperref[def:categoryofconesoveradiagram]{Definition~\ref*{def:categoryofconesoveradiagram}} not only gives the definition of a cone, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$, i.e.
-  \begin{itemize}
-    \item an object in the category $(\Delta \downarrow \mathcal{D})$, i.e.
-    \item a pair $(X, \Phi)$, where $X \in \Obj(\mathsf{C})$ and $\Phi\colon \Delta_{X} \Rightarrow \mathcal{D}$ is a natural transformation, i.e.
-    \item for each $J \in \Obj(\mathsf{J})$ a morphism $\Phi_{J}\colon X \to \mathcal{D}(J)$ such that for any other object $J' \in \Obj(\mathsf{J})$ and any morphism $f\colon J \to J'$ the following diagram commutes.
-      \begin{equation*}
-        \begin{tikzcd}[column sep=tiny]
-          & X
-          \arrow[ld, swap, "\Phi_{J}"]
-          \arrow[rd, "\Phi_{J'}"]
-          \\
-          \mathcal{D}(J)
-          \arrow[rr, swap, "\mathcal{D}(f)"]
-          & & \mathcal{D}(J')
-        \end{tikzcd}
-      \end{equation*}
-  \end{itemize}
+\hyperref[def:categoryofconesoveradiagram]{Definition~\ref*{def:categoryofconesoveradiagram}} not only reiterates the definition of a cone, but even prescribes what morphisms between cones look like. Let $(X, \Phi)$ be a cone over a diagram $\mathcal{D}\colon \mathsf{J} \rightarrow \mathsf{C}$, i.e.
+\begin{itemize}
+  \item an object in the category $(\Delta \downarrow \mathcal{D})$, i.e.
+  \item a pair $(X, \Phi)$, where $X \in \Obj(\mathsf{C})$ and $\Phi\colon \Delta_{X} \Rightarrow \mathcal{D}$ is a natural transformation, i.e.
+  \item for each $J \in \Obj(\mathsf{J})$ a morphism $\Phi_{J}\colon X \to \mathcal{D}(J)$ such that for any other object $J' \in \Obj(\mathsf{J})$ and any morphism $f\colon J \to J'$ the following diagram commutes.
+    \begin{equation*}
+      \begin{tikzcd}[column sep=tiny]
+        & X
+        \arrow[ld, swap, "\Phi_{J}"]
+        \arrow[rd, "\Phi_{J'}"]
+        \\
+        \mathcal{D}(J)
+        \arrow[rr, swap, "\mathcal{D}(f)"]
+        & & \mathcal{D}(J')
+      \end{tikzcd}
+    \end{equation*}
+\end{itemize}
 
-  Let $(Y, \Gamma)$ be another cone over $\mathcal{D}$. Then a morphism $\Xi\colon (X, \Phi) \to (Y, \Gamma)$ is
-  \begin{itemize}
-    \item a morphism $\Xi \in \Hom_{(\Delta \downarrow \mathcal{D})}((X, \Phi), (Y, \Gamma))$, i.e.
-    \item a natural transformation $\Xi\colon \Delta_{X} \Rightarrow \Delta_{Y}$ (i.e.\ a morphism $\Delta_{X} \to \Delta_{Y}$ in the category $[\mathsf{J}, \mathsf{C}]$) such that the diagram
-      \begin{equation*}
-        \begin{tikzcd}[column sep=tiny]
-          \Delta_{X}
-          \arrow[rr, Rightarrow, "\Xi"]
-          \arrow[rd, swap, Rightarrow, "\Phi"]
-          & &  \Delta_{Y}
-          \arrow[ld, Rightarrow, "\Gamma"]
-          \\
-          & \mathcal{D}
-        \end{tikzcd}
-      \end{equation*}
-      commutes, i.e.
-    \item a morphism $\xi\colon X \to Y$ such that for each $J \in \Obj(\mathsf{J})$, the diagram
-      \begin{equation*}
-        \begin{tikzcd}[column sep=tiny]
-          X
-          \arrow[rr, "\xi"]
-          \arrow[rd, swap, "\Phi_{J}"]
-          & & Y
-          \arrow[ld, "\Gamma_{J}"]
-          \\
-          & \mathcal{D}(J)
-        \end{tikzcd}
-      \end{equation*}
-      commutes.
-  \end{itemize}
+Let $(Y, \Gamma)$ be another cone over $\mathcal{D}$. Then a morphism $\Xi\colon (X, \Phi) \to (Y, \Gamma)$ is
+\begin{itemize}
+  \item a morphism $\Xi \in \Hom_{(\Delta \downarrow \mathcal{D})}((X, \Phi), (Y, \Gamma))$, i.e.
+  \item a natural transformation $\Xi\colon \Delta_{X} \Rightarrow \Delta_{Y}$ (i.e.\ a morphism $\Delta_{X} \to \Delta_{Y}$ in the category $[\mathsf{J}, \mathsf{C}]$) such that the diagram
+    \begin{equation*}
+      \begin{tikzcd}[column sep=tiny]
+        \Delta_{X}
+        \arrow[rr, Rightarrow, "\Xi"]
+        \arrow[rd, swap, Rightarrow, "\Phi"]
+        & &  \Delta_{Y}
+        \arrow[ld, Rightarrow, "\Gamma"]
+        \\
+        & \mathcal{D}
+      \end{tikzcd}
+    \end{equation*}
+    commutes, i.e.
+  \item a morphism $\xi\colon X \to Y$ such that for each $J \in \Obj(\mathsf{J})$, the diagram
+    \begin{equation*}
+      \begin{tikzcd}[column sep=tiny]
+        X
+        \arrow[rr, "\xi"]
+        \arrow[rd, swap, "\Phi_{J}"]
+        & & Y
+        \arrow[ld, "\Gamma_{J}"]
+        \\
+        & \mathcal{D}(J)
+      \end{tikzcd}
+    \end{equation*}
+    commutes.
+\end{itemize}
 
 Cocones are the dual notion to cones. We make the following definition.
 \begin{definition}[cocone]
@@ -761,7 +882,7 @@ The following proof was adapted from~\cite{awodey-category-theory}.
     R_{\alpha} = \pi_{\mathcal{D}(\cod(\alpha))};\qquad S_{\alpha} = \mathcal{D}(\alpha) \circ \pi_{\mathcal{D}(\dom(\alpha))}.
   \end{equation*}
 
-  Now let $e\colon L \to A$ be the equalizer of $R$ and $S$ (we are guaranteed the existence of this equalizer by assumption). 
+  Now let $e\colon L \to A$ be the equalizer of $R$ and $S$ (we are guaranteed the existence of this equalizer by assumption).
   \begin{equation*}
     \begin{tikzcd}
       L
@@ -997,8 +1118,8 @@ The importance of the category of ind-objects can be seen in the following examp
 
 \begin{theorem}
   \label{thm:limit_over_category_with_initial_object_is_that}
-  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor. 
-  
+  Let $\mathcal{F}\colon \mathsf{C} \to \mathsf{D}$ be a functor.
+
   \begin{itemize}
     \item If $\mathsf{C}$ has an initial object $i$, then $\lim_{\leftarrow \mathcal{F}} = F(i)$.
 
@@ -1010,8 +1131,8 @@ The importance of the category of ind-objects can be seen in the following examp
 
   Now let $(d, \eta)$ be any other cone over $\mathcal{F}$. In particular, $\eta$ has a component
   \begin{equation*}
-  \eta_{i}\colon d \to \mathcal{F}(i).
-\end{equation*}
+    \eta_{i}\colon d \to \mathcal{F}(i).
+  \end{equation*}
   In order to show that $\alpha$ is a limit cone, we need only show that this is the only possible morphism $d \to F(i)$ such that the triangles
   \begin{equation*}
     \begin{tikzcd}

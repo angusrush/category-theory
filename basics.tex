@@ -4,127 +4,15 @@
 
 \chapter{Basic category theory}\label{ch:categories}
 
-\section{Foundational issues}
-\label{sec:foundational_issues}
-
-\begin{note}
-  I want to edit this section pretty seriously as I don't really understand universes at the moment. Furthermore, since most of these notes was written in the language of proper classes, there are probably still a few latent references to them. I'll remove these references as I find them.
-\end{note}
-
-Set theory as formulated in ZFC has foundational annoyances. One particularly pernicious one says that not every definable collection of objects is small enough to be a set. For example, there is no set of all sets, nor set of all groups, rings, etc.
-
-Category theory is to a large extent built upon ZFC, and needs to talk about the collection of all sets, groups, rings, and many other structures. When doing category theory, there are three common ways to deal with collections which are too large to be sets.
-\begin{enumerate}
-  \item One defines the notion of a \emph{proper class,} which is simply another word for a definable collection too large to be a set, and works with proper classes in addition to sets.
-
-  \item Following Grothendieck, one can add an additional axiom, called the \emph{universe axiom,} to ZFC which ensures the existence a set of all sets one is allowed to use. This set of all sets one is allowed to use is called a \emph{Grothendieck universe.}
-
-  \item Introduce categories, rather than sets, as foundational objects.
-\end{enumerate}
-
-The first approach is the most common, and the third the most radical. We will use the second here.
-
-\begin{definition}[Grothendieck universe]
-  \label{def:universe}
-  A \defn{Grothendieck universe} (or simply \emph{universe}) is a set $\mathcal{U}$ with the following properties:
-  \begin{enumerate}[label=\emph{U\arabic*.}]
-    \item If $x \in \mathcal{U}$ and $y \in x$, then $y \in \mathcal{U}$. That is, if if $x \in \mathcal{U}$, then $x$ is a subset of $\mathcal{U}$.
-
-    \item If $x$, $y \in \mathcal{U}$, then $\{x, y\} \in \mathcal{U}$
-
-    \item If $x \in \mathcal{U}$, then $2^{X}$ is also in $\mathcal{U}$.
-
-    \item If $I \in \mathcal{U}$ and $\{x_{i}\}_{i \in U}$ with $x_{i} \in \mathcal{U}$, then
-      \begin{equation*}
-        \bigcup_{i \in I} x_{i} \in \mathcal{U}.
-      \end{equation*}
-  \end{enumerate}
-\end{definition}
-
-\begin{definition}[universe axiom]
-  \label{def:universe_axiom}
-  The \defn{universe axiom} says that for every set $X$, there is a universe which has $X$ as an element.
-\end{definition}
-
-These axioms imply that universes are closed under many of the properties one would hope.\footnote{See the below lemma.} The upshot is that all familiar constructions from everyday life can be performed within any universe $\mathcal{U}$. From now on, we fix a universe $\mathcal{U}$ such that $\N \in \mathcal{U}$ (which is possible by the universe axiom).
-
-\begin{lemma}
-  \label{lemma:properties_of_universes}
-  Grothendieck universes have the following properties.
-  \begin{enumerate}
-    \item $x \in \mathcal{U} \implies \{x\} \in \mathcal{U}$
-
-    \item $y \in \mathcal{U}$, $x \subseteq y \implies x \in \mathcal{U}$
-
-    \item $x$, $y \in \mathcal{U} \implies (x, y) \equiv \{x, \{x, y\}\} \in \mathcal{U}$
-
-    \item $x$, $y \in \mathcal{U} \implies x \cup y$, $x \times y \in \mathcal{U}$.
-
-    \item $x$, $y \in \mathcal{U} \implies \mathrm{Maps}(x, y) \in \mathcal{U}$
-
-    \item $I \in \mathcal{U}$, $\{x_{i}\}_{i \in J}$ with $x_{i} \in \mathcal{U} \implies \prod_{i \in J} x_{i}$, $\coprod_{i \in J} x_{i}$, $\bigcap_{i \in J} x_{i} \in \mathcal{U}$.
-
-    \item $x \in \mathcal{U} \implies x \cup \{x\} \in \mathcal{U}$, hence $\N \subset \mathcal{U}$.
-  \end{enumerate}
-\end{lemma}
-\begin{proof}
-  \leavevmode
-  \begin{enumerate}
-    \item If $x$ in $\mathcal{U}$, then by \emph{U2} $\{x, x\} \in \mathcal{U}$. But $\{x, x\} = \{x\}$.
-
-    \item If $y \in \mathcal{U}$, then $2^{y} \in \mathcal{U}$ by \emph{U3.} Any subset of $y$ is an element of $2^{y}$, so \emph{U1} implies that any subset of $y$ belongs to $\mathcal{U}$.
-
-    \item If $x$ and $y \in \mathcal{U}$, then $\{x, y\} \in \mathcal{U}$ by \emph{U1.} Then again by \emph{U1,} $\{x, \{x, y\}\} \in \mathcal{U}$.
-
-    \item For any $a$, $b \in \mathcal{U}$, $a \neq b$, we have by \emph{U2} that $\{a, b\} \in \mathcal{U}$. Thus, binary unions follow from \emph{U4,} which demands the existence of unions indexed by any set in $\mathcal{U}$. 
-      
-      From \emph{U2.}, if $x$, $y \in \mathcal{U}$ then every element of $x$ and every element of $y$ is in $U$, so ordered pairs of an element of $x$ and an element of $y$ are in $\mathcal{U}$. Thus, the singletons each containing an ordered pair are in $\mathcal{U}$, so the union
-      \begin{equation*}
-        \bigcup_{\alpha \in x} \bigcup_{\beta \in y} \{(\alpha, \beta)\}
-      \end{equation*}
-      is in $\mathcal{U}$.
-
-    \item The set of all maps $x \to y$ is a subset of the set $2^{x \times y}$.
-
-    \item As a set, 
-      \begin{equation*}
-        \prod_{i \in I} x_{i} = \left\{f\colon I \to \bigcup_{i \in I} x_{i}\ \Big|\ f(i) \in x_{i} \text{ for all }i \in I\right\} \subset \mathrm{Maps}\left(I, \bigcup_{i \in I} x_{i}\right)
-      \end{equation*}
-
-      As a set,
-      \begin{equation*}
-        \coprod_{i \in I} x_{i} = \bigcup_{i \in I} x_{i} \times \{i\}.
-      \end{equation*}
-
-      Intersection is subset of union.
-
-    \item If $x \in \mathcal{U}$ then $\{x\} \in \mathcal{U}$ by 1., so by 4., $x \cup \{x\} \in \mathcal{U}$.
-  \end{enumerate}
-\end{proof}
-
-\begin{definition}[small set, class, large set]
-  \label{def:small_set_class_large_set}
-  We make the following definitions.
-  \begin{itemize}
-    \item We call the elements of $\mathcal{U}$ \emph{small sets}. 
-    \item We call subsets of $\mathcal{U}$ \emph{classes}.
-    \item We call everything else \emph{Large sets}.
-  \end{itemize}
-
-  In general, small sets agree with the usual (i.e.\ ZFC) notion of sets, and classes agree with the usual notion of proper classes. In what follows, we will write \emph{set} when we mean \emph{small set,} unless confusion is likely to arise. Unfortunately, especially when talking about foundational issues, confusion is likely to arise.
-\end{definition}
-
-By the universe axiom, for any set (as defined in ZFC), there is a universe which has that set as an element. From now on, we will work in some universe $\mathcal{U}$ which has $\N$ as an element.
-
 \section{Categories}\label{sec:categoriesbasicdefinitions}
 
 \subsection{What is a category?}
 
-There are lots of different sorts of mathematical structures, each of which is good for different things. Groups are good for talking about symmetries, for instance, and rings are good for talking about all sorts of things.
+It is surprisingly hard to define mathematics, but people tend to agree that mathematics has something to do with studying mathematical structures.\footnote{Whatever they are.} Mathematicians study lots of different mathematical structures, each of which is good for different things. Groups are good for talking about symmetries, for instance, and topological spaces are good for talking about geometrical objects.
 
-Categories are just another type of mathematical structure, but they have a different, more abstract feel to them than groups or rings. One reason for this is that they are inherently meta-mathematical: they are good for talking about other mathematical objects and the relationships between them.
+Categories are just another type of mathematical structure, but they have a different, more abstract feel to them than groups or topological spaces. One reason for this is that they are inherently meta-mathematical: they are good for talking about other mathematical objects and the relationships between them.
 
-For this reason, category theory has developed a reputation for being abstract and difficult to learn, which is mostly undeserved. Categories are nothing special; they are mathematical objects, just like groups or vector spaces. They are simply good for different things.
+For this reason, category theory has developed a reputation for being abstract and difficult to learn, which is mostly undeserved. Categories are nothing special; they are mathematical objects, just like groups or topological spaces. They are simply good for different things.
 
 Unfortunately, there are many different conventions regarding how to typeset category theory. I will do my best to stick to the conventions used at the nLab (\cite{nlab}).
 
@@ -132,9 +20,9 @@ Unfortunately, there are many different conventions regarding how to typeset cat
   \label{def:category}
   A \defn{category} $\mathsf{C}$ consists of the following pieces of data.
   \begin{itemize}
-    \item A set\footnote{Note that we are working within ZFCU, so this definition does not preclude interesting categories, such as the category of all sets.} $\Obj(\mathsf{C})$ of \emph{objects}.
+    \item A class\footnote{Note that if we choose to work within ZFCU (see appendix REF), one gets away with saying a \emph{set} of objects. However, this doesn't really make much of a difference to the development of the theory.} $\Obj(\mathsf{C})$ of \emph{objects}.
 
-    \item For every two objects $A$, $B \in \Obj(\mathsf{C})$, a set $\Hom(A,B)$ of \emph{morphisms\/}.
+    \item For every two objects $A$, $B \in \Obj(\mathsf{C})$, a class $\Hom(A,B)$ of \emph{morphisms\/}.
 
     \item\label{item:compositionofmorphisms} 
       For every objects $X$, $Y$, $Z$, a map 
@@ -172,16 +60,16 @@ Here is something to be aware of: the identity morphism $\id_{A}\colon A \to A$ 
 The idea of a category is very abstract, but not abstruse. The easiest way to convince oneself of this is to see some examples. The most common type of category is given by `mathematical structures and structure-preserving maps between them,' so many of our examples will be in this vein.
 
 \begin{example}[The category of sets]
-  The prototypical category is $\mathsf{Set}$, the category whose objects are small sets and whose morphisms are functions between them.
+  The prototypical category is $\mathsf{Set}$, the category whose objects are sets and whose morphisms are functions between them.
 
   In order to check that $\mathsf{Set}$ is indeed a category, we need to check that the axioms are satisfied. In fact, everything is more or less clear by definition.
 
-  Our category $\mathsf{Set}$ first needs a collection of objects. Although there is no set of all sets, there certainly is a set of small sets -- the universe $\mathcal{U}$ itself. Therefore, we define
+  Our category $\mathsf{Set}$ first needs a class of objects. Although there is no set of all sets, there certainly is a class of small sets. Therefore, we define
   \begin{equation*}
-    \Obj(\mathsf{Set}) = \mathcal{U}.
+    \Obj(\mathsf{Set}) = \text{all sets}.
   \end{equation*}
 
-  The next thing $\mathsf{Set}$ needs is, for each pair of objects (i.e.\ sets) $A$ and $B$, a collection of morphisms $\Hom_{\mathsf{Set}}(A, B)$ between them. The morphisms between the objects in $\mathsf{Set}$ will consist of all set-functions between. That is,
+  The next thing $\mathsf{Set}$ needs is, for each pair of objects (i.e.\ sets) $A$ and $B$, a class of morphisms $\Hom_{\mathsf{Set}}(A, B)$ between them. The morphisms between the objects in $\mathsf{Set}$ will consist of all set-functions between. That is,
   \begin{equation*}
     \Hom_{\mathsf{Set}}(A, B) = \{f\colon A \to B\ |\ f\ \text{is a function}\}.
   \end{equation*}
@@ -298,7 +186,7 @@ The idea of a category is very abstract, but not abstruse. The easiest way to co
 Categories capture the essence of `things and composable maps between them.' There are many mathematical structures which naturally come with a notion of map between them, usually called homomorphisms. These structure preserving maps are almost always composable, which means it is often natural to imagine such objects as living in their own categories.
 \begin{example}
   \label{eg:examplesofcategories}
-  If you know what the following mathematical objects are, it is nearly effortless to check that they are categories.\footnote{Note that since we are working in a universe $\mathcal{U}$, we restrict ourselves to objects whose underlying sets are small. This is no great restriction, and if you're not interested in foundations you can safely ignore it.}
+  If you know what the following mathematical objects are, it is nearly effortless to check that they are categories.
   \begin{itemize}
     \item $\mathsf{Grp}$, whose objects are groups and whose morphisms are group homomorphisms.
 
@@ -644,11 +532,10 @@ The notion of a surjection can also be generalized. Pleasingly, it is more clear
 
 \begin{note}
   In $\mathsf{Set}$, we have the following correspondences.
-  \begin{itemize}
-    \item Isomorphism $\iff$ Bijective
-    \item Bijective $\iff$ Injective \& Surjective
-    \item Injective \& Surjective $\iff$ Mono \& Epi
-  \end{itemize}
+  \begin{equation*}
+    \text{Isomorphism} \iff \text{Bijective} \iff \text{Injective \& Surjective} \iff \text{Monic \& Epic}
+  \end{equation*}
+  
   Thus in $\mathsf{Set}$ a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism. A very common mistake is to assume that this holds true in any category. This is wrong! A morphism can be monic and epic without being an isomorphism.
 
   This occurrs, for example, in the category $\mathsf{Top}$, whose objects are topological spaces and whose morphisms are continuous maps. This is because of the following chain of reasoning.
@@ -894,7 +781,7 @@ A contravariant functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D
 
 Saunders Mac Lane, one of the fathers of category theory, used to say that he invented categories so he could talk about functors, and he invented functors so he could talk about natural transformations. Indeed, arguably the first paper ever published on category theory, published by Eilenberg and Mac Lane in 1945 and titled ``General Theory of Natural Equivalences''~\cite{awodey-intro-to-categories}, was about natural transformations.
 
-Natural transformation can be thought of at several different levels of abstraction. At their most abstract, the provide a notion of `morphisms between functors,' and indeed we will later see that natural transformations provide the correct notion of morphisms for a category whose objects are functors. However, they were originally studied not for this reason, but because they provide a rigorous footing for the notion of canonicalness itself.
+Natural transformation can be thought of at several different levels of abstraction. At their most abstract, they provide a notion of `morphisms between functors,' and indeed we will later see that natural transformations provide the correct notion of morphisms for a category whose objects are functors. However, they were originally studied not for this reason, but because they provide a rigorous footing for the notion of canonicalness itself.
 
 For example, one often hears the statement ``The cartesian product of sets is commutative up to isomorphism because for any two sets $A$ and $B$, $A \times B$ is isomorphic to $B \times A$.'' This is certainly true, but not very meaningful; any two sets with the same number of elements are isomorphic. What one is trying to say is that $A \times B$ and $B \times A$ are \emph{canonically} isomorphic. The question is: what exactly is meant by `canonical'?
 
@@ -928,11 +815,11 @@ The sameness comes from the fact that this swap function commutes with functiona
     &&& D \times C
   \end{tikzcd}
 \end{equation*}
-That is to say, it doesn't matter whether you use first embed\footnote{The word embedding here is meant to be evocative rather than literal; $f$ and $g$ don't have to be injective.} $A \times B$ into $C \times D$ and then use the swap isomorphism, or whether you do the swap first and then use embed $B \times A$ into $D \times C$; you get the same map either way. Furthermore, this is true for \emph{any} embeddings $f$ and $g$.
+That is to say, it doesn't matter whether you use first map $A \times B$ into $C \times D$ and then use the swap isomorphism, or whether you do the swap first and then use map $B \times A$ into $D \times C$; you get the same map either way. Furthermore, this is true for \emph{any} maps $f$ and $g$.
 
-As we have seen (in \hyperref[eg:cartesian_product_of_sets_is_bifunctor]{Example~\ref*{eg:cartesian_product_of_sets_is_bifunctor}}), the cartesian product of sets is a functor from the product category (\hyperref[def:productcategory]{Definition~\ref*{def:productcategory}}) $\mathsf{Set} \times \mathsf{Set}$ to $\mathsf{Set}$ which maps $(A, B)$ to $A \times B$. There is another functor $\mathsf{Set} \times \mathsf{Set} \rightsquigarrow \mathsf{Set}$ which sends $(A, B)$ to $B \times A$. The above discussion means that there is a natural isomorphism, called $\mathrm{swap}$, between them.
+As we have seen (in \hyperref[eg:cartesian_product_of_sets_is_bifunctor]{Example~\ref*{eg:cartesian_product_of_sets_is_bifunctor}}), the cartesian product of sets is a functor from the product category (\hyperref[def:productcategory]{Definition~\ref*{def:productcategory}}) $\mathsf{Set} \times \mathsf{Set}$ to $\mathsf{Set}$ which maps $(A, B)$ to $A \times B$. There is another functor $\mathsf{Set} \times \mathsf{Set} \rightsquigarrow \mathsf{Set}$ which sends $(A, B)$ to $B \times A$. The above discussion means that there is a natural transformation, called $\mathrm{swap}$, between them.
 
-This example makes clear a common theme of natural transformations: they formalize the idea of `the same function' between different objects. They allow us to make precise statements like `$\mathrm{swap}_{A, B}$ and $\mathrm{swap}_{C, D}$ are somehow the same, despite the fact that they cannot be equal as functions.'
+This example makes clear a common theme of natural transformations: they formalize the idea of `the same function between different objects.' They allow us to make precise statements like `$\mathrm{swap}_{A, B}$ and $\mathrm{swap}_{C, D}$ are somehow the same, despite the fact that they cannot be equal as functions.'
 
 
 \subsubsection{Definitions and elementary examples}
@@ -1653,12 +1540,12 @@ For instance, suppose someone approaches you on the street late at night and tel
 \end{equation*}
 Your would-be mugger scoffs, saying ``That's not a map $\R \to \R \times \R$. What you have really done is write down a pair of maps $\R \to \R$!''
 
-You, however, are as cool as a cucumber. You calmly tell the thief ``The universal property for the Cartesian product tells us that writing down a pair of maps $\R \to \R$ is the same as writing down a map $\R \to \R \times \R$.'' Your assailant leaves, dejected.
+You, however, are as cool as a cucumber. You calmly tell the thief, ``The universal property for the Cartesian product tells us that writing down a pair of maps $\R \to \R$ is the same as writing down a map $\R \to \R \times \R$.'' Your assailant leaves, dejected.
 
 
 \subsubsection{Initial and terminal objects}
 
-It is difficult to talk about specific objects in a category using only category-theoretic information. For example, imagine trying to explain the structure of the Klein 4-group to someone without talking about its elements.
+It is difficult to talk about specific objects in a category using only category-theoretic information. For example, imagine trying to explain the structure of the $n$th dihedral group to someone without talking about its elements.
 
 However, not all is lost. Certain objects in a category are special, and you can talk about them without any reference to non-categorical data.
 
@@ -1721,7 +1608,7 @@ Showing that terminal and zero objects are unique up to unique isomorphism is al
 
 We have succeeded in specifying certain objects (namely initial, terminal, and zero objects) in a category using only categeorical information uniquely up to a unique isomorphism. Unfortunately, initial, terminal, and zero objects are usually not very interesting; they are often trivial examples of the structures contained in the category.
 
-However, they give us a way of defining interesting mathematical objects: we have to cook up a category where the object in question is initial or terminal. In a sense, this is the most general definition of a universal property: an object satisfies a universal property if it is initial or terminal in some category. However, the vast majority of interesting universal properties come from objects which are initial or terminal in more complicated categories such as the following.
+However, they give us a way of defining interesting mathematical objects: we have to cook up a category where the object in question is initial or terminal. In a sense, this is the most general definition of a universal property: an object satisfies a universal property if it is initial or terminal in some category. However, we will see in \hyperref[ch:adjunction]{Chapter~\ref*{ch:adjunction}} that there is a way of constructing interesting objects satisfying a universal property, namely partial adjunctions: these specify universal objects in the form of \emph{morphisms to and from functors.}
 
 \begin{definition}[category of morphisms from an object to a functor]
   \label{def:categoryofmorphismsfromanobjecttoafunctor}
