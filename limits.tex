@@ -47,13 +47,13 @@ That is, the object $A \times B$ somehow collapses the data of a pair of morphis
 
 The job of summarizing maps into a certain collection of objects and morphisms is done by limits.
 
-To make this statement precise, we need to clarify three things:
+To make this statement precise, we need to do three things:
 \begin{enumerate}
   \item We need to make precise the phrase `a certain collection of objects and morphisms.' This is the notion of a \emph{diagram} (\hyperref[def:diagram]{Definition~\ref*{def:diagram}}).
 
-  \item We need to come up with the correct notion of maps out of such a collection into another object. This is what is known as a \emph{cone} (\hyperref[def:cone]{Definition~\ref*{def:cone}}).
+  \item We need to come up with the correct notion of maps into such a collection from another object. This is what is known as a \emph{cone} (\hyperref[def:cone]{Definition~\ref*{def:cone}}).
 
-  \item We need to decide what it means to say that another morphism `summarizes' such a collection. This happens when there exists a \emph{universal} cone, which we call a \emph{limit cone} (\hyperref[def:limitscolimits]{Definition~\ref*{def:limitscolimits}}).
+  \item We need to decide what it means to say that another morphism `summarizes' such a collection; that is, when providing a single morphism is equivalent to providing a cone. This happens when there exists a \emph{universal} cone, which we call a \emph{limit cone} (\hyperref[def:limitscolimits]{Definition~\ref*{def:limitscolimits}}).
 \end{enumerate}
 
 The solution to the first item is the notion of a \emph{diagram.}
@@ -95,6 +95,41 @@ We think of $\mathsf{J}$ as parametrizing the objects and morphisms in our diagr
 
   As this example makes clear, one thinks of $\mathsf{J}$ as specifying the shape of the diagram in which one is interested.
 \end{example}
+
+The next item on our agenda is to define the notion of a cone over a diagram, i.e.\ a compatible collection of morphisms from an object into the diagram. Roughly, the idea is this. Given an object $X$ and a diagram $D$,
+\begin{equation*}
+  \begin{tikzcd}
+    & X
+    \\
+    \\
+    & \mathcal{D}(i)
+    \arrow[dr]
+    \arrow[dl]
+    \\
+    \mathcal{D}(j)
+    && \mathcal{D}(k)
+  \end{tikzcd}
+\end{equation*}
+a cone with tip $X$ over $\mathcal{D}$ should be, for each object $\mathcal{D}(i)$ in our diagram, a morphism $X \to \mathcal{D}(i)$.
+\begin{equation*}
+  \begin{tikzcd}
+    & X
+    \arrow[dddl, bend right]
+    \arrow[dddr, bend left]
+    \arrow[dd]
+    \\
+    \\
+    & \mathcal{D}(i)
+    \arrow[dr]
+    \arrow[dl]
+    \\
+    \mathcal{D}(j)
+    && \mathcal{D}(k)
+  \end{tikzcd}
+\end{equation*}
+Drawing these morphisms has created, for each morphism $\mathcal{D}(f)$ in our diagram, a triangle. The natural thing to do is to demand that these triangles commute.
+
+This really is the definition of a cone over a diagram: a collection of morphisms making some triangles commute. However, we can give a much more abstract, yet completely equivalent, definition, which will be much easier to work with.
 
 \begin{definition}[cone]
   \label{def:cone}
@@ -157,26 +192,28 @@ We think of $\mathsf{J}$ as parametrizing the objects and morphisms in our diagr
   %\end{equation*}
 \end{definition}
 
-This is an abstract definition, and it will be instructive to unwind it. Let $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$ be a diagram, and let $(X, \eta)$ be a cone over $\mathsf{J}$; that is, let $\eta\colon \Delta_{X} \Rightarrow \mathcal{D}$ be a natural transformation.
+This is an abstract definition, and it will be instructive to show that it really is equivalent to the heuristic one given above. Let $\mathcal{D}\colon \mathsf{J} \to \mathsf{C}$ be a diagram, and let $(X, \eta)$ be a cone over $\mathsf{J}$; that is, let $\eta\colon \Delta_{X} \Rightarrow \mathcal{D}$ be a natural transformation.
 
 The natural transformation $\eta$ provides the data of, for each object $i \in \Obj(\mathsf{J})$, a morphism
 \begin{equation*}
-  \eta_{i}\colon \mathcal{D}(i) \to X.
+  \eta_{i}\colon X \to \mathcal{D}(i).
 \end{equation*}
 
-These morphisms are not arbitrary; whenever there is a morphism $f\colon i \to j$ in $\mathsf{J}$, they are required to make the diagram
+For each morphism $f\colon i \to j$ in $\mathsf{J}$, the morphisms $\eta_{i}$ are required to make the naturality square
 \begin{equation*}
-  \begin{tikzcd}[column sep=tiny]
+  \begin{tikzcd}
+    X
+    \arrow[d, swap, "\eta_{i}"]
+    \arrow[r, "\id_{X}"]
     & X
-    \arrow[dl, swap, "\eta_{i}"]
-    \arrow[dr, "\eta_{j}"]
+    \arrow[d, "\eta_{j}"]
     \\
     \mathcal{D}(i)
-    \arrow[rr, swap, "\mathcal{D}(f)"]
-    && \mathcal{D}(j)
+    \arrow[r, swap, "\mathcal{D}(f)"]
+    & \mathcal{D}(j)
   \end{tikzcd}
 \end{equation*}
-commute.
+commute. This is precisely the condition that the triangles described above commute.
 
 \begin{example}
   \label{eg:cone_over_category_with_two_objects_no_morphisms}
@@ -209,6 +246,8 @@ commute.
     \end{tikzcd}
   \end{equation*}
 \end{example}
+
+\hyperref[def:cone]{Definition~\ref*{def:cone}} defines cones over a diagram as `objects in some category.' Therefore, it makes sense to define such a category to be the category of cones over a diagram.
 
 \begin{definition}[category of cones over a diagram]
   \label{def:categoryofconesoveradiagram}

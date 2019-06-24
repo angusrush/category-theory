@@ -6,13 +6,13 @@
 
 \section{The Hom functor}\label{section:homfunctor}
 
-Given any locally small category (\hyperref[def:smalllocallysmallcategoryhomset]{Definition~\ref*{def:smalllocallysmallcategoryhomset}}) $\mathsf{C}$ and two objects $A$, $B \in \Obj(\mathsf{C})$, we have thus far notated the set of all morphisms $A \to B$ by $\Hom_{\mathsf{C}}(A, B)$. This may have seemed a slightly odd notation, but there was a good reason for it: $\Hom_{\mathsf{C}}$ is really a functor.
+Given any locally small category (\hyperref[def:smalllocallysmallcategoryhomset]{Definition~\ref*{def:smalllocallysmallcategoryhomset}}) $\mathsf{C}$ and two objects $A$, $B \in \Obj(\mathsf{C})$, we have thus far notated the set of all morphisms $A \to B$ by $\Hom_{\mathsf{C}}(A, B)$. This may have seemed an odd notation, but there was a good reason for it: $\Hom_{\mathsf{C}}$ is really a functor.
 
 To be more explicit, we can view $\Hom_{\mathsf{C}}$ in the following way: it takes two objects, say $A$ and $B$, and returns the set of morphisms $A \to B$. It's a functor $\mathsf{C} \times \mathsf{C}$ to set!
 
 (Actually, as we'll see, this isn't quite right: it is actually a functor $\mathsf{C}^{\text{op}} \times \mathsf{C} \to \mathsf{Set}$. But this is easier to understand if it comes about in a natural way, so we'll keep writing $\mathsf{C} \times \mathsf{C}$ for the time being.)
 
-Okay, so it takes a pair of objects and returns the set of morphisms between them, but any functor has to send morphisms to morphisms. How does it do that?
+Okay, so $\Hom_{\mathsf{C}}$ takes a pair of objects and returns the set of morphisms between them, but any functor has to send morphisms to morphisms. How does it do that?
 
 A morphism in $\mathsf{C} \times \mathsf{C}$ between two objects $(A', A)$ and $(B', B)$ is an ordered pair $(f', f)$ of two morphisms:
 \begin{equation*}
@@ -57,7 +57,7 @@ Notice: we want to build from $m$, $f$, and $f'$ a morphism $B' \to B$. Suppose 
     & B
   \end{tikzcd}
 \end{equation*}
-Then we could get what we want simply by taking the composition $f \circ m \circ f'$.
+Then we could get an element of $\Hom_{\mathsf{C}}(B, B')$ simply by taking the composition $f \circ m \circ f'$.
 \begin{equation*}
   \begin{tikzcd}
     A'
@@ -131,7 +131,7 @@ Let's formalize this in a definition.
 
 \begin{example}
   \label{eg:naturaltransformationsforcccs}
-  Hom functors give us a new way of looking at the universal property for products, coproducts, and exponentials.
+  Hom functors give us a new way of looking at the universal property for products and coproducts.
 
   Let $\mathsf{C}$ be a locally small category with products, and let $X$, $A$, $B \in \Obj(\mathsf{C})$. Recall that the universal property for the product $A \times B$ allows us to exchange two morphisms
   \begin{equation*}
@@ -205,8 +205,12 @@ Let's formalize this in a definition.
   \begin{equation*}
     h^{A \amalg B} \Rightarrow h^{A} \times h^{B}.
   \end{equation*}
+\end{example}
 
-  The exponential is a little bit more complicated: it allows us to trade a morphism
+This example is really a reflection of a concept we will meet in \hyperref[ch:limits]{Chapter~\ref*{ch:limits}}: the hom functor commutes with limits in the first slot, and turns colimits into limits in the second.
+
+\begin{example}
+  Hom functors also give us a new way of looking at exponential objects. The universal property for exponentials is a little bit more complicated: it allows us to trade a morphism
   \begin{equation*}
     X \times A \to B
   \end{equation*}
@@ -218,8 +222,12 @@ Let's formalize this in a definition.
   \begin{equation*}
     X \mapsto \Hom_{\mathsf{C}}(X \times A, B)\qquad\text{and}\qquad X \mapsto \Hom_{\mathsf{C}}(X, B^{A}).
   \end{equation*}
-  The fact that the functors are more complicated does not hurt us: the above bijection is still natural.
+  It is easy to check that this bijection is again natural.
 \end{example}
+This example is a reflection of yet another concept (which we will meet in \hyperref[sec:adjunctions]{Section~\ref*{sec:adjunctions}}), that of an adjunction.
+
+\section{Currying the hom functor}
+\label{sec:currying_the_hom_functor}
 
 The hom functor as defined above is cute, but not a whole lot else. Things get interesting when we curry it.
 
@@ -296,10 +304,7 @@ In particular, it gives us two more ways to view our bifunctor $\Hom_{\mathsf{C}
   \end{itemize}
 \end{definition}
 
-
-\section{Representable functors}
-
-Roughly speaking, a functor $\mathsf{C} \rightarrow \mathsf{Set}$ is representable if it is
+Functors of the above form turn out to be so important that they have a special name.
 
 \begin{definition}[representable functor]
   \label{def:representablefunctor}
@@ -350,7 +355,7 @@ Roughly speaking, a functor $\mathsf{C} \rightarrow \mathsf{Set}$ is representab
 
 \section{The Yoneda embedding}
 
-The Yoneda embedding is a very powerful tool which allows us to prove things about any locally small category by embedding that category into $\mathsf{Set}$, and using the enormous amount of structure that $\mathsf{Set}$ has.
+The Yoneda embedding is a very powerful tool which allows us to prove things about any locally small category by embedding that category into a category of functors to $\mathsf{Set}$, and using the enormous amount of structure that $\mathsf{Set}$ has.
 
 %In the thread \cite{baez-categories-usenet} on the sci.math google group, John Baez explains the importance of the Yoneda lemma in the following way.
 %
@@ -454,7 +459,7 @@ The Yoneda embedding is a very powerful tool which allows us to prove things abo
       \end{equation*}
       Thus, we have
       \begin{equation*}
-        (\Phi \circ \mathcal{Y}(f))(\id_{B}) = \Phi_{B}(f).
+        (\Phi \circ \mathcal{Y}(f))(\id_{B})_{B} = \Phi_{B}(f).
       \end{equation*}
 
     \item We can first head to the right using $\eta_{A}$. This sends $\Phi$ to
@@ -487,8 +492,6 @@ The Yoneda embedding is a very powerful tool which allows us to prove things abo
   \begin{equation*}
     h_{B}(A) = \Hom_{\mathsf{C}}(A, B).
   \end{equation*}
-
-  But $\Hom_{[\mathsf{C}^{\text{op}}, \mathsf{Set}]}(h_{A}, h_{B})$ is nothing else but $\Hom_{[\mathsf{C}^{\mathrm{op}}, \mathsf{Set}]}(h_{A}, h_{B})$, so we are done.
 \end{proof}
 
 \begin{note}

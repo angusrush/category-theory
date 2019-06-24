@@ -1,0 +1,463 @@
+\documentclass[notes.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Universal properties}
+\label{ch:universal_properties}
+
+In a first course on linear algebra, one tends to reach for a basis every time one has to prove something about a vector space. Over time, many people begin to find it more aesthetically pleasing to properties intrinsic to the vector space itself. This is a reflection of a more general subjective phenomenon: the most beautiful, deepest way of working with a structure is often to use only the information available in the category in which the structure lives.
+
+There is a very powerful way of describing and working with structures using only category-theoretic information, called \emph{universal properties.}
+
+Universal properties are ubiquitous in mathematics. The reader, whether he or she is aware of it or not, has almost certainly seen and used a few examples, such as the universal properties for products and tensor algebras. They are astonishingly useful.
+
+For instance, suppose someone approaches you on the street late at night and tells you that they're going to steal your wallet unless you can write down a map $\R \to \R \times \R$. You write down
+\begin{equation*}
+  x \mapsto (x, x^{2}).
+\end{equation*}
+Your would-be mugger scoffs, saying ``That's not a map $\R \to \R \times \R$. What you have really done is write down a pair of maps $\R \to \R$!''
+
+You, however, are as cool as a cucumber. You calmly tell the thief, ``The universal property for the Cartesian product tells us that writing down a pair of maps $\R \to \R$ is the same as writing down a map $\R \to \R \times \R$.'' Your assailant leaves, dejected.
+
+\section{Comma categories}
+
+The natural language for formalizing universal properties comes from the notion of a comma category.
+
+\begin{definition}[comma category]
+  \label{def:commacategory}
+  Let $\mathsf{A}$, $\mathsf{B}$, $\mathsf{C}$ be categories, $\mathcal{S}$ and $\mathcal{T}$ functors as follows.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{A}
+      \arrow[r, "\mathcal{S}"]
+      & \mathsf{C}
+      & \arrow[l, swap, "\mathcal{T}"]
+      \mathsf{B}
+    \end{tikzcd}
+  \end{equation*}
+  The \defn{comma category} $(\mathcal{S} \downarrow \mathcal{T})$ is the category whose
+  \begin{itemize}
+    \item objects are triples $(\alpha, \beta, f)$ where $\alpha\in\Obj(\mathsf{A})$, $\beta \in \Obj(\mathsf{B})$, and $f \in \Hom_{\mathsf{C}}(\mathcal{S}(\alpha), \mathcal{T}(\beta))$, and whose
+    \item morphisms $(\alpha, \beta, f) \to (\alpha', \beta', f')$ are all pairs $(g, h)$, where $g\colon \alpha \to \alpha'$ and $h\colon \beta \to \beta'$, such that the diagram
+      \begin{equation*}
+        \begin{tikzcd}
+          \mathcal{S}(\alpha) \arrow[r, "\mathcal{S}(g)"] \arrow[d, swap, "f"] & \mathcal{S}(\alpha') \arrow[d, "f'"]\\
+          \mathcal{T}(\beta) \arrow[r, "\mathcal{T}(h)"] & \mathcal{T}(\beta')
+        \end{tikzcd}
+      \end{equation*}
+      commutes.
+  \end{itemize}
+\end{definition}
+
+\begin{notation}
+  We will often specify the comma category $(\mathcal{S} \downarrow \mathcal{T})$ by simply writing down the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{A}\arrow[r, "\mathcal{S}"] & \mathsf{C} & \arrow[l, swap, "\mathcal{T}"]\mathsf{B}
+    \end{tikzcd}.
+  \end{equation*}
+\end{notation}
+
+Let us check in some detail that a comma category really is a category. To do so, we need to check the three properties listed in \hyperref[def:category]{Definition~\ref*{def:category}}
+\begin{enumerate}
+  \item We must be able to compose morphisms, i.e.\ we must have the following diagram.
+    \begin{equation*}
+      \begin{tikzcd}
+        {(\alpha, \beta, f)} \arrow[r, "{(g,h)}"] \arrow[rr, bend left, "{(g', h') \circ (g, h)}"] & {(\alpha', \beta', f')} \arrow[r, "{(g', h')}"] & {(\alpha'', \beta'', f'')}
+      \end{tikzcd}
+    \end{equation*}
+    We certainly do, since by definition, each square of the following diagram commutes,
+    \begin{equation*}
+      \begin{tikzcd}
+        \mathcal{S}(\alpha) \arrow[r, "\mathcal{S}(g)"] \arrow[d, swap, "f"] & \mathcal{S}(\alpha') \arrow[r, "\mathcal{S}(g')"] \arrow[d, swap, "f'"] & \mathcal{S}(a'') \arrow[d, "f''"] \\
+        \mathcal{T}(\alpha) \arrow[r, "\mathcal{T}(h)"] & \mathcal{T}(\alpha') \arrow[r, "\mathcal{T}(h')"] & \mathcal{T}(a'')
+      \end{tikzcd}
+    \end{equation*}
+    so the square formed by taking the outside rectangle
+    \begin{equation*}
+      \begin{tikzcd}[column sep=huge]
+        \mathcal{S}(\alpha) \arrow[d, swap, "f"] \arrow[r, "\mathcal{S}(g') \circ \mathcal{S}(g)"] & \mathcal{S}(\alpha'') \arrow[d, "f''"] \\
+        \mathcal{T}(\alpha) \arrow[r, "\mathcal{T}(h') \circ \mathcal{T}(h)"] & \mathcal{T}(\alpha'') \\
+      \end{tikzcd}
+    \end{equation*}
+    commutes. But $\mathcal{S}$ and $\mathcal{T}$ are functors, so
+    \begin{equation*}
+      \mathcal{S}(g') \circ \mathcal{S}(g) = \mathcal{S}(g' \circ g),
+    \end{equation*}
+    and similarly for $\mathcal{T}(h' \circ h)$. Thus, the composition of morphisms is given via
+    \begin{equation*}
+      (g', h') \circ (g,h) = (g'\circ g, h' \circ h).
+    \end{equation*}
+
+  \item We can see from this definition that associativity in $(\mathcal{S}\downarrow \mathcal{T})$ follows from associativity in the underlying categories $\mathsf{A}$ and $\mathsf{B}$.
+
+  \item The identity morphism is the pair $(\id_{\mathcal{S}(\alpha)}, \id_{\mathcal{T}(\beta)})$. It is trivial from the definition of the composition of morphisms that this morphism functions as the identity morphism.
+\end{enumerate}
+
+
+\section{Slice categories}
+
+A special case of a comma category, the so-called \emph{slice category}, occurs when $\mathsf{C} = \mathsf{A}$, $\mathcal{S}$ is the identity functor, and $\mathsf{B} = \mathsf{1}$, the category with one object and one morphism (\hyperref[eg:categorywithoneobject]{Example~\ref*{eg:categorywithoneobject}}).
+
+\begin{definition}[slice category]
+  \label{def:slicecategory}
+  A \defn{slice category} is a comma category
+
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{A} \arrow[r, "\mathrm{id}_{A}"] & \mathsf{A} & \arrow[l, swap, "\mathcal{T}"] \mathsf{1}
+    \end{tikzcd}.
+  \end{equation*}
+
+  Let us unpack this prescription. Taking the definition literally, the objects in our category are triples $(\alpha, \beta, f)$, where $\alpha \in \Obj(\mathsf{A})$, $\beta \in \Obj(\mathsf{1})$, and $f \in \Hom_{\mathsf{A}}(\mathrm{id}_{\mathsf{A}}(\alpha), \mathcal{T}(\beta))$.
+
+  There's a lot of extraneous information here, and our definition can be consolidated considerably. Since the functor $\mathcal{T}$ is given and $\mathsf{1}$ has only one object (call it $*$), the object $\mathcal{T}(*)$ (call it $X$) is singled out in $\mathsf{A}$. We can think of $\mathcal{T}$ as $\mathcal{F}_{X}$ (\hyperref[eg:functorfrom1category]{Example~\ref*{eg:functorfrom1category}}). Similarly, since the identity morphism doesn't do anything interesting, Therefore, we can collapse the following diagram considerably.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathcal{F}_{X}(*)
+      \arrow[r, "\mathcal{F}_{X}(\id_{*})"]
+      \arrow[d, swap, "f"]
+      & \mathcal{F}_{X}(*)
+      \arrow[d, "f'"]
+      \\
+      \mathrm{id}_{A}(\alpha)
+      \arrow[r, "\mathrm{id}_{A}(g)"]
+      & \mathrm{id}_{A}(\alpha')
+    \end{tikzcd}
+  \end{equation*}
+  The objects of a slice category therefore consist of pairs $(\alpha, f)$, where $\alpha \in \Obj(A)$ and
+  \begin{equation*}
+    f: \alpha \to X;
+  \end{equation*}
+  the morphisms $(\alpha, f) \to (\alpha', f')$ consist of maps $g\colon \alpha \to \alpha'$. This allows us to define a slice category more neatly.
+
+  Let $\mathsf{A}$ be a category, $X \in \Obj(\mathsf{A})$. The \defn{slice category} $(\mathsf{A}\downarrow X)$ is the category whose objects are pairs $(\alpha, f)$, where $\alpha \in \Obj(A)$ and $f\colon \alpha \to X$, and whose morphisms $(\alpha, f) \to (\alpha', f')$ are maps $g:\alpha \to \alpha'$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny, row sep=6ex]
+      \alpha \arrow[rr, "g"] \arrow[rd, swap, "f"] & & \alpha' \arrow[dl, "f'"] \\
+      & X
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+\end{definition}
+
+One can also define a coslice category, which is what you get when you take a slice category and turn the arrows around: coslice categories are \emph{dual} to slice categories.
+\begin{definition}[coslice category]
+  \label{def:coslicecategory}
+  Let $\mathsf{A}$ be a category, $X \in \Obj(A)$. The \defn{coslice category} $(X \downarrow \mathsf{A})$ is the comma category given by the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{1} \arrow[r, "\mathcal{F}_{X}"] & \mathsf{A} & \arrow[l, swap, "\mathrm{id}_{A}"] \mathsf{A}
+    \end{tikzcd}.
+  \end{equation*}
+  The objects are morphisms $f\colon X \to \alpha$ and the morphisms are morphisms $g\colon \alpha \to \alpha'$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny, row sep=6ex]
+      & X \arrow[dl, swap, "f"] \arrow[dr, "f'"] & \\
+      \alpha \arrow[rr, swap, "g"] & & \alpha'
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+\end{definition}
+
+
+\section{Initial and terminal objects}
+
+It is difficult to talk about specific objects in a category using only category-theoretic information. For example, imagine trying to explain the structure of the $n$th dihedral group to someone without talking about its elements.
+
+However, not all is lost when passing to situations in which more data is not available. Certain objects in a category are special, and you can talk about them without any reference to non-categorical data.
+
+\begin{definition}[initial objects, final objects, zero objects]
+  \label{def:initialfinalzeroobject}
+  Let $\mathsf{C}$ be a category, and let $A \in \Obj(\mathsf{C})$.
+  \begin{itemize}
+    \item $A$ is said to be an \defn{initial object} if for all $B\in \Obj(\mathsf{C})$, $\Hom(A,B)$ has exactly one element, i.e.\ if there is exactly one arrow from $A$ to every object in $\mathsf{C}$. Initial objects are generally called $\emptyset$.
+
+    \item $A$ is said to be a \defn{terminal object} if $\Hom(B,A)$ has exactly one element for all $B\in \Obj(\mathsf{C})$, i.e.\ if there is exactly one arrow from every object in $\mathsf{C}$ to $A$. Terminal objects are generally called $1$.
+
+    \item $A$ is said to be a \defn{zero object} if it is both initial and terminal. Zero objects are almost always called $0$.
+  \end{itemize}
+\end{definition}
+
+The names $\emptyset$ and $1$ for the initial and terminal objects may seem odd, but in $\mathsf{Set}$ they make sense.
+
+\begin{example}
+  In $\mathsf{Set}$, there is exactly one map from any set $S$ to any one-element set $\{*\}$. Thus $\{*\} = 1$ is a terminal object in $\mathsf{Set}$.
+
+  Furthermore, it is conventional that there is exactly one map from the empty set $\emptyset$ to any set $B$. Thus the empty set $\emptyset$ is initial in $\mathsf{Set}$.
+
+  The category $\mathsf{Set}$ has no zero objects.
+\end{example}
+
+\begin{example}
+  The trivial group is a zero object in $\mathsf{Grp}$.
+\end{example}
+
+You may have noticed that initial, terminal, and zero objects may not be unique. For example, in $\mathsf{Set}$, any singleton is terminal. This is true; however, they are unique up to unique isomorphism.
+
+\begin{theorem}
+  \label{thm:allinitialobjectsareuniquelyisomorphic}
+  Let $\mathsf{C}$ be a category, let $I$ and $I'$ be two initial objects in $\mathsf{C}$. Then there exists a unique isomorphism between $I$ and $I'$.
+\end{theorem}
+\begin{proof}
+  Since $I$ is initial, there exists exactly one morphism from $I$ to \emph{any} object, including $I$ itself. By \hyperref[item:existenceofidentitymorphism]{Definition~\ref*{def:category}, Part~\ref*{item:existenceofidentitymorphism}}, this morphism must be the identity morphism $\id_{I}$. Similarly, the only morphism from $I'$ to itself is the identity morphism $\id_{I'}$.
+
+  But since $I$ is initial, there exists a unique morphism from $I$ to $I'$; call it $f$. Similarly, there exists a unique morphism from $I'$ to $I$; call it $g$. By \hyperref[item:compositionofmorphisms]{Definition~\ref*{def:category}, Part~\ref*{item:compositionofmorphisms}}, we can take the composition $g \circ f$ to get a morphism $I \to I$.
+
+  But there is only one isomorphism $I \to I$: the identity morphism! Thus
+  \begin{equation*}
+    g \circ f = \id_{I}.
+  \end{equation*}
+  Similarly,
+  \begin{equation*}
+    f \circ g  = \id_{I'}.
+  \end{equation*}
+  This means that, by \hyperref[def:isomorphism]{Definition~\ref*{def:isomorphism}}, $f$ and $g$ are isomorphisms. They are clearly unique because of the uniqueness condition in the definition of an initial object. Thus, between any two initial objects there is a unique isomorphism.
+  \begin{equation*}
+    \begin{tikzcd}
+      I \arrow[loop left, "\id_{I} \,=\, g \circ f"] \arrow[r, bend left, "f"] & I' \arrow[l, bend left, "g"] \arrow[loop right, "\id_{I'} \,=\, f \circ g"]
+    \end{tikzcd}
+  \end{equation*}
+\end{proof}
+
+Showing that terminal and zero objects are unique up to unique isomorphism is almost exactly the same.
+
+\section{Morphisms to and from functors}
+
+We have succeeded in specifying certain objects (namely initial, terminal, and zero objects) in a category using only categeorical information uniquely up to a unique isomorphism. Unfortunately, initial, terminal, and zero objects are usually not very interesting; they are often trivial examples of the structures contained in the category.
+
+However, they give us a way of defining interesting mathematical objects: we have to cook up a category where the object in question is initial or terminal. In a sense, this is the most general definition of a universal property: an object satisfies a universal property if it is initial or terminal in some category. However, we will see in \hyperref[sec:adjunctions]{Chapter~\ref*{sec:adjunctions}} that there is a way of constructing interesting objects satisfying a universal property, namely partial adjunctions: these specify universal objects in the form of \emph{morphisms to and from functors.}
+
+\begin{definition}[category of morphisms from an object to a functor]
+  \label{def:categoryofmorphismsfromanobjecttoafunctor}
+  Let $\mathsf{C}$, $\mathsf{D}$ be categories, let $\mathcal{U}\colon \mathsf{D} \to \mathsf{C}$ be a functor. Further let $X \in \Obj(C)$. The \defn{category of morphisms $(X \downarrow \mathcal{U})$} is the following comma category (see \hyperref[def:commacategory]{Definition~\ref*{def:commacategory}}):
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{1} \arrow[r, "\mathcal{F}_{X}"] & \mathsf{C} & \arrow[l, swap, "\mathcal{U}"] \mathsf{D}
+    \end{tikzcd}.
+  \end{equation*}
+  Just as for (co)slice categories (\hyperref[def:slicecategory]{Definitions~\ref*{def:slicecategory} and~\ref*{def:coslicecategory}}), there is some unpacking to be done. In fact, the unpacking is very similar to that of coslice categories. The LHS of the commutative square diagram collapses because the functor $\mathcal{F}_{X}$ picks out a single element $X$; therefore, the objects of $(X \downarrow \mathcal{U})$ are ordered pairs
+  \begin{equation*}
+    (\alpha, f);\qquad\alpha \in \Obj(\mathsf{D}),\quad f\colon X \to \mathcal{U}(\alpha),
+  \end{equation*}
+  and the morphisms $(\alpha, f) \to (\alpha', f')$ are morphisms $g\colon \alpha \to \alpha'$ such that the diagram
+
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny, row sep=6ex]
+      & X \arrow[dl, swap, "f"] \arrow[dr, "f'"] & \\
+      \mathcal{U}(\alpha) \arrow[rr, swap, "\mathcal{U}(g)"] & & \mathcal{U}(\alpha')
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+
+\end{definition}
+
+Just as slice categories are dual to coslice categories, we can take the dual of the previous definition.
+
+\begin{definition}[category of morphisms from a functor to an object]
+  \label{def:categoryofmorphismsfromafunctortoanobject}
+  Let $\mathsf{C}$, $\mathsf{D}$ be categories, let $\mathcal{U}\colon \mathsf{D} \to \mathsf{C}$ be a functor. The \defn{category of morphisms $(\mathcal{U} \downarrow X)$} is the comma category
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{D} \arrow[r, "\mathcal{U}"] & \mathsf{C} & \arrow[l, swap, "\mathcal{F}_X"] \mathsf{1}
+    \end{tikzcd}.
+  \end{equation*}
+  The objects in this category are pairs $(\alpha, f)$, where $\alpha \in \Obj(\mathsf{D})$ and $f\colon \mathcal{U}(\alpha) \to X$. The morphisms $(\alpha, f) \to (\alpha', f')$ are morphisms $g\colon \alpha \to \alpha'$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny, row sep=6ex]
+      \mathcal{U}(\alpha) \arrow[rr, "\mathcal{U}(g)"] \arrow[dr, swap, "f"] & & \mathcal{U}(\alpha') \arrow[dl, "f'"] \\
+      & X &
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+\end{definition}
+
+
+\section{Initial and terminal morphisms}
+
+\begin{definition}[initial morphism]
+  \label{def:initialmorphism}
+  Let $\mathsf{C}$, $\mathsf{D}$ be categories, let $\mathcal{U}\colon \mathsf{D} \to \mathsf{C}$ be a functor, and let $X \in \Obj(\mathsf{C})$. An \defn{initial morphism} (called a \emph{universal arrow} in~\cite{maclane-categories}) is an initial object in the category $(X \downarrow \mathcal{U})$, i.e.\ the comma category which has the diagram
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{1} \arrow[r, "\mathcal{F}_{X}"] & \mathsf{C} & \mathsf{D} \arrow[l, swap, "\mathcal{U}"]
+    \end{tikzcd}
+  \end{equation*}
+\end{definition}
+This is not by any stretch of the imagination a transparent definition, but decoding it will be good practice.
+
+The definition tells us that an initial morphism is an object in $(X \downarrow \mathcal{U})$, i.e.\ a pair $(I, \varphi)$ for $I \in \Obj(\mathsf{D})$ and $\varphi\colon X \to \mathcal{U}(\alpha)$. But it is not just any object: it is an initial object. This means that for any other object $(\alpha, f)$, there exists a unique morphism $(I, \varphi) \to (\alpha, f)$.
+But such morphisms are simply maps $g\colon I \to \alpha$ such that the diagram
+\begin{equation*}
+  \begin{tikzcd}[column sep=tiny, row sep=6ex]
+    & X \arrow[dl, swap, "\varphi"] \arrow[dr, "f"] & \\
+    \mathcal{U}(I) \arrow[rr, swap, "\mathcal{U}(g)"] & & \mathcal{U}(\alpha)
+  \end{tikzcd}
+\end{equation*}
+commutes.
+
+We can express this schematically via the following diagram (which is essentially the above diagram, rotated to agree with the literature).
+\begin{equation*}
+  \begin{tikzcd}[row sep=large]
+    X \arrow[r, "\varphi"] \arrow[dr, swap, "f"] & \mathcal{U}(I) \arrow[d, "\mathcal{U}(g)"] & & I \arrow[d, "\exists!g"]\\
+    & \mathcal{U}(\alpha) & & \alpha
+  \end{tikzcd}
+\end{equation*}
+
+As always, there is a dual notion.
+\begin{definition}[terminal morphism]
+  \label{def:terminalmorphism}
+  Let $\mathsf{C}$, $\mathsf{D}$ be categories, let $\mathcal{U}\colon \mathsf{D} \to \mathsf{C}$ be a functor, and let $X \in \Obj(\mathsf{C})$. A \defn{terminal morphism} is a terminal object in the category $(\mathcal{U} \downarrow X)$.
+\end{definition}
+
+This time ``terminal object'' means a pair $(I, \varphi)$ such that for any other object $(\alpha, f)$ there is a unique morphism $g\colon \alpha \to I$ such that the diagram
+\begin{equation*}
+  \begin{tikzcd}[column sep=tiny, row sep=6ex]
+    \mathcal{U}(\alpha) \arrow[dr, swap, "f"] \arrow[rr, "\mathcal{U}(g)"] & & \mathcal{U}(I)\arrow[dl, "\varphi"] \\
+    & X
+  \end{tikzcd}
+\end{equation*}
+commutes.
+
+Again, with the diagram helpfully rotated, we have the following.
+\begin{equation*}
+  \begin{tikzcd}[row sep=large]
+    \mathcal{U}(\alpha) \arrow[d, swap, "\mathcal{U}(g)"] \arrow[rd, "f"] & & & \alpha \arrow[d, "\exists!g"]\\
+    \mathcal{U}(I) \arrow[r, swap, "\varphi"] & X & & I
+  \end{tikzcd}
+\end{equation*}
+
+
+\section{Universal properties}
+
+Now is the time for an admission: despite what Wikipedia may tell you, there is no hard and fast definition of a universal property. In complete generality, an object with a universal property is just an object which is initial or terminal in some category. However, enough interesting universal properties follow the following pattern that it is worth formalizing in a definition.
+
+\begin{definition}[universal property]
+  \label{def:universalproperty}
+  A pair $(\alpha, f)$ \defn{satisfies a universal property} if it satisfies either of the following criteria.
+  \begin{itemize}
+    \item It is initial in some category $(X \downarrow \mathcal{F})$; that is, if it is an initial morphism.
+
+    \item It is terminal in some category $(\mathcal{F} \downarrow X)$; that is, if it is a terminal morphism.
+  \end{itemize}
+\end{definition}
+
+\begin{note}
+  One often hand-wavily says that an object $I$ \defn{satisfies a universal property} if $(I, \varphi)$ is an initial or terminal morphism. This is actually rather annoying; one has to remember that when one states a universal property in terms of a universal morphism, one is defining not only an object $I$ but also a morphism $\varphi$, which is often left implicit.
+\end{note}
+
+Generally when one sees universal properties, they are not in the form `an initial morphism in such-and-such a comma category.' Often, one has to play around with them a bit to get them into that form. In fact, this is seldom useful. In this section, we give several examples of very common universal properties as they are commonly written down, and translate them into the form above, in order to convince the likely disbelieving reader that many familiar universal properties really are of this form.
+
+\begin{example}[tensor algebra]
+  \label{eg:tensoralgebra}
+  One often sees some variation of the following universal characterization of the tensor algebra, which was taken (almost) verbatim from Wikipedia. We will try to stretch it to fit our definition, following the logic through in some detail.
+  \begin{quote}
+    Let $V$ be a vector space over a field $k$, and let $A$ be an algebra over $k$. The tensor algebra $T(V)$ satisfies the following universal property.
+
+    Any linear transformation $f\colon V \to A$ from $V$ to $A$ can be uniquely extended to an algebra homomorphism $T(V) \to A$ as indicated by the following commutative diagram.
+    \begin{equation*}
+      \begin{tikzcd}[row sep=large]
+        V \arrow[r, "i"] \arrow[dr, swap, "f"] & T(V) \arrow[d, "\tilde{f}"] \\
+        & A
+      \end{tikzcd}
+    \end{equation*}
+  \end{quote}
+
+  As it turns out, it will take rather a lot of stretching.
+
+  Let $\mathcal{U}\colon k\mhyp\mathsf{Alg} \to \mathsf{Vect}_{k}$ be the forgetful functor which assigns to each algebra over a field $k$ its underlying vector space. Pick some $k$-vector space $V$. We consider the category $(V \downarrow \mathcal{U})$, which is given by the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}
+      \mathsf{1} \arrow[r, "\mathcal{F}_{V}"] & \mathsf{Vect}_{k} &\arrow[l, swap, "\mathcal{U}"] k\mhyp\mathsf{Alg}
+    \end{tikzcd}
+  \end{equation*}
+
+  By \hyperref[def:initialmorphism]{Definition~\ref*{def:initialmorphism}}, the objects of $(V \downarrow \mathcal{U})$ are pairs $(A, L)$, where $A$ is a $k$-algebra and $L$ is a linear map $V \to \mathcal{U}(A)$. The morphisms are algebra homomorphisms $\rho\colon A \to A'$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny, row sep=6ex]
+      & V \arrow[dl, swap, "L"] \arrow[dr, "L'"] & \\
+      \mathcal{U}(A) \arrow[rr, swap, "\mathcal{U}(\rho)"] & & \mathcal{U}(A')
+    \end{tikzcd}
+  \end{equation*}
+  commutes. An object $(T(V), i)$ is initial if for any object $(A, f)$ there exists a unique morphism $g\colon T(V) \to A$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[row sep=large]
+      V \arrow[r, "i"] \arrow[dr, swap, "L"] & \mathcal{U}(T(V)) \arrow[d, "\mathcal{U}(g)"] & & T(V) \arrow[d, "\exists!g"] \\
+      & \mathcal{U}(A) & & A
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+
+  Thus, the pair $(i, T(V))$ is the initial object in the category $(V \downarrow \mathcal{U})$. We called $T(V)$ the \emph{tensor algebra} over $V$.
+
+  But what is $i$? Notice that in the Wikipedia definition above, the map $i$ is from $V$ to $T(V)$, but in the diagram above, it is from $V$ to $\mathcal{U}(T(V))$. What gives?
+
+  The answer that the diagram in Wikipedia's definition does not take place in a specific category. Instead, it implicitly treats $T(V)$ only as a vector space. But this is exactly what the functor $\mathcal{U}$ does.
+\end{example}
+
+\begin{example}[product]
+  \label{eg:universalpropertyofproducts}
+  Here is the universal property for a product, taken verbatim from Wikipedia (\cite{wikipedia-product}).
+  \begin{quote}
+    Let $\mathsf{C}$ be a category with some objects $X_{1}$ and $X_{2}$. A product of $X_{1}$ and $X_{2}$ is an object $X$ (often denoted $X_{1}\times X_{2}$) together with a pair of morphisms $\pi_{1}\colon X \to X_{1}$ and $\pi_{2}\colon X \to X_{2}$ such that for every object $Y$ and pair of morphisms $f_{1}\colon Y \to X_{1}$, $f_{2}\colon Y \to X_{2}$, there exists a unique morphism $f\colon Y \to X_{1} \times X_{2}$ such that the following diagram commutes.
+    \begin{equation*}
+      \begin{tikzcd}
+        & Y \arrow[dl, swap, "f_{1}"] \arrow[d, "f"] \arrow[dr, "f_{2}"] & \\
+        X_{1} & X_{1} \times X_{2} \arrow[l, "\pi_{1}"] \arrow[r, swap, "\pi_{2}"] & X_{2}
+      \end{tikzcd}
+    \end{equation*}
+  \end{quote}
+  Consider the comma category $(\delta \downarrow (X_{1},X_{2}))$ (where $\delta$ is the diagonal functor, see \hyperref[eg:diagonalfunctor]{Example~\ref*{eg:diagonalfunctor}}) given by the following diagram.
+  \begin{equation*}
+    \begin{tikzcd}[column sep=huge]
+      \mathsf{C} \arrow[r, "\delta"] & \mathsf{C}\times\mathsf{C} & \mathsf{1} \arrow[l, swap, "\mathcal{F}_{(X_{1},X_{2})}"]
+    \end{tikzcd}
+  \end{equation*}
+  The objects of this category are pairs $(A, (s,t))$, where $A \in \Obj(\mathsf{C})$ and
+  \begin{equation*}
+    (s,t)\colon \delta(A) = (A,A) \to (X_{1}, X_{2}).
+  \end{equation*}
+
+  The morphisms $(A, (s,t)) \to (B, (u,v))$ are morphisms $r\colon A \to B$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[column sep=tiny, row sep=6ex]
+      (A,A) \arrow[rr, "{(r, r)}"] \arrow[rd, swap, "{(s,t)}"] & & (B,B) \arrow[dl, "{(u,v)}"] \\
+      & (X_{1}, X_{2}) &
+    \end{tikzcd}
+  \end{equation*}
+  commutes.
+
+  An object $(X_{1}\times X_{2}, (\pi_{1}, \pi_{2}))$ is final if for any other object $(Y, (f_{1},f_{2}))$, there exists a unique morphism $f\colon Y \to X_{1} \times X_{2}$ such that the diagram
+  \begin{equation*}
+    \begin{tikzcd}[row sep=huge, column sep=huge]
+      (Y, Y) \arrow[d, swap, "{(f, f)}"] \arrow[rd, "{(f_{1}, f_{2})}"] & & Y \arrow[d, "\exists!f"]\\
+      (X_{1}\times X_{2}, X_{1}\times X_{2}) \arrow[r, swap, "{(\pi_{1}, \pi_{2})}"] &  (X_{1}, X_{2})& X_{1}\times X_{2}
+    \end{tikzcd}
+  \end{equation*}
+  commutes. If we re-arrange our diagram a bit, it is not too hard to see that it is equivalent to the one given above. Thus, we can say: a product of two sets $X_{1}$ and $X_{2}$ is a final object in the category $(\delta \downarrow (X_{1}, X_{2}))$
+\end{example}
+
+\begin{example}[tensor product]
+  \label{eg:universalpropertyoftensorproduct}
+  According to the excellent book~\cite{sontz-principal-bundles-classical}, the tensor product satisfies the following universal property.
+  \begin{quote}
+    Let $V_{1}$ and $V_{2}$ be vector spaces. Then we say that a vector space $V_{3}$ together with a bilinear map $\iota\colon V_{1} \times V_{2} \to V_{3}$ has the \emph{universal property} provided that for any bilinear map $B\colon V_{1} \times V_{2} \to W$, where $W$ is also a vector space, there exists a unique linear map $L\colon V_{3} \to W$ such that $B = L\iota$. Here is a diagram describing this `factorization' of $B$ through $\iota$:
+    \begin{equation*}
+      \begin{tikzcd}
+        V_{1} \times V_{2} \arrow[r, "\iota"] \arrow[rd, swap, "B"] & V_{3} \arrow[d, "L"] \\
+        & W
+      \end{tikzcd}
+    \end{equation*}
+  \end{quote}
+
+  It turns out that the tensor product defined in this way is neither an initial or final morphism. This is because in the category $\mathsf{Vect}_{k}$, there is no way of making sense of a bilinear map.
+\end{example}
+
+
+\section{Why does this structure appear?}
+
+We must admit that the categories $(X \downarrow \mathcal{F})$ and $(\mathcal{F} \downarrow X)$ defined above are not very natural, and that the definition of a universal property as either an initial object in $(X \downarrow \mathcal{F})$ or a terminal morphism in $(\mathcal{F} \downarrow X)$ is downright cryptic. Why don't we care, for example, about terminal objects in $(X \downarrow \mathcal{F})$ or initial objects in $(\mathcal{F} \downarrow X)$?
+
+We will have to wait until \hyperref[sec:adjunctions]{Chapter~\ref*{sec:adjunctions}} to answer this question properly; for now, the reader will have to content him or herself with the knowledge that these \emph{are} the correct notions to study.
+
+\end{document}

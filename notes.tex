@@ -4,10 +4,37 @@
 \usepackage{subfiles}
 
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+   \vspace*{\stretch{1.0}}
+   \begin{center}
+     \Huge\textbf{A Gentle Introduction to Category Theory}\\
+     (Work in progress) \\
+     \vspace*{1em}
+     \Large\textit{Angus Rush}
+   \end{center}
+   \vspace*{\stretch{1.0}}
+   \begin{equation*}
+     \begin{tikzcd}[row sep=huge, column sep=huge]
+       \Hom(A, A)
+       \arrow[r]
+       \arrow[d]
+       & \Hom(B, A)
+       \arrow[d]
+       \\
+       \mathcal{F}(A)
+       \arrow[r]
+       & \mathcal{F}(B)
+     \end{tikzcd}
+   \end{equation*}
+   \vspace*{\stretch{0.3}}
+\end{titlepage}
+
 \tableofcontents
 
+\subfile{intro.tex}
 \subfile{basics.tex}
+\subfile{universal.tex}
 \subfile{ccc.tex}
 \subfile{yoneda.tex}
 \subfile{limits.tex}
@@ -20,9 +47,7 @@
 \subfile{enrichment.tex}
 \subfile{higher.tex}
 \begin{appendix}
-  \chapter{chapter name}
-  \label{ch:chapter_name}
-  test
+  \subfile{universes.tex}
 \end{appendix}
 
 \begin{thebibliography}{9}
