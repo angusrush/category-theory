@@ -8,111 +8,117 @@
   This chapter is under heavy construction. It's not very good at the moment.
 \end{note}
 
-\section{Motivating example}
-\label{sec:motivating_example}
+Adjunctions are, as far as the author is concerned, the most fundamental construction in category theory, if not mathematics as a whole.
 
-Consider the following functors:
-\begin{itemize}
-  \item $\mathcal{U}\colon \mathsf{Grp} \rightarrow \mathsf{Set}$, which sends a group to its underlying set, and
+Adjunctions have many essences. The simplest is that they provide a partial solution to an impossible problem: finding an inverse to a lossy process.
 
-  \item $\mathcal{F}\colon \mathsf{Set} \rightarrow \mathsf{Grp}$, which sends a set to the free group on it.
-\end{itemize}
+Recall
 
-The functor $\mathcal{U}$ is lossy; it forgets a structure, namely group multiplication. Of course, no inverse functor exists, since a set can have many different group structures on it. However, one can think of the functor $\mathcal{F}$ as a sort of weak inverse to $\mathcal{U}$; it constructs out of any set a group in a canonical way.
-
-Many interesting mathematical structures arise in an attempt to add back in forgotten structure.
-
-But how would one go about formalizing this?
-
-This is an example of a free-forgetful adjunctions, a special case of an extremely powerful structure called an \emph{adjuction}. We have encountered adjunctions before---we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
-\begin{equation*}
-  \Hom_{\mathsf{C}}(X \times (-), B)\qquad\text{and}\qquad \Hom_{\mathsf{C}}(X, B^{(-)}).
-\end{equation*}
-this is a so-called \emph{hom-set adjunction}.
-
-\subsection{Hom-set adjunction}
-\label{ssc:hom_set_adjunction}
-
-The functors $\mathcal{U}$ and $\mathcal{F}$ have the following property. Let $S$ be a set, $G$ be a group, and let $f\colon S \to \mathcal{U}(G)$, $s \mapsto f(s)$ be a set-function. Then there is an associated group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$, which sends $s_{1}s_{2}\dots s_{n} \mapsto f(s_{1}s_{2}\dots s_{n}) = f(s_{1})\cdots f(s_{n})$. In fact, $\tilde{f}$ is the unique homomorphism $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
-
-Similarly, for every group homomorphism $g\colon \mathcal{F}(S) \to G$, there is an associated function $S \to \mathcal{U}(G)$ given by restricting $g$ to $S$. In fact, this is the unique function $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
-
-Thus for each $f \in \Hom_{\mathsf{Grp}}(S, \mathcal{U}(G))$ we can construct an $\tilde{f} \in \Hom_{\mathsf{Set}}(\mathcal{F}(S), G)$, and vice versa.
-
-Let us add some mathematical scaffolding to the ideas explored above. We build two functors $\mathsf{Set}^{\mathrm{op}} \times \mathsf{Grp} \rightarrow \mathsf{Set}$ as follows.
-\begin{enumerate}
-  \item Our first functor maps the object $(S, G) \in \Obj(\mathsf{Set}^{\mathrm{op}} \times \mathsf{Grp})$ to the hom-set $\Hom_{\mathsf{Grp}}(\mathcal{F}(S), G)$, and a morphism $(\alpha, \beta)\colon (S,G) \to (S', G')$ to a function
-    \begin{equation*}
-      \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Grp}}(\mathcal{F}(S'), G');\qquad m \mapsto \mathcal{F}(\alpha) \circ m \circ \beta
-    \end{equation*}
-
-  \item Our second functor maps $(S, G)$ to $\Hom_{\mathsf{Set}}(S, \mathcal{U}(G))$, and $(\alpha, \beta)$ to
-    \begin{equation*}
-      m \mapsto \alpha \circ m \circ \mathcal{U}(\beta).
-    \end{equation*}
-\end{enumerate}
-We can define a natural isomorphism $\Phi$ between these functors with components
-\begin{equation*}
-  \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G));\qquad f \to \tilde{f}.
-\end{equation*}
-
-\subsection{Unit-counit adjunction}
-\label{ssc:unit_counit_adjunction}
-
-Suppose we take the natural isomorphism from the last section
-\begin{equation*}
-  \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G))
-\end{equation*}
-and evaluate it at $S = \mathcal{U}(G)$. This gives us an isomorphsim
-\begin{equation*}
-  \Phi_{\mathcal{U}(G), G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(\mathcal{U}(S)), G) \to \Hom_{\mathsf{Set}}(\mathcal{U}(G), \mathcal{U}(G)).
-\end{equation*}
-In particular, the element $\id_{\mathcal{U}(G)}$ is the image of some group homomorphism
-\begin{equation*}
-  \epsilon_{G}\colon \mathcal{F}(\mathcal{U}(G)) \to G.
-\end{equation*}
-Taken together for all $G$, the $\epsilon_{G}$ form a natural transformation
-\begin{equation*}
-  \epsilon\colon \mathcal{F} \circ \mathcal{U} \to \id_{\mathsf{Grp}}.
-\end{equation*}
-
-Evaluating it at $G = \mathcal{F}(S)$. This gives us an isomorphism
-\begin{equation*}
-  \Hom_{\mathsf{Grp}}(\mathcal{F}(S), \mathcal{F}(S)) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(\mathcal{F}(G))).
-\end{equation*}
-In particular, the identity $\id_{\mathcal{F}(G)}$ is mapped to some map
-\begin{equation*}
-  \eta_{S}\colon S \to \mathcal{U}(\mathcal{G}(S)).
-\end{equation*}
-In fact, taken together, the $\eta_{S}$ form a natural transformation
-\begin{equation*}
-  \eta\colon \id_{\mathsf{Set}} \Rightarrow \mathcal{U} \circ \mathcal{G}.
-\end{equation*}
-
-\subsection{Adjunction from universal property}
-\label{ssc:adjunction_from_universal_property}
-
-The previous discussion may be slightly odd to those who have already encountered free groups, because free groups are almost always defined in terms of a universal property rather than some sort of abstract nonsense involving functors. The universal property of the free group is as follows.
-
-Let $S$ be a set, and let $f\colon S \to G$ be any function from $S$ to a group $G$. Then there is a unique group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$ such that the following diagram commutes.
-\begin{equation*}
-  \begin{tikzcd}
-    S
-    \arrow[r, "\eta_{S}"]
-    \arrow[rd, swap, "f"]
-    & (\mathcal{U} \circ \mathcal{F})(S)
-    \arrow[d, "\mathcal{U}(\tilde{f})"]
-    & \mathcal{F}(S)
-    \arrow[d, "\exists!\tilde{f}"]
-    \\
-    & \mathcal{U}(G)
-    & G
-  \end{tikzcd}
-\end{equation*}
-
-As we saw in \hyperref[ch:universalproperties]{Section~\ref*{ch:universalproperties}}, this simply says that the free group over $S$ is initial in the comma category $(S \downarrow \mathcal{U})$.
-
-We have written the injection $S \hookrightarrow (\mathcal{U} \circ \mathcal{F})(S)$ in the evocative notation $\eta_{S}$. As the reader has probably guessed, this is because taken together the $\eta_{S}$ form a natural transformation which functions as the unit in a unit-counit adjunction.
+%\section{Motivating example}
+%\label{sec:motivating_example}
+%
+%Consider the following functors:
+%\begin{itemize}
+%  \item $\mathcal{U}\colon \mathsf{Grp} \rightarrow \mathsf{Set}$, which sends a group to its underlying set, and
+%
+%  \item $\mathcal{F}\colon \mathsf{Set} \rightarrow \mathsf{Grp}$, which sends a set to the free group on it.
+%\end{itemize}
+%
+%The functor $\mathcal{U}$ is lossy; it forgets a structure, namely group multiplication. Of course, no inverse functor exists, since a set can have many different group structures on it. However, one can think of the functor $\mathcal{F}$ as a sort of weak inverse to $\mathcal{U}$; it constructs out of any set a group in a canonical way.
+%
+%Many interesting mathematical structures arise in an attempt to add back in forgotten structure.
+%
+%But how would one go about formalizing this?
+%
+%This is an example of a free-forgetful adjunctions, a special case of an extremely powerful structure called an \emph{adjuction}. We have encountered adjunctions before---we saw in \hyperref[eg:naturaltransformationsforcccs]{Example~\ref*{eg:naturaltransformationsforcccs}} that there was a natural bijection between
+%\begin{equation*}
+%  \Hom_{\mathsf{C}}(X \times (-), B)\qquad\text{and}\qquad \Hom_{\mathsf{C}}(X, B^{(-)}).
+%\end{equation*}
+%this is a so-called \emph{hom-set adjunction}.
+%
+%\subsection{Hom-set adjunction}
+%\label{ssc:hom_set_adjunction}
+%
+%The functors $\mathcal{U}$ and $\mathcal{F}$ have the following property. Let $S$ be a set, $G$ be a group, and let $f\colon S \to \mathcal{U}(G)$, $s \mapsto f(s)$ be a set-function. Then there is an associated group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$, which sends $s_{1}s_{2}\dots s_{n} \mapsto f(s_{1}s_{2}\dots s_{n}) = f(s_{1})\cdots f(s_{n})$. In fact, $\tilde{f}$ is the unique homomorphism $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
+%
+%Similarly, for every group homomorphism $g\colon \mathcal{F}(S) \to G$, there is an associated function $S \to \mathcal{U}(G)$ given by restricting $g$ to $S$. In fact, this is the unique function $\mathcal{F}(S) \to G$ such that $f(s) = \tilde{f}(s)$ for all $s \in S$.
+%
+%Thus for each $f \in \Hom_{\mathsf{Grp}}(S, \mathcal{U}(G))$ we can construct an $\tilde{f} \in \Hom_{\mathsf{Set}}(\mathcal{F}(S), G)$, and vice versa.
+%
+%Let us add some mathematical scaffolding to the ideas explored above. We build two functors $\mathsf{Set}^{\mathrm{op}} \times \mathsf{Grp} \rightarrow \mathsf{Set}$ as follows.
+%\begin{enumerate}
+%  \item Our first functor maps the object $(S, G) \in \Obj(\mathsf{Set}^{\mathrm{op}} \times \mathsf{Grp})$ to the hom-set $\Hom_{\mathsf{Grp}}(\mathcal{F}(S), G)$, and a morphism $(\alpha, \beta)\colon (S,G) \to (S', G')$ to a function
+%    \begin{equation*}
+%      \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Grp}}(\mathcal{F}(S'), G');\qquad m \mapsto \mathcal{F}(\alpha) \circ m \circ \beta
+%    \end{equation*}
+%
+%  \item Our second functor maps $(S, G)$ to $\Hom_{\mathsf{Set}}(S, \mathcal{U}(G))$, and $(\alpha, \beta)$ to
+%    \begin{equation*}
+%      m \mapsto \alpha \circ m \circ \mathcal{U}(\beta).
+%    \end{equation*}
+%\end{enumerate}
+%We can define a natural isomorphism $\Phi$ between these functors with components
+%\begin{equation*}
+%  \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G));\qquad f \to \tilde{f}.
+%\end{equation*}
+%
+%\subsection{Unit-counit adjunction}
+%\label{ssc:unit_counit_adjunction}
+%
+%Suppose we take the natural isomorphism from the last section
+%\begin{equation*}
+%  \Phi_{S, G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(S), G) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(G))
+%\end{equation*}
+%and evaluate it at $S = \mathcal{U}(G)$. This gives us an isomorphsim
+%\begin{equation*}
+%  \Phi_{\mathcal{U}(G), G}\colon \Hom_{\mathsf{Grp}}(\mathcal{F}(\mathcal{U}(S)), G) \to \Hom_{\mathsf{Set}}(\mathcal{U}(G), \mathcal{U}(G)).
+%\end{equation*}
+%In particular, the element $\id_{\mathcal{U}(G)}$ is the image of some group homomorphism
+%\begin{equation*}
+%  \epsilon_{G}\colon \mathcal{F}(\mathcal{U}(G)) \to G.
+%\end{equation*}
+%Taken together for all $G$, the $\epsilon_{G}$ form a natural transformation
+%\begin{equation*}
+%  \epsilon\colon \mathcal{F} \circ \mathcal{U} \to \id_{\mathsf{Grp}}.
+%\end{equation*}
+%
+%Evaluating it at $G = \mathcal{F}(S)$. This gives us an isomorphism
+%\begin{equation*}
+%  \Hom_{\mathsf{Grp}}(\mathcal{F}(S), \mathcal{F}(S)) \to \Hom_{\mathsf{Set}}(S, \mathcal{U}(\mathcal{F}(G))).
+%\end{equation*}
+%In particular, the identity $\id_{\mathcal{F}(G)}$ is mapped to some map
+%\begin{equation*}
+%  \eta_{S}\colon S \to \mathcal{U}(\mathcal{G}(S)).
+%\end{equation*}
+%In fact, taken together, the $\eta_{S}$ form a natural transformation
+%\begin{equation*}
+%  \eta\colon \id_{\mathsf{Set}} \Rightarrow \mathcal{U} \circ \mathcal{G}.
+%\end{equation*}
+%
+%\subsection{Adjunction from universal property}
+%\label{ssc:adjunction_from_universal_property}
+%
+%The previous discussion may be slightly odd to those who have already encountered free groups, because free groups are almost always defined in terms of a universal property rather than some sort of abstract nonsense involving functors. The universal property of the free group is as follows.
+%
+%Let $S$ be a set, and let $f\colon S \to G$ be any function from $S$ to a group $G$. Then there is a unique group homomorphism $\tilde{f}\colon \mathcal{F}(S) \to G$ such that the following diagram commutes.
+%\begin{equation*}
+%  \begin{tikzcd}
+%    S
+%    \arrow[r, "\eta_{S}"]
+%    \arrow[rd, swap, "f"]
+%    & (\mathcal{U} \circ \mathcal{F})(S)
+%    \arrow[d, "\mathcal{U}(\tilde{f})"]
+%    & \mathcal{F}(S)
+%    \arrow[d, "\exists!\tilde{f}"]
+%    \\
+%    & \mathcal{U}(G)
+%    & G
+%  \end{tikzcd}
+%\end{equation*}
+%
+%As we saw in \hyperref[ch:universalproperties]{Section~\ref*{ch:universalproperties}}, this simply says that the free group over $S$ is initial in the comma category $(S \downarrow \mathcal{U})$.
+%
+%We have written the injection $S \hookrightarrow (\mathcal{U} \circ \mathcal{F})(S)$ in the evocative notation $\eta_{S}$. As the reader has probably guessed, this is because taken together the $\eta_{S}$ form a natural transformation which functions as the unit in a unit-counit adjunction.
 
 \section{Hom set adjunction}
 \label{sec:hom_set_adjunction}

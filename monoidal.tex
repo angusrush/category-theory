@@ -940,16 +940,16 @@ This definition generalizes to any closed monoidal category.
     (L^{t}(w))(v) = w(L(v)).
   \end{equation*}
 
-  By analogy, for $f \in \Hom_{\mathsf{C}}(X, Y)$, we should define the dual morphism $f^{t} \in \Hom_{\mathsf{C}}(B^{*}, A^{*})$ by demanding that the following diagram commutes.
+  By analogy, for $f \in \Hom_{\mathsf{C}}(X, Y)$, we should define the dual morphism $f^{t} \in \Hom_{\mathsf{C}}(Y^{*}, X^{*})$ by demanding that the following diagram commutes.
   \begin{equation*}
     \begin{tikzcd}[row sep=huge, column sep=huge]
-      h^{*} \otimes X
+      Y^{*} \otimes X
       \arrow[r, "f^{t} \otimes \id_{X}"]
       \arrow[d, swap, "\id_{Y} \otimes f"]
       & X^{*} \otimes X
       \arrow[d, "\ev_{X}"]
       \\
-      h^{*} \otimes Y
+      Y^{*} \otimes Y
       \arrow[r, "\ev_{Y}"]
       & 1
     \end{tikzcd}
