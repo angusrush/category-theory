@@ -779,17 +779,17 @@ A contravariant functor $\mathcal{F}\colon \mathsf{C} \rightsquigarrow \mathsf{D
 
 \section{Natural transformations}~\label{sec:naturaltransformations}
 
-Saunders Mac Lane, one of the fathers of category theory, used to say that he invented categories so he could talk about functors, and he invented functors so he could talk about natural transformations. Indeed, arguably the first paper ever published on category theory, published by Eilenberg and Mac Lane in 1945 and titled ``General Theory of Natural Equivalences''~\cite{awodey-intro-to-categories}, was about natural transformations.
+Saunders Mac Lane, one of the founders of category theory, used to say that he invented categories so he could talk about functors, and he invented functors so he could talk about natural transformations. Indeed, arguably the first paper ever published on category theory, published by Eilenberg and Mac Lane in 1945 and titled ``General Theory of Natural Equivalences''~\cite{awodey-intro-to-categories}, was about natural transformations.
 
-Natural transformation can be thought of at several different levels of abstraction. At their most abstract, they provide a notion of `morphisms between functors,' and indeed we will later see that natural transformations provide the correct notion of morphisms for a category whose objects are functors. However, they were originally studied not for this reason, but because they provide a rigorous footing for the notion of canonicalness itself.
+Natural transformation can be understood at several different levels of abstraction. At their most abstract, they provide a notion of `morphisms between functors,' and indeed we will later see that natural transformations provide the correct notion of morphisms for a category whose objects are functors. However, they were originally studied not for this reason, but because they provide a rigorous footing for the notion of canonicalness itself.
 
-For example, one often hears the statement ``The cartesian product of sets is commutative (up to isomorphism) because for any two sets $A$ and $B$, $A \times B$ is isomorphic to $B \times A$.'' This is certainly true, but not very meaningful; any two sets with the same cardinality are isomorphic. What one is trying to say is that $A \times B$ and $B \times A$ are \emph{canonically} isomorphic. The question is: what exactly is meant by `canonically'?
+For example, one often hears statements such as ``The cartesian product of sets is commutative (up to isomorphism) because for any two sets $A$ and $B$, $A \times B$ is isomorphic to $B \times A$.'' This is certainly true, but not very meaningful; any two sets with the same cardinality are isomorphic. What one is trying to say is that $A \times B$ and $B \times A$ are \emph{canonically} isomorphic. The question is: what exactly is meant by `canonically'?
 
-This is a surprisingly elusive question. For any two sets $A$ and $B$, the canonical isomorphism in question is the obvious map
+This is a surprisingly elusive question, to which natural transformations provide a partial answer. For any two sets $A$ and $B$, the canonical isomorphism in question is the obvious map
 \begin{equation*}
   \mathrm{swap}_{A,B}\colon A \times B \to B \times A; \qquad (a, b) \mapsto (b, a).
 \end{equation*}
-However, picking some other sets $C$ and $D$ gives is a different swap function. In what sense are these swap functions instances of the same `swap operation?' And what does this have to do with canonicalness?
+However, picking some other sets $C$ and $D$ gives is a different swap function. In what sense are these swap functions instances of the same `swap operation?'
 
 One way of formalizing the sameness comes from the fact that this swap function commutes with functional evaluation. Notice that for \emph{any} functions $f\colon A \to C$ and $g\colon B \to D$, the following diagram commutes.
 \begin{equation*}

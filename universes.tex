@@ -12,18 +12,16 @@
   I want to edit this section pretty seriously as I don't really understand universes at the moment. Furthermore, since most of these notes was written in the language of proper classes, there are probably still a few latent references to them. I'll remove these references as I find them.
 \end{note}
 
-Set theory as formulated in ZFC has foundational annoyances. One particularly pernicious one says that not every definable collection of objects is small enough to be a set. For example, there is no set of all sets, nor set of all groups, rings, etc.
+Set theory as formulated in ZFC has foundational annoyances. One particularly pernicious one says that not every definable collection of objects is `small enough' to be a set. For example, there is no set of all sets, nor set of all groups, rings, etc.
 
-Category theory is to a large extent built upon ZFC, and needs to talk about the collection of all sets, groups, rings, and many other structures. When doing category theory, there are three common ways to deal with collections which are too large to be sets.
+Category theory is to a large extent built upon ZFC, and when doing category theory one often needs to talk about the collection of all sets, groups, rings, and so on. When doing category theory, there are two common ways to deal with collections which are too large to be sets.
 \begin{enumerate}
-  \item One defines the notion of a \emph{proper class,} which is simply another word for a definable collection too large to be a set, and works with proper classes in addition to sets.
+  \item One defines the notion of a \emph{proper class,} which is simply another word for a definable collection too large to be a set, and works with proper classes in addition to sets. Then one has a category whose class of objects is the class of all sets. The set theory of proper classes is called NGB.
 
-  \item Following Grothendieck, one can add an additional axiom, called the \emph{universe axiom,} to ZFC which ensures the existence a set of all sets one is allowed to use. This set of all sets one is allowed to use is called a \emph{Grothendieck universe.}
-
-  \item Introduce categories, rather than sets, as foundational objects.
+  \item Following Grothendieck, one can add an additional axiom, called the \emph{universe axiom,} to ZFC which ensures the existence a set of all sets one is allowed to use. This set of all sets one is allowed to use is called a \emph{Grothendieck universe.} Having fixed a unverse $\mathcal{U}$, there is a category whose objects are \emph{$\mathcal{U}$-small sets,} i.e.\ sets which are elements of $\mathcal{U}$.
 \end{enumerate}
 
-The first approach is the most common, and the third the most radical. We will use the second here.
+The first approach is the most common in ordinary category theory, but is inconvenient when one wants to do any sort of heavy lifting. For example, while within NGB there is a category of \emph{small} categories, i.e.\ categories whose objects are given by a set, there is no category whose objects are \emph{all} categories, because there is no class of all classes. One has not solved the issue so much as postponed it. The second, working within ZFC$\mathcal{U}$ is much more popular in research, because it does a much better job of solving size issues once and for all. For this reason we will use the second here.
 
 \begin{definition}[Grothendieck universe]
   \label{def:universe}
@@ -53,15 +51,15 @@ These axioms imply that universes are closed under many of the properties one wo
   \label{lemma:properties_of_universes}
   Grothendieck universes have the following properties.
   \begin{enumerate}
-    \item $x \in \mathcal{U} \implies \{x\} \in \mathcal{U}$
+    \item If $x \in \mathcal{U}$, then $\{x\}$, the set containing $x$, is in $\mathcal{U}$.
 
-    \item $y \in \mathcal{U}$, $x \subseteq y \implies x \in \mathcal{U}$
+    \item If $y \in \mathcal{U}$ and $x \subseteq y$, then $x \in \mathcal{U}$. That is, if a set $y$ belongs to a universe, so do all its subsets.
 
-    \item $x$, $y \in \mathcal{U} \implies (x, y) \equiv \{x, \{x, y\}\} \in \mathcal{U}$
+    \item If $x$, $y \in \mathcal{U}$, then $(x, y) := \{x, \{x, y\}\} \in \mathcal{U}$. That is, universes contain orderered pairs.
 
-    \item $x$, $y \in \mathcal{U} \implies x \cup y$, $x \times y \in \mathcal{U}$.
+    \item If $x$, $y \in \mathcal{U}$, then $x \cup y$ and $x \times y \in \mathcal{U}$. That is, universes are cloesd under unions and products.
 
-    \item $x$, $y \in \mathcal{U} \implies \mathrm{Maps}(x, y) \in \mathcal{U}$
+    \item If $x$, $y \in \mathcal{U}$, then $\mathrm{Maps}(x, y) \in \mathcal{U}$. That is, for any $\mathcal{U}$-sets $x$ and $y$, there is a $\mathcal{U}$-set of functions between them.
 
     \item $I \in \mathcal{U}$, $\{x_{i}\}_{i \in J}$ with $x_{i} \in \mathcal{U} \implies \prod_{i \in J} x_{i}$, $\coprod_{i \in J} x_{i}$, $\bigcap_{i \in J} x_{i} \in \mathcal{U}$.
 
@@ -77,8 +75,8 @@ These axioms imply that universes are closed under many of the properties one wo
 
     \item If $x$ and $y \in \mathcal{U}$, then $\{x, y\} \in \mathcal{U}$ by \emph{U1.} Then again by \emph{U1,} $\{x, \{x, y\}\} \in \mathcal{U}$.
 
-    \item For any $a$, $b \in \mathcal{U}$, $a \neq b$, we have by \emph{U2} that $\{a, b\} \in \mathcal{U}$. Thus, binary unions follow from \emph{U4,} which demands the existence of unions indexed by any set in $\mathcal{U}$. 
-      
+    \item For any $a$, $b \in \mathcal{U}$, $a \neq b$, we have by \emph{U2} that $\{a, b\} \in \mathcal{U}$. Thus, binary unions follow from \emph{U4,} which demands the existence of unions indexed by any set in $\mathcal{U}$.
+
       From \emph{U2.}, if $x$, $y \in \mathcal{U}$ then every element of $x$ and every element of $y$ is in $U$, so ordered pairs of an element of $x$ and an element of $y$ are in $\mathcal{U}$. Thus, the singletons each containing an ordered pair are in $\mathcal{U}$, so the union
       \begin{equation*}
         \bigcup_{\alpha \in x} \bigcup_{\beta \in y} \{(\alpha, \beta)\}
@@ -87,7 +85,7 @@ These axioms imply that universes are closed under many of the properties one wo
 
     \item The set of all maps $x \to y$ is a subset of the set $2^{x \times y}$.
 
-    \item As a set, 
+    \item As a set,
       \begin{equation*}
         \prod_{i \in I} x_{i} = \left\{f\colon I \to \bigcup_{i \in I} x_{i}\ \Big|\ f(i) \in x_{i} \text{ for all }i \in I\right\} \subset \mathrm{Maps}\left(I, \bigcup_{i \in I} x_{i}\right)
       \end{equation*}
@@ -107,7 +105,7 @@ These axioms imply that universes are closed under many of the properties one wo
   \label{def:small_set_class_large_set}
   We make the following definitions.
   \begin{itemize}
-    \item We call the elements of $\mathcal{U}$ \emph{small sets}. 
+    \item We call the elements of $\mathcal{U}$ \emph{small sets}.
     \item We call subsets of $\mathcal{U}$ \emph{classes}.
     \item We call everything else \emph{Large sets}.
   \end{itemize}
